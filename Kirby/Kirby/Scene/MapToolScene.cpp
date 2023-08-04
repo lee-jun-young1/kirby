@@ -11,6 +11,30 @@
 #include "Framework.h"
 #include <fstream>
 
+MapToolScene::MapToolScene() : Scene(SceneId::MapTool)
+{
+	sceneName = "TitleScene";
+}
+
+MapToolScene::~MapToolScene()
+{
+	Release();
+}
+
+void MapToolScene::Enter()
+{
+	auto size = FRAMEWORK.GetWindowSize();
+	auto screenCenter = size * 0.5f;
+	worldView.setSize(size);
+	worldView.setCenter(0.0f, 0.0f);
+
+	uiView.setSize(size);
+	uiView.setCenter(screenCenter.x, screenCenter.y);
+
+	Scene::Enter();
+	Reset();
+}
+
 void MapToolScene::SaveData()
 {
 	Json::Value rootNode;
@@ -79,6 +103,35 @@ void MapToolScene::LoadData(const std::string& fileName)
 void MapToolScene::Init()
 {
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
+	cellHorizontalCount = (windowSize.x / cellSize.x) + 1;
+	cellVerticalCount = (windowSize.y / cellSize.y) + 1;
+	for (int i = 0; i < cellVerticalCount; i++)
+	{
+		for (int j = 0; j < cellHorizontalCount; j++)
+		{
+			sf::RectangleShape shape;
+			shape.setSize(cellSize);
+			shape.setFillColor(sf::Color::Transparent);
+			shape.setOutlineThickness(1.0f);
+			shape.setOutlineColor(sf::Color::White);
+			shape.setPosition({j * cellSize.x, i * cellSize.y});
+			cells.push_back(shape);
+		}
+	}
+}
+
+void MapToolScene::Update(float dt)
+{
+	
+	for (int i = 0; i < cellVerticalCount; i++)
+	{
+		for (int j = 0; j < cellHorizontalCount; j++)
+		{
+			//cells[i * cellHorizontalCount + j].setPosition(
+			//	{ j * cellSize.x - (worldView.getViewport().left % cellSize.x),
+			//	i * cellSize.y - (worldView.getViewport().top % cellSize.y) });
+		}
+	}
 }
 
 void MapToolScene::Draw(sf::RenderWindow& window)
@@ -98,13 +151,13 @@ void MapToolScene::Draw(sf::RenderWindow& window)
 			go->Draw(window);
 		}
 	}
+	window.setView(uiView);
 
 	for (auto& cell : cells)
 	{
 		window.draw(cell);
 	}
 
-	window.setView(uiView);
 
 	for (auto go : gameObjects)
 	{
@@ -118,4 +171,12 @@ void MapToolScene::Draw(sf::RenderWindow& window)
 		}
 	}
 
+}
+
+void MapToolScene::Release()
+{
+}
+
+void MapToolScene::Reset()
+{
 }

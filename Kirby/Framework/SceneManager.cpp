@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "SceneTitle.h"
+#include "MapToolScene.h"
 #include <PhysicsManager.h>
 
 void SceneManager::ChangeScene(SceneId id)
@@ -21,7 +22,7 @@ void SceneManager::Init()
 	{
 		Release();
 	}
-	scenes.push_back(new SceneTitle());
+	scenes.push_back(new MapToolScene());
 
 	for (auto scene : scenes)
 	{

@@ -13,7 +13,7 @@ protected:
 	SceneId currentSceneId = SceneId::None;
 	Scene* currentScene;
 
-	SceneId startSceneId = SceneId::Title;
+	SceneId startSceneId = SceneId::MapTool;
 
 public:
 	void ChangeScene(SceneId id);

@@ -4,7 +4,6 @@ class SceneTitle : public Scene
 {
 protected:
 	std::map<std::string, bool> mouseOverStates;
-
 public:
 	SceneTitle();
 	virtual ~SceneTitle() override;
