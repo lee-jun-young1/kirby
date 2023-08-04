@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./3rd/json;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./3rd/json;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Kirby/GameObject;./Kirby/Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -161,6 +161,11 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\AmbientObject.cpp" />
+    <ClCompile Include="Kirby\GameObject\Background.cpp" />
+    <ClCompile Include="Kirby\GameObject\Door.cpp" />
+    <ClCompile Include="Kirby\GameObject\Ground.cpp" />
+    <ClCompile Include="Kirby\GameObject\BossEnemy.cpp" />
     <ClCompile Include="Components\Audio\AudioGroup.cpp" />
     <ClCompile Include="Components\Audio\AudioSource.cpp" />
     <ClCompile Include="Components\Animation\AnimationClip.cpp">
@@ -178,6 +183,8 @@
     <ClCompile Include="Components\Physics\Collider.cpp" />
     <ClCompile Include="DataTables\DataTable.cpp" />
     <ClCompile Include="DataTables\StringTable.cpp" />
+    <ClCompile Include="Kirby\GameObject\EliteEnemy.cpp" />
+    <ClCompile Include="Kirby\GameObject\Enemy.cpp" />
     <ClCompile Include="Example\GameObjects\AnimatorPlayer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -198,12 +205,15 @@
     <ClCompile Include="GameObjects\SpriteTextGO.cpp" />
     <ClCompile Include="GameObjects\TextGameObj.cpp" />
     <ClCompile Include="GameObjects\VertexArrayGO.cpp" />
+    <ClCompile Include="Kirby\GameObject\Item.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Components\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Framework\PhysicsManager.cpp" />
+    <ClCompile Include="Kirby\Scene\MapToolScene.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Example\Scenes\SceneTitle.cpp" />
@@ -227,6 +237,11 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Kirby\GameObject\AmbientObject.h" />
+    <ClInclude Include="Kirby\GameObject\Background.h" />
+    <ClInclude Include="Kirby\GameObject\Door.h" />
+    <ClInclude Include="Kirby\GameObject\Ground.h" />
+    <ClInclude Include="Kirby\GameObject\BossEnemy.h" />
     <ClInclude Include="Components\Audio\AudioGroup.h" />
     <ClInclude Include="Components\Audio\AudioSource.h" />
     <ClInclude Include="Components\Animation\Animator.h">
@@ -247,6 +262,8 @@
     <ClInclude Include="Components\Physics\Collider.h" />
     <ClInclude Include="DataTables\DataTable.h" />
     <ClInclude Include="DataTables\StringTable.h" />
+    <ClInclude Include="Kirby\GameObject\EliteEnemy.h" />
+    <ClInclude Include="Kirby\GameObject\Enemy.h" />
     <ClInclude Include="Example\GameObjects\AnimatorPlayer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -270,6 +287,9 @@
     <ClInclude Include="Framework\ResourceManager.h" />
     <ClInclude Include="Components\Physics\RigidBody2D.h" />
     <ClInclude Include="Framework\PhysicsManager.h" />
+    <ClInclude Include="Kirby\GameObject\Item.h" />
+    <ClInclude Include="Kirby\Scene\MapToolScene.h" />
+    <ClInclude Include="Kirby\GameObject\Player.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Example\Scenes\SceneTitle.h" />
