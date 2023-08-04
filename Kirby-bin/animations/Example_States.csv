@@ -1,0 +1,8 @@
+Key,Path
+Move,animations/Penta_Move.csv
+Jump,animations/Penta_Jump.csv
+Hit,animations/Penta_Hit.csv
+CrevasseIdle,animations/Penta_CrevasseIdle.csv
+CrevasseMove,animations/Penta_CrevasseMove.csv
+Clear,animations/Penta_Clear.csv
+SuperClear,animations/Penta_SuperClear.csv
