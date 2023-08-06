@@ -19,8 +19,8 @@ public:
 	virtual void SetPosition(const sf::Vector2f& position) override;
 	virtual void SetPosition(const float& x, const float& y) override;
 
-	void SetOrigin(Origins origin) override;
-	void SetOrigin(float originX, float originY) override;
+	virtual void SetOrigin(const Origins& origin) override;
+	virtual void SetOrigin(const sf::Vector2f& origin) override;
 	sf::Vector2f GetOrigin() const;
 
 	sf::Vector2f GetSize() const;

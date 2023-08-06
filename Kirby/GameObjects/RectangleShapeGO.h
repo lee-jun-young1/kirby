@@ -4,7 +4,6 @@ class RectangleShapeGO : public ShapeGameObj
 {
 public:
 	RectangleShapeGO(const string& name = "");
-	void SetSize(sf::Vector2f size);
-	sf::Vector2f GetSize();
+	virtual void SetSize(const sf::Vector2f& size) override;
 };
 

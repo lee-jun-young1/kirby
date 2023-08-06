@@ -42,9 +42,15 @@ void ShapeGameObj::Draw(sf::RenderWindow& window)
 	window.draw(*shape);
 }
 
-void ShapeGameObj::SetOrigin(Origins origin)
+void ShapeGameObj::SetOrigin(const Origins& origin)
 {
-	Utils::SetOrigin(*shape, origin);
+	this->origin = Utils::SetOrigin(*shape, origin);
+}
+
+void ShapeGameObj::SetOrigin(const sf::Vector2f& origin)
+{
+	this->origin = origin;
+	shape->setOrigin(origin);
 }
 
 void ShapeGameObj::SetPosition(const sf::Vector2f& position)

@@ -30,7 +30,7 @@
     <ClCompile Include="Scenes\Scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Example\Scenes\SceneTitle.cpp">
+    <ClCompile Include="Example\Scenes\SceneExample.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Framework\ResourceManager.cpp">
@@ -138,9 +138,6 @@
     <ClCompile Include="GameObjects\SpriteTextGO.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby\Scene\MapToolScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Kirby\GameObject\Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -191,7 +188,7 @@
     <ClInclude Include="Global\Defines.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Example\Scenes\SceneTitle.h">
+    <ClInclude Include="Example\Scenes\SceneExample.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Framework\ResourceManager.h">

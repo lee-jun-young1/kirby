@@ -4,5 +4,9 @@ class CircleShapeGO : public ShapeGameObj
 {
 public:
 	CircleShapeGO();
-	void SetSize(const float& radius);
+	void SetRadius(const float& radius);
+	/// <summary>
+	/// Set Radius (size's max value * 0.5f)
+	/// </summary>
+	virtual void SetSize(const sf::Vector2f& size) override;
 };

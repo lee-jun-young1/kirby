@@ -35,28 +35,29 @@ float Utils::RandomValue()
 	return RandomRange(0.0f, 1.0f);
 }
 
-void Utils::SetOrigin(sf::Sprite& sprite, Origins origin)
+const sf::Vector2f& Utils::SetOrigin(sf::Sprite& sprite, Origins origin)
 {
-	SetOrigin(sprite, origin, sprite.getLocalBounds());
+	return SetOrigin(sprite, origin, sprite.getLocalBounds());
 }
 
-void Utils::SetOrigin(sf::Text& text, Origins origin)
+const sf::Vector2f& Utils::SetOrigin(sf::Text& text, Origins origin)
 {
-	SetOrigin(text, origin, text.getLocalBounds());
+	return SetOrigin(text, origin, text.getLocalBounds());
 }
 
-void Utils::SetOrigin(sf::Shape& shape, Origins origin)
+const sf::Vector2f& Utils::SetOrigin(sf::Shape& shape, Origins origin)
 {
-	SetOrigin(shape, origin, shape.getLocalBounds());
+	return SetOrigin(shape, origin, shape.getLocalBounds());
 }
 
-void Utils::SetOrigin(sf::Transformable& transformable, Origins origin, const sf::FloatRect& rect)
+const sf::Vector2f& Utils::SetOrigin(sf::Transformable& transformable, Origins origin, const sf::FloatRect& rect)
 {
 	sf::Vector2f originPos(rect.width, rect.height);
 	originPos.x *= ((int)origin % 3) * 0.5f;
 	originPos.y *= ((int)origin / 3) * 0.5f;
 
 	transformable.setOrigin(originPos);
+	return originPos;
 }
 
 float Utils::Clamp(float v, float min, float max)

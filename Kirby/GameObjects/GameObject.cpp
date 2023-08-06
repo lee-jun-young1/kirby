@@ -45,14 +45,9 @@ void GameObject::SetPosition(const float& x, const float& y)
 	this->position.y = y;
 }
 
-void GameObject::SetOrigin(Origins origin)
+void GameObject::SetOrigin(const sf::Vector2f& origin)
 {
 	this->origin = origin;
-}
-
-void GameObject::SetOrigin(float originX, float originY)
-{
-	this->origin = Origins::CUSTOM;
 }
 
 void GameObject::Reset()
@@ -146,17 +141,19 @@ bool GameObject::Exist(Component* component)
 	return std::find(components.begin(), components.end(), component) != components.end();
 }
 
-void GameObject::AddComponent(Component* component)
+Component* GameObject::AddComponent(Component* component)
 {
 	if (!(component->IsUnique() && Exist(component)))
 	{
 		component->Init();
 		components.push_back(component);
+		return component;
 	}
 	else
 	{
 		cerr << "this component can just one in gameobject" << endl;
 	}
+	return nullptr;
 }
 
 void GameObject::RemoveGameObject(Component* component)

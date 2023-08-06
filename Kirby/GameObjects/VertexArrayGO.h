@@ -15,8 +15,8 @@ public:
 	virtual void SetPosition(const sf::Vector2f& position) override;
 	virtual void SetPosition(const float& x, const float& y) override;
 
-	virtual void SetOrigin(Origins origin) override;
-	virtual void SetOrigin(float originX, float originY) override;
+	virtual void SetOrigin(const Origins& origin) override;
+	virtual void SetOrigin(const sf::Vector2f& origin) override;
 	
 	void DrawRenderTexture(sf::RenderTexture& renderTexture);
 
