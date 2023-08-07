@@ -75,5 +75,20 @@ enum class ShapeType
 	Rectangle,
 };
 
+enum class ItemType
+{
+	None = -1,
+	Fish,
+};
+
+enum class EnemyType
+{
+	None = -1,
+};
+
+enum class StageIndex
+{
+	None = -1,
+};
 #define UILayer 100
 #include "AnimationClip.h"
