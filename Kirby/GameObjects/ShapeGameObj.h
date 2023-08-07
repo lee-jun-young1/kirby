@@ -16,7 +16,8 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 
-	void SetOrigin(Origins origin);
+	virtual void SetOrigin(const Origins& origin) override;
+	virtual void SetOrigin(const sf::Vector2f& origin) override;
 	virtual void SetPosition(const sf::Vector2f& position) override;
 	void SetFillColor(sf::Color color);
 

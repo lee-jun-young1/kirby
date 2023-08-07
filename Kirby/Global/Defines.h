@@ -37,7 +37,6 @@ enum class Origins
 	BL,
 	BC,
 	BR,
-	CUSTOM,
 };
 
 enum class ComponentType

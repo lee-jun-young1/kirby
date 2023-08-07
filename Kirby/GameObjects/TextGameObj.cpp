@@ -45,10 +45,17 @@ void TextGameObj::Update(float deltaTime)
 {
 }
 
-void TextGameObj::SetOrigin(Origins origin)
+void TextGameObj::SetOrigin(const Origins& origin)
 {
-	Utils::SetOrigin(text, origin);
+	this->origin = Utils::SetOrigin(text, origin);
 }
+
+void TextGameObj::SetOrigin(const sf::Vector2f& origin)
+{
+	GameObject::SetOrigin(origin);
+	text.setOrigin(origin);
+}
+
 
 void TextGameObj::SetString(const string& str)
 {

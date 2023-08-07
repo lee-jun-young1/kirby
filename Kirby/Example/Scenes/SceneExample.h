@@ -1,13 +1,13 @@
 #pragma once
 #include "Scene.h"
-class SceneTitle : public Scene
+class SceneExample : public Scene
 {
 protected:
 	std::map<std::string, bool> mouseOverStates;
 
 public:
-	SceneTitle();
-	virtual ~SceneTitle() override;
+	SceneExample();
+	virtual ~SceneExample() override;
 
 	virtual void Enter() override;
 	void Reset();

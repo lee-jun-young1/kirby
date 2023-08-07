@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <Framework.h>
-#include "SceneTitle.h"
+#include "SceneExample.h"
 #include "SceneManager.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
@@ -17,19 +17,21 @@
 #include <SpriteTextGO.h>
 #include <AnimatorPlayer.h>
 #include <AudioSource.h>
+#include <GameObjects/CircleShapeGO.h>
+#include <Components/Physics/CircleCollider.h>
 
-SceneTitle::SceneTitle() 
+SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
 {
 	sceneName = "TitleScene";
 }
 
-SceneTitle::~SceneTitle()
+SceneExample::~SceneExample()
 {
 	Release();
 }
 
-void SceneTitle::Enter()
+void SceneExample::Enter()
 {
 	auto size = FRAMEWORK.GetWindowSize();
 	auto screenCenter = size * 0.5f;
@@ -43,7 +45,7 @@ void SceneTitle::Enter()
 	Reset();
 }
 
-void SceneTitle::Reset()
+void SceneExample::Reset()
 {
 
 	for (auto go : gameObjects)
@@ -52,17 +54,25 @@ void SceneTitle::Reset()
 	}
 }
 
-void SceneTitle::Exit()
+void SceneExample::Exit()
 {
 	Scene::Exit();
 }
 
-void SceneTitle::Init()
+void SceneExample::Init()
 {
 	Scene::Init();
 	Release();
 
+	RectangleShapeGO* rectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO());
+	rectGO->SetSize({ 40.0f, 40.0f });
+	rectGO->SetOrigin(Origins::BR);
+	BoxCollider* boxCol = (BoxCollider*)rectGO->AddComponent(new BoxCollider(*rectGO));
 
+	CircleShapeGO* circleGO = (CircleShapeGO*)AddGameObject(new CircleShapeGO());
+	circleGO->SetSize({ 40.0f, 40.0f });
+	circleGO->SetOrigin(Origins::TL);
+	CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
 	
 	for (auto go : gameObjects)
 	{
@@ -70,7 +80,7 @@ void SceneTitle::Init()
 	}
 }
 
-void SceneTitle::Release()
+void SceneExample::Release()
 {
 	for (auto go : gameObjects)
 	{
@@ -78,12 +88,12 @@ void SceneTitle::Release()
 	}
 }
 
-void SceneTitle::Update(float deltaTime)
+void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
 }
 
-void SceneTitle::Draw(sf::RenderWindow& window)
+void SceneExample::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }

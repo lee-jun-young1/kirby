@@ -43,7 +43,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -212,11 +212,10 @@
     <ClCompile Include="Framework\ResourceManager.cpp" />
     <ClCompile Include="Components\Physics\RigidBody2D.cpp" />
     <ClCompile Include="Framework\PhysicsManager.cpp" />
-    <ClCompile Include="Kirby\Scene\MapToolScene.cpp" />
     <ClCompile Include="Kirby\GameObject\Player.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
-    <ClCompile Include="Example\Scenes\SceneTitle.cpp" />
+    <ClCompile Include="Example\Scenes\SceneExample.cpp" />
     <ClCompile Include="Global\Utils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
@@ -292,7 +291,7 @@
     <ClInclude Include="Kirby\GameObject\Player.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
-    <ClInclude Include="Example\Scenes\SceneTitle.h" />
+    <ClInclude Include="Example\Scenes\SceneExample.h" />
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="Framework\SpriteFont.h" />
     <ClInclude Include="stdafx.h" />
