@@ -57,12 +57,14 @@ enum class ColliderType
 enum class PhysicsLayer
 {
 	Default = 0,
-	Ground = 1,
-	Wall = 2,
-	Player = 3,
-	Item = 4,
-	Obstacle = 5,
-	Count
+	Ground,
+	Player,
+	PlayerEffect,
+	Enemy,
+	EnemyEffect,
+	Item,
+	AbilityItem,
+	Count,
 };
 
 enum class ShapeType
@@ -71,14 +73,6 @@ enum class ShapeType
 	Circle,
 	Convex,
 	Rectangle,
-};
-
-enum class ScoreItemType
-{
-	None = -1,
-	Fish,
-	Flag,
-	PegicopterFlag,
 };
 
 #define UILayer 100

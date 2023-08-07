@@ -8,18 +8,44 @@ PhysicsManager::PhysicsManager()
 		layerCollide.push_back(0);
 		colliders.push_back(std::list<Collider*>());
 	}
-	layerCollide[1] += 1 << 3;
 
-	layerCollide[2] += 1 << 3;
+#pragma region PhysicsLayerSettings
 
-	layerCollide[3] += 1 << 1;
-	layerCollide[3] += 1 << 2;
-	layerCollide[3] += 1 << 4;
-	layerCollide[3] += 1 << 5;
+	layerCollide[(int)PhysicsLayer::Ground] += 1 << (int)PhysicsLayer::Player;
+	layerCollide[(int)PhysicsLayer::Ground] += 1 << (int)PhysicsLayer::PlayerEffect;
+	layerCollide[(int)PhysicsLayer::Ground] += 1 << (int)PhysicsLayer::Enemy;
+	layerCollide[(int)PhysicsLayer::Ground] += 1 << (int)PhysicsLayer::EnemyEffect;
+	layerCollide[(int)PhysicsLayer::Ground] += 1 << (int)PhysicsLayer::Item;
+	layerCollide[(int)PhysicsLayer::Ground] += 1 << (int)PhysicsLayer::AbilityItem;
 
-	layerCollide[4] += 1 << 3;
+	layerCollide[(int)PhysicsLayer::Player] += 1 << (int)PhysicsLayer::Ground;
+	layerCollide[(int)PhysicsLayer::Player] += 1 << (int)PhysicsLayer::PlayerEffect;
+	layerCollide[(int)PhysicsLayer::Player] += 1 << (int)PhysicsLayer::Enemy;
+	layerCollide[(int)PhysicsLayer::Player] += 1 << (int)PhysicsLayer::EnemyEffect;
+	layerCollide[(int)PhysicsLayer::Player] += 1 << (int)PhysicsLayer::Item;
 
-	layerCollide[5] += 1 << 3;
+	layerCollide[(int)PhysicsLayer::PlayerEffect] += 1 << (int)PhysicsLayer::Ground;
+	layerCollide[(int)PhysicsLayer::PlayerEffect] += 1 << (int)PhysicsLayer::Player;
+	layerCollide[(int)PhysicsLayer::PlayerEffect] += 1 << (int)PhysicsLayer::Enemy;
+	layerCollide[(int)PhysicsLayer::PlayerEffect] += 1 << (int)PhysicsLayer::Item;
+
+	layerCollide[(int)PhysicsLayer::Enemy] += 1 << (int)PhysicsLayer::Ground;
+	layerCollide[(int)PhysicsLayer::Enemy] += 1 << (int)PhysicsLayer::Player;
+	layerCollide[(int)PhysicsLayer::Enemy] += 1 << (int)PhysicsLayer::PlayerEffect;
+	layerCollide[(int)PhysicsLayer::Enemy] += 1 << (int)PhysicsLayer::EnemyEffect;
+
+	layerCollide[(int)PhysicsLayer::EnemyEffect] += 1 << (int)PhysicsLayer::Ground;
+	layerCollide[(int)PhysicsLayer::EnemyEffect] += 1 << (int)PhysicsLayer::Player;
+	layerCollide[(int)PhysicsLayer::EnemyEffect] += 1 << (int)PhysicsLayer::Enemy;
+
+	layerCollide[(int)PhysicsLayer::Item] += 1 << (int)PhysicsLayer::Ground;
+	layerCollide[(int)PhysicsLayer::Item] += 1 << (int)PhysicsLayer::Player;
+	layerCollide[(int)PhysicsLayer::Item] += 1 << (int)PhysicsLayer::PlayerEffect;
+
+	layerCollide[(int)PhysicsLayer::AbilityItem] += 1 << (int)PhysicsLayer::Ground;
+
+#pragma endregion
+
 }
 
 std::list<Collider*> PhysicsManager::GetColliders(const int& physicsLayer)
