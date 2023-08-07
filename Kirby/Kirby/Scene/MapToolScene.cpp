@@ -13,7 +13,7 @@
 
 MapToolScene::MapToolScene() : Scene(SceneId::MapTool)
 {
-	sceneName = "TitleScene";
+	sceneName = "MapToolScene";
 }
 
 MapToolScene::~MapToolScene()
@@ -127,9 +127,10 @@ void MapToolScene::Update(float dt)
 	{
 		for (int j = 0; j < cellHorizontalCount; j++)
 		{
-			//cells[i * cellHorizontalCount + j].setPosition(
-			//	{ j * cellSize.x - (worldView.getViewport().left % cellSize.x),
-			//	i * cellSize.y - (worldView.getViewport().top % cellSize.y) });
+			cells[i * cellHorizontalCount + j].setPosition({
+				j * cellSize.x - ((int)worldView.getViewport().left % (int)cellSize.x),
+				i * cellSize.y - ((int)worldView.getViewport().top % (int)cellSize.y)
+				});
 		}
 	}
 }
