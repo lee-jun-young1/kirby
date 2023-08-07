@@ -42,6 +42,22 @@ void SceneExample::Enter()
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
 	Scene::Enter();
+
+	SpriteTextGO* defaultText = (SpriteTextGO*)FindGameObject("defaultText");
+	defaultText->SetFont(Resources.GetSpriteFont("fonts/DefaultFont_Data.csv"));
+	defaultText->SetText("Default Font");
+	defaultText->SetPosition(0.0f, -100.0f);
+
+
+	SpriteTextGO* scoreText = (SpriteTextGO*)FindGameObject("scoreText");
+	scoreText->SetFont(Resources.GetSpriteFont("fonts/ScoreFont_Data.csv"));
+	scoreText->SetText("score:30000 @x03");
+	scoreText->SetPosition(0.0f, 100.0f);
+
+	RectangleShapeGO* scoreTempBG = (RectangleShapeGO*)FindGameObject("tempBG");
+	scoreTempBG->SetSize(scoreText->GetSize() * 3.0f);
+	scoreTempBG->SetPosition(scoreText->GetPosition() * 0.9f);
+
 	Reset();
 }
 
@@ -73,6 +89,11 @@ void SceneExample::Init()
 	circleGO->SetSize({ 40.0f, 40.0f });
 	circleGO->SetOrigin(Origins::TL);
 	CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
+
+	SpriteTextGO* defaultText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("defaultText"));
+	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("scoreText"));
+	RectangleShapeGO* scoreTempBG = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("tempBG"));
+	scoreTempBG->sortLayer = -1;
 	
 	for (auto go : gameObjects)
 	{
