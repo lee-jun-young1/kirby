@@ -74,6 +74,16 @@ void Collider::SetOffset(sf::Vector2f offset)
 	this->offset = offset;
 }
 
+void Collider::SetRotationOffset(const float& offset)
+{
+	rotationOffset = offset;
+}
+
+const float& Collider::GetRotationOffset()
+{
+	return rotationOffset;
+}
+
 sf::Vector2f Collider::GetOffset()
 {
 	return offset;

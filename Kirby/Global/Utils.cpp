@@ -147,6 +147,22 @@ float Utils::Angle(const sf::Vector2f& direction)
 	return atan2(direction.y, direction.x) * (180.0f / M_PI);
 }
 
+sf::Vector2f Utils::RotateWithPivot(const sf::Vector2f& pivot, const sf::Vector2f& target, const float& rotation)
+{
+	float distance = Utils::Distance(target, pivot);
+	sf::Vector2f direction = Utils::Normalize(target - pivot);
+
+	float radian = (rotation) * M_PI / 180;
+
+	sf::Vector2f rightDirection = {1.0f, 0.0f};
+
+	sf::Vector2f result;
+	result.x = cos(radian) * direction.x - sin(radian) * direction.y;
+	result.y = sin(radian) * direction.x + cos(radian) * direction.y;
+
+	return pivot + (result * distance);
+}
+
 sf::Vector2f Utils::RectNormal(sf::Rect<float> base, sf::Rect<float> target)
 {
 	sf::Vector2f baseCenter(base.left + base.width * 0.5f, base.top + base.height * 0.5f);

@@ -5,6 +5,7 @@ class SceneExample : public Scene
 protected:
 	std::map<std::string, bool> mouseOverStates;
 
+	float testRotation = 0.0f;
 public:
 	SceneExample();
 	virtual ~SceneExample() override;

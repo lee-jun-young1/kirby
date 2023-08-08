@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CircleShapeGO.h"
 
-CircleShapeGO::CircleShapeGO()
-	:ShapeGameObj(ShapeType::Circle)
+CircleShapeGO::CircleShapeGO(const string& name)
+	:ShapeGameObj(ShapeType::Circle, name)
 {
 
 }

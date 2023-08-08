@@ -14,6 +14,7 @@ protected:
 	bool isTrigger;
 
 	sf::Vector2f offset;
+	float rotationOffset;
 
 	virtual void OnCollisionEnter(Collider* col);
 	virtual void OnCollisionStay(Collider* col);
@@ -41,8 +42,11 @@ public:
 	void SetTrigger(bool isTrigger);
 
 	void SetOffset(sf::Vector2f offset);
-
 	sf::Vector2f GetOffset();
+
+	void SetRotationOffset(const float& offset);
+	const float& GetRotationOffset();
+
 
 	bool CheckAllCollide(std::list<Collider*>& colliderList);
 

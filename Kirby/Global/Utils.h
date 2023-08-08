@@ -45,6 +45,8 @@ public:
 	static float Angle(const sf::Vector2f& start, const sf::Vector2f& end);
 	static float Angle(const sf::Vector2f&direction);
 
+	static sf::Vector2f RotateWithPivot(const sf::Vector2f& pivot, const sf::Vector2f& target, const float& rotation);
+
 	static sf::Vector2f RectNormal(sf::Rect<float> base, sf::Rect<float> target);
 	static std::string ToString(int value, std::string format);
 	static std::string ToString(float value, std::string format);

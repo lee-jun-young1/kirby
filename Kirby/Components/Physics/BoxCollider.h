@@ -23,6 +23,10 @@ public:
 	virtual float GetWidth() override;
 	virtual float GetHeight() override;
 
+	bool SATTest(const sf::Vector2f& axis, const sf::Vector2f& aLeftTop, const sf::Vector2f& aCenter, const sf::Vector2f& bLeftTop, const sf::Vector2f& bCenter, const sf::Vector2f& bRight, const sf::Vector2f& bTop);
+
+	sf::Vector2f GetProjection(const sf::Vector2f& axis, const sf::Vector2f& target);
+
 #ifdef _DEBUG
 protected:
 	sf::RectangleShape debugShape;

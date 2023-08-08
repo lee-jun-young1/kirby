@@ -12,6 +12,7 @@ protected:
 	string name;
 
 	sf::Vector2f position;
+	float rotation;
 
 	sf::Vector2f size;
 
@@ -65,10 +66,13 @@ public:
 	Component* AddComponent(Component* component);
 	void RemoveGameObject(Component* component);
 
-	virtual void OnCollisionEnter(Collider* col) {};
-	virtual void OnCollisionStay(Collider* col) {};
-	virtual void OnCollisionExit(Collider* col) {};
-	virtual void OnTriggerEnter(Collider* col) {};
-	virtual void OnTriggerStay(Collider* col) {};
-	virtual void OnTriggerExit(Collider* col) {};
+	virtual void SetRotation(const float& rotation) { this->rotation = rotation; }
+	virtual const float& GetRotation() { return rotation; }
+
+	virtual void OnCollisionEnter(Collider* col) {}
+	virtual void OnCollisionStay(Collider* col) {}
+	virtual void OnCollisionExit(Collider* col) {}
+	virtual void OnTriggerEnter(Collider* col) {}
+	virtual void OnTriggerStay(Collider* col) {}
+	virtual void OnTriggerExit(Collider* col) {}
 };

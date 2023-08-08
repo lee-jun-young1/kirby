@@ -19,6 +19,7 @@
 #include <AudioSource.h>
 #include <GameObjects/CircleShapeGO.h>
 #include <Components/Physics/CircleCollider.h>
+#include <Utils.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -43,21 +44,6 @@ void SceneExample::Enter()
 
 	Scene::Enter();
 
-	SpriteTextGO* defaultText = (SpriteTextGO*)FindGameObject("defaultText");
-	defaultText->SetFont(Resources.GetSpriteFont("fonts/DefaultFont_Data.csv"));
-	defaultText->SetText("Default Font");
-	defaultText->SetPosition(0.0f, -100.0f);
-
-
-	SpriteTextGO* scoreText = (SpriteTextGO*)FindGameObject("scoreText");
-	scoreText->SetFont(Resources.GetSpriteFont("fonts/ScoreFont_Data.csv"));
-	scoreText->SetText("score:30000 @x03");
-	scoreText->SetPosition(0.0f, 100.0f);
-
-	RectangleShapeGO* scoreTempBG = (RectangleShapeGO*)FindGameObject("tempBG");
-	scoreTempBG->SetSize(scoreText->GetSize() * 3.0f);
-	scoreTempBG->SetPosition(scoreText->GetPosition() * 0.9f);
-
 	Reset();
 }
 
@@ -80,20 +66,27 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
-	RectangleShapeGO* rectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO());
-	rectGO->SetSize({ 40.0f, 40.0f });
-	rectGO->SetOrigin(Origins::BR);
+	RectangleShapeGO* rectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Rect"));
+	rectGO->SetSize({ 2.0f, 80.0f });
+	rectGO->physicsLayer = (int)PhysicsLayer::Player;
+	rectGO->SetOrigin(Origins::MC);
 	BoxCollider* boxCol = (BoxCollider*)rectGO->AddComponent(new BoxCollider(*rectGO));
+	boxCol->SetRotationOffset(30.0f);
 
-	CircleShapeGO* circleGO = (CircleShapeGO*)AddGameObject(new CircleShapeGO());
-	circleGO->SetSize({ 40.0f, 40.0f });
-	circleGO->SetOrigin(Origins::TL);
-	CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
+	RectangleShapeGO* smallRectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("SmallRect"));
+	smallRectGO->SetSize({ 10.0f, 10.0f });
+	smallRectGO->physicsLayer = (int)PhysicsLayer::Ground;
+	smallRectGO->SetOrigin(Origins::MC);
+	smallRectGO->SetPosition({ -20.0f, -20.0f });
+	BoxCollider* smallBoxCol = (BoxCollider*)smallRectGO->AddComponent(new BoxCollider(*smallRectGO));
+	//smallBoxCol->SetRotationOffset(30.0f);
 
-	SpriteTextGO* defaultText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("defaultText"));
-	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("scoreText"));
-	RectangleShapeGO* scoreTempBG = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("tempBG"));
-	scoreTempBG->sortLayer = -1;
+	//CircleShapeGO* circleGO = (CircleShapeGO*)AddGameObject(new CircleShapeGO("Circle"));
+	//circleGO->SetSize({ 10.0f, 10.0f });
+	//circleGO->physicsLayer = (int)PhysicsLayer::Ground;
+	//circleGO->SetPosition({ 20.0f, 20.0f });
+	//circleGO->SetOrigin(Origins::MC);
+	//CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
 	
 	for (auto go : gameObjects)
 	{
@@ -112,6 +105,12 @@ void SceneExample::Release()
 void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
+
+	RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");
+	rectGO->SetRotation(rectGO->GetRotation() + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime);
+
+	CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
+	//circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)
