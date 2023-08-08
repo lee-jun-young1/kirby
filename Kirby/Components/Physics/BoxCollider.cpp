@@ -165,23 +165,25 @@ bool BoxCollider::SATTest(const sf::Vector2f& axis, const sf::Vector2f& aLeftTop
 	const sf::Vector2f& bLeftTop, const sf::Vector2f& bCenter, const sf::Vector2f& bRight, const sf::Vector2f& bUp)
 {
 	//3
-	float aLength = Utils::Distance(axis, GetProjection(axis, aCenter - aLeftTop));
+	float aLength = Utils::Distance({0.0f, 0.0f}, GetProjection(axis, aCenter - aLeftTop));
 
 	//5
-	float bUpProjectionLength = Utils::Distance(bCenter, GetProjection(bUp, bCenter - bLeftTop));
+	float bUpProjectionLength = Utils::Distance({ 0.0f, 0.0f }, GetProjection(bUp, bCenter - bLeftTop));
 	sf::Vector2f bTopPosition = bUp * bUpProjectionLength;
 	//6
-	float b1Length = Utils::Distance(axis, GetProjection(axis, (axis - bTopPosition) + bCenter));
+	float b1Length = Utils::Distance({ 0.0f, 0.0f }, GetProjection(axis, bTopPosition));
 
 	//7
-	float bRightProjectionLength = Utils::Distance(bCenter, GetProjection(bRight, bCenter - bLeftTop));
+	float bRightProjectionLength = Utils::Distance({ 0.0f, 0.0f }, GetProjection(bRight, bCenter - bLeftTop));
 	sf::Vector2f bRightPosition = bRight * bRightProjectionLength;
 
-	float b2Length = Utils::Distance(axis, GetProjection(axis, (axis - bRightPosition) + bRight));
+	float b2Length = Utils::Distance({ 0.0f, 0.0f }, GetProjection(axis, bRightPosition));
 
 	//8
-	float targetLength = Utils::Distance(axis, GetProjection(axis, aCenter - bCenter));
+	float targetLength = Utils::Distance({ 0.0f, 0.0f }, GetProjection(axis, aCenter - bCenter));
 
+
+	cout << aLength << " " << (b1Length + b2Length) << " vs " << targetLength << endl;
 	return (aLength + b1Length + b2Length) > targetLength;
 }
 

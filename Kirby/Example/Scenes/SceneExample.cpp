@@ -107,7 +107,23 @@ void SceneExample::Update(float deltaTime)
 	Scene::Update(deltaTime);
 
 	RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");
-	rectGO->SetRotation(rectGO->GetRotation() + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime);
+
+
+	float axis = 0.0;
+	if (Input.GetKey(Keyboard::Num1))
+	{
+		axis = -1.0f;
+	}
+	if (Input.GetKey(Keyboard::Num2))
+	{
+		axis = 1.0f;
+	}
+
+
+	rectGO->SetRotation(rectGO->GetRotation() + axis * 30.0f * deltaTime);
+
+
+	rectGO->SetPosition({ rectGO->GetPosition().x + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime, rectGO->GetPosition().y + Input.GetAxisRaw(Axis::Vertical) * 30.0f * deltaTime });
 
 	CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
 	//circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
