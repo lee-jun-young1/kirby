@@ -88,5 +88,13 @@ enum class StageIndex
 {
 	None = -1,
 };
+
+enum class DoorType
+{
+	None = -1,
+	OneWay,
+	TwoWay,
+	WarpStar,
+};
 #define UILayer 100
 #include "AnimationClip.h"
