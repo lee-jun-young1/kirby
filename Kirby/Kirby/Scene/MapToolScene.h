@@ -26,9 +26,6 @@ public:
 	MapToolScene();
 	~MapToolScene();
 
-	void SaveData();
-	void LoadData(const std::string& fileName);
-
 	MapToolCell* GetCell(const sf::Vector2f& position);
 	void SelectGameObject(RectangleShapeGO* gameObject);
 
@@ -40,5 +37,8 @@ public:
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	void SaveData();
+	void LoadData(const std::string& fileName);
 };
 

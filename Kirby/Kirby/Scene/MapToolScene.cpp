@@ -47,74 +47,6 @@ void MapToolScene::Enter()
 	Reset();
 }
 
-void MapToolScene::SaveData()
-{
-	Json::Value rootNode;
-	rootNode["Stage"] = (int)stageIndex;
-
-	Json::Value playerNode;
-	Json::Value itemNodes;
-	Json::Value enemyNodes;
-	Json::Value doorNodes;
-	Json::Value groundNodes;
-
-	for (auto go : gameObjects)
-	{
-		Json::Value node;
-		std::string name = go->GetName();
-		node["PositionX"] = go->GetPosition().x;
-		node["PositionY"] = go->GetPosition().y;
-		node["SortLayer"] = go->sortLayer;
-		
-		if (go->GetName() == "Player")
-		{
-			playerNode = node;
-		}
-		else if (go->GetName() == "Item")
-		{
-			node["Type"] = (int)((Item*)go)->GetItemType();
-			itemNodes.append(node);
-		}
-		else if (go->GetName() == "Enemy")
-		{
-			node["Type"] = (int)((Enemy*)go)->GetEnemyType();
-			enemyNodes.append(node);
-		}
-		else if (go->GetName() == "Door")
-		{
-			node["Type"] = (int)((Enemy*)go)->GetEnemyType();
-			node["MovePositionX"] = ((Door*)go)->GetMovePosition().x;
-			node["MovePositionY"] = ((Door*)go)->GetMovePosition().y;
-			doorNodes.append(node);
-		}
-		else if (go->GetName() == "Ground")
-		{
-			node["GroundIndex"] = ((Ground*)go)->GetGroundIndex();
-			groundNodes.append(node);
-		}
-	}
-
-	rootNode["Player"] = playerNode;
-	rootNode["Item"] = itemNodes;
-	rootNode["Enemy"] = enemyNodes;
-	rootNode["Door"] = doorNodes;
-	rootNode["Ground"] = groundNodes;
-
-	Json::StreamWriterBuilder builder;
-	const std::string json_file = Json::writeString(builder, rootNode);
-
-	std::ofstream ofile("maps/"+currentFileName);
-
-	if (ofile.is_open()) {
-		ofile << json_file;
-		ofile.close();
-	}
-}
-
-void MapToolScene::LoadData(const std::string& fileName)
-{
-}
-
 MapToolCell* MapToolScene::GetCell(const sf::Vector2f& position)
 {
 	for (auto& cell : cells)
@@ -180,32 +112,21 @@ void MapToolScene::Init()
 
 void MapToolScene::Update(float dt)
 {
-	TextGameObj* findGo = (TextGameObj*)FindGameObject("layer");
-	std::stringstream ss;
-	ss << "Layer: " << layer;
-	findGo->text.setString(ss.str());
-
 	sf::Vector2f viewportPos = worldView.getCenter() - worldView.getSize() * 0.5f ;
-	sf::Vector2f origin = { (float)((int)viewportPos.x % (int)cellSize.x), (float)((int)viewportPos.y % (int)cellSize.y) };
+	sf::Vector2f cellOrigin = { (float)((int)viewportPos.x % (int)cellSize.x), (float)((int)viewportPos.y % (int)cellSize.y) };
 	for (int i = 0; i < cellVerticalCount; i++)
 	{
 		for (int j = 0; j < cellHorizontalCount; j++)
 		{
-			cells[i * cellHorizontalCount + j].SetOrigin(origin);
+			cells[i * cellHorizontalCount + j].SetOrigin(cellOrigin);
 		}
 	}
 
-	if (Input.GetKeyDown(sf::Keyboard::F5))
-	{
-		SaveData();
-	}
-
-	if (Input.GetKeyDown(sf::Keyboard::Num1))
-	{
-		//select
-		RectangleShapeGO* rect = (RectangleShapeGO*)FindGameObject("testGO");
-		SelectGameObject(rect);
-	}
+	//Layer Text
+	TextGameObj* findGo = (TextGameObj*)FindGameObject("layer");
+	std::stringstream ss;
+	ss << "Layer: " << layer;
+	findGo->text.setString(ss.str());
 
 	//Move
 	if (Input.GetKey(sf::Keyboard::Numpad8))
@@ -225,7 +146,7 @@ void MapToolScene::Update(float dt)
 		worldView.setCenter(worldView.getCenter().x + uiSpeed * dt, worldView.getCenter().y);
 	}
 
-	//Move
+	//Layer
 	if (Input.GetKeyDown(sf::Keyboard::PageUp))
 	{
 		layer++;
@@ -234,31 +155,45 @@ void MapToolScene::Update(float dt)
 	{
 		layer--;
 	}
-
 	if (Input.GetKeyDown(sf::Keyboard::Home))
 	{
 		drawCurrentLayerOnly = !drawCurrentLayerOnly;
 	}
 
-	auto cell = GetCell(ScreenToWorldPosition(Input.GetMousePosition()) - origin);
+
+	//Select
+	if (Input.GetKeyDown(sf::Keyboard::Num1))
+	{
+		RectangleShapeGO* rect = (RectangleShapeGO*)FindGameObject("testGO");
+		SelectGameObject(rect);
+	}
+
+	auto cell = GetCell(ScreenToWorldPosition(Input.GetMousePosition()) - cellOrigin);
 	if (cell == nullptr)
 	{
 		return;
 	}
-	if (currentGameObject != nullptr)
+	if (currentGameObject != nullptr && !Input.GetKey(sf::Keyboard::LShift))
 	{
 		currentGameObject->SetPosition(cell->GetPosition());
 	}
 
+	//Add
 	if (Input.GetMouseButton(sf::Mouse::Left))
 	{
 		cell->AddGameObject(currentGameObject, layer);
 	}
 
+	//Remove
 	if (Input.GetMouseButton(sf::Mouse::Right))
 	{
-		//remove
 		cell->RemoveGameObject(layer);
+	}
+
+	//Save
+	if (Input.GetKeyDown(sf::Keyboard::F5))
+	{
+		SaveData();
 	}
 }
 
@@ -314,4 +249,78 @@ void MapToolScene::Release()
 void MapToolScene::Reset()
 {
 
+}
+
+void MapToolScene::SaveData()
+{
+	Json::Value rootNode;
+	rootNode["Stage"] = (int)stageIndex;
+
+	Json::Value playerNode;
+	Json::Value itemNodes;
+	Json::Value enemyNodes;
+	Json::Value doorNodes;
+	Json::Value groundNodes;
+	Json::Value ambientObjectNodes;
+
+	for (auto go : gameObjects)
+	{
+		Json::Value node;
+		std::string name = go->GetName();
+		node["PositionX"] = go->GetPosition().x;
+		node["PositionY"] = go->GetPosition().y;
+		node["SortLayer"] = go->sortLayer;
+
+		if (go->GetName() == "Player")
+		{
+			playerNode = node;
+		}
+		else if (go->GetName() == "Item")
+		{
+			node["Type"] = (int)((Item*)go)->GetItemType();
+			itemNodes.append(node);
+		}
+		else if (go->GetName() == "Enemy")
+		{
+			node["Type"] = (int)((Enemy*)go)->GetEnemyType();
+			enemyNodes.append(node);
+		}
+		else if (go->GetName() == "Door")
+		{
+			node["Type"] = (int)((Enemy*)go)->GetEnemyType();
+			node["MovePositionX"] = ((Door*)go)->GetMovePosition().x;
+			node["MovePositionY"] = ((Door*)go)->GetMovePosition().y;
+			doorNodes.append(node);
+		}
+		else if (go->GetName() == "Ground")
+		{
+			node["GroundIndex"] = ((Ground*)go)->GetGroundIndex();
+			groundNodes.append(node);
+		}
+		else if (go->GetName() == "AmbientObject")
+		{
+			ambientObjectNodes.append(node);
+		}
+	}
+
+	rootNode["Player"] = playerNode;
+	rootNode["Item"] = itemNodes;
+	rootNode["Enemy"] = enemyNodes;
+	rootNode["Door"] = doorNodes;
+	rootNode["Ground"] = groundNodes;
+	rootNode["AmbientObject"] = ambientObjectNodes;
+
+	Json::StreamWriterBuilder builder;
+	const std::string json_file = Json::writeString(builder, rootNode);
+
+	std::ofstream ofile("maps/" + currentFileName);
+
+	if (ofile.is_open()) {
+		ofile << json_file;
+		ofile.close();
+	}
+}
+
+void MapToolScene::LoadData(const std::string& fileName)
+{
 }
