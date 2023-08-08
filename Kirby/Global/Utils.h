@@ -22,10 +22,10 @@ public:
 	static sf::Vector2f RandomInCircle(float radius);
 	static float RandomValue();
 
-	static void SetOrigin(sf::Sprite& sprite, Origins origin);
-	static void SetOrigin(sf::Text& text, Origins origin);
-	static void SetOrigin(sf::Shape& shape, Origins origin);
-	static void SetOrigin(sf::Transformable& transformable, Origins origin, const sf::FloatRect & rect);
+	static const sf::Vector2f& SetOrigin(sf::Sprite& sprite, Origins origin);
+	static const sf::Vector2f& SetOrigin(sf::Text& text, Origins origin);
+	static const sf::Vector2f& SetOrigin(sf::Shape& shape, Origins origin);
+	static const sf::Vector2f& SetOrigin(sf::Transformable& transformable, Origins origin, const sf::FloatRect & rect);
 
 	static float Clamp(float v, float min, float max);
 	static int Clamp(int v, int min, int max);

@@ -7,10 +7,16 @@ using namespace std;
 class GameObject
 {
 protected:
-	string name;
-	sf::Vector2f position;
 	bool isActive = true;//true : Run Update(), Draw()
-	Origins origin;
+
+	string name;
+
+	sf::Vector2f position;
+
+	sf::Vector2f size;
+
+	sf::Vector2f origin;
+
 	list<Component*> components;
 	GameObject* parent;
 public:
@@ -32,8 +38,12 @@ public:
 
 	virtual void SetPosition(const float& x, const float& y);
 
-	virtual void SetOrigin(Origins origin);
-	virtual void SetOrigin(float originX, float originY);
+	virtual void SetOrigin(const Origins& origin) = 0;
+	virtual void SetOrigin(const sf::Vector2f& origin);
+	const sf::Vector2f& GetOrigin() { return origin; };
+
+	virtual void SetSize(const sf::Vector2f& size) { this->size = size; }
+	const sf::Vector2f& GetSize() { return size; };
 
 	virtual void Init() {};
 	virtual void Release() {};
@@ -52,7 +62,7 @@ public:
 	Component* GetComponent(const ComponentType type);
 	void GetComponents(std::list<Component*>& list, const ComponentType type);
 	bool Exist(Component* component);
-	void AddComponent(Component* component);
+	Component* AddComponent(Component* component);
 	void RemoveGameObject(Component* component);
 
 	virtual void OnCollisionEnter(Collider* col) {};

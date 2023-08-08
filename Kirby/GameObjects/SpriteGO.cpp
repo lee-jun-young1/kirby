@@ -31,19 +31,15 @@ void SpriteGO::SetPosition(const float& x, const float& y)
 	sprite.setPosition(this->position);
 }
 
-void SpriteGO::SetOrigin(Origins origin)
+void SpriteGO::SetOrigin(const Origins& origin)
 {
-	this->origin = origin;
-	if (this->origin != Origins::CUSTOM)
-	{
-		Utils::SetOrigin(sprite, origin);
-	}
+	this->origin = Utils::SetOrigin(sprite, origin);
 }
 
-void SpriteGO::SetOrigin(float originX, float originY)
+void SpriteGO::SetOrigin(const sf::Vector2f& origin)
 {
-	this->origin = Origins::CUSTOM;
-	sprite.setOrigin(originX, originY);
+	this->origin = origin;
+	sprite.setOrigin(origin);
 }
 
 sf::Vector2f SpriteGO::GetOrigin() const

@@ -16,7 +16,8 @@ public:
 
 	sf::Text& GetText();
 	void SetPosition(float width, float height);
-	void SetOrigin(Origins origin);
+	void SetOrigin(const Origins& origin);
+	void SetOrigin(const sf::Vector2f& origin);
 
 	void SetFont(sf::Font& font);
 	void SetCharacterSize(const int& fontSize);

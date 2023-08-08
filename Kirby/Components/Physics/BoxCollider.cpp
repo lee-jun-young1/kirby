@@ -9,6 +9,8 @@
 BoxCollider::BoxCollider(GameObject& gameObject)
 	:Collider(gameObject, ColliderType::Box)
 {
+	rect = { gameObject.GetPosition().x, gameObject.GetPosition().y, gameObject.GetSize().x, gameObject.GetSize().y };
+	offset = gameObject.GetOrigin() * -1.0f;
 }
 
 void BoxCollider::SetRect(sf::Rect<float> rect)

@@ -33,40 +33,28 @@ void VertexArrayGO::SetPosition(const float& x, const float& y)
 	}
 }
 
-void VertexArrayGO::SetOrigin(Origins origin)
+void VertexArrayGO::SetOrigin(const Origins& origin)
 {
-	GameObject::SetOrigin(origin);
-
-	if (origin == Origins::CUSTOM)
-		return;
-
-	sf::Vector2f prevOriginPosition = originPosition;
-
 	originPosition = { vertexArray.getBounds().width, vertexArray.getBounds().height};
 	originPosition.x *= ((int)origin % 3) * 0.5f;
 	originPosition.y *= ((int)origin / 3) * 0.5f;
 
-	sf::Vector2f diff = prevOriginPosition - originPosition;
+	sf::Vector2f diff = this->origin - originPosition;
 	for (int i = 0; i < vertexArray.getVertexCount(); i++)
 	{
 		vertexArray[i].position += diff;
 	}
+	GameObject::SetOrigin(originPosition);
 }
 
-void VertexArrayGO::SetOrigin(float originX, float originY)
+void VertexArrayGO::SetOrigin(const sf::Vector2f& origin)
 {
-	GameObject::SetOrigin(originX, originY);
-
-	sf::Vector2f prevOriPos = originPosition;
-
-	originPosition.x = originX;
-	originPosition.y = originY;
-
-	sf::Vector2f diff = prevOriPos - originPosition;
+	sf::Vector2f diff = this->origin - origin;
 	for (int i = 0; i < vertexArray.getVertexCount(); i++)
 	{
 		vertexArray[i].position += diff;
 	}
+	GameObject::SetOrigin(origin);
 }
 
 void VertexArrayGO::DrawRenderTexture(sf::RenderTexture& renderTexture)
