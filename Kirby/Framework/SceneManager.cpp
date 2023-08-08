@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "SceneTitle.h"
 #include "MapToolScene.h"
 #include "SceneExample.h"
-#include <PhysicsManager.h>
+#include "PhysicsManager.h"
 
 void SceneManager::ChangeScene(SceneId id)
 {

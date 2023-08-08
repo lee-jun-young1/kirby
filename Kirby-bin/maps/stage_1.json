@@ -1,0 +1,8 @@
+{
+	"Door" : null,
+	"Enemy" : null,
+	"Ground" : null,
+	"Item" : null,
+	"Player" : null,
+	"Stage" : 0
+}

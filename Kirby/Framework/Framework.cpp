@@ -120,7 +120,7 @@ void Framework::Run()
                 window.close();
                 break;
             case sf::Event::GainedFocus:
-                window.setMouseCursor(cursor);
+                //window.setMouseCursor(cursor);
                 break;
             }
 
