@@ -2,7 +2,7 @@
     "path": "sprites/map/Green_Green.png",
     "cells": [
         {
-            "name": "Kirby",
+            "name": "Player",
             "position": {
                 "x": 0,
                 "y": 0
@@ -11,7 +11,7 @@
             "friend": []
         },
         {
-            "name": "Beam",
+            "name": "Enemy",
             "position": {
                 "x": 24,
                 "y": 0
@@ -20,7 +20,7 @@
             "friend": []
         },
         {
-            "name": "Cutter",
+            "name": "Enemy",
             "position": {
                 "x": 48,
                 "y": 0

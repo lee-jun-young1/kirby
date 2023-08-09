@@ -53,6 +53,7 @@ void MapToolScene::Enter()
 	base->SetOrigin(Origins::TL);
 	base->SetPosition({ size.x * 0.7f, 0.f });
 
+	sf::Vector2f buttonSpace = { 2.f, 1.f };
 	Json::Value mapData = LoadFromJsonFile("sprites/map/Green_Green_Data.json");
 	std::cout << mapData["path"].asString() << std::endl;
 	for (int i = 0; i < mapData["cells"].size(); i++)
@@ -63,11 +64,17 @@ void MapToolScene::Enter()
 		sf::IntRect rect = { cell["position"]["x"].asInt(), cell["position"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
 		button->sprite.setTextureRect(rect);
 		button->sprite.setScale({0.5f, 0.5f});
-		button->sortLayer = UILayer + cell["layer"].asInt() + 1;
-		button->SetPosition({ base->GetPosition().x + rect.left * 0.5f, base->GetSize().y * 0.3f + rect.top * 0.5f});
+		button->sortLayer = UILayer + cell["layer"].asInt() + 1; //1ю╨ юс╫ц
 		button->OnClick = [this, button]() {
 			SelectGameObject(button);
 		};
+
+		sf::Vector2f buttonPosition = { base->GetPosition().x + rect.left * 0.5f, base->GetSize().y * 0.3f + rect.top * 0.5f };
+
+
+		button->SetPosition(buttonPosition);
+		//button->SetPosition({ base->GetPosition().x + rect.left * 0.5f, base->GetSize().y * 0.3f + rect.top * 0.5f});
+
 		//for (int j = 0; j < cell["friend"].size(); j++)
 		//{
 		//	Json::Value friendData = cell["friend"][j];
@@ -123,15 +130,14 @@ void MapToolScene::SelectGameObject(SpriteGO* gameObject)
 
 	if (currentGO != nullptr)
 	{
-		//currentGO->SetActive(false);
-		if (currentGO == gameObject)
-		{
-			currentGO = nullptr;
-			return;
-		}
+		currentGO->SetActive(false);
+		currentGO = nullptr;
+		return;
 	}
-
-	currentGO = gameObject;
+	
+	SpriteGO* instance = (SpriteGO*)AddGameObject(new SpriteGO(*gameObject));
+	currentGO = instance;
+	currentGO->sprite.setScale({ 1.f, 1.f });
 	currentGO->SetActive(true);
 }
 
@@ -333,44 +339,47 @@ void MapToolScene::SaveData(const std::wstring& path)
 	Json::Value groundNodes;
 	Json::Value ambientObjectNodes;
 
-	for (auto go : gameObjects)
+	for (auto cell : cells)
 	{
-		Json::Value node;
-		std::string name = go->GetName();
+		for (auto& go : cell.GetGameObjects())
+		{
+			Json::Value node;
+			std::string name = go->GetName();
 		
-		node["PositionX"] = go->GetPosition().x;
-		node["PositionY"] = go->GetPosition().y;
-		node["SortLayer"] = go->sortLayer;
+			node["PositionX"] = go->GetPosition().x;
+			node["PositionY"] = go->GetPosition().y;
+			node["SortLayer"] = go->sortLayer + layer;
 
-		if (go->GetName() == "Player")
-		{
-			playerNode = node;
-		}
-		else if (go->GetName() == "Item")
-		{
-			node["Type"] = (int)((Item*)go)->GetItemType();
-			itemNodes.append(node);
-		}
-		else if (go->GetName() == "Enemy")
-		{
-			node["Type"] = (int)((Enemy*)go)->GetEnemyType();
-			enemyNodes.append(node);
-		}
-		else if (go->GetName() == "Door")
-		{
-			node["Type"] = (int)((Enemy*)go)->GetEnemyType();
-			node["MovePositionX"] = ((Door*)go)->GetMovePosition().x;
-			node["MovePositionY"] = ((Door*)go)->GetMovePosition().y;
-			doorNodes.append(node);
-		}
-		else if (go->GetName() == "Ground")
-		{
-			node["GroundIndex"] = ((Ground*)go)->GetGroundIndex();
-			groundNodes.append(node);
-		}
-		else if (go->GetName() == "AmbientObject")
-		{
-			ambientObjectNodes.append(node);
+			if (go->GetName() == "Player")
+			{
+				playerNode = node;
+			}
+			else if (go->GetName() == "Item")
+			{
+				node["Type"] = (int)((Item*)go)->GetItemType();
+				itemNodes.append(node);
+			}
+			else if (go->GetName() == "Enemy")
+			{
+				node["Type"] = (int)((Enemy*)go)->GetEnemyType();
+				enemyNodes.append(node);
+			}
+			else if (go->GetName() == "Door")
+			{
+				node["Type"] = (int)((Enemy*)go)->GetEnemyType();
+				node["MovePositionX"] = ((Door*)go)->GetMovePosition().x;
+				node["MovePositionY"] = ((Door*)go)->GetMovePosition().y;
+				doorNodes.append(node);
+			}
+			else if (go->GetName() == "Ground")
+			{
+				node["GroundIndex"] = ((Ground*)go)->GetGroundIndex();
+				groundNodes.append(node);
+			}
+			else if (go->GetName() == "AmbientObject")
+			{
+				ambientObjectNodes.append(node);
+			}
 		}
 	}
 

@@ -47,6 +47,7 @@ void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
 		return;
 	}
 	SpriteGO* instance = new SpriteGO(*gameObject);
+	instance->sortLayer -= UILayer;
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
 		if ((*it)->sortLayer == instance->sortLayer)
