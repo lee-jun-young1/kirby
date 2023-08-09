@@ -9,6 +9,7 @@ protected:
 
 	sf::RenderWindow window;
 	sf::Clock clock;
+	sf::WindowHandle hWnd;
 
 	int screenWidth = 256;
 	int screenHeight = 224;
@@ -43,6 +44,7 @@ public:
 	sf::RenderWindow& GetWindow();
 	void ExitButton(bool exit);
 
+	sf::WindowHandle& GetHWnd() { return hWnd; }
 	float GetGravity();
 	float GetDPM();
 
