@@ -32,6 +32,7 @@ protected:
 	std::list<int> upList;
 
 	sf::Vector2f mousePosition;
+	float wheelMovement;
 
 	std::map<Axis, AxisInfo> axisInfoMap;
 public:
@@ -48,6 +49,8 @@ public:
 	bool GetMouseButtonDown(sf::Mouse::Button button);
 	bool GetMouseButton(sf::Mouse::Button button);
 	bool GetMouseButtonUp(sf::Mouse::Button button);
+
+	float GetMouseWheelMovement();
 
 	float GetAxis(Axis axis);
 	float GetAxisRaw(Axis axis);

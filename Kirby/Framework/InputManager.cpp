@@ -49,7 +49,7 @@ void InputManager::Update(float deltaTime)
 		if (abs(axisInfo.value) < diff * 0.5f)
 			axisInfo.value = 0.0f;
 	}
-
+	wheelMovement = 0.f;
 }
 
 void InputManager::UpdateEvent(const sf::Event& event)
@@ -79,6 +79,8 @@ void InputManager::UpdateEvent(const sf::Event& event)
 		ingList.remove(Keyboard::KeyCount + event.mouseButton.button);
 		upList.push_back(Keyboard::KeyCount + event.mouseButton.button);
 		break;
+	case sf::Event::MouseWheelScrolled:
+		wheelMovement = event.mouseWheelScroll.delta;
 	}
 
 	mousePosition = (sf::Vector2f)sf::Mouse::getPosition(FRAMEWORK.GetWindow());
@@ -120,6 +122,11 @@ bool InputManager::GetMouseButtonUp(sf::Mouse::Button button)
 {
 	int code = Keyboard::KeyCount + button;
 	return std::find(upList.begin(), upList.end(), code) != upList.end();
+}
+
+float InputManager::GetMouseWheelMovement()
+{
+	return wheelMovement;
 }
 
 float InputManager::GetAxis(Axis axis)
