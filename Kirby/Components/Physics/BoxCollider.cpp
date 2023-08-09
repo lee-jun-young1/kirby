@@ -67,8 +67,6 @@ bool BoxCollider::CheckCross(Collider* col)
 		bool testResult3 = SATTest(collideColRight, collideColLT, col->GetCenter(), thisColLT, GetCenter(), thisColRight, thisColTop);
 		bool testResult4 = SATTest(collideColTop, collideColLT, col->GetCenter(), thisColLT, GetCenter(), thisColRight, thisColTop);
 
-		cout << testResult1 << " " << testResult2 << " " << testResult3 << " " << testResult4 << endl;
-
 		return testResult1 && testResult2 && testResult3 && testResult4;
 	}
 	case ColliderType::Circle:
@@ -183,7 +181,6 @@ bool BoxCollider::SATTest(const sf::Vector2f& axis, const sf::Vector2f& aLeftTop
 	float targetLength = Utils::Distance({ 0.0f, 0.0f }, GetProjection(axis, aCenter - bCenter));
 
 
-	cout << aLength << " " << (b1Length + b2Length) << " vs " << targetLength << endl;
 	return (aLength + b1Length + b2Length) > targetLength;
 }
 

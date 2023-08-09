@@ -119,8 +119,41 @@ void SceneExample::Update(float deltaTime)
 		axis = 1.0f;
 	}
 
+	float axis2 = 0.0;
+	if (Input.GetKey(Keyboard::Num3))
+	{
+		axis2 = -1.0f;
+	}
+	if (Input.GetKey(Keyboard::Num4))
+	{
+		axis2 = 1.0f;
+	}
+
+	BoxCollider* rectCol = (BoxCollider*)rectGO->GetComponent(ComponentType::Collider);
+
+	rectCol->SetRotationOffset(rectCol->GetRotationOffset() + axis2 * 30.0f * deltaTime);
 
 	rectGO->SetRotation(rectGO->GetRotation() + axis * 30.0f * deltaTime);
+
+
+	float axis3 = 0.0;
+	if (Input.GetKey(Keyboard::Num5))
+	{
+		axis3 = -1.0f;
+	}
+	if (Input.GetKey(Keyboard::Num6))
+	{
+		axis3 = 1.0f;
+	}
+
+	RectangleShapeGO* rectGO2 = (RectangleShapeGO*)FindGameObject("SmallRect");
+
+
+	BoxCollider* rectCol2 = (BoxCollider*)rectGO2->GetComponent(ComponentType::Collider);
+
+	rectCol2->SetRotationOffset(rectCol2->GetRotationOffset() + axis3 * 30.0f * deltaTime);
+
+
 
 
 	rectGO->SetPosition({ rectGO->GetPosition().x + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime, rectGO->GetPosition().y + Input.GetAxisRaw(Axis::Vertical) * 30.0f * deltaTime });
