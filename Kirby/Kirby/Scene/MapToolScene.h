@@ -3,19 +3,20 @@
 #include "json.h"
 #include "MapToolCell.h"
 
+class SpriteGO;
 class MapToolScene : public Scene
 {
 protected:
 	StageIndex stageIndex;
-	std::string currentFileName;
 
 	std::vector<MapToolCell> cells;
-	sf::Vector2f cellSize = {24.0f, 24.0f};
+	sf::Vector2f cellSize = { 24.0f, 24.0f };
 	int cellHorizontalCount;
 	int cellVerticalCount;
 
-	sf::Vector2f mapSize;
+	sf::Vector2i mapSize;
 	RectangleShapeGO* currentGameObject = nullptr;
+	SpriteGO* currentGO = nullptr;
 
 	sf::Vector2f worldMovement;
 	float uiSpeed = 50.f;
@@ -28,6 +29,7 @@ public:
 
 	MapToolCell* GetCell(const sf::Vector2f& position);
 	void SelectGameObject(RectangleShapeGO* gameObject);
+	void SelectGameObject(SpriteGO* gameObject);
 
 	virtual void Enter() override;
 
@@ -38,7 +40,14 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 
-	void SaveData();
-	void LoadData(const std::string& fileName);
+	void SaveData(const std::wstring& path);
+	void LoadData(const std::wstring& path);
+
+	const std::wstring GetFilePathWithOpenWindow();
+	const std::wstring GetSaveFileNameWithOpenWindow();
+
+	Json::Value LoadFromJsonFile(const std::string& path);
+
+	void SetLayer(int layer);
 };
 

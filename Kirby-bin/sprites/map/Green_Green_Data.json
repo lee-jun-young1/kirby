@@ -2,1156 +2,2605 @@
     "path": "sprites/map/Green_Green.png",
     "cells": [
         {
-            "name": "row-1-column-1",
-            "rect": { "left": 0, "top": 0, "width": 24, "height": 24 }
+            "name": "Kirby",
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
-            "name": "row-1-column-2",
-            "rect": { "left": 24, "top": 0, "width": 24, "height": 24 }
+            "name": "Beam",
+            "position": {
+                "x": 24,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
-            "name": "row-1-column-3",
-            "rect": { "left": 48, "top": 0, "width": 24, "height": 24 }
+            "name": "Cutter",
+            "position": {
+                "x": 48,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-4",
-            "rect": { "left": 72, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-5",
-            "rect": { "left": 96, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-6",
-            "rect": { "left": 120, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-7",
-            "rect": { "left": 144, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-8",
-            "rect": { "left": 168, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-9",
-            "rect": { "left": 192, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-10",
-            "rect": { "left": 216, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
-            "name": "row-1-column-11",
-            "rect": { "left": 240, "top": 0, "width": 24, "height": 24 }
+            "name": "box",
+            "position": {
+                "x": 240,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": [
+                {
+                    "name": "row-2-column-11",
+                    "position": {
+                        "x": 240,
+                        "y": 24
+                    },
+                    "layer": 0
+                }
+            ]
         },
         {
             "name": "row-1-column-12",
-            "rect": { "left": 264, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-13",
-            "rect": { "left": 288, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-14",
-            "rect": { "left": 312, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-15",
-            "rect": { "left": 336, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-1-column-16",
-            "rect": { "left": 360, "top": 0, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 0
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-1",
-            "rect": { "left": 0, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-2",
-            "rect": { "left": 24, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-3",
-            "rect": { "left": 48, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-4",
-            "rect": { "left": 72, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-5",
-            "rect": { "left": 96, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-6",
-            "rect": { "left": 120, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-7",
-            "rect": { "left": 144, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-8",
-            "rect": { "left": 168, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-9",
-            "rect": { "left": 192, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-10",
-            "rect": { "left": 216, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-11",
-            "rect": { "left": 240, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-12",
-            "rect": { "left": 264, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-13",
-            "rect": { "left": 288, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-14",
-            "rect": { "left": 312, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-15",
-            "rect": { "left": 336, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-2-column-16",
-            "rect": { "left": 360, "top": 24, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 24
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-1",
-            "rect": { "left": 0, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-2",
-            "rect": { "left": 24, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-3",
-            "rect": { "left": 48, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-4",
-            "rect": { "left": 72, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-5",
-            "rect": { "left": 96, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-6",
-            "rect": { "left": 120, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-7",
-            "rect": { "left": 144, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-8",
-            "rect": { "left": 168, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-9",
-            "rect": { "left": 192, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-10",
-            "rect": { "left": 216, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-11",
-            "rect": { "left": 240, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-12",
-            "rect": { "left": 264, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-13",
-            "rect": { "left": 288, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-14",
-            "rect": { "left": 312, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-15",
-            "rect": { "left": 336, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-3-column-16",
-            "rect": { "left": 360, "top": 48, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 48
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-1",
-            "rect": { "left": 0, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-2",
-            "rect": { "left": 24, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-3",
-            "rect": { "left": 48, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-4",
-            "rect": { "left": 72, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-5",
-            "rect": { "left": 96, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-6",
-            "rect": { "left": 120, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-7",
-            "rect": { "left": 144, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-8",
-            "rect": { "left": 168, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-9",
-            "rect": { "left": 192, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-10",
-            "rect": { "left": 216, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-11",
-            "rect": { "left": 240, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-12",
-            "rect": { "left": 264, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-13",
-            "rect": { "left": 288, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-14",
-            "rect": { "left": 312, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-15",
-            "rect": { "left": 336, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-4-column-16",
-            "rect": { "left": 360, "top": 72, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 72
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-1",
-            "rect": { "left": 0, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-2",
-            "rect": { "left": 24, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-3",
-            "rect": { "left": 48, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-4",
-            "rect": { "left": 72, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-5",
-            "rect": { "left": 96, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-6",
-            "rect": { "left": 120, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-7",
-            "rect": { "left": 144, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-8",
-            "rect": { "left": 168, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-9",
-            "rect": { "left": 192, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-10",
-            "rect": { "left": 216, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-11",
-            "rect": { "left": 240, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-12",
-            "rect": { "left": 264, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-13",
-            "rect": { "left": 288, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-14",
-            "rect": { "left": 312, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-15",
-            "rect": { "left": 336, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-5-column-16",
-            "rect": { "left": 360, "top": 96, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 96
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-1",
-            "rect": { "left": 0, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-2",
-            "rect": { "left": 24, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-3",
-            "rect": { "left": 48, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-4",
-            "rect": { "left": 72, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-5",
-            "rect": { "left": 96, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-6",
-            "rect": { "left": 120, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-7",
-            "rect": { "left": 144, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-8",
-            "rect": { "left": 168, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-9",
-            "rect": { "left": 192, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-10",
-            "rect": { "left": 216, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-11",
-            "rect": { "left": 240, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-12",
-            "rect": { "left": 264, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-13",
-            "rect": { "left": 288, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-14",
-            "rect": { "left": 312, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-15",
-            "rect": { "left": 336, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-6-column-16",
-            "rect": { "left": 360, "top": 120, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 120
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-1",
-            "rect": { "left": 0, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-2",
-            "rect": { "left": 24, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-3",
-            "rect": { "left": 48, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-4",
-            "rect": { "left": 72, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-5",
-            "rect": { "left": 96, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-6",
-            "rect": { "left": 120, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-7",
-            "rect": { "left": 144, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-8",
-            "rect": { "left": 168, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-9",
-            "rect": { "left": 192, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-10",
-            "rect": { "left": 216, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-11",
-            "rect": { "left": 240, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-12",
-            "rect": { "left": 264, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-13",
-            "rect": { "left": 288, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-14",
-            "rect": { "left": 312, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-15",
-            "rect": { "left": 336, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-7-column-16",
-            "rect": { "left": 360, "top": 144, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 144
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-1",
-            "rect": { "left": 0, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-2",
-            "rect": { "left": 24, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-3",
-            "rect": { "left": 48, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-4",
-            "rect": { "left": 72, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-5",
-            "rect": { "left": 96, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-6",
-            "rect": { "left": 120, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-7",
-            "rect": { "left": 144, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-8",
-            "rect": { "left": 168, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-9",
-            "rect": { "left": 192, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-10",
-            "rect": { "left": 216, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-11",
-            "rect": { "left": 240, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-12",
-            "rect": { "left": 264, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-13",
-            "rect": { "left": 288, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-14",
-            "rect": { "left": 312, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-15",
-            "rect": { "left": 336, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-8-column-16",
-            "rect": { "left": 360, "top": 168, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 168
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-1",
-            "rect": { "left": 0, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-2",
-            "rect": { "left": 24, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-3",
-            "rect": { "left": 48, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-4",
-            "rect": { "left": 72, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-5",
-            "rect": { "left": 96, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-6",
-            "rect": { "left": 120, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-7",
-            "rect": { "left": 144, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-8",
-            "rect": { "left": 168, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-9",
-            "rect": { "left": 192, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-10",
-            "rect": { "left": 216, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-11",
-            "rect": { "left": 240, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-12",
-            "rect": { "left": 264, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-13",
-            "rect": { "left": 288, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-14",
-            "rect": { "left": 312, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-15",
-            "rect": { "left": 336, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-9-column-16",
-            "rect": { "left": 360, "top": 192, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 192
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-1",
-            "rect": { "left": 0, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-2",
-            "rect": { "left": 24, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-3",
-            "rect": { "left": 48, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-4",
-            "rect": { "left": 72, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-5",
-            "rect": { "left": 96, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-6",
-            "rect": { "left": 120, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-7",
-            "rect": { "left": 144, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-8",
-            "rect": { "left": 168, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-9",
-            "rect": { "left": 192, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-10",
-            "rect": { "left": 216, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-11",
-            "rect": { "left": 240, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-12",
-            "rect": { "left": 264, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-13",
-            "rect": { "left": 288, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-14",
-            "rect": { "left": 312, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-15",
-            "rect": { "left": 336, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-10-column-16",
-            "rect": { "left": 360, "top": 216, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 216
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-1",
-            "rect": { "left": 0, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-2",
-            "rect": { "left": 24, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-3",
-            "rect": { "left": 48, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-4",
-            "rect": { "left": 72, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-5",
-            "rect": { "left": 96, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-6",
-            "rect": { "left": 120, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-7",
-            "rect": { "left": 144, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-8",
-            "rect": { "left": 168, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-9",
-            "rect": { "left": 192, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-10",
-            "rect": { "left": 216, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-11",
-            "rect": { "left": 240, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-12",
-            "rect": { "left": 264, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-13",
-            "rect": { "left": 288, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-14",
-            "rect": { "left": 312, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-15",
-            "rect": { "left": 336, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-11-column-16",
-            "rect": { "left": 360, "top": 240, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 240
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-1",
-            "rect": { "left": 0, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-2",
-            "rect": { "left": 24, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-3",
-            "rect": { "left": 48, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-4",
-            "rect": { "left": 72, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-5",
-            "rect": { "left": 96, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-6",
-            "rect": { "left": 120, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-7",
-            "rect": { "left": 144, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-8",
-            "rect": { "left": 168, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-9",
-            "rect": { "left": 192, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-10",
-            "rect": { "left": 216, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-11",
-            "rect": { "left": 240, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-12",
-            "rect": { "left": 264, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-13",
-            "rect": { "left": 288, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-14",
-            "rect": { "left": 312, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-15",
-            "rect": { "left": 336, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-12-column-16",
-            "rect": { "left": 360, "top": 264, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 264
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-1",
-            "rect": { "left": 0, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-2",
-            "rect": { "left": 24, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-3",
-            "rect": { "left": 48, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-4",
-            "rect": { "left": 72, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-5",
-            "rect": { "left": 96, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-6",
-            "rect": { "left": 120, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-7",
-            "rect": { "left": 144, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-8",
-            "rect": { "left": 168, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-9",
-            "rect": { "left": 192, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-10",
-            "rect": { "left": 216, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-11",
-            "rect": { "left": 240, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-12",
-            "rect": { "left": 264, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-13",
-            "rect": { "left": 288, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-14",
-            "rect": { "left": 312, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-15",
-            "rect": { "left": 336, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-13-column-16",
-            "rect": { "left": 360, "top": 288, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 288
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-1",
-            "rect": { "left": 0, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-2",
-            "rect": { "left": 24, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-3",
-            "rect": { "left": 48, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-4",
-            "rect": { "left": 72, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-5",
-            "rect": { "left": 96, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-6",
-            "rect": { "left": 120, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-7",
-            "rect": { "left": 144, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-8",
-            "rect": { "left": 168, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-9",
-            "rect": { "left": 192, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-10",
-            "rect": { "left": 216, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-11",
-            "rect": { "left": 240, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-12",
-            "rect": { "left": 264, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-13",
-            "rect": { "left": 288, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-14",
-            "rect": { "left": 312, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-15",
-            "rect": { "left": 336, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-14-column-16",
-            "rect": { "left": 360, "top": 312, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 312
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-1",
-            "rect": { "left": 0, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-2",
-            "rect": { "left": 24, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-3",
-            "rect": { "left": 48, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-4",
-            "rect": { "left": 72, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-5",
-            "rect": { "left": 96, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-6",
-            "rect": { "left": 120, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-7",
-            "rect": { "left": 144, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-8",
-            "rect": { "left": 168, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-9",
-            "rect": { "left": 192, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-10",
-            "rect": { "left": 216, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-11",
-            "rect": { "left": 240, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-12",
-            "rect": { "left": 264, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-13",
-            "rect": { "left": 288, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-14",
-            "rect": { "left": 312, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-15",
-            "rect": { "left": 336, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-15-column-16",
-            "rect": { "left": 360, "top": 336, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 336
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-1",
-            "rect": { "left": 0, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-2",
-            "rect": { "left": 24, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-3",
-            "rect": { "left": 48, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-4",
-            "rect": { "left": 72, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-5",
-            "rect": { "left": 96, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-6",
-            "rect": { "left": 120, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-7",
-            "rect": { "left": 144, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-8",
-            "rect": { "left": 168, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-9",
-            "rect": { "left": 192, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-10",
-            "rect": { "left": 216, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-11",
-            "rect": { "left": 240, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-12",
-            "rect": { "left": 264, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-13",
-            "rect": { "left": 288, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-14",
-            "rect": { "left": 312, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-15",
-            "rect": { "left": 336, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-16-column-16",
-            "rect": { "left": 360, "top": 360, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 360
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-1",
-            "rect": { "left": 0, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-2",
-            "rect": { "left": 24, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-3",
-            "rect": { "left": 48, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-4",
-            "rect": { "left": 72, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-5",
-            "rect": { "left": 96, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-6",
-            "rect": { "left": 120, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-7",
-            "rect": { "left": 144, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-8",
-            "rect": { "left": 168, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-9",
-            "rect": { "left": 192, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-10",
-            "rect": { "left": 216, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-11",
-            "rect": { "left": 240, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-12",
-            "rect": { "left": 264, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-13",
-            "rect": { "left": 288, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-14",
-            "rect": { "left": 312, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-15",
-            "rect": { "left": 336, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-17-column-16",
-            "rect": { "left": 360, "top": 384, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 384
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-1",
-            "rect": { "left": 0, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 0,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-2",
-            "rect": { "left": 24, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 24,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-3",
-            "rect": { "left": 48, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 48,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-4",
-            "rect": { "left": 72, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 72,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-5",
-            "rect": { "left": 96, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 96,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-6",
-            "rect": { "left": 120, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 120,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-7",
-            "rect": { "left": 144, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 144,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-8",
-            "rect": { "left": 168, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 168,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-9",
-            "rect": { "left": 192, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 192,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-10",
-            "rect": { "left": 216, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 216,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-11",
-            "rect": { "left": 240, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 240,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-12",
-            "rect": { "left": 264, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 264,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-13",
-            "rect": { "left": 288, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 288,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-14",
-            "rect": { "left": 312, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 312,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-15",
-            "rect": { "left": 336, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 336,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         },
         {
             "name": "row-18-column-16",
-            "rect": { "left": 360, "top": 408, "width": 24, "height": 24 }
+            "position": {
+                "x": 360,
+                "y": 408
+            },
+            "layer": 0,
+            "friend": []
         }
     ]
 }

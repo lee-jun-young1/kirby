@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MapToolCell.h"
-
+#include "SpriteGO.h"
 MapToolCell::MapToolCell(const string& name)
 	:RectangleShapeGO(name)
 {
@@ -29,6 +29,29 @@ void MapToolCell::AddGameObject(RectangleShapeGO* gameObject, int layer)
 		if ((*it)->sortLayer == instance->sortLayer)
 		{
 			delete *it;
+			it = gameObjects.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+
+	gameObjects.push_back(instance);
+}
+
+void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
+{
+	if (gameObject == nullptr)
+	{
+		return;
+	}
+	SpriteGO* instance = new SpriteGO(*gameObject);
+	for (auto it = gameObjects.begin(); it != gameObjects.end();)
+	{
+		if ((*it)->sortLayer == instance->sortLayer)
+		{
+			delete* it;
 			it = gameObjects.erase(it);
 		}
 		else
