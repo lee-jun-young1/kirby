@@ -242,3 +242,15 @@ bool Utils::Contains(const std::string& str, const char& c)
 	std::size_t found = str.find(c);
 	return found != std::string::npos;
 }
+bool Utils::Contains(const std::wstring& str, const char& c)
+{
+	std::size_t found = str.find(c);
+	return found != std::wstring::npos;
+}
+
+std::string Utils::WstringToString(const std::wstring& value)
+{
+	static std::locale loc("");
+	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
+	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).to_bytes(value);
+}

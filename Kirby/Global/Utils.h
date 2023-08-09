@@ -50,4 +50,7 @@ public:
 	static std::string ToString(float value, std::string format);
 	static std::vector<std::string> Split(std::string input, char delimiter);
 	static bool Contains(const std::string& str, const char& c);
+	static bool Contains(const std::wstring& str, const char& c);
+
+	static std::string WstringToString(const std::wstring& value);
 };
