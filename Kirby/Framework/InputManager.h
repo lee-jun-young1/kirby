@@ -32,7 +32,7 @@ protected:
 	std::list<int> upList;
 
 	sf::Vector2f mousePosition;
-	float wheelMovement;
+	float scrollDelta;
 
 	std::map<Axis, AxisInfo> axisInfoMap;
 public:
@@ -50,7 +50,7 @@ public:
 	bool GetMouseButton(sf::Mouse::Button button);
 	bool GetMouseButtonUp(sf::Mouse::Button button);
 
-	float GetMouseWheelMovement();
+	float GetMouseScrollDelta();
 
 	float GetAxis(Axis axis);
 	float GetAxisRaw(Axis axis);
