@@ -64,7 +64,7 @@ void MapToolScene::Enter()
 		sf::IntRect rect = { cell["position"]["x"].asInt(), cell["position"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
 		button->sprite.setTextureRect(rect);
 		button->sprite.setScale({0.5f, 0.5f});
-		button->sortLayer = UILayer + cell["layer"].asInt() + 1; //1ю╨ юс╫ц
+		button->sortLayer = UILayer + cell["layer"].asInt();
 		button->OnClick = [this, button]() {
 			SelectGameObject(button);
 		};
