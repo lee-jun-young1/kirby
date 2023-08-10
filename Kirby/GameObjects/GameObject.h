@@ -39,7 +39,7 @@ public:
 
 	virtual void SetPosition(const float& x, const float& y);
 
-	virtual void SetOrigin(const Origins& origin) = 0;
+	virtual void SetOrigin(const Origins& origin) {};
 	virtual void SetOrigin(const sf::Vector2f& origin);
 	const sf::Vector2f& GetOrigin() { return origin; };
 

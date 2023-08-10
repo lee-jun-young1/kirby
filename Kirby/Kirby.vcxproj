@@ -161,7 +161,10 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Kirby\GameObject\Player\Controller.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Kirby.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Controller.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Kirby\GameObject\AmbientObject.cpp" />
     <ClCompile Include="Kirby\GameObject\Background.cpp" />
     <ClCompile Include="Kirby\GameObject\Door.cpp" />
@@ -239,7 +242,10 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
-    <ClInclude Include="Kirby\GameObject\Player\Controller.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Kirby.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Controller.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Kirby\GameObject\AmbientObject.h" />
     <ClInclude Include="Kirby\GameObject\Background.h" />
     <ClInclude Include="Kirby\GameObject\Door.h" />

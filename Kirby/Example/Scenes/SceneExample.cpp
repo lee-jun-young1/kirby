@@ -20,6 +20,8 @@
 #include <GameObjects/CircleShapeGO.h>
 #include <Components/Physics/CircleCollider.h>
 #include <Utils.h>
+#include <Controller.h>
+#include <Kirby.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -65,6 +67,10 @@ void SceneExample::Init()
 {
 	Scene::Init();
 	Release();
+
+	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Normal_Common.png", "Kirby"));
+
+	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
 	RectangleShapeGO* rectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Rect"));
 	rectGO->SetSize({ 2.0f, 80.0f });
