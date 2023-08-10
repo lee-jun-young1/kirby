@@ -29,15 +29,35 @@ void Controller::Init()
 	Command* commandD = new Command(conditionD, actionD, 1);
 	AddCommand(commandD);
 
-	function<bool()> conditionC = [this]() { return IsContinue(sf::Keyboard::Key::C); };
+	function<bool()> conditionMoveUp = []() { return Input.GetKeyUp(sf::Keyboard::Key::Left) || Input.GetKeyUp(sf::Keyboard::Key::Right); };
+	function<void(float)> actionMoveUp = [this](float deltaTime) { playable.MoveEnd(); };
+	Command* commandMoveUp = new Command(conditionMoveUp, actionMoveUp, 1);
+	AddCommand(commandMoveUp);
+
+	function<bool()> conditionC = [this]() { return IsContinue(sf::Keyboard::Key::X); };
 	function<void(float)> actionC = [this](float deltaTime) { playable.Charge(); };
 	Command* commandC = new Command(conditionC, actionC, 1);
 	AddCommand(commandC);
 
-	function<bool()> conditionCEnd = [this]() { return Input.GetKeyUp(sf::Keyboard::Key::C); };
+	function<bool()> conditionCEnd = [this]() { return Input.GetKeyUp(sf::Keyboard::Key::X); };
 	function<void(float)> actionCEnd = [this](float deltaTime) { playable.ChargeEnd(); };
 	Command* commandCEnd = new Command(conditionCEnd, actionCEnd, 1);
 	AddCommand(commandCEnd);
+
+	function<bool()> conditionSit = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Down); };
+	function<void(float)> actionSit = [this](float deltaTime) { playable.Sit(); };
+	Command* commandSit = new Command(conditionSit, actionSit, 1);
+	AddCommand(commandSit);
+
+	function<bool()> conditionSitEnd = [this]() { return Input.GetKeyUp(sf::Keyboard::Key::Down); };
+	function<void(float)> actionSitEnd = [this](float deltaTime) { playable.SitEnd(); };
+	Command* commandSitEnd = new Command(conditionSitEnd, actionSitEnd, 1);
+	AddCommand(commandSitEnd);
+
+	function<bool()> conditionJump = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::C); };
+	function<void(float)> actionJump = [this](float deltaTime) { playable.Jump(); };
+	Command* commandJump = new Command(conditionJump, actionJump, 0);
+	AddCommand(commandJump);
 }
 
 void Controller::Release()

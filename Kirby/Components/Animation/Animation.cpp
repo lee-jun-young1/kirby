@@ -93,8 +93,8 @@ void Animation::SetFrame(const AnimationFrame& frame)
 	{
 		sf::Texture* tex = Resources.GetTexture(frame.textureID);
 		target->setTexture(*tex);
-		target->setTextureRect(frame.tecCoord);
 	}
+	target->setTextureRect(frame.tecCoord);
 }
 
 void Animation::Init()

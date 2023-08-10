@@ -26,7 +26,7 @@
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
 {
-	sceneName = "TitleScene";
+	sceneName = "ExampleScene";
 }
 
 SceneExample::~SceneExample()
@@ -68,23 +68,25 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
-	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Normal_Common.png", "Kirby"));
+	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	kirby->physicsLayer = (int)PhysicsLayer::Player;
 
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
-	RectangleShapeGO* rectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Rect"));
-	rectGO->SetSize({ 2.0f, 80.0f });
-	rectGO->physicsLayer = (int)PhysicsLayer::Player;
-	rectGO->SetOrigin(Origins::MC);
-	BoxCollider* boxCol = (BoxCollider*)rectGO->AddComponent(new BoxCollider(*rectGO));
-	boxCol->SetRotationOffset(30.0f);
+	RectangleShapeGO* tempGround = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempGround->SetSize({ 106.0f, 20.0f });
+	tempGround->physicsLayer = (int)PhysicsLayer::Ground;
+	tempGround->SetOrigin(Origins::MC);
+	tempGround->SetPosition({ 0.0f, 100.0f });
+	BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
+	//boxCol->SetRotationOffset(30.0f);
 
-	RectangleShapeGO* smallRectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("SmallRect"));
-	smallRectGO->SetSize({ 10.0f, 10.0f });
-	smallRectGO->physicsLayer = (int)PhysicsLayer::Ground;
-	smallRectGO->SetOrigin(Origins::MC);
-	smallRectGO->SetPosition({ -20.0f, -20.0f });
-	BoxCollider* smallBoxCol = (BoxCollider*)smallRectGO->AddComponent(new BoxCollider(*smallRectGO));
+	//RectangleShapeGO* smallRectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("SmallRect"));
+	//smallRectGO->SetSize({ 10.0f, 10.0f });
+	//smallRectGO->physicsLayer = (int)PhysicsLayer::Ground;
+	//smallRectGO->SetOrigin(Origins::MC);
+	//smallRectGO->SetPosition({ -20.0f, -20.0f });
+	//BoxCollider* smallBoxCol = (BoxCollider*)smallRectGO->AddComponent(new BoxCollider(*smallRectGO));
 	//smallBoxCol->SetRotationOffset(30.0f);
 
 	//CircleShapeGO* circleGO = (CircleShapeGO*)AddGameObject(new CircleShapeGO("Circle"));
@@ -112,60 +114,60 @@ void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
 
-	RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");
+	//RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");
 
 
-	float axis = 0.0;
-	if (Input.GetKey(Keyboard::Num1))
-	{
-		axis = -1.0f;
-	}
-	if (Input.GetKey(Keyboard::Num2))
-	{
-		axis = 1.0f;
-	}
+	//float axis = 0.0;
+	//if (Input.GetKey(Keyboard::Num1))
+	//{
+	//	axis = -1.0f;
+	//}
+	//if (Input.GetKey(Keyboard::Num2))
+	//{
+	//	axis = 1.0f;
+	//}
 
-	float axis2 = 0.0;
-	if (Input.GetKey(Keyboard::Num3))
-	{
-		axis2 = -1.0f;
-	}
-	if (Input.GetKey(Keyboard::Num4))
-	{
-		axis2 = 1.0f;
-	}
+	//float axis2 = 0.0;
+	//if (Input.GetKey(Keyboard::Num3))
+	//{
+	//	axis2 = -1.0f;
+	//}
+	//if (Input.GetKey(Keyboard::Num4))
+	//{
+	//	axis2 = 1.0f;
+	//}
 
-	BoxCollider* rectCol = (BoxCollider*)rectGO->GetComponent(ComponentType::Collider);
+	//BoxCollider* rectCol = (BoxCollider*)rectGO->GetComponent(ComponentType::Collider);
 
-	rectCol->SetRotationOffset(rectCol->GetRotationOffset() + axis2 * 30.0f * deltaTime);
+	//rectCol->SetRotationOffset(rectCol->GetRotationOffset() + axis2 * 30.0f * deltaTime);
 
-	rectGO->SetRotation(rectGO->GetRotation() + axis * 30.0f * deltaTime);
-
-
-	float axis3 = 0.0;
-	if (Input.GetKey(Keyboard::Num5))
-	{
-		axis3 = -1.0f;
-	}
-	if (Input.GetKey(Keyboard::Num6))
-	{
-		axis3 = 1.0f;
-	}
-
-	RectangleShapeGO* rectGO2 = (RectangleShapeGO*)FindGameObject("SmallRect");
+	//rectGO->SetRotation(rectGO->GetRotation() + axis * 30.0f * deltaTime);
 
 
-	BoxCollider* rectCol2 = (BoxCollider*)rectGO2->GetComponent(ComponentType::Collider);
+	//float axis3 = 0.0;
+	//if (Input.GetKey(Keyboard::Num5))
+	//{
+	//	axis3 = -1.0f;
+	//}
+	//if (Input.GetKey(Keyboard::Num6))
+	//{
+	//	axis3 = 1.0f;
+	//}
 
-	rectCol2->SetRotationOffset(rectCol2->GetRotationOffset() + axis3 * 30.0f * deltaTime);
+	//RectangleShapeGO* rectGO2 = (RectangleShapeGO*)FindGameObject("SmallRect");
+
+
+	//BoxCollider* rectCol2 = (BoxCollider*)rectGO2->GetComponent(ComponentType::Collider);
+
+	//rectCol2->SetRotationOffset(rectCol2->GetRotationOffset() + axis3 * 30.0f * deltaTime);
 
 
 
 
-	rectGO->SetPosition({ rectGO->GetPosition().x + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime, rectGO->GetPosition().y + Input.GetAxisRaw(Axis::Vertical) * 30.0f * deltaTime });
+	//rectGO->SetPosition({ rectGO->GetPosition().x + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime, rectGO->GetPosition().y + Input.GetAxisRaw(Axis::Vertical) * 30.0f * deltaTime });
 
-	CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
-	//circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
+	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
+	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)

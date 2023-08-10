@@ -7,7 +7,11 @@ public:
 	Playable(const std::string textureID = "", const std::string& name = "") : SpriteGO(textureID, name) {};
 	virtual void Move(const sf::Vector2f& axis, const float& deltaTime) = 0;
 	virtual void Dash(const sf::Vector2f& axis, const float& deltaTime) = 0;
+	virtual void MoveEnd() = 0;
 	virtual void Charge() = 0;
 	virtual void ChargeEnd() = 0;
+	virtual void Sit() = 0;
+	virtual void SitEnd() = 0;
+	virtual void Jump() = 0;
 };
 

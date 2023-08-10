@@ -122,7 +122,8 @@ void BoxCollider::Update(float deltaTime)
 
 	Collider::Update(deltaTime);
 #ifdef _DEBUG
-	debugShape.setPosition({ rect.left - offset.x, rect.top - offset.y});
+	//debugShape.setPosition({ rect.left - offset.x, rect.top - offset.y });
+	debugShape.setPosition({ (rect.left + rect.width) - offset.x, (rect.top + rect.height) - offset.y });
 	debugShape.setSize({ rect.width, rect.height });
 	debugShape.setRotation(rotationOffset + gameObject.GetRotation());
 	debugShape.setOrigin(gameObject.GetOrigin());

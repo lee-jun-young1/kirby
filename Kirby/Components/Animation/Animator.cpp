@@ -15,7 +15,7 @@ void Animator::AddTransition(const std::string& stateName, const std::string& tr
 {
 	if (transition.enterAnimationState == nullptr)
 	{
-		std::cout << "Invalid Animation State" << std::endl;
+		std::cout << "Invalid Animation State :: " << stateName << " "  << transitionName << std::endl;
 		return;
 	}
 

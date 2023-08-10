@@ -53,6 +53,7 @@ Run,PressJump,1,0,Jump,0
 Run,PressSit,1,0,Sit,0
 Run,Door,1,0,GoDoor,0
 Run,Falling,1,0,Falling,0
+Sit,Idle,1,0,Idle,0
 Sit,PressX,1,0,Suction,0
 Sit,PressJump,1,0,Tackle,0
 Sit,Falling,1,0,Falling,0
