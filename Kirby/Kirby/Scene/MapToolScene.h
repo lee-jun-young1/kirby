@@ -47,7 +47,7 @@ public:
 	const std::wstring GetSaveFileNameWithOpenWindow();
 
 	Json::Value LoadFromJsonFile(const std::string& path);
-
+	SpriteGO* CopyUIButton(const std::string& name);
 	void SetLayer(int layer);
 };
 

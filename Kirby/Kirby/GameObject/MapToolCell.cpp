@@ -48,6 +48,12 @@ void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
 	}
 	SpriteGO* instance = new SpriteGO(*gameObject);
 	instance->sortLayer -= UILayer;
+	std::cout
+		<< "Name: " << instance->GetName()
+		<< " PositionX: " << instance->GetPosition().x
+		<< " PositionY: " << instance->GetPosition().y
+		<< " layer: " << instance->sortLayer
+		<< std::endl;
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
 		if ((*it)->sortLayer == instance->sortLayer)

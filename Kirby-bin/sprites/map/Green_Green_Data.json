@@ -2,7 +2,7 @@
     "path": "sprites/map/Green_Green.png",
     "cells": [
         {
-            "name": "Player",
+            "name": "Kirby",
             "position": {
                 "x": 0,
                 "y": 0

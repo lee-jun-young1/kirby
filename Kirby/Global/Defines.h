@@ -65,6 +65,16 @@ enum class PhysicsLayer
 	Count
 };
 
+enum class Category
+{
+	Player,
+	Item,
+	Enemny,
+	Door,
+	Ground,
+	AmbientObject,
+};
+
 enum class ShapeType
 {
 	None,
