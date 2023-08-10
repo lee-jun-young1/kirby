@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "RigidBody2D.h"
 #include "Framework.h"
+#include "Utils.h"
 
 bool RigidBody2D::IsEnable()
 {
@@ -75,69 +76,42 @@ void RigidBody2D::OnCollisionEnter(Collider* thisCol, Collider* diffCol)
 	//	(GetWidth() + col->GetWidth()) * 0.5f, (GetHeight() + col->GetHeight()) * 0.5f);
 
 	sf::Vector2f normal = thisCol->GetNormal(diffCol);
-
-	if (normal.x > 0.0f && velocity.x < 0.0f)
-	{
-		velocity.x = 0.0f;
-		gameObject.SetPosition(diffCol->GetCenter().x + (diffCol->GetWidth() * 0.5f) - 0.001f - thisCol->GetOffset().x, gameObject.GetPosition().y);
-	}
-	else if (normal.x < 0.0f && velocity.x > 0.0f)
-	{ 
-		velocity.x = 0.0f;
-		gameObject.SetPosition(diffCol->GetCenter().x - (diffCol->GetWidth() * 0.5f) - thisCol->GetWidth() + 0.001f - thisCol->GetOffset().x, gameObject.GetPosition().y);
-	}
-	else if (normal.y > 0.0f && velocity.y < 0.0f)
-	{
-		isVerticalCollided = true;
-		velocity.y = 0.0f;
-		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
-		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y + (diffCol->GetHeight()) - 0.001f - thisCol->GetOffset().y);
-	}
-	else if (normal.y < 0.0f && velocity.y > 0.0f)
-	{
-		isVerticalCollided = true;
-		velocity.y = 0.0f;
-		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
-		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y - (diffCol->GetHeight() * 0.5f) - thisCol->GetHeight() + 0.001f - thisCol->GetOffset().y);
-	}
-
 }
 
 void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 {
 
-	sf::Vector2f normal = thisCol->GetNormal(diffCol);
+	float rotation = diffCol->GetRotationOffset() + diffCol->GetGameObject().GetRotation();
+	bool inversed = ((int)rotation / 180) % 2 == 1;
 
-	if (normal.x > 0.0f && velocity.x < 0.0f)
+	sf::Vector2f normal = diffCol->GetNormal(thisCol);
+
+	if (inversed)
 	{
-		velocity.x = 0.0f;
-		gameObject.SetPosition(diffCol->GetCenter().x + (diffCol->GetWidth() * 0.5f) - 0.001f - thisCol->GetOffset().x, gameObject.GetPosition().y);
+		normal *= -1.0f;
 	}
-	else if (normal.x < 0.0f && velocity.x > 0.0f)
+
+	sf::Vector2f rotateCenter = Utils::RotateWithPivot(diffCol->GetCenter(), thisCol->GetCenter(), -(rotation));
+	if (normal.x != 0.0f)
 	{
-		velocity.x = 0.0f;
-		gameObject.SetPosition(diffCol->GetCenter().x - (diffCol->GetWidth() * 0.5f) - thisCol->GetWidth() + 0.001f - thisCol->GetOffset().x, gameObject.GetPosition().y);
-	}
-	else if (normal.y > 0.0f && velocity.y < 0.0f)
+		velocity.x = ((diffCol->GetCenter().x - rotateCenter.x) - (thisCol->GetWidth() + diffCol->GetWidth()) * 0.5f) * normal.x;
+		velocity.x = velocity.x * FRAMEWORK.GetDPM();
+		//velocity.y = ((diffCol->GetCenter().x - rotateCenter.x) - (thisCol->GetWidth() + diffCol->GetWidth()) * 0.5f);
+		//velocity.y = velocity.y * FRAMEWORK.GetDPM();
+	} 
+	if (normal.y != 0.0f)
 	{
 		isVerticalCollided = true;
-		velocity.y = 0.0f;
-		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
-		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y + (diffCol->GetHeight() * 0.5f) - 0.001f - thisCol->GetOffset().y);
-	}
-	else if (normal.y < 0.0f && velocity.y > 0.0f)
-	{
-		isVerticalCollided = true;
-		velocity.y = 0.0f;
-		//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
-		gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y - (diffCol->GetHeight() * 0.5f) - thisCol->GetHeight() + 0.001f - thisCol->GetOffset().y);
+		velocity.y = ((diffCol->GetCenter().y - rotateCenter.y) - (thisCol->GetHeight() + diffCol->GetHeight()) * 0.5f) * normal.y;
+		velocity.y = velocity.y * FRAMEWORK.GetDPM();
 	}
 }
 
 void RigidBody2D::OnCollisionExit(sf::Vector2f normal)
 {
-	if (normal.y != 0.0f)
+	//if (normal.y != 0.0f)
 	{
+		velocity.x = 0.0f;
 		isVerticalCollided = false;
 	}
 }
@@ -152,8 +126,9 @@ void RigidBody2D::OnTriggerStay()
 
 void RigidBody2D::OnTriggerExit(sf::Vector2f normal)
 {
-	if (normal.y != 0.0f)
+	//if (normal.y != 0.0f)
 	{
+		velocity.x = 0.0f;
 		isVerticalCollided = false;
 	}
 }

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "PhysicsManager.h"
 #include "RigidBody2D.h"
+#include "Utils.h"
 
 Collider::Collider(GameObject& gameObject, ColliderType type)
 	:Component(gameObject, ComponentType::Collider, false), type(type), rigidbody(nullptr), isCollide(false), bounciness(0.0f), isTrigger(false)
@@ -47,21 +48,26 @@ bool Collider::CheckCross(Collider* col)
 
 sf::Vector2f Collider::GetNormal(Collider* col)
 {
-	sf::Vector2f val = (col->GetCenter() - GetCenter());
+	sf::Vector2f colCen = Utils::RotateWithPivot(GetCenter(), col->GetCenter(), -(GetRotationOffset() + GetGameObject().GetRotation()));
+	sf::Vector2f val = (colCen - GetCenter());
 	val.x /= GetWidth() + col->GetWidth();
 	val.y /= GetHeight() + col->GetHeight();
 
-
-	if (abs(val.x) < abs(val.y))
-	{
-		//cout << " X " << endl;
-		return val.y < 0.0f ? sf::Vector2f(0.0f, 1.0f) : sf::Vector2f(0.0f, -1.0f);
-	}
-	else
+	sf::Vector2f result;
+	if (abs(val.x) >= abs(val.y))
 	{
 		//cout << " Y " << endl;
-		return val.x < 0.0f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f);
+		result.x = val.x > 0.0f ? 1.0f : -1.0f;
+		//result.y = (val.y < 0.0f ? 1.0f : -1.0f);
+		result.y = 1.0f;
 	}
+	else 
+	{
+		//cout << " X " << endl;
+		result.y = (val.y < 0.0f ? 1.0f : -1.0f);
+	}
+
+	return result;
 }
 
 void Collider::SetTrigger(bool isTrigger)

@@ -12,10 +12,11 @@ BoxCollider::BoxCollider(GameObject& gameObject)
 {
 	rect = { gameObject.GetPosition().x, gameObject.GetPosition().y, gameObject.GetSize().x, gameObject.GetSize().y };
 	offset = gameObject.GetOrigin() * -1.0f;
+	//rotationOffset = 30.0f;
 }
 
 void BoxCollider::SetRect(sf::Rect<float> rect)
-{
+{ 
 	this->rect = rect;
 }
 
@@ -123,10 +124,10 @@ void BoxCollider::Update(float deltaTime)
 	Collider::Update(deltaTime);
 #ifdef _DEBUG
 	//debugShape.setPosition({ rect.left - offset.x, rect.top - offset.y });
-	debugShape.setPosition({ (rect.left + rect.width) - offset.x, (rect.top + rect.height) - offset.y });
+	debugShape.setPosition({ (rect.left + rect.width * 0.5f), (rect.top + rect.height * 0.5f)});
 	debugShape.setSize({ rect.width, rect.height });
 	debugShape.setRotation(rotationOffset + gameObject.GetRotation());
-	debugShape.setOrigin(gameObject.GetOrigin());
+	debugShape.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
 #endif
 }
 

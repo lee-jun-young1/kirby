@@ -73,13 +73,30 @@ void SceneExample::Init()
 
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
-	RectangleShapeGO* tempGround = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempGround->SetSize({ 106.0f, 20.0f });
-	tempGround->physicsLayer = (int)PhysicsLayer::Ground;
-	tempGround->SetOrigin(Origins::MC);
-	tempGround->SetPosition({ 0.0f, 100.0f });
-	BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
-	//boxCol->SetRotationOffset(30.0f);
+	//RectangleShapeGO* tempGround = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempGround->SetSize({ 106.0f, 20.0f });
+	//tempGround->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempGround->SetOrigin(Origins::BC);
+	//tempGround->SetPosition({ 0.0f, 100.0f });
+	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
+
+
+	RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempGround2->SetSize({ 20.0f, 100.0f });
+	tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
+	tempGround2->SetOrigin(Origins::TC);
+	tempGround2->SetPosition({ 0.0f, 0.0f });
+	BoxCollider* boxCol2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
+	boxCol2->SetRotationOffset(30.0f);
+
+
+	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempGround3->SetSize({ 106.0f, 20.0f });
+	//tempGround3->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempGround3->SetOrigin(Origins::BC);
+	//tempGround3->SetPosition({ -50.0f, 50.0f });
+	//BoxCollider* boxCol3 = (BoxCollider*)tempGround3->AddComponent(new BoxCollider(*tempGround3));
+	//boxCol3->SetRotationOffset(180.0f);
 
 	//RectangleShapeGO* smallRectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("SmallRect"));
 	//smallRectGO->SetSize({ 10.0f, 10.0f });
