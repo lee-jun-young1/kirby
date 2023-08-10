@@ -287,10 +287,10 @@ void MapToolScene::Update(float dt)
 		LoadData(filePath);
 	}
 	//Zoom
-	if (Input.GetMouseWheelMovement() != 0)
+	if (Input.GetMouseScrollDelta() != 0)
 	{
-		std::cout << Input.GetMouseWheelMovement() << std::endl;
-		worldView.zoom(1.f - Input.GetMouseWheelMovement() * 0.1f);
+		std::cout << Input.GetMouseScrollDelta() << std::endl;
+		worldView.zoom(1.f - Input.GetMouseScrollDelta() * 0.1f);
 	}
 	//MapSize
 	if (Input.GetKeyDown(sf::Keyboard::Add))
