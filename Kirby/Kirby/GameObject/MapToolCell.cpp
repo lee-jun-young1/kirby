@@ -47,7 +47,7 @@ void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
 		return;
 	}
 	SpriteGO* instance = new SpriteGO(*gameObject);
-	instance->sortLayer -= UILayer;
+	instance->sortLayer = layer;
 	std::cout
 		<< "Name: " << instance->GetName()
 		<< " PositionX: " << instance->GetPosition().x
@@ -77,6 +77,31 @@ void MapToolCell::RemoveGameObject(int layer)
 		if ((*it)->sortLayer == layer)
 		{
 			delete *it;
+			it = gameObjects.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+}
+
+void MapToolCell::RemoveAllGameObject()
+{
+	for (auto it = gameObjects.begin(); it != gameObjects.end();)
+	{
+		delete* it;
+		it = gameObjects.erase(it);
+	}
+}
+
+void MapToolCell::RemoveAllGameObjectByName(const std::string& name)
+{
+	for (auto it = gameObjects.begin(); it != gameObjects.end();)
+	{
+		if ((*it)->GetName() == name)
+		{
+			delete* it;
 			it = gameObjects.erase(it);
 		}
 		else

@@ -14,12 +14,13 @@ protected:
 	int cellHorizontalCount;
 	int cellVerticalCount;
 
+	sf::Vector2i originalSize;
 	sf::Vector2i mapSize;
 	RectangleShapeGO* currentGameObject = nullptr;
 	SpriteGO* currentGO = nullptr;
 
 	sf::Vector2f worldMovement;
-	float uiSpeed = 50.f;
+	float uiSpeed = 100.f;
 
 	int layer = 0;
 	bool drawCurrentLayerOnly = false;
@@ -30,6 +31,9 @@ public:
 	MapToolCell* GetCell(const sf::Vector2f& position);
 	void SelectGameObject(RectangleShapeGO* gameObject);
 	void SelectGameObject(SpriteGO* gameObject);
+
+	void ClearCells();
+	void ClearCellsByName(const std::string& name);
 
 	virtual void Enter() override;
 
@@ -49,5 +53,6 @@ public:
 	Json::Value LoadFromJsonFile(const std::string& path);
 	SpriteGO* CopyUIButton(const std::string& name);
 	void SetLayer(int layer);
+	void ReSizeMap(bool UpDown);
 };
 

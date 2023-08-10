@@ -53,32 +53,25 @@ void MapToolScene::Enter()
 	base->SetOrigin(Origins::TL);
 	base->SetPosition({ size.x * 0.7f, 0.f });
 
-	sf::Vector2f buttonSpace = { 2.f, 1.f };
+	sf::Vector2f buttonSpace = { 1.f, 1.f };
 	Json::Value mapData = LoadFromJsonFile("sprites/map/Green_Green_Data.json");
 	std::cout << mapData["path"].asString() << std::endl;
-	for (int i = 0; i < mapData["cells"].size(); i++)
+	for (int i = 0; i < mapData["Palettes"].size(); i++)
 	{
-		Json::Value cell = mapData["cells"][i];
-		std::cout << cell["name"] << std::endl;
-		UIButton* button = (UIButton*)AddGameObject(new UIButton(mapData["path"].asString(), cell["name"].asString()));
-		sf::IntRect rect = { cell["position"]["x"].asInt(), cell["position"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
+		Json::Value palette = mapData["Palettes"][i];
+		UIButton* button = (UIButton*)AddGameObject(new UIButton(mapData["Path"].asString(), palette["PaletteID"].asString()));
+		sf::IntRect rect = { palette["Position"]["x"].asInt(), palette["Position"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
+		button->SetCategory((Category)palette["Category"].asInt());
 		button->sprite.setTextureRect(rect);
 		button->sprite.setScale({0.5f, 0.5f});
-		button->sortLayer = UILayer + cell["layer"].asInt();
+		button->sortLayer = UILayer + palette["Layer"].asInt();
 		button->OnClick = [this, button]() {
 			SelectGameObject(button);
 		};
 
 		sf::Vector2f buttonPosition = { base->GetPosition().x + rect.left * 0.5f, base->GetSize().y * 0.3f + rect.top * 0.5f };
 
-
 		button->SetPosition(buttonPosition);
-		//button->SetPosition({ base->GetPosition().x + rect.left * 0.5f, base->GetSize().y * 0.3f + rect.top * 0.5f});
-
-		//for (int j = 0; j < cell["friend"].size(); j++)
-		//{
-		//	Json::Value friendData = cell["friend"][j];
-		//}
 	}
 	Scene::Enter();
 	Reset();
@@ -90,10 +83,6 @@ MapToolCell* MapToolScene::GetCell(const sf::Vector2f& position)
 	{
 		if (cell.GetGlobalBounds().contains(position))
 		{
-			//std::cout
-			//	<< "X: " << (int)cell.GetGlobalBounds().left
-			//	<< " Y: " << (int)cell.GetGlobalBounds().top
-			//	<< std::endl;
 			return &cell;
 		};
 	}
@@ -139,12 +128,31 @@ void MapToolScene::SelectGameObject(SpriteGO* gameObject)
 	currentGO = instance;
 	currentGO->sprite.setScale({ 1.f, 1.f });
 	currentGO->SetActive(true);
+	SetLayer(currentGO->sortLayer - UILayer);
+}
+
+void MapToolScene::ClearCells()
+{
+	for (auto& cell : cells)
+	{
+		cell.RemoveAllGameObject();
+	}
+}
+
+void MapToolScene::ClearCellsByName(const std::string& name)
+{
+	for (auto& cell : cells)
+	{
+		cell.RemoveAllGameObjectByName(name);
+	}
 }
 
 void MapToolScene::Init()
 {
 	Scene::Init();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
+	originalSize = { (int)windowSize.x, (int)windowSize.y };
+	mapSize = originalSize;
 	TextGameObj* layerText = (TextGameObj*)AddGameObject(new TextGameObj("fonts/D2Coding.ttc", 12, "layer"));
 	layerText->SetFillColor(sf::Color::Magenta);
 	layerText->sortLayer = 999;
@@ -212,6 +220,7 @@ void MapToolScene::Update(float dt)
 	if (Input.GetKeyDown(sf::Keyboard::Home))
 	{
 		drawCurrentLayerOnly = !drawCurrentLayerOnly;
+		SetLayer(layer);
 	}
 
 
@@ -244,6 +253,10 @@ void MapToolScene::Update(float dt)
 	if (Input.GetMouseButton(sf::Mouse::Left) )
 	{
 		//cell->AddGameObject(currentGameObject, layer);
+		if (currentGO->GetName() == "Player")
+		{
+			ClearCellsByName(currentGO->GetName());
+		}
 		cell->AddGameObject(currentGO, layer);
 	}
 
@@ -251,6 +264,12 @@ void MapToolScene::Update(float dt)
 	if (Input.GetMouseButton(sf::Mouse::Right))
 	{
 		cell->RemoveGameObject(layer);
+	}
+
+	//Clear
+	if (Input.GetKeyDown(sf::Keyboard::F1))
+	{
+		ClearCells();
 	}
 
 	//Save
@@ -267,11 +286,20 @@ void MapToolScene::Update(float dt)
 		std::wcout << filePath << std::endl;
 		LoadData(filePath);
 	}
-
+	//Zoom
 	if (Input.GetMouseWheelMovement() != 0)
 	{
 		std::cout << Input.GetMouseWheelMovement() << std::endl;
-		worldView.zoom(Input.GetMouseWheelMovement());
+		worldView.zoom(1.f - Input.GetMouseWheelMovement() * 0.1f);
+	}
+	//MapSize
+	if (Input.GetKeyDown(sf::Keyboard::Add))
+	{
+		ReSizeMap(true);
+	}
+	if (Input.GetKeyDown(sf::Keyboard::Hyphen))
+	{
+		ReSizeMap(false);
 	}
 }
 
@@ -330,6 +358,10 @@ void MapToolScene::Reset()
 
 void MapToolScene::SaveData(const std::wstring& path)
 {
+	if (path == "")
+	{
+		return;
+	}
 	Json::Value rootNode;
 	rootNode["Stage"] = (int)stageIndex;
 
@@ -345,42 +377,38 @@ void MapToolScene::SaveData(const std::wstring& path)
 		for (auto& go : cell.GetGameObjects())
 		{
 			Json::Value node;
-			std::string name = go->GetName();
-		
-			node["PositionX"] = go->GetPosition().x;
-			node["PositionY"] = go->GetPosition().y;
+			node["PaletteID"] = go->GetName();
+			node["Position"]["x"] = go->GetPosition().x;
+			node["Position"]["y"] = go->GetPosition().y;
 			node["SortLayer"] = go->sortLayer + layer;
 
-			if (go->GetName() == "Player")
+			switch (go->GetCategory())
 			{
-				node["Name"] = go->GetName();
+			case Category::None:
+				break;
+			case Category::Player:
 				playerNode = node;
-			}
-			else if (go->GetName() == "Item")
-			{
+				break;
+			case Category::Item:
 				node["Type"] = (int)((Item*)go)->GetItemType();
 				itemNodes.append(node);
-			}
-			else if (go->GetName() == "Enemy")
-			{
+			case Category::Enemy:
 				node["Type"] = (int)((Enemy*)go)->GetEnemyType();
 				enemyNodes.append(node);
-			}
-			else if (go->GetName() == "Door")
-			{
+				break;
+			case Category::Door:
 				node["Type"] = (int)((Enemy*)go)->GetEnemyType();
 				node["MovePositionX"] = ((Door*)go)->GetMovePosition().x;
 				node["MovePositionY"] = ((Door*)go)->GetMovePosition().y;
 				doorNodes.append(node);
-			}
-			else if (go->GetName() == "Ground")
-			{
+				break;
+			case Category::Ground:
 				node["GroundIndex"] = ((Ground*)go)->GetGroundIndex();
 				groundNodes.append(node);
-			}
-			else if (go->GetName() == "AmbientObject")
-			{
+				break;
+			case Category::AmbientObject:
 				ambientObjectNodes.append(node);
+				break;
 			}
 		}
 	}
@@ -403,105 +431,23 @@ void MapToolScene::SaveData(const std::wstring& path)
 	}
 }
 
-//void MapToolScene::LoadData(const std::wstring& path)
-//{
-//	std::ifstream ifile(path);
-//	Json::Value rootNode;
-//	if (ifile.is_open())
-//	{
-//		ifile >> rootNode;
-//		ifile.close();
-//	}
-//	
-//	Json::Value playerNode = rootNode["Player"];
-//	Json::Value itemNodes = rootNode["Item"];
-//	Json::Value enemyNodes = rootNode["Enemy"];
-//	Json::Value doorNodes = rootNode["Door"];
-//	Json::Value groundNodes = rootNode["Ground"];
-//	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
-//
-//	MapToolCell* cell;
-//	sf::Vector2f loadPosition;
-//	int loadLayer = 0;
-//
-//	Player* player = new Player("Player");
-//	loadPosition = { playerNode["PositionX"].asFloat(), playerNode["PositionY"].asFloat() };
-//	loadLayer = playerNode["SortLayer"].asInt();
-//	player->sortLayer = UILayer + loadLayer;
-//	player->SetPosition(loadPosition);
-//	cell = GetCell(loadPosition);
-//	cell->AddGameObject(player, loadLayer);
-//
-//	for (int i = 0; i < itemNodes.size(); i++)
-//	{
-//		Json::Value item = itemNodes[i];
-//		Item* go = new Item("Item");
-//		loadPosition = { item["PositionX"].asFloat(), item["PositionY"].asFloat() };
-//		loadLayer = item["SortLayer"].asInt();
-//		go->SetPosition(loadPosition);
-//		go->sortLayer = UILayer + loadLayer;
-//		go->SetItemType((ItemType)item["Type"].asInt());
-//		cell = GetCell(loadPosition);
-//		cell->AddGameObject(go, loadLayer);
-//	}
-//	for (int i = 0; i < enemyNodes.size(); i++)
-//	{
-//		Json::Value item = enemyNodes[i];
-//		Enemy* go = new Enemy("Enemy");
-//		loadPosition = { item["PositionX"].asFloat(), item["PositionY"].asFloat() };
-//		loadLayer = item["SortLayer"].asInt();
-//		go->SetPosition(loadPosition);
-//		go->sortLayer = UILayer + loadLayer;
-//		go->SetEnemyType((EnemyType)item["Type"].asInt());
-//		cell = GetCell(loadPosition);
-//		cell->AddGameObject(go, loadLayer);
-//	}
-//	for (int i = 0; i < doorNodes.size(); i++)
-//	{
-//		Json::Value item = doorNodes[i];
-//		Door* go = new Door("Door");
-//		loadPosition = { item["PositionX"].asFloat(), item["PositionY"].asFloat() };
-//		loadLayer = item["SortLayer"].asInt();
-//		go->SetPosition(loadPosition);
-//		go->sortLayer = UILayer + loadLayer;
-//		go->SetDoorType((DoorType)item["Type"].asInt());
-//		cell = GetCell(loadPosition);
-//		cell->AddGameObject(go, loadLayer);
-//	}
-//	for (int i = 0; i < groundNodes.size(); i++)
-//	{
-//		Json::Value item = groundNodes[i];
-//		Ground* go = new Ground("Ground");
-//		loadPosition = { item["PositionX"].asFloat(), item["PositionY"].asFloat() };
-//		loadLayer = item["SortLayer"].asInt();
-//		go->SetPosition(loadPosition);
-//		go->sortLayer = UILayer + loadLayer;
-//		go->SetGroundIndex(item["GroundIndex"].asInt());
-//		cell = GetCell(loadPosition);
-//		cell->AddGameObject(go, loadLayer);
-//	}
-//	for (int i = 0; i < ambientObjectNodes.size(); i++)
-//	{
-//		Json::Value item = ambientObjectNodes[i];
-//		AmbientObject* go = new AmbientObject("AmbientObject");
-//		loadPosition = { item["PositionX"].asFloat(), item["PositionY"].asFloat() };
-//		loadLayer = item["SortLayer"].asInt();
-//		go->SetPosition(loadPosition);
-//		go->sortLayer = UILayer + loadLayer;
-//		cell = GetCell(loadPosition);
-//		cell->AddGameObject(go, loadLayer);
-//	}
-//
-//}
-
 void MapToolScene::LoadData(const std::wstring& path)
 {
+	if (path == "")
+	{
+		return;
+	}
 	std::ifstream ifile(path);
 	Json::Value rootNode;
 	if (ifile.is_open())
 	{
 		ifile >> rootNode;
 		ifile.close();
+	}
+	else
+	{
+		std::wcout << "File Open Error! Path: " << path << std::endl;
+		return;
 	}
 
 	Json::Value playerNode = rootNode["Player"];
@@ -515,26 +461,76 @@ void MapToolScene::LoadData(const std::wstring& path)
 	sf::Vector2f loadPosition;
 	int loadLayer = 0;
 
-	SpriteGO* go = CopyUIButton(playerNode["name"].asString());
-	loadPosition = { playerNode["PositionX"].asFloat(), playerNode["PositionY"].asFloat() };
-	loadLayer = playerNode["SortLayer"].asInt();
+	SpriteGO* go = CopyUIButton(playerNode["PaletteID"].asString());
+	loadPosition = { playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat()};
+	go->sprite.setScale({1.f, 1.f});
 	go->SetPosition(loadPosition);
 	cell = GetCell(loadPosition);
-	cell->AddGameObject(go, loadLayer);
+	cell->AddGameObject(go, playerNode["SortLayer"].asInt());
 	delete go;
+
+	for (int i = 0; i < itemNodes.size(); i++)
+	{
+		Json::Value item = itemNodes[i];
+		Item* go = (Item*)CopyUIButton(item["PaletteID"].asString());
+		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		go->sprite.setScale({ 1.f, 1.f });
+		go->SetPosition(loadPosition);
+		go->SetItemType((ItemType)item["type"].asInt());
+		cell = GetCell(loadPosition);
+		cell->AddGameObject(go, item["SortLayer"].asInt());
+		delete go;
+	}
 
 	for (int i = 0; i < enemyNodes.size(); i++)
 	{
 		Json::Value item = enemyNodes[i];
-		SpriteGO* go = CopyUIButton(item["name"].asString());
-		loadPosition = { item["PositionX"].asFloat(), item["PositionY"].asFloat() };
-		loadLayer = item["SortLayer"].asInt();
+		Enemy* go = (Enemy*)CopyUIButton(item["PaletteID"].asString());
+		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
+		go->SetEnemyType((EnemyType)item["type"].asInt());
 		cell = GetCell(loadPosition);
-		cell->AddGameObject(go, loadLayer);
+		cell->AddGameObject(go, item["SortLayer"].asInt());
 		delete go;
 	}
 
+	for (int i = 0; i < doorNodes.size(); i++)
+	{
+		Json::Value item = doorNodes[i];
+		Door* go = (Door*)CopyUIButton(item["PaletteID"].asString());
+		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		go->SetPosition(loadPosition);
+		go->SetDoorType((DoorType)item["DoorType"].asInt());
+		cell = GetCell(loadPosition);
+		cell->AddGameObject(go, item["SortLayer"].asInt());
+		delete go;
+	}
+
+	for (int i = 0; i < groundNodes.size(); i++)
+	{
+		Json::Value item = groundNodes[i];
+		Ground* go = (Ground*)CopyUIButton(item["PaletteID"].asString());
+		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		go->sprite.setScale({ 1.f, 1.f });
+		go->SetPosition(loadPosition);
+		go->SetGroundIndex(item["GroundIndex"].asInt());
+		cell = GetCell(loadPosition);
+		cell->AddGameObject(go, item["SortLayer"].asInt());
+		delete go;
+	}
+
+	for (int i = 0; i < ambientObjectNodes.size(); i++)
+	{
+		Json::Value item = ambientObjectNodes[i];
+		AmbientObject* go = (AmbientObject*)CopyUIButton(item["PaletteID"].asString());
+		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		go->sprite.setScale({ 1.f, 1.f });
+		go->SetPosition(loadPosition);
+		cell = GetCell(loadPosition);
+		cell->AddGameObject(go, item["SortLayer"].asInt());
+		delete go;
+	}
 }
 const std::wstring MapToolScene::GetFilePathWithOpenWindow()
 {
@@ -606,9 +602,9 @@ Json::Value MapToolScene::LoadFromJsonFile(const std::string& path)
 	return rootNode;
 }
 
-SpriteGO* MapToolScene::CopyUIButton(const std::string& name)
+SpriteGO* MapToolScene::CopyUIButton(const std::string& paletteID)
 {
-	SpriteGO* findGo = (SpriteGO*)FindGameObject(name);
+	SpriteGO* findGo = (SpriteGO*)FindGameObject(paletteID);
 	if (findGo == nullptr)
 	{
 		return nullptr;
@@ -624,5 +620,41 @@ void MapToolScene::SetLayer(int layer)
 	TextGameObj* findGo = (TextGameObj*)FindGameObject("layer");
 	std::stringstream ss;
 	ss << "Layer: " << this->layer;
+	if (drawCurrentLayerOnly)
+	{
+		ss << " Only";
+	}
 	findGo->SetString(ss.str());
+}
+
+void MapToolScene::ReSizeMap(bool UpDown)
+{
+	std::cout << cells.size() << std::endl;
+	if (UpDown)
+	{
+		mapSize.x += (int)cellSize.x;
+		mapSize.y += (int)cellSize.y;
+		for (int i = cellVerticalCount - 2; i < cellVerticalCount - 1; i++)
+		{
+			for (int j = 0; j < cellHorizontalCount - 1; j++)
+			{
+				MapToolCell cell;
+				cell.SetSize(cellSize);
+				cell.SetFillColor(sf::Color::Transparent);
+				cell.SetOutlineThickness(0.5f);
+				cell.SetOutlineColor(sf::Color::Blue);
+				cell.SetPosition({ j * cellSize.x, i * cellSize.y });
+				cells.push_back(cell);
+			}
+		}
+		cellHorizontalCount++;
+		cellVerticalCount++;
+	}
+	else
+	{
+		mapSize.x -= (int)cellSize.x;
+		mapSize.y -= (int)cellSize.y;
+		cellHorizontalCount--;
+		cellVerticalCount--;
+	}
 }
