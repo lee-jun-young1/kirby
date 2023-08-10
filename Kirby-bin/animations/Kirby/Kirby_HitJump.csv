@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+HitJump,2,0,,
+,,,,
+TextureID,Left,Top,Width,Height
+,360,360,72,72
+,0,360,72,72
+,144,360,72,72
+,360,360,72,72
