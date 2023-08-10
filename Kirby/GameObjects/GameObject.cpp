@@ -29,6 +29,16 @@ void GameObject::SetName(const std::string& name)
 	this->name = name;
 }
 
+Category GameObject::GetCategory()
+{
+	return category;
+}
+
+void GameObject::SetCategory(const Category& category)
+{
+	this->category = category;
+}
+
 sf::Vector2f GameObject::GetPosition()
 {
 	return position;

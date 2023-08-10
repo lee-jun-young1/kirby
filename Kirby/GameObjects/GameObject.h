@@ -9,6 +9,7 @@ class GameObject
 protected:
 	bool isActive = true;//true : Run Update(), Draw()
 
+	Category category = Category::None;
 	string name;
 
 	sf::Vector2f position;
@@ -32,6 +33,8 @@ public:
 
 	string GetName();
 	virtual void SetName(const std::string& name);
+	Category GetCategory();
+	virtual void SetCategory(const Category& category);
 
 	sf::Vector2f GetPosition();
 	virtual void SetPosition(const sf::Vector2f& position);

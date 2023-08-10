@@ -67,9 +67,10 @@ enum class PhysicsLayer
 
 enum class Category
 {
+	None = -1,
 	Player,
 	Item,
-	Enemny,
+	Enemy,
 	Door,
 	Ground,
 	AmbientObject,
