@@ -328,8 +328,8 @@
         "y": 48
       },
       "Layer": 1,
-      "Type": 0,
-      "Category": 4
+      "Type": 1,
+      "Category": 1
     },
     {
       "PaletteID": "row-3-column-2",
@@ -338,8 +338,8 @@
         "y": 48
       },
       "Layer": 1,
-      "Type": 0,
-      "Category": 4
+      "Type": 2,
+      "Category": 1
     },
     {
       "PaletteID": "row-3-column-3",
@@ -348,8 +348,8 @@
         "y": 48
       },
       "Layer": 1,
-      "Type": 0,
-      "Category": 4
+      "Type": 3,
+      "Category": 1
     },
     {
       "PaletteID": "row-3-column-4",
@@ -358,8 +358,8 @@
         "y": 48
       },
       "Layer": 1,
-      "Type": 0,
-      "Category": 4
+      "Type": 4,
+      "Category": 1
     },
     {
       "PaletteID": "row-3-column-5",
@@ -859,7 +859,7 @@
       },
       "Layer": 1,
       "Type": 0,
-      "Category": 4
+      "Category": 3
     },
     {
       "PaletteID": "row-6-column-7",

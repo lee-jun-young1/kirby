@@ -1,14 +1,16 @@
 #pragma once
 #include "RectangleShapeGO.h"
-class Door : public RectangleShapeGO
+#include "SpriteGO.h"
+
+class Door : public SpriteGO
 {
 protected:
-	DoorType doorType;
+	DoorType doorType = DoorType::None;
 	bool isRecycle = false;
 	sf::Vector2f movePosition;
 
 public:
-	Door(const string& name = "");
+	Door(const std::string textureID = "", const std::string& name = "");
 
 	const DoorType& GetDoorType() const { return doorType; }
 	void SetDoorType(const DoorType& type) { doorType = type; }

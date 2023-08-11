@@ -4,12 +4,17 @@
 #include "MapToolCell.h"
 
 class SpriteGO;
+class Door;
 class MapToolScene : public Scene
 {
 protected:
 	StageIndex stageIndex;
 
-	std::vector<MapToolCell> cells;
+	RectangleShapeGO* menuUI;
+	sf::Vector2f paletteSpace = { 1.f, 1.f };
+	sf::Vector2f paletteScale = { 0.5f, 0.5f };
+
+	std::list<MapToolCell> cells;
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 	int cellHorizontalCount;
 	int cellVerticalCount;
@@ -20,10 +25,13 @@ protected:
 	SpriteGO* currentGO = nullptr;
 
 	sf::Vector2f worldMovement;
-	float uiSpeed = 100.f;
+	float uiSpeed = 150.f;
 
 	int layer = 0;
 	bool drawCurrentLayerOnly = false;
+
+	Door* prevDoor;
+	sf::Vector2f doorMovePosition;
 public:
 	MapToolScene();
 	~MapToolScene();
@@ -33,7 +41,7 @@ public:
 	void SelectGameObject(SpriteGO* gameObject);
 
 	void ClearCells();
-	void ClearCellsByName(const std::string& name);
+	void ClearCellsByCategory(const Category& cate);
 
 	virtual void Enter() override;
 

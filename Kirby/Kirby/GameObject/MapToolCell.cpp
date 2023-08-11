@@ -17,13 +17,8 @@ void MapToolCell::AddGameObject(RectangleShapeGO* gameObject, int layer)
 	{
 		return;
 	}
-	RectangleShapeGO* instance = new RectangleShapeGO();
-	instance->SetSize(gameObject->GetSize());
-	instance->SetFillColor(gameObject->GetFillColor());
+	RectangleShapeGO* instance = new RectangleShapeGO(*gameObject);
 	instance->sortLayer = layer;
-	instance->SetActive(true);
-	instance->SetOrigin(gameObject->GetOrigin());
-	instance->SetPosition(gameObject->GetPosition());
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
 		if ((*it)->sortLayer == instance->sortLayer)
@@ -95,11 +90,11 @@ void MapToolCell::RemoveAllGameObject()
 	}
 }
 
-void MapToolCell::RemoveAllGameObjectByName(const std::string& name)
+void MapToolCell::RemoveAllGameObjectByCategory(const Category& cate)
 {
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
-		if ((*it)->GetName() == name)
+		if ((*it)->GetCategory() == cate)
 		{
 			delete* it;
 			it = gameObjects.erase(it);
@@ -118,6 +113,13 @@ void MapToolCell::Draw(sf::RenderWindow& window)
 
 void MapToolCell::DrawGameObject(sf::RenderWindow& window,const int& layer, const bool& drawCurrentLayerOnly)
 {
+	gameObjects.sort([](GameObject* lhs, GameObject* rhs) {
+		if (lhs->sortLayer != rhs->sortLayer)
+		{
+			return lhs->sortLayer < rhs->sortLayer;
+		}
+		return lhs->sortOrder < rhs->sortOrder;
+		});
 	for (auto go : gameObjects)
 	{
 		if (!(drawCurrentLayerOnly && layer == go->sortLayer))
