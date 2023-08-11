@@ -5,13 +5,15 @@ class Playable : public SpriteGO
 protected:
 public:
 	Playable(const std::string textureID = "", const std::string& name = "") : SpriteGO(textureID, name) {};
-	virtual void Move(const sf::Vector2f& axis, const float& deltaTime) = 0;
-	virtual void Dash(const sf::Vector2f& axis, const float& deltaTime) = 0;
-	virtual void MoveEnd() = 0;
-	virtual void Charge() = 0;
-	virtual void ChargeEnd() = 0;
-	virtual void Sit() = 0;
-	virtual void SitEnd() = 0;
-	virtual void Jump() = 0;
+	virtual void MoveKey(const sf::Vector2f& axis, const float& deltaTime) = 0;
+	virtual void DashKey(const sf::Vector2f& axis, const float& deltaTime) = 0;
+	virtual void MoveKeyEnd() = 0;
+	virtual void ChargeKey() = 0;
+	virtual void ChargeKeyContinue() = 0;
+	virtual void ChargeKeyEnd() = 0;
+	virtual void SitKey() = 0;
+	virtual void SitKeyEnd() = 0;
+	virtual void JumpKey() = 0;
+	virtual void VKey() = 0;
 };
 

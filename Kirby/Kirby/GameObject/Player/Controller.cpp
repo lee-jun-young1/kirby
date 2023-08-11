@@ -7,57 +7,67 @@ void Controller::Init()
 	GameObject::Init();
 
 	function<bool()> dCondition = [this]() { return Input.GetKey(sf::Keyboard::Key::Left) && IsDoubleClicked(sf::Keyboard::Key::Left); };
-	function<void(float)> dAction = [this](float deltaTime) { playable.Dash({ -1.0f, 0.0f }, deltaTime); };
+	function<void(float)> dAction = [this](float deltaTime) { playable.DashKey({ -1.0f, 0.0f }, deltaTime); };
 	Command* dCommand = new Command(dCondition, dAction, 0);
 	AddCommand(dCommand);
 
 
 	function<bool()> condition = []() { return Input.GetKey(sf::Keyboard::Key::Left); };
-	function<void(float)> action = [this](float deltaTime) { playable.Move({ -1.0f, 0.0f }, deltaTime); };
+	function<void(float)> action = [this](float deltaTime) { playable.MoveKey({ -1.0f, 0.0f }, deltaTime); };
 	Command* command = new Command(condition, action, 1);
 	AddCommand(command);
 
 
 	function<bool()> dConditionD = [this]() { return Input.GetKey(sf::Keyboard::Key::Right) && IsDoubleClicked(sf::Keyboard::Key::Right); };
-	function<void(float)> dActionD = [this](float deltaTime) { playable.Dash({ 1.0f, 0.0f }, deltaTime); };
+	function<void(float)> dActionD = [this](float deltaTime) { playable.DashKey({ 1.0f, 0.0f }, deltaTime); };
 	Command* dCommandD = new Command(dConditionD, dActionD, 0);
 	AddCommand(dCommandD);
 
 
 	function<bool()> conditionD = []() { return Input.GetKey(sf::Keyboard::Key::Right); };
-	function<void(float)> actionD = [this](float deltaTime) { playable.Move({ 1.0f, 0.0f }, deltaTime); };
+	function<void(float)> actionD = [this](float deltaTime) { playable.MoveKey({ 1.0f, 0.0f }, deltaTime); };
 	Command* commandD = new Command(conditionD, actionD, 1);
 	AddCommand(commandD);
 
 	function<bool()> conditionMoveUp = []() { return Input.GetKeyUp(sf::Keyboard::Key::Left) || Input.GetKeyUp(sf::Keyboard::Key::Right); };
-	function<void(float)> actionMoveUp = [this](float deltaTime) { playable.MoveEnd(); };
+	function<void(float)> actionMoveUp = [this](float deltaTime) { playable.MoveKeyEnd(); };
 	Command* commandMoveUp = new Command(conditionMoveUp, actionMoveUp, 1);
 	AddCommand(commandMoveUp);
 
+	function<bool()> conditionCDown = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::X); };
+	function<void(float)> actionCDown = [this](float deltaTime) { playable.ChargeKey(); };
+	Command* commandCDown = new Command(conditionCDown, actionCDown, 1);
+	AddCommand(commandCDown);
+
 	function<bool()> conditionC = [this]() { return IsContinue(sf::Keyboard::Key::X); };
-	function<void(float)> actionC = [this](float deltaTime) { playable.Charge(); };
+	function<void(float)> actionC = [this](float deltaTime) { playable.ChargeKeyContinue(); };
 	Command* commandC = new Command(conditionC, actionC, 1);
 	AddCommand(commandC);
 
 	function<bool()> conditionCEnd = [this]() { return Input.GetKeyUp(sf::Keyboard::Key::X); };
-	function<void(float)> actionCEnd = [this](float deltaTime) { playable.ChargeEnd(); };
+	function<void(float)> actionCEnd = [this](float deltaTime) { playable.ChargeKeyEnd(); };
 	Command* commandCEnd = new Command(conditionCEnd, actionCEnd, 1);
 	AddCommand(commandCEnd);
 
-	function<bool()> conditionSit = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Down); };
-	function<void(float)> actionSit = [this](float deltaTime) { playable.Sit(); };
+	function<bool()> conditionSit = [this]() { return Input.GetKey(sf::Keyboard::Key::Down); };
+	function<void(float)> actionSit = [this](float deltaTime) { playable.SitKey(); };
 	Command* commandSit = new Command(conditionSit, actionSit, 1);
 	AddCommand(commandSit);
 
 	function<bool()> conditionSitEnd = [this]() { return Input.GetKeyUp(sf::Keyboard::Key::Down); };
-	function<void(float)> actionSitEnd = [this](float deltaTime) { playable.SitEnd(); };
+	function<void(float)> actionSitEnd = [this](float deltaTime) { playable.SitKeyEnd(); };
 	Command* commandSitEnd = new Command(conditionSitEnd, actionSitEnd, 1);
 	AddCommand(commandSitEnd);
 
 	function<bool()> conditionJump = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::C); };
-	function<void(float)> actionJump = [this](float deltaTime) { playable.Jump(); };
+	function<void(float)> actionJump = [this](float deltaTime) { playable.JumpKey(); };
 	Command* commandJump = new Command(conditionJump, actionJump, 0);
 	AddCommand(commandJump);
+
+	function<bool()> conditionV = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::V); };
+	function<void(float)> actionV = [this](float deltaTime) { playable.VKey(); };
+	Command* commandV = new Command(conditionV, actionV, 0);
+	AddCommand(commandV);
 }
 
 void Controller::Release()

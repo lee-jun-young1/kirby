@@ -163,6 +163,11 @@ sf::Vector2f Utils::RotateWithPivot(const sf::Vector2f& pivot, const sf::Vector2
 	return pivot + (result * distance);
 }
 
+sf::Vector2f Utils::GetProjection(const sf::Vector2f& axis, const sf::Vector2f& target)
+{
+	return (axis.x * target.x + axis.y * target.y) * axis;
+}
+
 sf::Vector2f Utils::RectNormal(sf::Rect<float> base, sf::Rect<float> target)
 {
 	sf::Vector2f baseCenter(base.left + base.width * 0.5f, base.top + base.height * 0.5f);

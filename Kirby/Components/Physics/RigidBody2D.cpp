@@ -86,13 +86,15 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 
 	sf::Vector2f normal = diffCol->GetNormal(thisCol);
 
+	sf::Vector2f level = Utils::RotateWithPivot({ 0.0f, 0.0f }, normal, -(90.0f));
+
 	if (inversed)
 	{
 		normal *= -1.0f;
 	}
 
-	sf::Vector2f rotateCenter = Utils::RotateWithPivot(diffCol->GetCenter(), thisCol->GetCenter(), -(rotation));
-	if (normal.x != 0.0f)
+	sf::Vector2f rotateCenter = Utils::RotateWithPivot(diffCol->GetCenter(), thisCol->GetCenter(), (rotation));
+	if (normal.x != 0.0f && (int)rotation % 90 == 0)
 	{
 		velocity.x = ((diffCol->GetCenter().x - rotateCenter.x) - (thisCol->GetWidth() + diffCol->GetWidth()) * 0.5f) * normal.x;
 		velocity.x = velocity.x * FRAMEWORK.GetDPM();
@@ -102,8 +104,16 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 	if (normal.y != 0.0f)
 	{
 		isVerticalCollided = true;
-		velocity.y = ((diffCol->GetCenter().y - rotateCenter.y) - (thisCol->GetHeight() + diffCol->GetHeight()) * 0.5f) * normal.y;
-		velocity.y = velocity.y * FRAMEWORK.GetDPM();
+
+		sf::Vector2f globalRight = { 1.0f, 0.0f };
+		sf::Vector2f localRight = Utils::RotateWithPivot({0.0f, 0.0f}, { 1.0f, 0.0f }, rotation);
+
+		sf::Vector2f globalProjection = Utils::GetProjection(globalRight, (thisCol->GetCenter() - diffCol->GetCenter()));
+		sf::Vector2f localProjection = Utils::GetProjection(localRight, (thisCol->GetCenter() - diffCol->GetCenter()));
+
+		cout << (thisCol->GetCenter().y - diffCol->GetCenter().y) << endl;
+		cout << (globalProjection.y - localProjection.y) << endl;
+		gameObject.SetPosition(thisCol->GetCenter().x, (thisCol->GetCenter().y - diffCol->GetCenter().y) + (globalProjection.y - localProjection.y));
 	}
 }
 

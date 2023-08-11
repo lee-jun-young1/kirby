@@ -22,6 +22,7 @@
 #include <Utils.h>
 #include <Controller.h>
 #include <Kirby.h>
+#include <Mob.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -45,6 +46,12 @@ void SceneExample::Enter()
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
 	Scene::Enter();
+
+
+	GameObject* star = FindGameObject("Star");
+	Animation* starAni = (Animation*)star->GetComponent(ComponentType::Animation);
+	starAni->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
+	starAni->Play();
 
 	Reset();
 }
@@ -70,6 +77,45 @@ void SceneExample::Init()
 
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
+	kirby->sortLayer = 1;
+	
+	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
+	suction->SetKirby(kirby);
+	suction->SetActive(false);
+
+	kirby->SetSuction(suction);
+
+	SpriteGO* star = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Star.png", "Star"));
+	star->SetActive(false);
+	Animation* starAni = (Animation*)star->AddComponent(new Animation(*star));
+	RigidBody2D* starRig = (RigidBody2D*)star->AddComponent(new RigidBody2D(*star));
+
+	kirby->SetStarEffect(star);
+
+
+
+	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempGround1->SetSize({ 24.0f, 24.0f });
+	//tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempGround1->SetOrigin(Origins::BC);
+	//tempGround1->SetPosition(kirby->GetPosition() + sf::Vector2f(24.0f, -24.0f));
+	//BoxCollider* boxCol1 = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+
+	for (int i = 0; i < 4; i++)
+	{
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)i, "", "Suctionable"));
+		suctionAble->SetSize({ 24.0f, 24.0f });
+		suctionAble->physicsLayer = (int)PhysicsLayer::Ground;
+		suctionAble->SetOrigin(Origins::BC);
+		suctionAble->SetPosition(kirby->GetPosition() + sf::Vector2f(-24.0f + i * 48.0f, 0.0f));
+		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+		suctionAbleCol->SetRigidbody(rig);
+		rig->SetGravity(false);
+	}
+
 
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
@@ -81,13 +127,13 @@ void SceneExample::Init()
 	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
 
 
-	RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempGround2->SetSize({ 20.0f, 100.0f });
-	tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
-	tempGround2->SetOrigin(Origins::TC);
-	tempGround2->SetPosition({ 0.0f, 0.0f });
-	BoxCollider* boxCol2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
-	boxCol2->SetRotationOffset(30.0f);
+	//RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempGround2->SetSize({ 100.0f, 100.0f });
+	//tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempGround2->SetOrigin(Origins::TC);
+	//tempGround2->SetPosition({ 0.0f, 0.0f });
+	//BoxCollider* boxCol2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
+	//boxCol2->SetRotationOffset(30.0f);
 
 
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));

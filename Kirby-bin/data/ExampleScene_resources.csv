@@ -1,5 +1,8 @@
 "RESOURCE_Types(0. Texture, 1. Font, 2.SoundClip, 3. AnimationClip)",RESOURCE_PATH
 0,sprites/kirby/Class_Normal.png
+0,sprites/kirby/Class_Cutter.png
+0,sprites/kirby/Class_Bomb.png
+0,sprites/kirby/Class_Beam.png
 3,animations/Kirby/Kirby_BalloonShot.csv
 3,animations/Kirby/Kirby_BalloonEat.csv
 3,animations/Kirby/Kirby_BalloonFlyIdle.csv
@@ -30,3 +33,5 @@
 4,fonts/DefaultFont_Data.csv
 0,fonts/ScoreFont.png
 4,fonts/ScoreFont_Data.csv
+0,sprites/effects/Star.png
+3,animations/Effect/Star.csv

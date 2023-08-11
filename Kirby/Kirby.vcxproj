@@ -218,6 +218,7 @@
     <ClCompile Include="Framework\PhysicsManager.cpp" />
     <ClCompile Include="Kirby\GameObject\Player.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Playable.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Mob.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Example\Scenes\SceneExample.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="Framework\SpriteFont.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Skill.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Suction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
@@ -300,6 +302,7 @@
     <ClInclude Include="Kirby\Scene\MapToolScene.h" />
     <ClInclude Include="Kirby\GameObject\Player.h" />
     <ClInclude Include="Kirby\GameObject\Player\Playable.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Mob.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Example\Scenes\SceneExample.h" />
@@ -310,6 +313,7 @@
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\UIButton.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Suction.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="3rd\json\json_valueiterator.inl" />

@@ -12,7 +12,8 @@ protected:
 	string name;
 
 	sf::Vector2f position;
-	float rotation;
+	float rotation; 
+	sf::Vector2f scale;
 
 	sf::Vector2f size;
 
@@ -38,6 +39,10 @@ public:
 	virtual void SetPosition(const sf::Vector2f& position);
 
 	virtual void SetPosition(const float& x, const float& y);
+
+	sf::Vector2f GetScale() { return scale; }
+	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
+
 
 	virtual void SetOrigin(const Origins& origin) {};
 	virtual void SetOrigin(const sf::Vector2f& origin);

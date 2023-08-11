@@ -177,6 +177,12 @@
     <ClCompile Include="Kirby\GameObject\Player\Kirby.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Player\Suction.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Player\Mob.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -381,6 +387,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\Player\Kirby.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Player\Suction.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Player\Mob.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -87,5 +87,14 @@ enum class StageIndex
 {
 	None = -1,
 };
+
+enum class KirbyAbility
+{
+	None,
+	Cutter,
+	Beam,
+	Bomb,
+};
+
 #define UILayer 100
 #include "AnimationClip.h"

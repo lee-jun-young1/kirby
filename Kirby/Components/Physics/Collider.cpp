@@ -48,7 +48,8 @@ bool Collider::CheckCross(Collider* col)
 
 sf::Vector2f Collider::GetNormal(Collider* col)
 {
-	sf::Vector2f colCen = Utils::RotateWithPivot(GetCenter(), col->GetCenter(), -(GetRotationOffset() + GetGameObject().GetRotation()));
+	float rotation = GetRotationOffset() + GetGameObject().GetRotation();
+	sf::Vector2f colCen = Utils::RotateWithPivot(GetCenter(), col->GetCenter(), -(rotation));
 	sf::Vector2f val = (colCen - GetCenter());
 	val.x /= GetWidth() + col->GetWidth();
 	val.y /= GetHeight() + col->GetHeight();
@@ -58,14 +59,15 @@ sf::Vector2f Collider::GetNormal(Collider* col)
 	{
 		//cout << " Y " << endl;
 		result.x = val.x > 0.0f ? 1.0f : -1.0f;
-		//result.y = (val.y < 0.0f ? 1.0f : -1.0f);
-		result.y = 1.0f;
 	}
 	else 
 	{
 		//cout << " X " << endl;
 		result.y = (val.y < 0.0f ? 1.0f : -1.0f);
 	}
+	result = Utils::RotateWithPivot({ 0.0f, 0.0f }, result, -(rotation));
+	//result.x = result.x > 0.0f ? 1.0f : result.x < 0.0f ? -1.0f : 0.0f;
+	//result.y = result.y > 0.0f ? 1.0f : result.y < 0.0f ? -1.0f : 0.0f;
 
 	return result;
 }
