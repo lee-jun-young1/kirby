@@ -4,7 +4,9 @@
 MapToolCell::MapToolCell(const string& name)
 	:RectangleShapeGO(name)
 {
-
+	SetFillColor(sf::Color::Transparent);
+	SetOutlineThickness(0.5f);
+	SetOutlineColor(sf::Color::White);
 }
 
 MapToolCell::~MapToolCell()
@@ -42,6 +44,7 @@ void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
 		return;
 	}
 	SpriteGO* instance = new SpriteGO(*gameObject);
+	instance->sprite.setColor(sf::Color(255, 255, 255, 255));
 	instance->sortLayer = layer;
 	std::cout
 		<< "Name: " << instance->GetName()
