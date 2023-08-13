@@ -10,34 +10,33 @@ class MapToolScene : public Scene
 protected:
 	StageIndex stageIndex;
 
-	RectangleShapeGO* menuUI;
-	sf::Vector2f paletteSpace = { 1.f, 1.f };
-	sf::Vector2f paletteScale = { 0.5f, 0.5f };
-
-	std::list<MapToolCell> cells;
+	std::vector<std::vector<MapToolCell>> cells;
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 	int cellHorizontalCount;
 	int cellVerticalCount;
 
 	sf::Vector2i originalSize;
 	sf::Vector2i mapSize;
-	RectangleShapeGO* currentGameObject = nullptr;
 	SpriteGO* currentGO = nullptr;
 
-	sf::Vector2f worldMovement;
-	float uiSpeed = 150.f;
+	float uiSpeed = 200.f;
+
+	RectangleShapeGO* menuBase;
+	sf::Vector2f paletteSpace = { 1.f, 1.f };
+	sf::Vector2f paletteScale = { 0.5f, 0.5f };
 
 	int layer = 0;
 	bool drawCurrentLayerOnly = false;
 
-	Door* prevDoor;
+	//temp
+	SpriteGO* prevGO = nullptr;
 	sf::Vector2f doorMovePosition;
+
 public:
 	MapToolScene();
 	~MapToolScene();
 
 	MapToolCell* GetCell(const sf::Vector2f& position);
-	void SelectGameObject(RectangleShapeGO* gameObject);
 	void SelectGameObject(SpriteGO* gameObject);
 
 	void ClearCells();
@@ -55,12 +54,17 @@ public:
 	void SaveData(const std::wstring& path);
 	void LoadData(const std::wstring& path);
 
-	const std::wstring GetFilePathWithOpenWindow();
-	const std::wstring GetSaveFileNameWithOpenWindow();
+	const std::wstring GetLoadFilePathWithOpenWindow();
+	const std::wstring GetSaveFilePathWithOpenWindow();
 
 	Json::Value LoadFromJsonFile(const std::string& path);
 	SpriteGO* CopyUIButton(const std::string& name);
 	void SetLayer(int layer);
-	void ReSizeMap(bool UpDown);
+	void ReSizeMap(bool expand);
+
+	void AddColumn();
+	void DelColumn();
+	void AddRow();
+	void DelRow();
 };
 
