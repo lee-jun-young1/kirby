@@ -512,17 +512,14 @@ void MapToolScene::LoadData(const std::wstring& path)
 	}
 
 	ClearCells();
-	mapSize.x = rootNode["MapSize"]["x"].asInt();
-	mapSize.y = rootNode["MapSize"]["y"].asInt();
-	cellHorizontalCount = floor(mapSize.x / cellSize.x);
-	cellVerticalCount = floor(mapSize.y / cellSize.y);
-	
-	for (int i = 0; i < floor(mapSize.y / cellSize.y) - cellVerticalCount; i++)
+	int AddColumnCount = floor(rootNode["MapSize"]["x"].asInt() - originalSize.x) / cellSize.x;
+	int AddRowCount = floor(rootNode["MapSize"]["y"].asInt() - originalSize.y) / cellSize.y;
+	for (int j = 0; j < AddColumnCount; j++)
 	{
-		for (int j = 0; j < floor(mapSize.x / cellSize.x) - cellHorizontalCount; j++)
-		{
-			AddColumn();
-		}
+		AddColumn();
+	}
+	for (int i = 0; i < AddRowCount; i++)
+	{
 		AddRow();
 	}
 
