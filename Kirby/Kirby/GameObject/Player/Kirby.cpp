@@ -86,7 +86,7 @@ void Kirby::SitKeyEnd()
 void Kirby::JumpKey()
 {
 	animator->SetEvent("PressJump");
-	//rigidbody->AddForce({ 0.0f, -150.0f });
+	rigidbody->AddForce({ 0.0f, -150.0f });
 }
 
 void Kirby::SetAbility()
@@ -128,7 +128,6 @@ void Kirby::Init()
 	collider->SetOffset({ -12.0f, -24.0f });
 
 	rigidbody = (RigidBody2D*)AddComponent(new RigidBody2D(*this));
-	rigidbody->SetGravity(false);
 	collider->SetRigidbody(rigidbody);
 }
 
