@@ -37,11 +37,42 @@ void MapToolCell::AddGameObject(RectangleShapeGO* gameObject, int layer)
 	gameObjects.push_back(instance);
 }
 
-void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
+//void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
+//{
+//	if (gameObject == nullptr)
+//	{
+//		return;
+//	}
+//	SpriteGO* instance = new SpriteGO(*gameObject);
+//	instance->sprite.setColor(sf::Color(255, 255, 255, 255));
+//	instance->sortLayer = layer;
+//	std::cout
+//		<< "Name: " << instance->GetName()
+//		<< " PositionX: " << instance->GetPosition().x
+//		<< " PositionY: " << instance->GetPosition().y
+//		<< " layer: " << instance->sortLayer
+//		<< std::endl;
+//	for (auto it = gameObjects.begin(); it != gameObjects.end();)
+//	{
+//		if ((*it)->sortLayer == instance->sortLayer)
+//		{
+//			delete* it;
+//			it = gameObjects.erase(it);
+//		}
+//		else
+//		{
+//			it++;
+//		}
+//	}
+//
+//	gameObjects.push_back(instance);
+//}
+
+SpriteGO* MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
 {
 	if (gameObject == nullptr)
 	{
-		return;
+		return nullptr;
 	}
 	SpriteGO* instance = new SpriteGO(*gameObject);
 	instance->sprite.setColor(sf::Color(255, 255, 255, 255));
@@ -66,6 +97,7 @@ void MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
 	}
 
 	gameObjects.push_back(instance);
+	return instance;
 }
 
 void MapToolCell::RemoveGameObject(int layer)

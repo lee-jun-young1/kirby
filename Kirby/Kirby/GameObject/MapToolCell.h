@@ -19,7 +19,8 @@ public:
 	const std::list<GameObject*>& GetGameObjects() const { return gameObjects; }
 
 	void AddGameObject(RectangleShapeGO* gameObject, int layer);
-	void AddGameObject(SpriteGO* gameObject, int layer);
+	//void AddGameObject(SpriteGO* gameObject, int layer);
+	SpriteGO* AddGameObject(SpriteGO* gameObject, int layer);
 
 	void RemoveGameObject(int layer);
 	void RemoveAllGameObject();
