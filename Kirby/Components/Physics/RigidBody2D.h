@@ -7,6 +7,9 @@ protected:
 	bool useGravity;
 	bool isVerticalCollided;
 	sf::Vector2f velocity;
+
+	sf::CircleShape debugShape[4];
+	sf::CircleShape debugShape2;
 public:
 	virtual bool IsEnable();
 	virtual void SetEnable(bool isEnable);
@@ -22,7 +25,8 @@ public:
 	virtual void Init() override;
 	virtual void Reset() override { velocity = { 0.0f, 0.0f }; };
 	virtual void Update(float deltaTime) override;
-	virtual void Draw(sf::RenderWindow& window) override;
+	virtual void Draw(sf::RenderWindow& window) override {};
+	virtual void OnGUI(sf::RenderWindow& window) override;
 	virtual void Release() override;
 	void OnCollisionEnter(Collider* thisCol, Collider* diffCol);
 	void OnCollisionStay(Collider* thisCol, Collider* diffCol);

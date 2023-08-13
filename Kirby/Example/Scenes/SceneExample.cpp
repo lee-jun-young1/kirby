@@ -131,9 +131,10 @@ void SceneExample::Init()
 	tempGround2->SetSize({ 100.0f, 100.0f });
 	tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
 	tempGround2->SetOrigin(Origins::MC);
-	tempGround2->SetPosition({ 0.0f, 100.0f });
+	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	tempGround2->SetPosition({ 0.0f, 0.0f });
 	BoxCollider* boxCol2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
-	//boxCol2->SetRotationOffset(30.0f);
+	boxCol2->SetRotationOffset(30.0f);
 
 
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
