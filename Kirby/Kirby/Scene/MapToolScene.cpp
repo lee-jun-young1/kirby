@@ -204,15 +204,15 @@ void MapToolScene::Init()
 void MapToolScene::Update(float dt)
 {
 	Scene::Update(dt);
-	sf::Vector2f viewportPos = worldView.getCenter() - worldView.getSize() * 0.5f ;
-	sf::Vector2f cellOrigin = { (float)((int)viewportPos.x % (int)cellSize.x), (float)((int)viewportPos.y % (int)cellSize.y) };
-	for (auto& row : cells)
-	{
-		for (auto& col : row)
-		{
-			col.SetOrigin(cellOrigin);
-		}
-	}
+	//sf::Vector2f viewportPos = worldView.getCenter() - worldView.getSize() * 0.5f ;
+	//sf::Vector2f cellOrigin = { (float)((int)viewportPos.x % (int)cellSize.x), (float)((int)viewportPos.y % (int)cellSize.y) };
+	//for (auto& row : cells)
+	//{
+	//	for (auto& col : row)
+	//	{
+	//		col.SetOrigin(cellOrigin);
+	//	}
+	//}
 
 	//Move
 	if (Input.GetKey(sf::Keyboard::Numpad8) && worldView.getCenter().y - (worldView.getSize().y * 0.5f) > 0.0f)
@@ -254,7 +254,7 @@ void MapToolScene::Update(float dt)
 		SelectGameObject((SpriteGO*)FindGameObject("row-6-column-6"));
 	}
 
-	auto cell = GetCell(ScreenToWorldPosition(Input.GetMousePosition()) - cellOrigin);
+	auto cell = GetCell(ScreenToWorldPosition(Input.GetMousePosition()));
 	if (menuBase->GetGlobalBounds().contains(ScreenToUIPosition(Input.GetMousePosition())))
 	{
 		cell = nullptr;
@@ -374,8 +374,6 @@ void MapToolScene::Draw(sf::RenderWindow& window)
 		}
 	}
 
-	window.setView(uiView);
-
 	for (auto& row : cells)
 	{
 		for (auto& col : row)
@@ -383,6 +381,8 @@ void MapToolScene::Draw(sf::RenderWindow& window)
 			col.Draw(window);
 		}
 	}
+	window.setView(uiView);
+
 
 	for (auto go : gameObjects)
 	{
@@ -512,8 +512,8 @@ void MapToolScene::LoadData(const std::wstring& path)
 	}
 
 	ClearCells();
-	int AddColumnCount = floor(rootNode["MapSize"]["x"].asInt() - originalSize.x) / cellSize.x;
-	int AddRowCount = floor(rootNode["MapSize"]["y"].asInt() - originalSize.y) / cellSize.y;
+	int AddColumnCount = floor(rootNode["MapSize"]["x"].asInt() - mapSize.x) / cellSize.x;
+	int AddRowCount = floor(rootNode["MapSize"]["y"].asInt() - mapSize.y) / cellSize.y;
 	for (int j = 0; j < AddColumnCount; j++)
 	{
 		AddColumn();
