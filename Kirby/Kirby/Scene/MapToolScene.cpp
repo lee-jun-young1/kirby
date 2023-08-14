@@ -38,8 +38,16 @@ void MapToolScene::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
+	paletteView.setSize(menuBase->GetSize());
+	paletteView.setViewport(sf::FloatRect(0.7f, 0.f, 0.3f, 1.f));
+	paletteView.setCenter({ menuBase->GetGlobalBounds().left + menuBase->GetGlobalBounds().width * 0.5f, menuBase->GetGlobalBounds().height * 0.5f});
+
 	Json::Value mapData = LoadFromJsonFile("sprites/map/Green_Green_Data.json");
 	sf::Vector2f buttonPosition = { menuBase->GetPosition().x, menuBase->GetSize().y * 0.2f };
+	std::cout
+		<< "posX: " << buttonPosition.x
+		<< " posY: " << buttonPosition.y
+		<< std::endl;
 	for (int i = 0; i < mapData["Palettes"].size(); i++)
 	{
 		Json::Value palette = mapData["Palettes"][i];
@@ -50,28 +58,29 @@ void MapToolScene::Enter()
 		button->SetCategory(cate);
 		button->sprite.setTextureRect(rect);
 		button->sprite.setScale(paletteScale);
-		button->sortLayer = UILayer + palette["Layer"].asInt();
+		button->sortLayer = paletteLayer + palette["Layer"].asInt();
 		if (i % 6 == 0)
 		{
 			buttonPosition.x = menuBase->GetPosition().x;
-			buttonPosition.y += cellSize.y * paletteScale.y;
+			buttonPosition.y += cellSize.y * paletteScale.y + paletteSpace.x;
 		}
 		else
 		{
-			buttonPosition.x += cellSize.x * paletteScale.x;
+			buttonPosition.x += cellSize.x * paletteScale.x + paletteSpace.y;
 		}
-		button->SetPosition(buttonPosition);
+		button->SetPosition((buttonPosition));
 		button->additionalData = palette;
 		button->OnClick = [this, button]() {
 			SelectGameObject(button);
 		};
+		palettes.push_back(button);
 	}
 	Scene::Enter();
 
 	UIButton* saveBtn = (UIButton*)AddGameObject(new UIButton("sprites/button/button_save.png", "Save"));
 	saveBtn->sprite.setTexture(*Resources.GetTexture(saveBtn->textureID));
 	saveBtn->sprite.setScale({ 0.2f, 0.2f });
-	saveBtn->sortLayer = UILayer + 100;
+	saveBtn->sortLayer = paletteLayer - 1;
 	saveBtn->SetOrigin(Origins::TL);
 	saveBtn->SetPosition({ menuBase->GetPosition().x, 0 });
 	saveBtn->OnClick = [this]() {
@@ -81,7 +90,7 @@ void MapToolScene::Enter()
 	UIButton* loadBtn = (UIButton*)AddGameObject(new UIButton("sprites/button/button_load.png", "Save"));
 	loadBtn->sprite.setTexture(*Resources.GetTexture(loadBtn->textureID));
 	loadBtn->sprite.setScale({ 0.2f, 0.2f });
-	loadBtn->sortLayer = UILayer + 100;
+	loadBtn->sortLayer = paletteLayer - 1;
 	loadBtn->SetOrigin(Origins::TL);
 	loadBtn->SetPosition({ saveBtn->GetPosition().x + saveBtn->GetSize().x * 0.2f, 0 });
 	loadBtn->OnClick = [this]() {
@@ -91,7 +100,7 @@ void MapToolScene::Enter()
 	UIButton* clearBtn = (UIButton*)AddGameObject(new UIButton("sprites/button/button_clear.png", "Save"));
 	clearBtn->sprite.setTexture(*Resources.GetTexture(clearBtn->textureID));
 	clearBtn->sprite.setScale({ 0.2f, 0.2f });
-	clearBtn->sortLayer = UILayer + 100;
+	clearBtn->sortLayer = paletteLayer - 1;
 	clearBtn->SetOrigin(Origins::TL);
 	clearBtn->SetPosition({ loadBtn->GetPosition().x + loadBtn->GetSize().x * 0.2f, 0 });
 	clearBtn->OnClick = [this]() {
@@ -108,6 +117,15 @@ MapToolCell* MapToolScene::GetCell(const sf::Vector2f& position)
 		{
 			if (col.GetGlobalBounds().contains(position))
 			{
+				if (col.GetGameObjects().size() > 0)
+				{
+					std::cout
+					<< " left: " << col.GetGlobalBounds().left
+					<< " top: " << col.GetGlobalBounds().top
+					<< " cellX: " << col.GetPosition().x
+					<< " cellY: " << col.GetPosition().y
+					<< std::endl;
+				}
 				return &col;
 			};
 		}
@@ -133,7 +151,8 @@ void MapToolScene::SelectGameObject(SpriteGO* gameObject)
 	instance->sprite.setColor(sf::Color(255,255,255,128));
 	instance->SetOrigin(Origins::TL);
 	instance->SetActive(true);
-	SetLayer(instance->sortLayer - UILayer);
+	instance->SetPosition(PalettePositionToScreen(instance->GetPosition()));
+	SetLayer(instance->sortLayer - paletteLayer);
 	instance->sortLayer = UILayer - 1;
 	currentGO = instance;
 }
@@ -147,6 +166,22 @@ void MapToolScene::ClearCells()
 			col.RemoveAllGameObject();
 		}
 	}
+
+	//sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
+	//cellHorizontalCount = floor(mapSize.x / cellSize.x);
+	//cellVerticalCount = floor(mapSize.y / cellSize.y);
+	//for (int i = 0; i < cellVerticalCount; i++)
+	//{
+	//	std::vector<MapToolCell> row;
+	//	for (int j = 0; j < cellHorizontalCount; j++)
+	//	{
+	//		MapToolCell cell;
+	//		cell.SetSize(cellSize);
+	//		cell.SetPosition({ j * cellSize.x, i * cellSize.y });
+	//		row.push_back(cell);
+	//	}
+	//	cells.push_back(row);
+	//}
 }
 
 void MapToolScene::ClearCellsByCategory(const Category& cate)
@@ -170,9 +205,10 @@ void MapToolScene::Init()
 
 	originalSize = { 24 * 20, 24 * 20 };
 	mapSize = originalSize;
-	TextGameObj* layerText = (TextGameObj*)AddGameObject(new TextGameObj("fonts/D2Coding.ttc", 12, "layer"));
+	TextGameObj* layerText = (TextGameObj*)AddGameObject(new TextGameObj("fonts/D2Coding.ttc", 20, "Layer"));
+	layerText->text.setScale({0.3f, 0.3f});
 	layerText->SetFillColor(sf::Color::Magenta);
-	layerText->sortLayer = 999;
+	layerText->sortLayer = paletteLayer - 1;
 	layerText->SetPosition(10.f, 10.f);
 	SetLayer(layer);
 
@@ -190,11 +226,28 @@ void MapToolScene::Init()
 		}
 		cells.push_back(row);
 	}
+	
+	
+	for (int i = 0; i < (windowSize.y / cellSize.y) + 2; i++)
+	{
+		for (int j = 0; j < (windowSize.x / cellSize.x) + 2; j++)
+		{
+			RectangleShapeGO* grid = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("gird"));
+			grid->SetSize(cellSize);
+			grid->SetOrigin(Origins::TL);
+			grid->SetOutlineThickness(0.2f);
+			grid->SetFillColor(sf::Color::Transparent);
+			grid->SetOutlineColor(sf::Color::White);
+			grid->SetPosition({ j * cellSize.x, i * cellSize.y });
+			grid->sortLayer = UILayer;
+			grids.push_back(grid);
+		}
+	}
 
 	auto size = FRAMEWORK.GetWindowSize();
 	menuBase = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("MenuBase"));
 	menuBase->SetSize({ size.x * 0.3f, size.y });
-	menuBase->SetFillColor(sf::Color::Green);
+	menuBase->SetFillColor(sf::Color(72, 72, 72));
 	menuBase->sortLayer = UILayer;
 	menuBase->SetOrigin(Origins::TL);
 	menuBase->SetPosition({ size.x * 0.7f, 0.f });
@@ -204,8 +257,8 @@ void MapToolScene::Init()
 void MapToolScene::Update(float dt)
 {
 	Scene::Update(dt);
-	//sf::Vector2f viewportPos = worldView.getCenter() - worldView.getSize() * 0.5f ;
-	//sf::Vector2f cellOrigin = { (float)((int)viewportPos.x % (int)cellSize.x), (float)((int)viewportPos.y % (int)cellSize.y) };
+	sf::Vector2f viewportPos = worldView.getCenter() - worldView.getSize() * 0.5f ;
+	sf::Vector2f cellOrigin = { (float)((int)viewportPos.x % (int)cellSize.x), (float)((int)viewportPos.y % (int)cellSize.y) };
 	//for (auto& row : cells)
 	//{
 	//	for (auto& col : row)
@@ -213,24 +266,49 @@ void MapToolScene::Update(float dt)
 	//		col.SetOrigin(cellOrigin);
 	//	}
 	//}
+	for (auto grid : grids)
+	{
+		grid->SetOrigin(cellOrigin);
+	}
 
 	//Move
-	if (Input.GetKey(sf::Keyboard::Numpad8) && worldView.getCenter().y - (worldView.getSize().y * 0.5f) > 0.0f)
+	if (Input.GetKey(sf::Keyboard::W) && worldView.getCenter().y - (worldView.getSize().y * 0.5f) > 0.0f)
 	{
 		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y - uiSpeed * dt);
 	}
-	if (Input.GetKey(sf::Keyboard::Numpad2) && worldView.getCenter().y + (worldView.getSize().y * 0.5f) < mapSize.y)
+	if (Input.GetKey(sf::Keyboard::S) && worldView.getCenter().y + (worldView.getSize().y * 0.5f) < mapSize.y)
 	{
 		worldView.setCenter(worldView.getCenter().x, worldView.getCenter().y + uiSpeed * dt);
 	}
-	if (Input.GetKey(sf::Keyboard::Numpad4) && worldView.getCenter().x - (worldView.getSize().x * 0.5f) > 0.0f)
+	if (Input.GetKey(sf::Keyboard::A) && worldView.getCenter().x - (worldView.getSize().x * 0.5f) > 0.0f)
 	{
 		worldView.setCenter(worldView.getCenter().x - uiSpeed * dt, worldView.getCenter().y);
 	}
-	if (Input.GetKey(sf::Keyboard::Numpad6) && worldView.getCenter().x + (worldView.getSize().x * 0.5f) < mapSize.x + menuBase->GetSize().x)
+	if (Input.GetKey(sf::Keyboard::D) && worldView.getCenter().x + (worldView.getSize().x * 0.5f) < mapSize.x + menuBase->GetSize().x)
 	{
 		worldView.setCenter(worldView.getCenter().x + uiSpeed * dt, worldView.getCenter().y);
 	}
+	//paletteMove
+	if (Input.GetMouseScrollDelta() != 0)
+	{
+		if (Input.GetMouseScrollDelta(true) < 0 && palettes[0]->GetPosition().y > menuBase->GetSize().y * 0.2f)
+		{
+			return;
+		}
+		for (auto palette : palettes)
+		{
+			palette->SetPosition(palette->GetPosition().x, palette->GetPosition().y - Input.GetMouseScrollDelta(true) * scrollForce);
+			if (palette->GetPosition().y < menuBase->GetSize().y * 0.2f)
+			{
+				palette->SetActive(false);
+			}
+			else
+			{
+				palette->SetActive(true);
+			}
+		}
+	}
+
 
 	//Layer
 	if (Input.GetKeyDown(sf::Keyboard::PageUp))
@@ -386,7 +464,7 @@ void MapToolScene::Draw(sf::RenderWindow& window)
 
 	for (auto go : gameObjects)
 	{
-		if (go->sortLayer < UILayer)
+		if (go->sortLayer < UILayer || go->sortLayer > paletteLayer)
 		{
 			continue;
 		}
@@ -396,6 +474,18 @@ void MapToolScene::Draw(sf::RenderWindow& window)
 		}
 	}
 
+	window.setView(paletteView);
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer < paletteLayer)
+		{
+			continue;
+		}
+		if (go->IsActive())
+		{
+			go->Draw(window);
+		}
+	}
 }
 
 void MapToolScene::Release()
@@ -404,7 +494,30 @@ void MapToolScene::Release()
 
 void MapToolScene::Reset()
 {
-
+	for (auto& row : cells)
+	{
+		for (auto& col : row)
+		{
+			col.RemoveAllGameObject();
+		}
+	}
+	cells.clear();
+	
+	mapSize = originalSize;
+	cellHorizontalCount = floor(mapSize.x / cellSize.x);
+	cellVerticalCount = floor(mapSize.y / cellSize.y);
+	for (int i = 0; i < cellVerticalCount; i++)
+	{
+		std::vector<MapToolCell> row;
+		for (int j = 0; j < cellHorizontalCount; j++)
+		{
+			MapToolCell cell;
+			cell.SetSize(cellSize);
+			cell.SetPosition({ j * cellSize.x, i * cellSize.y });
+			row.push_back(cell);
+		}
+		cells.push_back(row);
+	}
 }
 
 void MapToolScene::SaveData(const std::wstring& path)
@@ -511,7 +624,7 @@ void MapToolScene::LoadData(const std::wstring& path)
 		return;
 	}
 
-	ClearCells();
+	Reset();
 	int AddColumnCount = floor(rootNode["MapSize"]["x"].asInt() - mapSize.x) / cellSize.x;
 	int AddRowCount = floor(rootNode["MapSize"]["y"].asInt() - mapSize.y) / cellSize.y;
 	for (int j = 0; j < AddColumnCount; j++)
@@ -551,8 +664,14 @@ void MapToolScene::LoadData(const std::wstring& path)
 		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
-		go->SetItemType((ItemType)item["type"].asInt());
+		go->SetItemType((ItemType)item["Type"].asInt());
 		cell = GetCell(loadPosition);
+		std::cout
+			<< "cellX: " << cell->GetPosition().x
+			<< " cellY: " << cell->GetPosition().y
+			<< " goX: " << loadPosition.x
+			<< " goY: " << loadPosition.y
+			<< std::endl;
 		cell->AddGameObject(go, item["SortLayer"].asInt());
 	}
 
@@ -563,7 +682,7 @@ void MapToolScene::LoadData(const std::wstring& path)
 		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
-		go->SetEnemyType((EnemyType)item["type"].asInt());
+		go->SetEnemyType((EnemyType)item["Type"].asInt());
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, item["SortLayer"].asInt());
 	}
@@ -690,7 +809,7 @@ SpriteGO* MapToolScene::CopyUIButton(const std::string& paletteID)
 void MapToolScene::SetLayer(int layer)
 {
 	this->layer = layer;
-	TextGameObj* findGo = (TextGameObj*)FindGameObject("layer");
+	TextGameObj* findGo = (TextGameObj*)FindGameObject("Layer");
 	std::stringstream ss;
 	ss << "Layer: " << this->layer;
 	if (drawCurrentLayerOnly)
@@ -740,10 +859,7 @@ void MapToolScene::DelColumn()
 	// 열 제거
 	for (int i = 0; i < cellVerticalCount; i++)
 	{
-		for (auto go : cells[i][cellHorizontalCount - 1].GetGameObjects())
-		{
-			delete go;
-		}
+		cells[i][cellHorizontalCount - 1].RemoveAllGameObject();
 		cells[i].pop_back();
 	}
 	cellHorizontalCount--;
@@ -769,12 +885,18 @@ void MapToolScene::DelRow()
 	// 행 제거
 	for (auto& cell : cells[cellVerticalCount - 1])
 	{
-		for (auto go : cell.GetGameObjects())
-		{
-			delete go;
-		}
+		cell.RemoveAllGameObject();
 	}
 	cells.pop_back();
 	cellVerticalCount--;
 	mapSize.y -= (int)cellSize.y;
+}
+
+sf::Vector2f MapToolScene::ScreenToPalettePosition(sf::Vector2f screenPos)
+{
+	return window.mapPixelToCoords((sf::Vector2i)screenPos, paletteView);
+}
+sf::Vector2f MapToolScene::PalettePositionToScreen(sf::Vector2f palettePos)
+{
+	return (sf::Vector2f)window.mapCoordsToPixel(palettePos, paletteView);
 }

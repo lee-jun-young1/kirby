@@ -5,11 +5,13 @@
 
 class SpriteGO;
 class Door;
+class UIButton;
 class MapToolScene : public Scene
 {
 protected:
 	StageIndex stageIndex;
 
+	std::vector<RectangleShapeGO*> grids;
 	std::vector<std::vector<MapToolCell>> cells;
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 	int cellHorizontalCount;
@@ -20,17 +22,23 @@ protected:
 	SpriteGO* currentGO = nullptr;
 
 	float uiSpeed = 200.f;
-
-	RectangleShapeGO* menuBase;
-	sf::Vector2f paletteSpace = { 1.f, 1.f };
-	sf::Vector2f paletteScale = { 0.5f, 0.5f };
+	float scrollForce = 50.f;
 
 	int layer = 0;
 	bool drawCurrentLayerOnly = false;
 
-	//temp
+	//door
 	SpriteGO* prevGO = nullptr;
 	sf::Vector2f doorMovePosition;
+
+	//palette
+	RectangleShapeGO* menuBase;
+	std::vector<UIButton*> palettes;
+	sf::View paletteView;
+	int paletteLayer = UILayer + 100;
+	sf::Vector2f menuSizeScale = { 0.3f, 0.f };
+	sf::Vector2f paletteSpace = { 1.f, 1.f };
+	sf::Vector2f paletteScale = { 0.5f, 0.5f };
 
 public:
 	MapToolScene();
@@ -66,5 +74,10 @@ public:
 	void DelColumn();
 	void AddRow();
 	void DelRow();
+
+	sf::Vector2f ScreenToPalettePosition(sf::Vector2f screenPos);
+
+	sf::Vector2f PalettePositionToScreen(sf::Vector2f palettePos);
+
 };
 
