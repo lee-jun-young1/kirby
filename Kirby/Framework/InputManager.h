@@ -50,7 +50,7 @@ public:
 	bool GetMouseButton(sf::Mouse::Button button);
 	bool GetMouseButtonUp(sf::Mouse::Button button);
 
-	float GetMouseScrollDelta();
+	float GetMouseScrollDelta(bool reverse = false);
 
 	float GetAxis(Axis axis);
 	float GetAxisRaw(Axis axis);

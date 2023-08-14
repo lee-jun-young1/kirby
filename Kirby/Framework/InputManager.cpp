@@ -124,9 +124,9 @@ bool InputManager::GetMouseButtonUp(sf::Mouse::Button button)
 	return std::find(upList.begin(), upList.end(), code) != upList.end();
 }
 
-float InputManager::GetMouseScrollDelta()
+float InputManager::GetMouseScrollDelta(bool reverse)
 {
-	return scrollDelta;
+	return (reverse) ? -scrollDelta : scrollDelta;
 }
 
 float InputManager::GetAxis(Axis axis)
