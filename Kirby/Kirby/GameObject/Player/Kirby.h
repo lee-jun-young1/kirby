@@ -8,10 +8,15 @@
 enum class KirbyState
 {
 	Idle,
+	Move,
+	Dash,
 	Balloon,
+	BalloonMove,
+	BalloonFly,
 	Eat,
 	Falling,
 	Jump,
+	DashJump,
 	Collided,
 	Tackle,
 	Suction,
@@ -29,43 +34,98 @@ protected:
     Animator* animator;
 	BoxCollider* collider;
 	RigidBody2D* rigidbody;
+
+	float moveAxisX = 0.0f;
 	float speed = 30.0f;
+	float runSpeed = 60.0f;
 
 	Suction* suction;
 
 	KirbyAbility keepInMouseAbility;
 
 	SpriteGO* starEffect;
-
+	
+	function<void(const float&)> moveKey;
+	function<void(const float&)> dashKey;
+	function<void()> moveKeyEnd;
+	function<void()> chargeKey;
+	function<void()> chargeKeyContinue;
+	function<void()> chargeKeyEnd;
+	function<void()> sitKey;
+	function<void()> sitKeyEnd;
+	function<void()> jumpKey;
+	function<void()> vKey;
+	function<void(float)> update;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
-	virtual void MoveKey(const sf::Vector2f& axis, const float& deltaTime) override;
-	virtual void DashKey(const sf::Vector2f& axis, const float& deltaTime) override;
+
+	void ChangeState(const KirbyState& state);
+
+#pragma region KeyInput
+	// Arrow
+	virtual void MoveKey(const float& axisX) override;
+	virtual void DashKey(const float& axisX) override;
 	virtual void MoveKeyEnd() override;
+
+	// Down
+	virtual void SitKey() override;
+	virtual void SitKeyEnd() override;
+
+	// X
 	virtual void ChargeKey() override;
 	virtual void ChargeKeyContinue() override;
 	virtual void ChargeKeyEnd() override;
-	virtual void SitKey() override;
-	virtual void SitKeyEnd() override;
+
+	// C
 	virtual void JumpKey() override;
 
-	void SetAbility();
-	void SetSuction(Suction* suction) { this->suction = suction; }
-	void SetStarEffect(SpriteGO* starEffect) { this->starEffect = starEffect; }
+	// V
+	virtual void VKey() override;
+#pragma endregion
 
+
+#pragma region Actions
+	// Arrow
+	void Move(const float& axis);
+	void JumpMove(const float& axis);
+	void Dash(const float& axis);
+	void MoveEnd();
+	void JumpMoveEnd();
+
+
+	// ArrowDown
 	void Eat();
 	void Sit();
+	void UnSit();
 
+	// X
 	void ShotStar();
+	void DoSuction();
+	void SuctionEnd();
+
+	// C
+	void Jump();
+	void DashJump();
+	void Tackle();
+
+	// V
+	void UnequipAbility();
+#pragma endregion
+
+	void SetSuction(Suction* suction) { this->suction = suction; }
+	void SetStarEffect(SpriteGO* starEffect) { this->starEffect = starEffect; }
 
 	virtual void Init() override;
 	virtual void Release() override;
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
+	void MoveUpdate(float dt);
+	void RunUpdate(float dt);
+	void TackleUpdate(float dt);
+
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnCollisionEnter(Collider* col) override;
+	virtual void OnCollisionStay(Collider* col) override;
 
-	// Playable을(를) 통해 상속됨
-	virtual void VKey() override;
 };
 

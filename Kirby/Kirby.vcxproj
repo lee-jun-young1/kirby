@@ -230,6 +230,7 @@
     <ClCompile Include="Framework\SpriteFont.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Skill.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Suction.cpp" />
+    <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
@@ -314,6 +315,7 @@
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="Kirby\GameObject\Player\Suction.h" />
+    <ClInclude Include="Kirby\GameObject\ThrowableGround.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="3rd\json\json_valueiterator.inl" />

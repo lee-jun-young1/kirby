@@ -54,10 +54,11 @@ void RigidBody2D::Update(float deltaTime)
 	sf::Vector2f position = gameObject.GetPosition();
 	if (useGravity && !isVerticalCollided)
 	{
-		velocity += sf::Vector2f(0.0f, FRAMEWORK.GetGravity() * FRAMEWORK.GetDPM() * deltaTime);
+		velocity += sf::Vector2f(0.0f, mass * FRAMEWORK.GetGravity() * FRAMEWORK.GetDPM() * deltaTime);
 	}
 	position += velocity * deltaTime;
 	gameObject.SetPosition(position);
+	isVerticalCollided = false;
 }
 
 void RigidBody2D::OnGUI(sf::RenderWindow& window)
@@ -73,15 +74,6 @@ void RigidBody2D::Release()
 {
 }
 
-/// <summary>
-/// 충돌진입시 처리
-/// 주의 : left top이 아닙니다. 파라미터를 잘 살펴봐주세요.
-/// </summary>
-/// <param name="rect">
-/// left = center.x
-/// top = center.y
-/// width, height = col1.size + col2.size
-/// </param>
 void RigidBody2D::OnCollisionEnter(Collider* thisCol, Collider* diffCol)
 {
 	//sf::Rect<float> border = sf::Rect<float>(gameObject.GetPosition().x + GetWidth() * 0.5f, gameObject.GetPosition().y + GetHeight() * 0.5f,
@@ -90,15 +82,21 @@ void RigidBody2D::OnCollisionEnter(Collider* thisCol, Collider* diffCol)
 	sf::Vector2f normal = thisCol->GetNormal(diffCol);
 }
 
-void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
+void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol, const float& deltaTime)
 {
-	
+	if (diffCol->IsTrigger())
+	{
+		isVerticalCollided = false;
+		return;
+	}
+
 	float rotation = diffCol->GetRotationOffset() + diffCol->GetGameObject().GetRotation();
 	bool inversed = ((int)rotation / 180) % 2 == 1;
 
 	sf::Vector2f normal = diffCol->GetNormal(thisCol);
 
-	cout << normal.x << ", " << normal.y << endl;
+	velocity = velocity * (1.0f - drag * deltaTime);
+
 	if (rotation == 0)
 	{
 		if (normal.x > 0.0f)
@@ -143,10 +141,6 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 
 		if (normal.y < 0.0f && velocity.y >= 0.0f)
 		{
-			isVerticalCollided = true;
-			velocity.y = 0.0f;
-
-
 			sf::Vector2f top = rotatedVertex[0];
 			sf::Vector2f left = rotatedVertex[0];
 			sf::Vector2f right = rotatedVertex[0];
@@ -168,24 +162,36 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 
 			sf::Vector2f interPos;
 
-			if (normal.x > 0.0f)
+			float centerX = thisCol->GetCenter().x;
+			if (normal.x > 0.0f && thisCol->GetCenter().x < right.x)
 			{
-				float centerX = thisCol->GetCenter().x;
+				isVerticalCollided = true;
+				velocity.y = 0.0f;
+
 				float t = (top.x - centerX) / (top.x - right.x);
 				interPos = Utils::Lerp(top, right, t);
+				debugShape2.setPosition(interPos.x, interPos.y);
+				//gameObject.SetPosition(gameObject.GetPosition().x, interPos.y - (thisCol->GetHeight() - thisCol->GetGameObject().GetOrigin().y ));
+				gameObject.SetPosition(gameObject.GetPosition().x, interPos.y);
 			}
-			else if (normal.x < 0.0f)
+			else if (normal.x < 0.0f && thisCol->GetCenter().x > left.x)
 			{
-				float centerX = thisCol->GetCenter().x;
+				isVerticalCollided = true;
+				velocity.y = 0.0f;
+
 				float t = (left.x - thisCol->GetCenter().x) / (left.x - top.x);
 				interPos = Utils::Lerp(left, top, t);
+				debugShape2.setPosition(interPos.x, interPos.y);
+				//gameObject.SetPosition(gameObject.GetPosition().x, interPos.y + (thisCol->GetHeight() - thisCol->GetGameObject().GetOrigin().y ));
+				gameObject.SetPosition(gameObject.GetPosition().x, interPos.y);
 			}
-			debugShape2.setPosition(interPos.x, interPos.y);
-			gameObject.SetPosition(gameObject.GetPosition().x, interPos.y + thisCol->GetGameObject().GetOrigin().y * 0.5f - thisCol->GetHeight());
+			else
+			{
+				isVerticalCollided = false;
+			}
 		}
 		else if (normal.y > 0.0f && velocity.y <= 0.0f)
 		{
-			isVerticalCollided = true;
 			velocity.y = 0.0f;
 
 
@@ -210,18 +216,20 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol)
 
 			sf::Vector2f interPos;
 
-			if (normal.x > 0.0f)
+			if (normal.x > 0.0f && thisCol->GetCenter().x < right.x)
 			{
 				float t = (bottom.x - thisCol->GetCenter().x) / (bottom.x - right.x);
 				interPos = Utils::Lerp(bottom, right, t);
+				debugShape2.setPosition(interPos.x, interPos.y);
+				gameObject.SetPosition(gameObject.GetPosition().x, interPos.y + thisCol->GetGameObject().GetOrigin().y * 0.5f + thisCol->GetHeight());
 			}
-			else if (normal.x < 0.0f)
+			else if (normal.x < 0.0f && thisCol->GetCenter().x > left.x)
 			{
 				float t = (left.x - thisCol->GetCenter().x) / (left.x - bottom.x);
 				interPos = Utils::Lerp(left, bottom, t);
+				debugShape2.setPosition(interPos.x, interPos.y);
+				gameObject.SetPosition(gameObject.GetPosition().x, interPos.y + thisCol->GetGameObject().GetOrigin().y * 0.5f + thisCol->GetHeight());
 			}
-			debugShape2.setPosition(interPos.x, interPos.y);
-			gameObject.SetPosition(gameObject.GetPosition().x, interPos.y + thisCol->GetGameObject().GetOrigin().y * 0.5f + thisCol->GetHeight());
 		}
 	}
 }
@@ -230,24 +238,25 @@ void RigidBody2D::OnCollisionExit(sf::Vector2f normal)
 {
 	//if (normal.y != 0.0f)
 	{
-		velocity.x = 0.0f;
+		//velocity.x = 0.0f;
 		isVerticalCollided = false;
 	}
 }
 
-void RigidBody2D::OnTriggerEnter()
+void RigidBody2D::OnTriggerEnter(Collider* thisCol, Collider* diffCol)
 {
 }
 
-void RigidBody2D::OnTriggerStay()
+void RigidBody2D::OnTriggerStay(Collider* thisCol, Collider* diffCol)
 {
+	isVerticalCollided = false;
 }
 
 void RigidBody2D::OnTriggerExit(sf::Vector2f normal)
 {
 	//if (normal.y != 0.0f)
 	{
-		velocity.x = 0.0f;
+		//velocity.x = 0.0f;
 		isVerticalCollided = false;
 	}
 }

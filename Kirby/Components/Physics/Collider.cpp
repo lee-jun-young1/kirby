@@ -183,11 +183,11 @@ void Collider::OnCollisionEnter(Collider* col)
 }
 
 
-void Collider::OnCollisionStay(Collider* col)
+void Collider::OnCollisionStay(Collider* col, const float& deltaTime)
 {
 	if (!isTrigger && !col->isTrigger && rigidbody != nullptr)
 	{
-		rigidbody->OnCollisionStay(this, col);
+		rigidbody->OnCollisionStay(this, col, deltaTime);
 	}
 	gameObject.OnCollisionStay(col);
 }
@@ -209,11 +209,19 @@ void Collider::OnCollisionExit(Collider* col)
 
 void Collider::OnTriggerEnter(Collider* col)
 {
+	if (rigidbody != nullptr)
+	{
+		rigidbody->OnTriggerEnter(this, col);
+	}
 	gameObject.OnTriggerEnter(col);
 }
 
 void Collider::OnTriggerStay(Collider* col)
 {
+	if (rigidbody != nullptr)
+	{
+		rigidbody->OnTriggerStay(this, col);
+	}
 	gameObject.OnTriggerStay(col);
 }
 
@@ -271,7 +279,7 @@ void Collider::Update(float deltaTime)
 				}
 				else
 				{
-					OnCollisionStay(*curIt);
+					OnCollisionStay(*curIt, deltaTime);
 				}
 				it = prevCollideList.erase(it);
 				break;

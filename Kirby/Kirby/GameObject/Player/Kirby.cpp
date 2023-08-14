@@ -3,93 +3,331 @@
 #include <SceneManager.h>
 #include <Mob.h>
 
-void Kirby::MoveKey(const sf::Vector2f& axis, const float& deltaTime)
+#pragma region KeyInput
+
+void Kirby::MoveKey(const float& axisX)
 {
-	if (state == KirbyState::Idle || state == KirbyState::Balloon)
+	if (moveKey != nullptr)
 	{
-		SetPosition(GetPosition() + axis * speed * deltaTime);
-		SetFlipX(axis.x > 0.0f ? true : false);
-		animator->SetEvent("PressMove");
+		moveKey(axisX);
 	}
 }
 
-void Kirby::DashKey(const sf::Vector2f& axis, const float& deltaTime)
+void Kirby::DashKey(const float& axisX)
 {
-	if (state == KirbyState::Idle)
+	if (dashKey != nullptr)
 	{
-		SetPosition(GetPosition() + axis * speed * 2.0f * deltaTime);
-		SetFlipX(axis.x > 0.0f ? true : false);
-		animator->SetEvent("Run");
+		dashKey(axisX);
 	}
 }
 
 void Kirby::MoveKeyEnd()
 {
-	animator->SetEvent("Idle");
+	if (moveKeyEnd != nullptr)
+	{
+		moveKeyEnd();
+	}
 }
 
 void Kirby::ChargeKey()
 {
-	if (state == KirbyState::Balloon)
+	if (chargeKey != nullptr)
 	{
-		//Fire
-		ShotStar();
-		
-	}
-	else
-	{
-		animator->SetEvent("PressX");
+		chargeKey();
 	}
 }
 
 void Kirby::ChargeKeyContinue()
 {
-	if (state == KirbyState::Idle || state == KirbyState::Suction)
+	if (chargeKeyContinue != nullptr)
 	{
-		state = KirbyState::Suction;
-		animator->SetEvent("AbilityKeyContinue");
-		suction->SetActive(true);
+		chargeKeyContinue();
 	}
 }
 
 void Kirby::ChargeKeyEnd()
 {
-	if (state == KirbyState::Suction)
+	if (chargeKeyEnd != nullptr)
 	{
-		state = KirbyState::Idle;
-		animator->SetEvent("Idle");
-		suction->SetActive(false);
+		chargeKeyEnd();
 	}
 }
 
 void Kirby::SitKey()
 {
-	if (state == KirbyState::Balloon)
+	if (sitKey != nullptr)
 	{
-		Eat();
-	}
-	else
-	{
-		state = KirbyState::Sit;
-		Sit();
+		sitKey();
 	}
 }
 
 void Kirby::SitKeyEnd()
 {
-	state = KirbyState::Idle;
-	animator->SetEvent("Idle");
-	collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-	collider->SetOffset({ -12.0f, -24.0f });
+	if (sitKeyEnd != nullptr)
+	{
+		sitKeyEnd();
+	}
 }
 
 void Kirby::JumpKey()
 {
-	animator->SetEvent("PressJump");
-	rigidbody->AddForce({ 0.0f, -150.0f });
+	if (jumpKey != nullptr)
+	{
+		jumpKey();
+	}
 }
 
-void Kirby::SetAbility()
+void Kirby::VKey()
+{
+	if (vKey != nullptr)
+	{
+		vKey();
+	}
+}
+
+#pragma endregion
+
+
+void Kirby::ChangeState(const KirbyState& state)
+{
+	this->state = state;
+	switch (state)
+	{
+		case KirbyState::Idle:
+			cout << "state :: Idle" << endl;
+			moveKey = std::bind(&Kirby::Move, this, std::placeholders::_1);
+			dashKey = std::bind(&Kirby::Dash, this, std::placeholders::_1);
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			chargeKeyEnd = nullptr;
+			sitKey = std::bind(&Kirby::Sit, this);
+			sitKeyEnd = nullptr;
+			jumpKey = std::bind(&Kirby::Jump, this);
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = nullptr;
+			break;
+		case KirbyState::Move:
+			cout << "state :: Move" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = std::bind(&Kirby::MoveEnd, this);
+			chargeKey = nullptr;
+			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = std::bind(&Kirby::Jump, this);
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			break;
+		case KirbyState::Dash:
+			cout << "state :: Dash" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = std::bind(&Kirby::MoveEnd, this);
+			chargeKey = nullptr;
+			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = std::bind(&Kirby::DashJump, this);
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = std::bind(&Kirby::RunUpdate, this, std::placeholders::_1);
+			break;
+		case KirbyState::Balloon:
+			cout << "state :: Balloon" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = nullptr;
+			break;
+		case KirbyState::BalloonMove:
+			cout << "state :: BalloonMove" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = nullptr;
+			break;
+		case KirbyState::BalloonFly:
+			cout << "state :: BalloonFly" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = nullptr;
+			break;
+		case KirbyState::Eat:
+			cout << "state :: Eat" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = nullptr;
+			break;
+		case KirbyState::Falling:
+			cout << "state :: Falling" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = nullptr;
+			break;
+		case KirbyState::Jump:
+			cout << "state :: Jump" << endl;
+			moveKey = std::bind(&Kirby::JumpMove, this, std::placeholders::_1);
+			dashKey = nullptr;
+			moveKeyEnd = std::bind(&Kirby::JumpMoveEnd, this);
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			break;
+		case KirbyState::DashJump:
+			cout << "state :: DashJump" << endl;
+			moveKey = std::bind(&Kirby::JumpMove, this, std::placeholders::_1);
+			dashKey = nullptr;
+			moveKeyEnd = std::bind(&Kirby::JumpMoveEnd, this);
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = std::bind(&Kirby::RunUpdate, this, std::placeholders::_1);
+			break;
+		case KirbyState::Collided:
+			cout << "state :: Collided" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = nullptr;
+			break;
+		case KirbyState::Tackle:
+			cout << "state :: Tackle" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::TackleUpdate, this, std::placeholders::_1);
+			break;
+		case KirbyState::Suction:
+			cout << "state :: Suction" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = std::bind(&Kirby::SuctionEnd, this);
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = nullptr;
+			break;
+		case KirbyState::Sit:
+			cout << "state :: Sit" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = std::bind(&Kirby::UnSit, this);
+			jumpKey = std::bind(&Kirby::Tackle, this);
+			vKey = std::bind(&Kirby::UnequipAbility, this);
+			update = nullptr;
+			break;
+	}
+}
+
+void Kirby::Move(const float& axis)
+{
+	ChangeState(KirbyState::Move);
+	moveAxisX = axis;
+	SetFlipX(axis > 0.0f ? true : false);
+	animator->SetEvent("PressMove");
+}
+
+void Kirby::JumpMove(const float& axis)
+{
+	moveAxisX = axis;
+	SetFlipX(axis > 0.0f ? true : false);
+}
+
+
+void Kirby::Dash(const float& axis)
+{
+	ChangeState(KirbyState::Dash);
+	moveAxisX = axis;
+	SetFlipX(axis > 0.0f ? true : false);
+	animator->SetEvent("Run");
+}
+
+void Kirby::MoveEnd()
+{
+	ChangeState(KirbyState::Idle);
+	animator->SetEvent("Idle");
+	moveAxisX = 0.0f;
+}
+
+void Kirby::JumpMoveEnd()
+{
+	moveAxisX = 0.0f;
+}
+
+void Kirby::UnequipAbility()
 {
 	ability = keepInMouseAbility;
 	keepInMouseAbility = KirbyAbility::None;
@@ -101,18 +339,63 @@ void Kirby::SetAbility()
 	}
 }
 
+void Kirby::Jump()
+{
+	ChangeState(KirbyState::Jump);
+	animator->SetEvent("PressJump");
+	rigidbody->AddForce({ 0.0f, -150.0f });
+}
+
+void Kirby::DashJump()
+{
+	ChangeState(KirbyState::DashJump);
+	animator->SetEvent("PressJump");
+	rigidbody->AddForce({ 0.0f, -150.0f });
+}
+
+void Kirby::Tackle()
+{
+	ChangeState(KirbyState::Tackle);
+	animator->SetEvent("PressJump");
+	rigidbody->AddForce({ 200.0f * GetScale().x, 0.0f});
+	rigidbody->SetDrag(0.7f);
+}
+
+void Kirby::DoSuction()
+{
+	ChangeState(KirbyState::Suction);
+	animator->SetEvent("AbilityKeyContinue");
+	suction->SetActive(true);
+}
+
+void Kirby::SuctionEnd()
+{
+	ChangeState(KirbyState::Idle);
+	animator->SetEvent("Idle");
+	suction->SetActive(false);
+}
+
 void Kirby::Eat()
 {
 	animator->SetEvent("Eat");
-	SetAbility();
-	state = KirbyState::Idle;
+	UnequipAbility();
+	ChangeState(KirbyState::Idle);
 }
 
 void Kirby::Sit()
 {
+	ChangeState(KirbyState::Sit);
 	animator->SetEvent("PressSit");
 	collider->SetRect({ 0.0f, 0.0f, 24.0f, 12.0f });
 	collider->SetOffset({ -12.0f, -12.0f });
+}
+
+void Kirby::UnSit()
+{
+	ChangeState(KirbyState::Idle);
+	animator->SetEvent("Idle");
+	collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+	collider->SetOffset({ -12.0f, -24.0f });
 }
 
 void Kirby::Init()
@@ -129,6 +412,7 @@ void Kirby::Init()
 
 	rigidbody = (RigidBody2D*)AddComponent(new RigidBody2D(*this));
 	collider->SetRigidbody(rigidbody);
+	ChangeState(KirbyState::Idle);
 }
 
 void Kirby::ShotStar() 
@@ -137,7 +421,7 @@ void Kirby::ShotStar()
 	starEffect->SetActive(true);
 	starEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
 	keepInMouseAbility = KirbyAbility::None;
-	state = KirbyState::Idle;
+	ChangeState(KirbyState::Idle);
 	RigidBody2D* effectRig = (RigidBody2D*)starEffect->GetComponent(ComponentType::RigidBody);
 	effectRig->SetGravity(false);
 	effectRig->SetVelocity({ GetScale().x * 300.0f, 0.0f });
@@ -156,7 +440,32 @@ void Kirby::Reset()
 
 void Kirby::Update(float dt)
 {
+	if (update != nullptr)
+	{
+		update(dt);
+	}
 	SpriteGO::Update(dt);
+
+}
+
+void Kirby::MoveUpdate(float dt)
+{
+	SetPosition(GetPosition().x + moveAxisX * speed * dt, GetPosition().y);
+}
+
+void Kirby::RunUpdate(float dt)
+{
+	SetPosition(GetPosition().x + moveAxisX * runSpeed * dt, GetPosition().y);
+}
+
+void Kirby::TackleUpdate(float dt)
+{
+	if (abs(rigidbody->GetVelocity().x) < 80.0f)
+	{
+		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
+		rigidbody->SetDrag(0.0f);
+		ChangeState(KirbyState::Idle);
+	}
 }
 
 void Kirby::Draw(sf::RenderWindow& window)
@@ -167,8 +476,10 @@ void Kirby::Draw(sf::RenderWindow& window)
 
 void Kirby::OnCollisionEnter(Collider* col)
 {
-	if (col->GetGameObject().GetName() == "Ground" && animator->GetClipName() == "Jump")
+	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") && 
+		(state == KirbyState::Jump || state == KirbyState::DashJump) && rigidbody->GetVelocity().y >= 0.0f)
 	{
+		ChangeState(KirbyState::Idle);
 		animator->SetEvent("Idle");
 	}
 
@@ -179,13 +490,17 @@ void Kirby::OnCollisionEnter(Collider* col)
 		suctionable->SetActive(false);
 		cout << "suction!!" << endl;
 		cout << "keepInMouseAbility!!" << (int)keepInMouseAbility << endl;
-		state = KirbyState::Balloon;
+		ChangeState(KirbyState::Balloon);
 		animator->SetEvent("Balloon");
 		suction->SetActive(false);
 	}
 }
 
-void Kirby::VKey()
+void Kirby::OnCollisionStay(Collider* col)
 {
-	SetAbility();
+	if (state == KirbyState::Sit && col->GetGameObject().GetName() == "ThroughtableGround")
+	{
+		//cout << "Kirby On!!" << endl;
+		((Collider*)col->GetGameObject().GetComponent(ComponentType::Collider))->SetTrigger(true);
+	}
 }

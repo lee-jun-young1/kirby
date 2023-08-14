@@ -23,6 +23,7 @@
 #include <Controller.h>
 #include <Kirby.h>
 #include <Mob.h>
+#include <ThrowableGround.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -78,6 +79,7 @@ void SceneExample::Init()
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = 1;
+	kirby->SetPosition({ -80.0f, 0.0f });
 	
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
 	suction->SetKirby(kirby);
@@ -127,15 +129,63 @@ void SceneExample::Init()
 	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
 
 
-	RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempGround2->SetSize({ 100.0f, 100.0f });
-	tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
-	tempGround2->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempGround2->SetPosition({ 0.0f, 0.0f });
-	BoxCollider* boxCol2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
-	boxCol2->SetRotationOffset(30.0f);
+	for (float screenX = worldView.getSize().x * -0.5f; screenX < worldView.getSize().x * 0.5f; screenX += 24.0f)
+	{
+		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		tempGround1->SetSize({ 24.0f, 24.0f });
+		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
+		tempGround1->SetOrigin(Origins::MC);
+		//tempGround2->SetPosition({ 0.0f, 100.0f });
+		tempGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f });
+		BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+	}
 
+
+	RectangleShapeGO* tempTiltedGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempTiltedGround1->SetSize({ 24.0f, 24.0f });
+	tempTiltedGround1->physicsLayer = (int)PhysicsLayer::Ground;
+	tempTiltedGround1->SetOrigin(Origins::MC);
+	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	tempTiltedGround1->SetPosition({ -33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
+	tempTiltedGround1->SetRotation(45.0f);
+	BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
+
+	RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempTiltedGround3->SetSize({ 24.0f, 24.0f });
+	tempTiltedGround3->physicsLayer = (int)PhysicsLayer::Ground;
+	tempTiltedGround3->SetOrigin(Origins::MC);
+	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
+	tempTiltedGround3->SetRotation(45.0f);
+	BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
+
+	RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempTiltedGround2->SetSize({ 24.0f, 24.0f });
+	tempTiltedGround2->physicsLayer = (int)PhysicsLayer::Ground;
+	tempTiltedGround2->SetOrigin(Origins::MC);
+	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	tempTiltedGround2->SetPosition({ 0.0f, 70.0f });
+	tempTiltedGround2->SetRotation(45.0f);
+	BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
+
+	for (float screenX = worldView.getSize().x * 0.5f; screenX > 24.0f; screenX -= 24.0f)
+	{
+		ThroughtableGround* tempThroughtGround1 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+		tempThroughtGround1->SetSize({ 24.0f, 24.0f });
+		tempThroughtGround1->physicsLayer = (int)PhysicsLayer::Ground;
+		tempThroughtGround1->SetOrigin(Origins::MC);
+		tempThroughtGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f -48.0f });
+		BoxCollider* boxThroughtCol1 = (BoxCollider*)tempThroughtGround1->AddComponent(new BoxCollider(*tempThroughtGround1));
+		tempThroughtGround1->SetCollider(boxThroughtCol1);
+
+		ThroughtableGround* tempThroughtGround2 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+		tempThroughtGround2->SetSize({ 24.0f, 24.0f });
+		tempThroughtGround2->physicsLayer = (int)PhysicsLayer::Ground;
+		tempThroughtGround2->SetOrigin(Origins::MC);
+		tempThroughtGround2->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+		BoxCollider* boxThroughtCol2 = (BoxCollider*)tempThroughtGround2->AddComponent(new BoxCollider(*tempThroughtGround2));
+		tempThroughtGround2->SetCollider(boxThroughtCol2);
+	}
 
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround3->SetSize({ 106.0f, 20.0f });

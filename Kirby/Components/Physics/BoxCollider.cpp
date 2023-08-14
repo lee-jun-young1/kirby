@@ -193,9 +193,9 @@ void BoxCollider::OnCollisionEnter(Collider* col)
 	Collider::OnCollisionEnter(col);
 }
 
-void BoxCollider::OnCollisionStay(Collider* col)
+void BoxCollider::OnCollisionStay(Collider* col, const float& deltaTime)
 {
-	Collider::OnCollisionStay(col);
+	Collider::OnCollisionStay(col, deltaTime);
 	debugShape.setOutlineColor(sf::Color::Red);
 }
 
