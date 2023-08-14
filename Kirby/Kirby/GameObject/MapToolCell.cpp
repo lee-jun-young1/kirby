@@ -4,9 +4,6 @@
 MapToolCell::MapToolCell(const string& name)
 	:RectangleShapeGO(name)
 {
-	SetFillColor(sf::Color::Transparent);
-	SetOutlineThickness(0.5f);
-	SetOutlineColor(sf::Color::White);
 }
 
 MapToolCell::~MapToolCell()
@@ -143,7 +140,6 @@ void MapToolCell::RemoveAllGameObjectByCategory(const Category& cate)
 
 void MapToolCell::Draw(sf::RenderWindow& window)
 {
-	RectangleShapeGO::Draw(window);
 }
 
 void MapToolCell::DrawGameObject(sf::RenderWindow& window,const int& layer, const bool& drawCurrentLayerOnly)
