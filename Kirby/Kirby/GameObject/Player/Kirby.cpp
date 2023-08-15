@@ -556,7 +556,7 @@ void Kirby::Draw(sf::RenderWindow& window)
 
 void Kirby::OnCollisionEnter(Collider* col)
 {
-	if (state == KirbyState::Tackle && col->GetGameObject().GetPosition().y < position.y)
+	if (state == KirbyState::Tackle && col->GetRotationOffset() + col->GetGameObject().GetRotation() == 0.0f && col->GetCenter().y < position.y)
 	{
 		ChangeState(KirbyState::TackleJump);
 		animator->SetEvent("Hit");

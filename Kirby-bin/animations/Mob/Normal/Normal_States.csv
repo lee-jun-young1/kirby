@@ -1,4 +1,4 @@
 Key,Path
-Hit,animations/Mob/BeamHit.csv
-Move,animations/Mob/BeamMove.csv
-Suction,animations/Mob/BeamSuction.csv
+Hit,animations/Mob/Normal/NormalHit.csv
+Move,animations/Mob/Normal/NormalMove.csv
+Suction,animations/Mob/Normal/NormalSuction.csv

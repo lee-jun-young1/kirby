@@ -24,6 +24,7 @@
 #include <Kirby.h>
 #include <Mob.h>
 #include <ThrowableGround.h>
+#include <Animator.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -253,15 +254,18 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetTag("Suctionable");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
-		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(0.0f, 0.0f);
+		suctionAble->SetPosition(10.0f, 0.0f);
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
-		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	if (Input.GetKeyDown(Keyboard::F6))
@@ -277,8 +281,14 @@ void SceneExample::Update(float deltaTime)
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	if (Input.GetKeyDown(Keyboard::F7))
@@ -295,7 +305,14 @@ void SceneExample::Update(float deltaTime)
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
 
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
+
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	if (Input.GetKeyDown(Keyboard::F8))
@@ -312,7 +329,14 @@ void SceneExample::Update(float deltaTime)
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
 
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
+
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	//RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");

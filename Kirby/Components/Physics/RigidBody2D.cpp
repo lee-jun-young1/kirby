@@ -63,11 +63,16 @@ void RigidBody2D::Update(float deltaTime)
 
 void RigidBody2D::OnGUI(sf::RenderWindow& window)
 {
-	for (int i = 0; i < 4; i++)
+#ifdef _DEBUG
+	if (FRAMEWORK.IsDebugging(Framework::DebugMode::Collider) && IsEnable())
 	{
-		window.draw(debugShape[i]);
+		for (int i = 0; i < 4; i++)
+		{
+			window.draw(debugShape[i]);
+		}
+		window.draw(debugShape2);
 	}
-	window.draw(debugShape2);
+#endif
 }
 
 void RigidBody2D::Release()
@@ -109,14 +114,14 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol, const fl
 			velocity.x = 0.0f;
 			gameObject.SetPosition(diffCol->GetCenter().x - (diffCol->GetWidth() * 0.5f) - thisCol->GetWidth() + 0.001f - thisCol->GetOffset().x, gameObject.GetPosition().y);
 		}
-		else if (normal.y > 0.0f && velocity.y < 0.0f)
+		else if (normal.y >= 0.0f && velocity.y < 0.0f)
 		{
 			isVerticalCollided = true;
 			velocity.y = 0.0f;
 			//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
 			gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y + (diffCol->GetHeight()) - 0.001f - thisCol->GetOffset().y);
 		}
-		else if (normal.y < 0.0f && velocity.y > 0.0f)
+		else if (normal.y <= 0.0f && velocity.y > 0.0f)
 		{
 			isVerticalCollided = true;
 			velocity.y = 0.0f;
@@ -139,7 +144,7 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol, const fl
 			debugShape[i].setPosition(rotatedVertex[i]);
 		}
 
-		if (normal.y < 0.0f && velocity.y >= 0.0f)
+		if (normal.y <= 0.0f && velocity.y >= 0.0f)
 		{
 			sf::Vector2f top = rotatedVertex[0];
 			sf::Vector2f left = rotatedVertex[0];

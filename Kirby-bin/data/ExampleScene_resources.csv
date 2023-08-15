@@ -40,3 +40,6 @@
 0,sprites/mob/Mob_Beam.png
 0,sprites/mob/mob_Bomb.png
 0,sprites/mob/mob_Cutter.png
+3,animations/Mob/Normal/NormalHit.csv
+3,animations/Mob/Normal/NormalMove.csv
+3,animations/Mob/Normal/NormalSuction.csv
