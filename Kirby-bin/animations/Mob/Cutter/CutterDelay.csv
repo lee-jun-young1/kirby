@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-Prepare,2,1,,
+Delay,2,1,,
 ,,,,
 TextureID,Left,Top,Width,Height
-,48,0,72,72
+sprites/mob/mob_cutter.png,48,0,72,72
