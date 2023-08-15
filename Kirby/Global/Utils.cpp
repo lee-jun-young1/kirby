@@ -163,6 +163,86 @@ sf::Vector2f Utils::RotateWithPivot(const sf::Vector2f& pivot, const sf::Vector2
 	return pivot + (result * distance);
 }
 
+/// <summary>
+/// Vector의 내적
+/// </summary>
+sf::Vector2f Utils::DotProuct(const sf::Vector2f& axis, const sf::Vector2f& target)
+{
+	return (axis.x * target.x + axis.y * target.y) * axis;
+}
+
+/// <summary>
+/// Vector의 외적
+/// </summary>
+float Utils::CrossProduct(const sf::Vector2f& vector, const sf::Vector2f& other)
+{
+	return vector.x * other.y - vector.y * other.x;
+}
+
+ ///<summary>
+ ///Line의 접점
+ ///</summary>
+sf::Vector2f Utils::Intersection(const sf::Vector2f& c1, const sf::Vector2f& c2, const sf::Vector2f& d1, const sf::Vector2f& d2)
+{
+	/*
+	두 점 A(x1, y1), B(x2, y2)을 잇는 직선의 방정식
+	y = ax + b (a : 기울기 = y증가량/x증가량, b : 상수)
+	a = (y2-y1)/(x2-x1)
+	y = (y2-y1)/(x2-x1)x + b
+	b = y - (y2-y1)/(x2-x1)x
+	b = y1 - (y2-y1)/(x2-x1)x1
+
+	!!!!! y = (y2-y1)/(x2-x1)x + (y1 - (y2-y1)/(x2-x1)x1) !!!!!
+
+	방정식 1 : y = a1x + b1
+	방정식 2 : y = a2x + b2
+	(a1-a2)x = (b2-b1)
+	x = (b2-b1)/(a1-a2)
+	방정식 1에 대입하면
+	y = a1((b2-b1)/(a1-a2)) + b1
+	 
+	교점의 좌표 (x,y) = ( (b2-b1)/(a1-a2), a1((b2-b1)/(a1-a2)) + b1)
+	 */
+
+	float a1, b1, a2, b2;
+	a1 = (c2.y - c1.y) / (c2.x - c1.x);
+	//b1 = c1.y - (((c2.y - c1.y) / (c2.x - c1.x))*c1.x);
+	b1 = c1.y - (a1 * c1.x);
+	//cout << "test:x:" << intersection.x << endl;
+
+	a2 = (d2.y - d1.y) / (d2.x - d1.x);
+	//b2 = d1.y - (((d2.y - d1.y) / (d2.x - d1.x))*d1.x);
+	b2 = d1.y - (a2 * d1.x);
+
+	if (a1 == a2) return { 0.0f, 0.0f };//평행이나 일치인 경우
+
+	sf::Vector2f intersection;
+	intersection.x = (b2 - b1) / (a1 - a2);
+	intersection.y = a1 * (intersection.x) + b1;
+	std::cout << "test:x:" << intersection.x << std::endl;
+	std::cout << "test:y:" << intersection.y << std::endl;
+}
+
+//sf::Vector2f Utils::Intersection(const sf::Vector2f& lineAStart, const sf::Vector2f& lineAEnd, const sf::Vector2f& lineBStart, const sf::Vector2f& lineBEnd)
+//{
+//	float det = Utils::CrossProduct((lineAEnd - lineAStart), (lineBEnd - lineBStart));
+//	if (det == 0) // parallel or coincident lines
+//	{
+//		return sf::Vector2f(0, 0); // arbitrary value
+//	}
+//	float t = Utils::CrossProduct((lineBStart - lineAStart), (lineBEnd - lineBStart)) / det;
+//	float u = Utils::CrossProduct((lineBStart - lineAStart), (lineAEnd - lineAStart)) / det;
+//	if (t >= 0 && t <= 1 && u >= 0 && u <= 1) // intersection point is within both line segments
+//	{
+//		sf::Vector2f result = lineAStart + (lineAEnd - lineAStart) * t; // same as lineBStart + (lineBEnd - lineBStart) * u
+//		return result;
+//	}
+//	else // intersection point is outside one or both line segments
+//	{
+//		return sf::Vector2f(0, 0); // arbitrary value
+//	}
+//}
+
 sf::Vector2f Utils::RectNormal(sf::Rect<float> base, sf::Rect<float> target)
 {
 	sf::Vector2f baseCenter(base.left + base.width * 0.5f, base.top + base.height * 0.5f);

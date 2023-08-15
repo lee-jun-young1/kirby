@@ -1,0 +1,4 @@
+Key,Path
+Hit,animations/Mob/NonBombHit.csv
+Jump,animations/Mob/NonBombJump.csv
+Suction,animations/Mob/NonBombSuction.csv

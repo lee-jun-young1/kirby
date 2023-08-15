@@ -125,9 +125,9 @@ void CircleCollider::OnCollisionEnter(Collider* col)
 	Collider::OnCollisionEnter(col);
 }
 
-void CircleCollider::OnCollisionStay(Collider* col)
+void CircleCollider::OnCollisionStay(Collider* col, const float& deltaTime)
 {
-	Collider::OnCollisionStay(col);
+	Collider::OnCollisionStay(col, deltaTime);
 	debugShape.setOutlineColor(sf::Color::Red);
 }
 

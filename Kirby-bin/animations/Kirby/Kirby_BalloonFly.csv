@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+BalloonFly,10,0,,
+,,,,
+TextureID,Left,Top,Width,Height
+,72,504,72,72
+,0,504,72,72
