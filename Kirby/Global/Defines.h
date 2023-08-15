@@ -56,11 +56,13 @@ enum class ColliderType
 enum class PhysicsLayer
 {
 	Default = 0,
-	Ground = 1,
-	Wall = 2,
-	Player = 3,
-	Item = 4,
-	Obstacle = 5,
+	Ground,
+	Player,
+	PlayerEffect,
+	Enemy,
+	EnemyEffect,
+	Item,
+	AbilityItem,
 	Count
 };
 

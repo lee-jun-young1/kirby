@@ -17,10 +17,13 @@ enum class KirbyState
 	Falling,
 	Jump,
 	DashJump,
+	TackleJump,
+	BalloonJump,
 	Collided,
 	Tackle,
 	Suction,
 	Sit,
+	Shot,
 };
 
 
@@ -87,9 +90,11 @@ public:
 #pragma region Actions
 	// Arrow
 	void Move(const float& axis);
+	void BalloonMove(const float& axis);
 	void JumpMove(const float& axis);
 	void Dash(const float& axis);
 	void MoveEnd();
+	void BalloonMoveEnd();
 	void JumpMoveEnd();
 
 
@@ -105,7 +110,9 @@ public:
 
 	// C
 	void Jump();
+	void Fly();
 	void DashJump();
+	void BalloonJump();
 	void Tackle();
 
 	// V
@@ -122,6 +129,8 @@ public:
 	void MoveUpdate(float dt);
 	void RunUpdate(float dt);
 	void TackleUpdate(float dt);
+
+	void ShotUpdate(float dt);
 
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnCollisionEnter(Collider* col) override;

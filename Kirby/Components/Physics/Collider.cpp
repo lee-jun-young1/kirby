@@ -8,7 +8,10 @@
 Collider::Collider(GameObject& gameObject, ColliderType type)
 	:Component(gameObject, ComponentType::Collider, false), type(type), rigidbody(nullptr), isCollide(false), bounciness(0.0f), isTrigger(false)
 {
-	//Physics.AddColliders(this, gameObject.physicsLayer);
+	if (gameObject.IsActive())
+	{
+		Physics.AddColliders(this, gameObject.physicsLayer);
+	}
 }
 
 Collider::~Collider()

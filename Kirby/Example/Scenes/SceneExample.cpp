@@ -82,6 +82,7 @@ void SceneExample::Init()
 	kirby->SetPosition({ -80.0f, 0.0f });
 	
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
+	suction->physicsLayer = (int)PhysicsLayer::Player;
 	suction->SetKirby(kirby);
 	suction->SetActive(false);
 
@@ -105,17 +106,17 @@ void SceneExample::Init()
 
 	//for (int i = 0; i < 4; i++)
 	//{
-	//	Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)i, "", "Suctionable"));
-	//	suctionAble->SetSize({ 24.0f, 24.0f });
-	//	suctionAble->physicsLayer = (int)PhysicsLayer::Ground;
-	//	suctionAble->SetOrigin(Origins::BC);
-	//	suctionAble->SetPosition(kirby->GetPosition() + sf::Vector2f(-24.0f + i * 48.0f, 0.0f));
-	//	BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
-	//	suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-	//	suctionAbleCol->SetOffset({ 0.0f, -24.0f });
-	//	RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
-	//	suctionAbleCol->SetRigidbody(rig);
-	//	rig->SetGravity(false);
+	/*Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)i, "", "Suctionable"));
+	suctionAble->SetSize({ 24.0f, 24.0f });
+	suctionAble->physicsLayer = (int)PhysicsLayer::Ground;
+	suctionAble->SetOrigin(Origins::BC);
+	suctionAble->SetPosition(kirby->GetPosition() + sf::Vector2f(-24.0f + i * 48.0f, 0.0f));
+	BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+	suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+	suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+	RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+	suctionAbleCol->SetRigidbody(rig);
+	rig->SetGravity(false);*/
 	//}
 
 
@@ -129,7 +130,7 @@ void SceneExample::Init()
 	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
 
 
-	for (float screenX = worldView.getSize().x * -0.5f; screenX < worldView.getSize().x * 0.5f; screenX += 24.0f)
+	for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < worldView.getSize().x * 0.33f * 0.5f; screenX += 24.0f)
 	{
 		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 		tempGround1->SetSize({ 24.0f, 24.0f });
@@ -138,6 +139,24 @@ void SceneExample::Init()
 		//tempGround2->SetPosition({ 0.0f, 100.0f });
 		tempGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f });
 		BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+	}
+	for (int i = 1; i < 4; i++)
+	{
+		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		tempGround1->SetSize({ 24.0f, 24.0f });
+		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
+		tempGround1->SetOrigin(Origins::MC);
+		//tempGround2->SetPosition({ 0.0f, 100.0f });
+		tempGround1->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
+		BoxCollider* boxColg = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+
+		RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		tempGround2->SetSize({ 24.0f, 24.0f });
+		tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
+		tempGround2->SetOrigin(Origins::MC);
+		//tempGround2->SetPosition({ 0.0f, 100.0f });
+		tempGround2->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
+		BoxCollider* boxColg2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
 	}
 
 
@@ -168,7 +187,7 @@ void SceneExample::Init()
 	tempTiltedGround2->SetRotation(45.0f);
 	BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
 
-	for (float screenX = worldView.getSize().x * 0.5f; screenX > 24.0f; screenX -= 24.0f)
+	for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
 	{
 		ThroughtableGround* tempThroughtGround1 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
 		tempThroughtGround1->SetSize({ 24.0f, 24.0f });
@@ -227,6 +246,74 @@ void SceneExample::Release()
 void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
+
+	if (Input.GetKeyDown(Keyboard::F5))
+	{
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)0, "sprites/mob/mob_normal.png", "Suctionable"));
+		suctionAble->SetTag("Suctionable");
+		suctionAble->SetSize({ 24.0f, 24.0f });
+		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+		suctionAble->SetOrigin(Origins::BC);
+		suctionAble->SetPosition(0.0f, 0.0f);
+		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+		suctionAbleCol->SetRigidbody(rig);
+
+		suctionAble->Reset();
+	}
+
+	if (Input.GetKeyDown(Keyboard::F6))
+	{
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Suctionable"));
+		suctionAble->SetTag("Suctionable");
+		suctionAble->SetSize({ 24.0f, 24.0f });
+		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+		suctionAble->SetOrigin(Origins::BC);
+		suctionAble->SetPosition(0.0f, 0.0f);
+		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+		suctionAbleCol->SetRigidbody(rig);
+
+		suctionAble->Reset();
+	}
+
+	if (Input.GetKeyDown(Keyboard::F7))
+	{
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)2, "sprites/mob/Mob_Beam.png", "Suctionable"));
+		suctionAble->SetTag("Suctionable");
+		suctionAble->SetSize({ 24.0f, 24.0f });
+		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+		suctionAble->SetOrigin(Origins::BC);
+		suctionAble->SetPosition(0.0f, 0.0f);
+		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+		suctionAbleCol->SetRigidbody(rig);
+
+		suctionAble->Reset();
+	}
+
+	if (Input.GetKeyDown(Keyboard::F8))
+	{
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)3, "sprites/mob/mob_Bomb.png", "Suctionable"));
+		suctionAble->SetTag("Suctionable");
+		suctionAble->SetSize({ 24.0f, 24.0f });
+		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+		suctionAble->SetOrigin(Origins::BC);
+		suctionAble->SetPosition(0.0f, 0.0f);
+		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+		suctionAbleCol->SetRigidbody(rig);
+
+		suctionAble->Reset();
+	}
 
 	//RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");
 

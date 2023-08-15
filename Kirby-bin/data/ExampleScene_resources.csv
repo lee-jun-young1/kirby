@@ -5,11 +5,11 @@
 0,sprites/kirby/Class_Beam.png
 3,animations/Kirby/Kirby_BalloonShot.csv
 3,animations/Kirby/Kirby_BalloonEat.csv
-3,animations/Kirby/Kirby_BalloonFlyIdle.csv
-3,animations/Kirby/Kirby_BalloonFlyUp.csv
+3,animations/Kirby/Kirby_BalloonFly.csv
 3,animations/Kirby/Kirby_BalloonHit.csv
 3,animations/Kirby/Kirby_BalloonIdle.csv
 3,animations/Kirby/Kirby_BalloonMove.csv
+3,animations/Kirby/Kirby_BalloonJump.csv
 3,animations/Kirby/Kirby_BalloonTiltedIdleL.csv
 3,animations/Kirby/Kirby_BalloonTiltedIdleR.csv
 3,animations/Kirby/Kirby_GoDoor.csv
@@ -36,3 +36,7 @@
 0,sprites/effects/Star.png
 3,animations/Effect/Star.csv
 0,sprites/temp/tempThroughtable.png
+0,sprites/mob/mob_normal.png
+0,sprites/mob/Mob_Beam.png
+0,sprites/mob/mob_Bomb.png
+0,sprites/mob/mob_Cutter.png

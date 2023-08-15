@@ -16,6 +16,10 @@ public:
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 
+	virtual void OnCollisionStay(Collider* col) override;
+
+	//virtual void OnTriggerStay(Collider* col) override;
+
 	virtual void OnTriggerEnter(Collider* col) override;
 };
 
