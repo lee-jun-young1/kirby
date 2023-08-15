@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "SceneExample.h"
+#include "GameScene.h"
 #include <PhysicsManager.h>
 
 void SceneManager::ChangeScene(SceneId id)
@@ -21,7 +22,7 @@ void SceneManager::Init()
 	{
 		Release();
 	}
-	scenes.push_back(new SceneExample());
+	scenes.push_back(new GameScene());
 
 	for (auto scene : scenes)
 	{
