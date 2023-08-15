@@ -25,6 +25,7 @@
 #include <Mob.h>
 #include <ThrowableGround.h>
 #include <Animator.h>
+#include <Door.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -207,6 +208,15 @@ void SceneExample::Init()
 		tempThroughtGround2->SetCollider(boxThroughtCol2);
 	}
 
+	Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
+	tempDoor->physicsLayer = (int)PhysicsLayer::Ground;
+	tempDoor->SetOrigin(Origins::BC);
+	tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+	tempDoor->SetMovePosition({ -72.0f, 0.0f });
+	BoxCollider* doorCol = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
+	doorCol->SetTrigger(true);
+	doorCol->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround3->SetSize({ 106.0f, 20.0f });
 	//tempGround3->physicsLayer = (int)PhysicsLayer::Ground;
@@ -229,7 +239,14 @@ void SceneExample::Init()
 	//circleGO->SetPosition({ 20.0f, 20.0f });
 	//circleGO->SetOrigin(Origins::MC);
 	//CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
-	
+
+	RectangleShapeGO* curtain = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Curtain"));
+	curtain->SetSize(FRAMEWORK.GetWindowSize());
+	curtain->SetOrigin(Origins::MC);
+	curtain->sortLayer = INT_MAX;
+	curtain->SetFillColor({ 0, 0, 0, 0 });
+	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
