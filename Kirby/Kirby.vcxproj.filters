@@ -186,7 +186,7 @@
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
+    <ClCompile Include="Kirby\Scene\GameScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -404,7 +404,7 @@
     <ClInclude Include="Kirby\GameObject\ThrowableGround.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene.h">
+    <ClInclude Include="Kirby\Scene\GameScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

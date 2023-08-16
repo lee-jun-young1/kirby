@@ -7,7 +7,8 @@
 #include "GameObject.h"
 #include "json.h"
 
-#include "RectangleShapeGO.h"
+//test
+#include "VertexArrayGO.h"
 
 GameScene::GameScene()
 	: Scene(SceneId::Game)
@@ -56,9 +57,11 @@ void GameScene::Init()
 	Scene::Init();
 	Release();
 
-	RectangleShapeGO* go = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Temp"));
-	go->SetSize({ 24.f, 24.f });
-
+	VertexArrayGO* background = (VertexArrayGO*)AddGameObject(new VertexArrayGO("", "bg"));
+	background->vertexArray.setPrimitiveType(sf::Quads);
+	background->vertexArray.resize(4);
+	
+	
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -68,8 +71,10 @@ void GameScene::Init()
 void GameScene::Update(float dt)
 {
 	
+	//worldView.setCenter();
 }
 
 void GameScene::Draw(sf::RenderWindow& window)
 {
+	Scene::Draw(window);
 }
