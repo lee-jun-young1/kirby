@@ -41,13 +41,14 @@ void SceneExample::Enter()
 	auto size = FRAMEWORK.GetWindowSize();
 	auto screenCenter = size * 0.5f;
 	worldView.setSize(size);
-	worldView.setCenter(0.0f, 0.0f);
+
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+	worldView.setCenter(kirby->GetPosition());
 
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
 	Scene::Enter();
-
 
 	GameObject* star = FindGameObject("Star");
 	Animation* starAni = (Animation*)star->GetComponent(ComponentType::Animation);
@@ -75,6 +76,16 @@ void SceneExample::Init()
 {
 	Scene::Init();
 	Release();
+
+	auto size = FRAMEWORK.GetWindowSize();
+
+	//윈도우 가운데로
+	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
+
+	VertexArrayGO* background = CreateBackground({ 1, 1 }, size * 2.f);
+	AddGameObject(background);
+	background->SetPosition(-size);
+	background->sortLayer = -99;
 
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
@@ -246,6 +257,43 @@ void SceneExample::Release()
 void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+
+	switch (cameraType)
+	{
+	case CameraType::Free:
+		worldView.setCenter(kirby->GetPosition());
+		break;
+	case CameraType::Horizontal:
+		worldView.setCenter(kirby->GetPosition().x, worldView.getCenter().y);
+		break;
+	case CameraType::Vertical:
+		worldView.setCenter(worldView.getCenter().x, kirby->GetPosition().y);
+		break;
+	case CameraType::Fixed:
+		//worldView.setCenter(kirby->GetPosition().x, worldView.getCenter().y);
+		break;
+	}
+
+	if (Input.GetKey(Keyboard::LShift))
+	{
+		if (Input.GetKeyDown(Keyboard::Num1))
+		{
+			cameraType = CameraType::Free;
+		}
+		else if (Input.GetKeyDown(Keyboard::Num2))
+		{
+			cameraType = CameraType::Horizontal;
+		}
+		else if (Input.GetKeyDown(Keyboard::Num3))
+		{
+			cameraType = CameraType::Vertical;
+		}
+		else if (Input.GetKeyDown(Keyboard::Num4))
+		{
+			cameraType = CameraType::Fixed;
+		}
+	}
 
 	if (Input.GetKeyDown(Keyboard::F5))
 	{
@@ -374,4 +422,51 @@ void SceneExample::Update(float deltaTime)
 void SceneExample::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+VertexArrayGO* SceneExample::CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize, const std::string& textureId)
+{
+	VertexArrayGO* background = new VertexArrayGO(textureId, "bg");
+	sf::Vector2f startPos = { 0,0 };
+
+
+	background->vertexArray.setPrimitiveType(sf::Quads);
+	background->vertexArray.resize(tileMatrix.x * tileMatrix.y * 4);
+
+	sf::Vector2f offsets[4] =
+	{
+		{0.f,0.f},
+		{tileSize.x,0.f},
+		{tileSize.x,tileSize.y },
+		{0.f,tileSize.y}
+	};
+
+	sf::Vector2f texOffsets[4] =
+	{
+		{0.f,0.f},
+		{texSize.x,0.f},
+		{texSize.x,texSize.y },
+		{0.f,texSize.y}
+	};
+
+	sf::Vector2f currPos = startPos;
+	for (int i = 0; i < tileMatrix.y; ++i)
+	{
+		for (int j = 0; j < tileMatrix.x; ++j)
+		{
+			int tileIndex = tileMatrix.x * i + j;
+			for (int k = 0; k < 4; ++k)
+			{
+				int vertexIndex = tileIndex * 4 + k;
+				sf::Color color = (vertexIndex < 2) ? sf::Color::White : sf::Color::Black;
+				background->vertexArray[vertexIndex].position = currPos + offsets[k];
+				background->vertexArray[vertexIndex].color = color;
+			}
+			currPos.x += tileSize.x;
+		}
+		currPos.x = startPos.x;
+		currPos.y += tileSize.y;
+	}
+	return background;
+
 }

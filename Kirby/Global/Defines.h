@@ -98,5 +98,13 @@ enum class KirbyAbility
 	Bomb,
 };
 
+enum class CameraType
+{
+	None = -1,
+	Free,
+	Horizontal,
+	Vertical,
+	Fixed
+};
 #define UILayer 100
 #include "AnimationClip.h"
