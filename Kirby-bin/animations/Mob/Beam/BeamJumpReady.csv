@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-Move,2,1,,
+JumpReady,10,1,,
 ,,,,
 TextureID,Left,Top,Width,Height
 ,0,0,72,72
