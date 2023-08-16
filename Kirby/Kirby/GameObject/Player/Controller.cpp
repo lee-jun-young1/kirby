@@ -6,25 +6,25 @@ void Controller::Init()
 {
 	GameObject::Init();
 
-	function<bool()> dCondition = [this]() { return Input.GetKey(sf::Keyboard::Key::Left) && IsDoubleClicked(sf::Keyboard::Key::Left); };
+	function<bool()> dCondition = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Left) && IsDoubleClicked(sf::Keyboard::Key::Left); };
 	function<void(float)> dAction = [this](float deltaTime) { playable.DashKey( -1.0f ); };
 	Command* dCommand = new Command(dCondition, dAction, 0);
 	AddCommand(dCommand);
 
 
-	function<bool()> condition = []() { return Input.GetKey(sf::Keyboard::Key::Left); };
+	function<bool()> condition = []() { return Input.GetKeyDown(sf::Keyboard::Key::Left); };
 	function<void(float)> action = [this](float deltaTime) { playable.MoveKey( -1.0f ); };
 	Command* command = new Command(condition, action, 1);
 	AddCommand(command);
 
 
-	function<bool()> dConditionD = [this]() { return Input.GetKey(sf::Keyboard::Key::Right) && IsDoubleClicked(sf::Keyboard::Key::Right); };
+	function<bool()> dConditionD = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Right) && IsDoubleClicked(sf::Keyboard::Key::Right); };
 	function<void(float)> dActionD = [this](float deltaTime) { playable.DashKey( 1.0f ); };
 	Command* dCommandD = new Command(dConditionD, dActionD, 0);
 	AddCommand(dCommandD);
 
 
-	function<bool()> conditionD = []() { return Input.GetKey(sf::Keyboard::Key::Right); };
+	function<bool()> conditionD = []() { return Input.GetKeyDown(sf::Keyboard::Key::Right); };
 	function<void(float)> actionD = [this](float deltaTime) { playable.MoveKey( 1.0f ); };
 	Command* commandD = new Command(conditionD, actionD, 1);
 	AddCommand(commandD);
@@ -48,6 +48,16 @@ void Controller::Init()
 	function<void(float)> actionCEnd = [this](float deltaTime) { playable.ChargeKeyEnd(); };
 	Command* commandCEnd = new Command(conditionCEnd, actionCEnd, 1);
 	AddCommand(commandCEnd);
+
+	function<bool()> conditionDoor = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Up); };
+	function<void(float)> actionDoor = [this](float deltaTime) { playable.DoorKey(); };
+	Command* commandDoor = new Command(conditionDoor, actionDoor, 1);
+	AddCommand(commandDoor);
+
+	function<bool()> conditionDoorEnd = [this]() { return Input.GetKeyUp(sf::Keyboard::Key::Up); };
+	function<void(float)> actionDoorEnd = [this](float deltaTime) { playable.DoorKeyEnd(); };
+	Command* commandDoorEnd = new Command(conditionDoorEnd, actionDoorEnd, 1);
+	AddCommand(commandDoorEnd);
 
 	function<bool()> conditionSit = [this]() { return Input.GetKey(sf::Keyboard::Key::Down); };
 	function<void(float)> actionSit = [this](float deltaTime) { playable.SitKey(); };

@@ -20,6 +20,9 @@ PhysicsManager::PhysicsManager()
 	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::EnemyEffect);
 	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::Item);
 
+	AddCollideLayer(PhysicsLayer::PlayerEffect, PhysicsLayer::Enemy);
+	AddCollideLayer(PhysicsLayer::PlayerEffect, PhysicsLayer::Item);
+
 	AddCollideLayer(PhysicsLayer::Enemy, PhysicsLayer::EnemyEffect);
 }
 

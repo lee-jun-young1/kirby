@@ -30,7 +30,7 @@
     <ClCompile Include="Scenes\Scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Example\Scenes\SceneExample.cpp">
+    <ClCompile Include="Kirby\Scenes\SceneExample.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Framework\ResourceManager.cpp">
@@ -156,7 +156,7 @@
     <ClCompile Include="Kirby\GameObject\Ground.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby\GameObject\Door.cpp">
+    <ClCompile Include="Kirby\GameObject\Interact\Door.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Kirby\GameObject\Background.cpp">
@@ -180,10 +180,13 @@
     <ClCompile Include="Kirby\GameObject\Player\Suction.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby\GameObject\Player\Mob.cpp">
+    <ClCompile Include="Kirby\GameObject\Mob\Mob.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,7 +212,7 @@
     <ClInclude Include="Global\Defines.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Example\Scenes\SceneExample.h">
+    <ClInclude Include="Kirby\Scenes\SceneExample.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Framework\ResourceManager.h">
@@ -371,7 +374,7 @@
     <ClInclude Include="Kirby\GameObject\Ground.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Kirby\GameObject\Door.h">
+    <ClInclude Include="Kirby\GameObject\Interact\Door.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\Background.h">
@@ -395,10 +398,13 @@
     <ClInclude Include="Kirby\GameObject\Player\Suction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Kirby\GameObject\Player\Mob.h">
+    <ClInclude Include="Kirby\GameObject\Mob\Mob.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\ThrowableGround.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

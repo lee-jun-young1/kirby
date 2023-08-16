@@ -1,0 +1,8 @@
+Key,Path
+Catch,animations/Mob/Cutter/CutterCatch.csv
+Delay,animations/Mob/Cutter/CutterDelay.csv
+Hit,animations/Mob/Cutter/CutterHit.csv
+Idle,animations/Mob/Cutter/CutterIdle.csv
+Jump,animations/Mob/Cutter/CutterJump.csv
+Suction,animations/Mob/Cutter/CutterSuction.csv
+Throw,animations/Mob/Cutter/CutterThrow.csv

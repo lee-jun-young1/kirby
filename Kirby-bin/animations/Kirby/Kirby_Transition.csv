@@ -21,7 +21,7 @@ TiltedIdleL,NoTilted,1,0,Idle,0
 TiltedIdleL,TiltedR,1,0,TiltedIdleR,0
 TiltedIdleL,Door,1,0,GoDoor,0
 TiltedIdleL,Falling,1,0,Falling,0
-TiltedIdleL,PressJump,1,0,Jump,0
+TiltedIdleR,PressJump,1,0,Jump,0
 TiltedIdleR,PressMove,1,0,Move,0
 TiltedIdleR,Run,1,0,Run,0
 TiltedIdleR,PressSit,1,0,Sit,0
@@ -47,12 +47,14 @@ Move,PressJump,1,0,Jump,0
 Move,PressSit,1,0,Sit,0
 Move,Door,1,0,GoDoor,0
 Move,Falling,1,0,Falling,0
+Move,Wall,1,0,Wall,0
 Run,Idle,1,0,Idle,0
 Run,AbilityKeyContinue,1,0,Suction,0
 Run,PressJump,1,0,Jump,0
 Run,PressSit,1,0,Sit,0
 Run,Door,1,0,GoDoor,0
 Run,Falling,1,0,Falling,0
+Run,Wall,1,0,Wall,0
 Sit,Idle,1,0,Idle,0
 Sit,AbilityKeyContinue,1,0,Suction,0
 Sit,PressJump,1,0,Tackle,0
@@ -75,6 +77,7 @@ GoDoor,Idle,1,0,Idle,0
 BalloonEat,PressSit,0,2,Sit,0
 BalloonEat,,0,2,Idle,0
 BalloonShot,,0,1,Idle,0
+BalloonEmptyShot,,0,1,Idle,0
 BalloonFly,Idle,1,0,Idle,0
 BalloonFly,PressJump,1,0,BalloonFly,0
 BalloonFly,AbilityKeyContinue,1,0,Suction,0
@@ -102,3 +105,4 @@ BalloonTiltedIdleR,PressMove,1,0,BalloonMove,0
 BalloonTiltedIdleR,PressSit,1,0,BalloonEat,0
 BalloonTiltedIdleR,TiltedL,1,0,BalloonTiltedIdleL,0
 BalloonTiltedIdleR,Hit,1,0,BalloonHit,0
+Wall,,0,1,Idle,0
