@@ -63,6 +63,7 @@ enum class PhysicsLayer
 	EnemyEffect,
 	Item,
 	AbilityItem,
+	Interact,
 	Count
 };
 

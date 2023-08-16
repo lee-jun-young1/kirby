@@ -50,7 +50,7 @@ void KirbyEffect::OnTriggerEnter(Collider* col)
 	}
 	if (col->GetGameObject().HasTag("Mob"))
 	{
-		((Mob*)&col->GetGameObject())->Damage(1.0f);
+		((Mob*)&col->GetGameObject())->Damage(1.0f, col->GetGameObject().GetPosition().x < GetPosition().x ? -1.0f : 1.0f);
 		SetActive(false);
 	}
 }

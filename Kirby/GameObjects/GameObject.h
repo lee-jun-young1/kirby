@@ -30,6 +30,8 @@ public:
 
 	bool IsActive() const;
 	void SetActive(bool active);
+	virtual void OnEnable() {};
+	virtual void OnDisable() {};
 
 	void SetParent(GameObject* parent) { this->parent = parent; }
 	GameObject* GetParent() { return parent; }
@@ -66,6 +68,7 @@ public:
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);
 	virtual void OnGUI(sf::RenderWindow& window);
+
 
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();

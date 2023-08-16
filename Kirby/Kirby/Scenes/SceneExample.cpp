@@ -27,6 +27,7 @@
 #include <Animator.h>
 #include <Door.h>
 #include <KirbyEffect.h>
+#include <Cutter.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -218,7 +219,7 @@ void SceneExample::Init()
 	}
 
 	Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	tempDoor->physicsLayer = (int)PhysicsLayer::Ground;
+	tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
 	tempDoor->SetOrigin(Origins::BC);
 	tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
 	tempDoor->SetMovePosition({ -72.0f, 0.0f });
@@ -297,13 +298,12 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F6))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Suctionable"));
+		Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Cutter"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(0.0f, 0.0f);
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
@@ -315,6 +315,7 @@ void SceneExample::Update(float deltaTime)
 
 		suctionAble->Reset();
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAble->SetPosition(-10.0f, 0.0f);
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}

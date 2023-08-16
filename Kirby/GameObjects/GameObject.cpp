@@ -13,6 +13,7 @@ void GameObject::SetActive(bool active)
 		return;
 	}
 	isActive = active;
+	isActive ? OnEnable() : OnDisable();
 	for (auto component : components)
 	{
 		active ? component->OnGameObjectEnable() : component->OnGameObjectDisable();

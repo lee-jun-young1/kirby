@@ -24,11 +24,11 @@ void Kirby::DashKey(const float& axisX)
 	}
 }
 
-void Kirby::MoveKeyEnd()
+void Kirby::MoveKeyEnd(const float& axisX)
 {
 	if (moveKeyEnd != nullptr)
 	{
-		moveKeyEnd();
+		moveKeyEnd(axisX);
 	}
 }
 
@@ -130,9 +130,9 @@ void Kirby::ChangeState(const KirbyState& state)
 			break;
 		case KirbyState::Move:
 			cout << "state :: Move" << endl;
-			moveKey = nullptr;
+			moveKey = std::bind(&Kirby::Move, this, std::placeholders::_1);
 			dashKey = nullptr;
-			moveKeyEnd = std::bind(&Kirby::MoveEnd, this);
+			moveKeyEnd = std::bind(&Kirby::MoveEnd, this, std::placeholders::_1);
 			chargeKey = nullptr;
 			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
 			chargeKeyEnd = nullptr;
@@ -146,9 +146,9 @@ void Kirby::ChangeState(const KirbyState& state)
 			break;
 		case KirbyState::Dash:
 			cout << "state :: Dash" << endl;
-			moveKey = nullptr;
+			moveKey = std::bind(&Kirby::Dash, this, std::placeholders::_1);
 			dashKey = nullptr;
-			moveKeyEnd = std::bind(&Kirby::MoveEnd, this);
+			moveKeyEnd = std::bind(&Kirby::MoveEnd, this, std::placeholders::_1);
 			chargeKey = nullptr;
 			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
 			chargeKeyEnd = nullptr;
@@ -201,12 +201,12 @@ void Kirby::ChangeState(const KirbyState& state)
 			chargeKeyContinue = nullptr;
 			chargeKeyEnd = nullptr;
 			doorKey = nullptr;
-			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
+			doorKeyEnd = nullptr;
 			sitKey = nullptr;
 			sitKeyEnd = nullptr;
 			jumpKey = nullptr;
-			vKey = std::bind(&Kirby::UnequipAbility, this);
-			update = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::EatUpdate, this, std::placeholders::_1);
 			break;
 		case KirbyState::Falling:
 			cout << "state :: Falling" << endl;
@@ -318,7 +318,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			sitKeyEnd = nullptr;
 			jumpKey = nullptr;
 			vKey = nullptr;
-			update = nullptr;
+			update = std::bind(&Kirby::CollideUpdate, this, std::placeholders::_1);
 			break;
 		case KirbyState::Tackle:
 			cout << "state :: Tackle" << endl;
@@ -450,11 +450,14 @@ void Kirby::Dash(const float& axis)
 	animator->SetEvent("Run");
 }
 
-void Kirby::MoveEnd()
+void Kirby::MoveEnd(const float& axis)
 {
-	ChangeState(KirbyState::Idle);
-	animator->SetEvent("Idle");
-	moveAxisX = 0.0f;
+	if (axis == moveAxisX)
+	{
+		ChangeState(KirbyState::Idle);
+		animator->SetEvent("Idle");
+		moveAxisX = 0.0f;
+	}
 }
 
 void Kirby::BalloonMoveEnd()
@@ -469,7 +472,7 @@ void Kirby::JumpMoveEnd()
 	moveAxisX = 0.0f;
 }
 
-void Kirby::UnequipAbility()
+void Kirby::EquipAbility()
 {
 	ability = keepInMouseAbility;
 	keepInMouseAbility = KirbyAbility::None;
@@ -478,6 +481,24 @@ void Kirby::UnequipAbility()
 	{
 		SetTexture(*tex);
 		SetOrigin(origin);
+	}
+}
+
+void Kirby::UnequipAbility()
+{
+	if (ability != KirbyAbility::None)
+	{
+		ChangeState(KirbyState::Shot);
+		animator->SetEvent("Shot");
+		ability = KirbyAbility::None;
+		keepInMouseAbility = KirbyAbility::None;
+		ShotStar();
+		sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
+		if (tex != nullptr)
+		{
+			SetTexture(*tex);
+			SetOrigin(origin);
+		}
 	}
 }
 
@@ -533,9 +554,9 @@ void Kirby::SuctionEnd()
 
 void Kirby::Eat()
 {
+	ChangeState(KirbyState::Eat);
 	animator->SetEvent("Eat");
-	UnequipAbility();
-	ChangeState(KirbyState::Idle);
+	EquipAbility();
 }
 
 void Kirby::Sit()
@@ -700,11 +721,58 @@ void Kirby::WallUpdate(float dt)
 	}
 }
 
+void Kirby::CollideUpdate(float dt)
+{
+	if (rigidbody->GetVelocity().y == 0.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
+	{
+		cout << "stop!!" << endl;
+		animator->SetEvent("Idle");
+		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
+		rigidbody->SetDrag(0.0f);
+		ChangeState(KirbyState::Idle);
+	}
+}
+
+void Kirby::EatUpdate(float dt)
+{
+	if (animator->GetClipName() != "BalloonEat")
+	{
+		ChangeState(KirbyState::Idle);
+	}
+}
+
 void Kirby::Draw(sf::RenderWindow& window)
 {
 	SpriteGO::Draw(window);
 }
 
+void Kirby::Damage(const int& damage, const float hitAxisX)
+{
+	if (state == KirbyState::Tackle || state == KirbyState::Suction || state == KirbyState::Eat)
+	{
+		return;
+	}
+	//hp -= damage;
+	ChangeState(KirbyState::Collided);
+	animator->SetEvent("Hit");
+	rigidbody->SetDrag(0.7f);
+	collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+	collider->SetOffset({ -12.0f, -24.0f });
+	moveAxisX = -GetScale().x;
+	rigidbody->SetVelocity({ hitAxisX * 100.0f, 0.0f });
+}
+
+void Kirby::SetInMouseType(const KirbyAbility& ability)
+{
+	if (keepInMouseAbility != KirbyAbility::None)
+	{
+		return;
+	}
+	keepInMouseAbility = ability;
+	cout << "keepInMouseAbility!!" << (int)keepInMouseAbility << endl;
+	ChangeState(KirbyState::Balloon);
+	animator->SetEvent("Balloon");
+}
 
 void Kirby::OnCollisionEnter(Collider* col)
 {
@@ -716,12 +784,17 @@ void Kirby::OnCollisionEnter(Collider* col)
 		collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		collider->SetOffset({ -12.0f, -24.0f });
 		moveAxisX = -GetScale().x;
-		cout << moveAxisX << endl;
 		rigidbody->SetVelocity({ 0.0f, -100.0f });
 	}
 
+	if (col->GetGameObject().HasTag("Mob"))
+	{
+		((Mob*)&col->GetGameObject())->Damage(10.0f, col->GetGameObject().GetPosition().x < GetPosition().x ? -1.0f : 1.0f);
+		RigidBody2D* rig = ((RigidBody2D*)col->GetGameObject().GetComponent(ComponentType::RigidBody));
+	}
+
 	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") && 
-		(state == KirbyState::Jump || state == KirbyState::DashJump || state == KirbyState::TackleJump || state == KirbyState::BalloonFly) && rigidbody->GetVelocity().y > 0.0f)
+		(state == KirbyState::Jump || state == KirbyState::DashJump || state == KirbyState::TackleJump || state == KirbyState::BalloonFly) && rigidbody->GetVelocity().y >= 0.0f)
 	{
 		ChangeState(KirbyState::Idle);
 		animator->SetEvent("Idle");
@@ -742,12 +815,8 @@ void Kirby::OnCollisionEnter(Collider* col)
 	if (col->GetGameObject().HasTag("Suctionable")  && state == KirbyState::Suction)
 	{
 		Mob* suctionable = (Mob*)&col->GetGameObject();
-		keepInMouseAbility = suctionable->GetType();
+		/////
 		suctionable->SetActive(false);
-		cout << "suction!!" << endl;
-		cout << "keepInMouseAbility!!" << (int)keepInMouseAbility << endl;
-		ChangeState(KirbyState::Balloon);
-		animator->SetEvent("Balloon");
 		suction->SetActive(false);
 	}
 
@@ -795,5 +864,4 @@ void Kirby::OnCollisionStay(Collider* col)
 			isDoorKeyPress = false;
 		}
 	}
-
 }
