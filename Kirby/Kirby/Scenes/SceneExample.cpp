@@ -298,7 +298,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
-		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Cutter/Cutter", "Idle"));
 		suctionAble->SetAnimator(ani);
 		suctionAble->SetRigidBody(rig);
 

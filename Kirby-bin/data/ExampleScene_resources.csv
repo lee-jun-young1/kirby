@@ -45,3 +45,10 @@
 3,animations/Mob/Normal/NormalSuction.csv
 0,sprites/mob/mob_Cutter.png
 0,sprites/temp/Door.png
+3,animations/Mob/Cutter/CutterCatch.csv
+3,animations/Mob/Cutter/CutterDelay.csv
+3,animations/Mob/Cutter/CutterHit.csv
+3,animations/Mob/Cutter/CutterIdle.csv
+3,animations/Mob/Cutter/CutterJump.csv
+3,animations/Mob/Cutter/CutterSuction.csv
+3,animations/Mob/Cutter/CutterThrow.csv
