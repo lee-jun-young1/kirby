@@ -27,6 +27,7 @@
 #include <Animator.h>
 #include <Door.h>
 #include <KirbyEffect.h>
+#include "CameraPointer.h"
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -80,11 +81,6 @@ void SceneExample::Init()
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
 
-	VertexArrayGO* background = CreateBackground({ 1, 1 }, size * 2.f);
-	AddGameObject(background);
-	background->SetPosition(-size);
-	background->sortLayer = -99;
-
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = 1;
@@ -108,7 +104,14 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
-
+	CameraPointer* tempCamPtr = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
+	tempCamPtr->SetSize({ 0.1f, 24.0f });
+	tempCamPtr->physicsLayer = (int)PhysicsLayer::Ground;
+	tempCamPtr->SetOrigin(Origins::MC);
+	tempCamPtr->SetType(CameraType::Horizontal);
+	tempCamPtr->SetPosition({ -72.0f + 6.f, 72.0f});
+	BoxCollider* camCol = (BoxCollider*)tempCamPtr->AddComponent(new BoxCollider(*tempCamPtr));
+	camCol->SetTrigger(true);
 
 	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround1->SetSize({ 24.0f, 24.0f });
@@ -143,7 +146,7 @@ void SceneExample::Init()
 	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
 
 
-	for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < worldView.getSize().x * 0.33f * 0.5f; screenX += 24.0f)
+	for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
 	{
 		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 		tempGround1->AddTag("Ground");
@@ -231,10 +234,19 @@ void SceneExample::Init()
 	tempDoor->physicsLayer = (int)PhysicsLayer::Ground;
 	tempDoor->SetOrigin(Origins::BC);
 	tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	tempDoor->SetMovePosition({ -72.0f, 0.0f });
-	BoxCollider* doorCol = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
-	doorCol->SetTrigger(true);
-	doorCol->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+	tempDoor->SetMovePosition({ 240.f + 12.f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
+	BoxCollider* doorCol1 = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
+	doorCol1->SetTrigger(true);
+	doorCol1->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+
+	Door* tempDoor2 = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
+	tempDoor2->physicsLayer = (int)PhysicsLayer::Ground;
+	tempDoor2->SetOrigin(Origins::BC);
+	tempDoor2->SetPosition({ 240.f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+	tempDoor2->SetMovePosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
+	BoxCollider* doorCol2 = (BoxCollider*)tempDoor2->AddComponent(new BoxCollider(*tempDoor2));
+	doorCol2->SetTrigger(true);
+	doorCol2->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
 
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround3->SetSize({ 106.0f, 20.0f });
@@ -297,7 +309,6 @@ void SceneExample::Update(float deltaTime)
 		worldView.setCenter(worldView.getCenter().x, kirby->GetPosition().y);
 		break;
 	case CameraType::Fixed:
-		//worldView.setCenter(kirby->GetPosition().x, worldView.getCenter().y);
 		break;
 	}
 
@@ -475,51 +486,4 @@ void SceneExample::Update(float deltaTime)
 void SceneExample::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
-}
-
-VertexArrayGO* SceneExample::CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize, const std::string& textureId)
-{
-	VertexArrayGO* background = new VertexArrayGO(textureId, "bg");
-	sf::Vector2f startPos = { 0,0 };
-
-
-	background->vertexArray.setPrimitiveType(sf::Quads);
-	background->vertexArray.resize(tileMatrix.x * tileMatrix.y * 4);
-
-	sf::Vector2f offsets[4] =
-	{
-		{0.f,0.f},
-		{tileSize.x,0.f},
-		{tileSize.x,tileSize.y },
-		{0.f,tileSize.y}
-	};
-
-	sf::Vector2f texOffsets[4] =
-	{
-		{0.f,0.f},
-		{texSize.x,0.f},
-		{texSize.x,texSize.y },
-		{0.f,texSize.y}
-	};
-
-	sf::Vector2f currPos = startPos;
-	for (int i = 0; i < tileMatrix.y; ++i)
-	{
-		for (int j = 0; j < tileMatrix.x; ++j)
-		{
-			int tileIndex = tileMatrix.x * i + j;
-			for (int k = 0; k < 4; ++k)
-			{
-				int vertexIndex = tileIndex * 4 + k;
-				sf::Color color = (vertexIndex < 2) ? sf::Color::White : sf::Color::Black;
-				background->vertexArray[vertexIndex].position = currPos + offsets[k];
-				background->vertexArray[vertexIndex].color = color;
-			}
-			currPos.x += tileSize.x;
-		}
-		currPos.x = startPos.x;
-		currPos.y += tileSize.y;
-	}
-	return background;
-
 }

@@ -1,15 +1,15 @@
 #pragma once
 #include "Scene.h"
 
-class VertexArrayGO;
+class CameraPointer;
 class SceneExample : public Scene
 {
 protected:
 	std::map<std::string, bool> mouseOverStates;
-
 	float testRotation = 0.0f;
-
-	CameraType cameraType = CameraType::Free;
+	
+	CameraType cameraType = CameraType::Fixed;
+	CameraType prevCameraType = CameraType::None;
 public:
 	SceneExample();
 	virtual ~SceneExample() override;
@@ -23,6 +23,9 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 
-	VertexArrayGO* CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize = { 0.f, 0.f }, const std::string& textureId = "");
+	const CameraType& GetCameraType() const { return cameraType; }
+	const CameraType& GetPrevCameraType() const { return prevCameraType; }
+	void SetCameraType(const CameraType& type) { this->cameraType = type; }
+	void SetPrevCameraType(const CameraType& type) { this->prevCameraType = type; }
 };
 
