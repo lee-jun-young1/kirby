@@ -24,6 +24,8 @@
 #include <Kirby.h>
 #include <Mob.h>
 #include <ThrowableGround.h>
+#include <Animator.h>
+#include <Door.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -206,6 +208,15 @@ void SceneExample::Init()
 		tempThroughtGround2->SetCollider(boxThroughtCol2);
 	}
 
+	Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
+	tempDoor->physicsLayer = (int)PhysicsLayer::Ground;
+	tempDoor->SetOrigin(Origins::BC);
+	tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+	tempDoor->SetMovePosition({ -72.0f, 0.0f });
+	BoxCollider* doorCol = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
+	doorCol->SetTrigger(true);
+	doorCol->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround3->SetSize({ 106.0f, 20.0f });
 	//tempGround3->physicsLayer = (int)PhysicsLayer::Ground;
@@ -228,7 +239,14 @@ void SceneExample::Init()
 	//circleGO->SetPosition({ 20.0f, 20.0f });
 	//circleGO->SetOrigin(Origins::MC);
 	//CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
-	
+
+	RectangleShapeGO* curtain = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Curtain"));
+	curtain->SetSize(FRAMEWORK.GetWindowSize());
+	curtain->SetOrigin(Origins::MC);
+	curtain->sortLayer = INT_MAX;
+	curtain->SetFillColor({ 0, 0, 0, 0 });
+	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -253,15 +271,18 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetTag("Suctionable");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
-		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(0.0f, 0.0f);
+		suctionAble->SetPosition(10.0f, 0.0f);
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
-		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	if (Input.GetKeyDown(Keyboard::F6))
@@ -277,8 +298,14 @@ void SceneExample::Update(float deltaTime)
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Cutter/Cutter", "Idle"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	if (Input.GetKeyDown(Keyboard::F7))
@@ -295,7 +322,14 @@ void SceneExample::Update(float deltaTime)
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
 
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
+
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	if (Input.GetKeyDown(Keyboard::F8))
@@ -312,7 +346,14 @@ void SceneExample::Update(float deltaTime)
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
 
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
+
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
 	//RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");

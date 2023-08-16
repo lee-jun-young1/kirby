@@ -24,6 +24,7 @@ enum class KirbyState
 	Suction,
 	Sit,
 	Shot,
+	Door,
 };
 
 
@@ -42,6 +43,11 @@ protected:
 	float speed = 30.0f;
 	float runSpeed = 60.0f;
 
+	float actionTime = 0.0f;
+
+	bool isDoorKeyPress = false;
+	sf::Vector2f doorTarget;
+
 	Suction* suction;
 
 	KirbyAbility keepInMouseAbility;
@@ -56,6 +62,8 @@ protected:
 	function<void()> chargeKeyEnd;
 	function<void()> sitKey;
 	function<void()> sitKeyEnd;
+	function<void()> doorKey;
+	function<void()> doorKeyEnd;
 	function<void()> jumpKey;
 	function<void()> vKey;
 	function<void(float)> update;
@@ -73,6 +81,10 @@ public:
 	// Down
 	virtual void SitKey() override;
 	virtual void SitKeyEnd() override;
+
+	// Up
+	virtual void DoorKey() override;
+	virtual void DoorKeyEnd() override;
 
 	// X
 	virtual void ChargeKey() override;
@@ -102,6 +114,8 @@ public:
 	void Eat();
 	void Sit();
 	void UnSit();
+	void OnDoorKeyDown();
+	void OnDoorKeyUp();
 
 	// X
 	void ShotStar();
@@ -126,6 +140,7 @@ public:
 	virtual void Release() override;
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
+	void DoorUpdate(float dt);
 	void MoveUpdate(float dt);
 	void RunUpdate(float dt);
 	void TackleUpdate(float dt);

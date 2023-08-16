@@ -13,6 +13,8 @@ public:
 	virtual void ChargeKeyEnd() = 0;
 	virtual void SitKey() = 0;
 	virtual void SitKeyEnd() = 0;
+	virtual void DoorKey() = 0;
+	virtual void DoorKeyEnd() = 0;
 	virtual void JumpKey() = 0;
 	virtual void VKey() = 0;
 };

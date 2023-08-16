@@ -49,6 +49,16 @@ void Controller::Init()
 	Command* commandCEnd = new Command(conditionCEnd, actionCEnd, 1);
 	AddCommand(commandCEnd);
 
+	function<bool()> conditionDoor = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Up); };
+	function<void(float)> actionDoor = [this](float deltaTime) { playable.DoorKey(); };
+	Command* commandDoor = new Command(conditionDoor, actionDoor, 1);
+	AddCommand(commandDoor);
+
+	function<bool()> conditionDoorEnd = [this]() { return Input.GetKeyUp(sf::Keyboard::Key::Up); };
+	function<void(float)> actionDoorEnd = [this](float deltaTime) { playable.DoorKeyEnd(); };
+	Command* commandDoorEnd = new Command(conditionDoorEnd, actionDoorEnd, 1);
+	AddCommand(commandDoorEnd);
+
 	function<bool()> conditionSit = [this]() { return Input.GetKey(sf::Keyboard::Key::Down); };
 	function<void(float)> actionSit = [this](float deltaTime) { playable.SitKey(); };
 	Command* commandSit = new Command(conditionSit, actionSit, 1);
