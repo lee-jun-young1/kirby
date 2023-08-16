@@ -34,6 +34,7 @@ public:
 	void SetBounciness(float bounciness);
 
 	virtual sf::Vector2f GetNormal(Collider* col);
+	virtual sf::Vector2f GetNormal(const sf::Vector2f& point);
 	virtual bool CheckCross(Collider* col) = 0;
 	virtual sf::Vector2f GetCenter() = 0;
 	virtual float GetWidth() = 0;

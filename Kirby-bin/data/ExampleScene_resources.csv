@@ -33,7 +33,7 @@
 4,fonts/DefaultFont_Data.csv
 0,fonts/ScoreFont.png
 4,fonts/ScoreFont_Data.csv
-0,sprites/effects/Star.png
+0,sprites/effects/KirbyEffect.png
 3,animations/Effect/Star.csv
 0,sprites/temp/tempThroughtable.png
 0,sprites/mob/mob_normal.png
@@ -52,3 +52,6 @@
 3,animations/Mob/Cutter/CutterJump.csv
 3,animations/Mob/Cutter/CutterSuction.csv
 3,animations/Mob/Cutter/CutterThrow.csv
+3,animations/Kirby/Kirby_BalloonEmptyShot.csv
+3,animations/Effect/EmptyShot.csv
+3,animations/Kirby/Kirby_Wall.csv

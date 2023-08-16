@@ -1,0 +1,3 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+EmptyShot,Star,1,0,Star,0
+Star,EmptyShot,1,0,EmptyShot,0

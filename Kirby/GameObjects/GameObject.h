@@ -22,7 +22,7 @@ protected:
 	list<Component*> components;
 	GameObject* parent;
 
-	string tag;
+	list<string> tags;
 public:
 	int sortLayer = 0;
 	int sortOrder = 0;
@@ -45,8 +45,9 @@ public:
 	sf::Vector2f GetScale() { return scale; }
 	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
 
-	const string& GetTag() { return tag; } const
-	virtual void SetTag(const string& tag) { this->tag = tag; }
+	virtual bool HasTag(const string& tag) const;
+	virtual void AddTag(const string& tag);
+	virtual void RemoveTag(const string& tag);
 
 	virtual void SetOrigin(const Origins& origin) {};
 	virtual void SetOrigin(const sf::Vector2f& origin);

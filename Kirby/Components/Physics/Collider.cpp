@@ -130,6 +130,87 @@ sf::Vector2f Collider::GetNormal(Collider* col)
 	}
 }
 
+sf::Vector2f Collider::GetNormal(const sf::Vector2f& point)
+{
+	float rotation = GetRotationOffset() + GetGameObject().GetRotation();
+	if (rotation == 0)
+	{
+		sf::Vector2f val = (point - GetCenter());
+		val.x /= GetWidth();
+		val.y /= GetHeight();
+
+		sf::Vector2f result;
+		if (abs(val.x) >= abs(val.y))
+		{
+			//cout << " Y " << endl;
+			result.x = val.x > 0.0f ? 1.0f : -1.0f;
+		}
+		else
+		{
+			//cout << " X " << endl;
+			result.y = (val.y > 0.0f ? 1.0f : -1.0f);
+		}
+
+		return result;
+	}
+	else
+	{
+		sf::Vector2f result;
+
+		sf::Vector2f rotatedVertex[4];
+
+		rotatedVertex[0] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * -0.5f, GetHeight() * -0.5f), rotation);
+		rotatedVertex[1] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * -0.5f, GetHeight() * 0.5f), rotation);
+		rotatedVertex[2] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * 0.5f, GetHeight() * -0.5f), rotation);
+		rotatedVertex[3] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * 0.5f, GetHeight() * 0.5f), rotation);
+
+
+		sf::Vector2f top = rotatedVertex[0];
+		sf::Vector2f bottom = rotatedVertex[0];
+		sf::Vector2f left = rotatedVertex[0];
+		sf::Vector2f right = rotatedVertex[0];
+		for (int i = 1; i < 4; i++)
+		{
+			if (top.y > rotatedVertex[i].y)
+			{
+				top = rotatedVertex[i];
+			}
+			if (top.y < rotatedVertex[i].y)
+			{
+				bottom = rotatedVertex[i];
+			}
+			if (left.x > rotatedVertex[i].x)
+			{
+				left = rotatedVertex[i];
+			}
+			if (right.x < rotatedVertex[i].x)
+			{
+				right = rotatedVertex[i];
+			}
+		}
+
+
+		if (point.y < left.y && point.x < top.x)
+		{
+			result.x = -1.0f;
+		}
+		else if (point.y < right.y && point.x > top.x)
+		{
+			result.y = -1.0f;
+		}
+		else if (point.y > left.y && point.x < bottom.x)
+		{
+			result.y = 1.0f;
+		}
+		else if (point.y > right.y && point.x > bottom.x)
+		{
+			result.x = 1.0f;
+		}
+		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, (int)rotation % 90);
+		return result;
+	}
+}
+
 void Collider::SetTrigger(bool isTrigger)
 {
 	this->isTrigger = isTrigger;

@@ -6,25 +6,25 @@ void Controller::Init()
 {
 	GameObject::Init();
 
-	function<bool()> dCondition = [this]() { return Input.GetKey(sf::Keyboard::Key::Left) && IsDoubleClicked(sf::Keyboard::Key::Left); };
+	function<bool()> dCondition = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Left) && IsDoubleClicked(sf::Keyboard::Key::Left); };
 	function<void(float)> dAction = [this](float deltaTime) { playable.DashKey( -1.0f ); };
 	Command* dCommand = new Command(dCondition, dAction, 0);
 	AddCommand(dCommand);
 
 
-	function<bool()> condition = []() { return Input.GetKey(sf::Keyboard::Key::Left); };
+	function<bool()> condition = []() { return Input.GetKeyDown(sf::Keyboard::Key::Left); };
 	function<void(float)> action = [this](float deltaTime) { playable.MoveKey( -1.0f ); };
 	Command* command = new Command(condition, action, 1);
 	AddCommand(command);
 
 
-	function<bool()> dConditionD = [this]() { return Input.GetKey(sf::Keyboard::Key::Right) && IsDoubleClicked(sf::Keyboard::Key::Right); };
+	function<bool()> dConditionD = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::Right) && IsDoubleClicked(sf::Keyboard::Key::Right); };
 	function<void(float)> dActionD = [this](float deltaTime) { playable.DashKey( 1.0f ); };
 	Command* dCommandD = new Command(dConditionD, dActionD, 0);
 	AddCommand(dCommandD);
 
 
-	function<bool()> conditionD = []() { return Input.GetKey(sf::Keyboard::Key::Right); };
+	function<bool()> conditionD = []() { return Input.GetKeyDown(sf::Keyboard::Key::Right); };
 	function<void(float)> actionD = [this](float deltaTime) { playable.MoveKey( 1.0f ); };
 	Command* commandD = new Command(conditionD, actionD, 1);
 	AddCommand(commandD);

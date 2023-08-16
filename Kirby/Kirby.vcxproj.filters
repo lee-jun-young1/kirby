@@ -186,6 +186,9 @@
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -399,6 +402,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\ThrowableGround.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -261,7 +261,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			moveKey = std::bind(&Kirby::JumpMove, this, std::placeholders::_1);
 			dashKey = nullptr;
 			moveKeyEnd = std::bind(&Kirby::JumpMoveEnd, this);
-			chargeKey = nullptr;
+			chargeKey = std::bind(&Kirby::ShotEmpty, this);
 			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
@@ -284,7 +284,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
 			sitKey = nullptr;
 			sitKeyEnd = nullptr;
-			jumpKey = nullptr;
+			jumpKey = std::bind(&Kirby::Fly, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::RunUpdate, this, std::placeholders::_1);
 			break;
@@ -399,6 +399,22 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::DoorUpdate, this, std::placeholders::_1);
+			break;
+		case KirbyState::Wall:
+			cout << "state :: Wall" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::WallUpdate, this, std::placeholders::_1);
 			break;
 	}
 }
@@ -570,12 +586,28 @@ void Kirby::Init()
 void Kirby::ShotStar() 
 {
 	animator->SetEvent("Shot");
-	starEffect->SetActive(true);
-	starEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
+	kirbyEffect->SetActive(true);
+	kirbyEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
+	kirbyEffect->StarShot(GetScale().x);
+	((Animator*)kirbyEffect->GetComponent(ComponentType::Animation))->SetState("Star");
 	keepInMouseAbility = KirbyAbility::None;
+	rigidbody->SetVelocity({ 0.0f, 0.0f });
 	ChangeState(KirbyState::Shot);
 	moveAxisX = 0.0f;
-	RigidBody2D* effectRig = (RigidBody2D*)starEffect->GetComponent(ComponentType::RigidBody);
+}
+
+void Kirby::ShotEmpty()
+{
+	animator->SetEvent("Shot");
+	kirbyEffect->SetActive(true);
+	kirbyEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
+	kirbyEffect->EmptyShot(GetScale().x);
+	((Animator*)kirbyEffect->GetComponent(ComponentType::Animation))->SetState("EmptyShot");
+	keepInMouseAbility = KirbyAbility::None;
+	rigidbody->SetVelocity({ 0.0f, 0.0f });
+	ChangeState(KirbyState::Shot);
+	moveAxisX = 0.0f;
+	RigidBody2D* effectRig = (RigidBody2D*)kirbyEffect->GetComponent(ComponentType::RigidBody);
 	effectRig->SetGravity(false);
 	effectRig->SetVelocity({ GetScale().x * 300.0f, 0.0f });
 }
@@ -660,6 +692,14 @@ void Kirby::ShotUpdate(float dt)
 	}
 }
 
+void Kirby::WallUpdate(float dt)
+{
+	if (animator->GetClipName() != "Wall")
+	{
+		ChangeState(KirbyState::Idle);
+	}
+}
+
 void Kirby::Draw(sf::RenderWindow& window)
 {
 	SpriteGO::Draw(window);
@@ -699,7 +739,7 @@ void Kirby::OnCollisionEnter(Collider* col)
 		rigidbody->SetVelocity({ 0.0f, 0.0f });
 	}
 
-	if (col->GetGameObject().GetTag() == "Suctionable" && state == KirbyState::Suction)
+	if (col->GetGameObject().HasTag("Suctionable")  && state == KirbyState::Suction)
 	{
 		Mob* suctionable = (Mob*)&col->GetGameObject();
 		keepInMouseAbility = suctionable->GetType();
@@ -710,10 +750,33 @@ void Kirby::OnCollisionEnter(Collider* col)
 		animator->SetEvent("Balloon");
 		suction->SetActive(false);
 	}
+
+	if (col->GetGameObject().GetName() == "Ground" && abs(col->GetNormal(position + sf::Vector2f(0.0f, -12.0f)).x) > 0.8f 
+		&& (state == KirbyState::Dash || state == KirbyState::Move))
+	{
+		ChangeState(KirbyState::Wall);
+		animator->SetEvent("Wall");
+	}
 }
 
 void Kirby::OnCollisionStay(Collider* col)
 {
+	if (col->GetGameObject().GetName() == "Ground" && col->GetRotationOffset() + col->GetGameObject().GetRotation() != 0.0f)
+	{
+		if (col->GetNormal(position + sf::Vector2f(0.0f, -12.0f)).x * scale.x < 0.0f)
+		{
+			animator->SetEvent("TiltedL");
+		}
+		else
+		{
+			animator->SetEvent("TiltedR");
+		}
+	}
+	else
+	{
+		animator->SetEvent("NoTilted");
+	}
+
 	if (state == KirbyState::Sit && col->GetGameObject().GetName() == "ThroughtableGround")
 	{
 		//cout << "Kirby On!!" << endl;

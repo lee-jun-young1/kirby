@@ -4,6 +4,7 @@
 #include <BoxCollider.h>
 #include <RigidBody2D.h>
 #include <Suction.h>
+#include <KirbyEffect.h>
 
 enum class KirbyState
 {
@@ -25,6 +26,7 @@ enum class KirbyState
 	Sit,
 	Shot,
 	Door,
+	Wall,
 };
 
 
@@ -52,7 +54,7 @@ protected:
 
 	KirbyAbility keepInMouseAbility;
 
-	SpriteGO* starEffect;
+	KirbyEffect* kirbyEffect;
 	
 	function<void(const float&)> moveKey;
 	function<void(const float&)> dashKey;
@@ -119,6 +121,7 @@ public:
 
 	// X
 	void ShotStar();
+	void ShotEmpty();
 	void DoSuction();
 	void SuctionEnd();
 
@@ -134,7 +137,7 @@ public:
 #pragma endregion
 
 	void SetSuction(Suction* suction) { this->suction = suction; }
-	void SetStarEffect(SpriteGO* starEffect) { this->starEffect = starEffect; }
+	void SetEffect(KirbyEffect* starEffect) { this->kirbyEffect = starEffect; }
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -146,6 +149,8 @@ public:
 	void TackleUpdate(float dt);
 
 	void ShotUpdate(float dt);
+
+	void WallUpdate(float dt);
 
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void OnCollisionEnter(Collider* col) override;

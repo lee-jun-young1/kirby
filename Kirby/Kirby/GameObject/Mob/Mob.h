@@ -49,6 +49,8 @@ public:
 
     void SetSuction(GameObject* target);
 
+    void Damage(const int& damage);
+
     virtual void OnCollisionEnter(Collider* col) override;
 };
 

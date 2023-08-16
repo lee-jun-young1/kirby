@@ -17,6 +17,10 @@ void Mob::Update(float dt)
 
 void Mob::UpdateIdle(float dt)
 {
+    state = State::Hit;
+    animator->SetEvent("Hit");
+    update = std::bind(&Mob::UpdateHit, this, std::placeholders::_1);
+    currentHitTime = 0.0f;
 }
 
 void Mob::UpdateMove(float dt)
@@ -63,6 +67,14 @@ void Mob::SetSuction(GameObject* target)
         ((Collider*)GetComponent(ComponentType::Collider))->SetTrigger(true);
         update = std::bind(&Mob::UpdateSuction, this, std::placeholders::_1);
     }
+}
+
+void Mob::Damage(const int& damage)
+{
+    state = State::Hit;
+    animator->SetEvent("Hit");
+    update = std::bind(&Mob::UpdateHit, this, std::placeholders::_1);
+    currentHitTime = 0.0f;
 }
 
 void Mob::OnCollisionEnter(Collider* col)
