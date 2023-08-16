@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 #include "json.h"
+#include "Utils.h"
 
 //test
 #include "VertexArrayGO.h"
@@ -57,10 +58,12 @@ void GameScene::Init()
 	Scene::Init();
 	Release();
 
-	VertexArrayGO* background = (VertexArrayGO*)AddGameObject(new VertexArrayGO("", "bg"));
-	background->vertexArray.setPrimitiveType(sf::Quads);
-	background->vertexArray.resize(4);
-	
+	auto size = FRAMEWORK.GetWindowSize();
+	VertexArrayGO* background = CreateBackground({ 1, 1 }, size);
+	AddGameObject(background);
+	background->SetOrigin(Origins::MC);
+	background->SetPosition(0.f, 0.f);
+	background->sortLayer = -99;
 	
 	for (auto go : gameObjects)
 	{
@@ -70,11 +73,59 @@ void GameScene::Init()
 
 void GameScene::Update(float dt)
 {
-	
+	movement = { Input.GetAxisRaw(Axis::Horizontal), Input.GetAxisRaw(Axis::Vertical) };
+	worldView.setCenter(worldView.getCenter() + movement * 50.f * dt);
+
 	//worldView.setCenter();
 }
 
 void GameScene::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+VertexArrayGO* GameScene::CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize, const std::string& textureId)
+{
+	VertexArrayGO* background = new VertexArrayGO(textureId, "bg");
+	sf::Vector2f startPos = { 0,0 };
+
+	
+	background->vertexArray.setPrimitiveType(sf::Quads);
+	background->vertexArray.resize(tileMatrix.x * tileMatrix.y * 4);
+
+	sf::Vector2f offsets[4] =
+	{
+		{0.f,0.f},
+		{tileSize.x,0.f},
+		{tileSize.x,tileSize.y },
+		{0.f,tileSize.y}
+	};
+
+	sf::Vector2f texOffsets[4] =
+	{
+		{0.f,0.f},
+		{texSize.x,0.f},
+		{texSize.x,texSize.y },
+		{0.f,texSize.y}
+	};
+
+	sf::Vector2f currPos = startPos;
+	for (int i = 0; i < tileMatrix.y; ++i)
+	{
+		for (int j = 0; j < tileMatrix.x; ++j)
+		{
+			int tileIndex = tileMatrix.x * i + j;
+			for (int k = 0; k < 4; ++k)
+			{
+				int vertexIndex = tileIndex * 4 + k;
+				sf::Color color = (vertexIndex < 2) ? sf::Color::White : sf::Color::Black;
+				background->vertexArray[vertexIndex].position = currPos + offsets[k];
+				background->vertexArray[vertexIndex].color = color;
+			}
+			currPos.x += tileSize.x;
+		}
+		currPos.x = startPos.x;
+		currPos.y += tileSize.y;
+	}
+	return background;
 }
