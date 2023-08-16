@@ -45,6 +45,10 @@ void Mob::UpdateSuction(float dt)
 {
     suctionTime += dt;
     SetPosition(Utils::Lerp(suctionStartPos, target->GetPosition(), suctionTime));
+    if (suctionTime > 1.0f)
+    {
+        SetActive(false);
+    }
 }
 
 void Mob::SetSuction(GameObject* target)
@@ -56,6 +60,7 @@ void Mob::SetSuction(GameObject* target)
         this->target = target;
         suctionTime = 0.0f;
         suctionStartPos = GetPosition();
+        ((Collider*)GetComponent(ComponentType::Collider))->SetTrigger(true);
         update = std::bind(&Mob::UpdateSuction, this, std::placeholders::_1);
     }
 }

@@ -42,9 +42,9 @@ void Kirby::DoorKey()
 
 void Kirby::DoorKeyEnd()
 {
-	if (doorKey != nullptr)
+	if (doorKeyEnd != nullptr)
 	{
-		doorKey();
+		doorKeyEnd();
 	}
 }
 
@@ -545,6 +545,7 @@ void Kirby::OnDoorKeyDown()
 
 void Kirby::OnDoorKeyUp()
 {
+	cout << "isDoorKeyPress = false" << endl;
 	isDoorKeyPress = false;
 }
 
@@ -686,6 +687,7 @@ void Kirby::OnCollisionEnter(Collider* col)
 		animator->SetEvent("Idle");
 		rigidbody->SetDrag(0.0f);
 		rigidbody->SetVelocity({ 0.0f, 0.0f });
+		moveAxisX = 0.0f;
 	}
 
 	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") &&
