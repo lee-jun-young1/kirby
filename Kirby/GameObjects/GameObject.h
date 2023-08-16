@@ -12,7 +12,8 @@ protected:
 	string name;
 
 	sf::Vector2f position;
-	float rotation;
+	float rotation; 
+	sf::Vector2f scale;
 
 	sf::Vector2f size;
 
@@ -20,6 +21,8 @@ protected:
 
 	list<Component*> components;
 	GameObject* parent;
+
+	string tag;
 public:
 	int sortLayer = 0;
 	int sortOrder = 0;
@@ -39,7 +42,13 @@ public:
 
 	virtual void SetPosition(const float& x, const float& y);
 
-	virtual void SetOrigin(const Origins& origin) = 0;
+	sf::Vector2f GetScale() { return scale; }
+	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
+
+	const string& GetTag() { return tag; } const
+	virtual void SetTag(const string& tag) { this->tag = tag; }
+
+	virtual void SetOrigin(const Origins& origin) {};
 	virtual void SetOrigin(const sf::Vector2f& origin);
 	const sf::Vector2f& GetOrigin() { return origin; };
 

@@ -32,7 +32,7 @@ protected:
 	sf::RectangleShape debugShape;
 public:
 	virtual void OnCollisionEnter(Collider* col) override;
-	virtual void OnCollisionStay(Collider* col) override;
+	virtual void OnCollisionStay(Collider* col, const float& deltaTime) override;
 	virtual void OnCollisionExit(Collider* col) override;
 
 	virtual void OnTriggerEnter(Collider* col) override;

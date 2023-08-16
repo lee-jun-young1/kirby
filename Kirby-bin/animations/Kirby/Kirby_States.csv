@@ -1,9 +1,9 @@
 Key,Path
 BalloonShot,animations/Kirby/Kirby_BalloonShot.csv
 BalloonEat,animations/Kirby/Kirby_BalloonEat.csv
-BalloonFlyIdle,animations/Kirby/Kirby_BalloonFlyIdle.csv
-BalloonFlyUp,animations/Kirby/Kirby_BalloonFlyUp.csv
+BalloonFly,animations/Kirby/Kirby_BalloonFly.csv
 BalloonHit,animations/Kirby/Kirby_BalloonHit.csv
+BalloonJump,animations/Kirby/Kirby_BalloonJump.csv
 BalloonIdle,animations/Kirby/Kirby_BalloonIdle.csv
 BalloonMove,animations/Kirby/Kirby_BalloonMove.csv
 BalloonTiltedIdleL,animations/Kirby/Kirby_BalloonTiltedIdleL.csv

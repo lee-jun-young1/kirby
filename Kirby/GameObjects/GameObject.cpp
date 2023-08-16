@@ -88,7 +88,7 @@ void GameObject::OnGUI(sf::RenderWindow& window)
 }
 
 GameObject::GameObject(const std::string& name)
-	:name(name)
+	:name(name), scale(1.0f, 1.0f)
 {
 }
 

@@ -12,10 +12,11 @@ BoxCollider::BoxCollider(GameObject& gameObject)
 {
 	rect = { gameObject.GetPosition().x, gameObject.GetPosition().y, gameObject.GetSize().x, gameObject.GetSize().y };
 	offset = gameObject.GetOrigin() * -1.0f;
+	//rotationOffset = 30.0f;
 }
 
 void BoxCollider::SetRect(sf::Rect<float> rect)
-{
+{ 
 	this->rect = rect;
 }
 
@@ -122,10 +123,11 @@ void BoxCollider::Update(float deltaTime)
 
 	Collider::Update(deltaTime);
 #ifdef _DEBUG
-	debugShape.setPosition({ rect.left - offset.x, rect.top - offset.y});
+	//debugShape.setPosition({ rect.left - offset.x, rect.top - offset.y });
+	debugShape.setPosition({ (rect.left + rect.width * 0.5f), (rect.top + rect.height * 0.5f)});
 	debugShape.setSize({ rect.width, rect.height });
 	debugShape.setRotation(rotationOffset + gameObject.GetRotation());
-	debugShape.setOrigin(gameObject.GetOrigin());
+	debugShape.setOrigin(rect.width * 0.5f, rect.height * 0.5f);
 #endif
 }
 
@@ -163,31 +165,27 @@ bool BoxCollider::SATTest(const sf::Vector2f& axis, const sf::Vector2f& aLeftTop
 	const sf::Vector2f& bLeftTop, const sf::Vector2f& bCenter, const sf::Vector2f& bRight, const sf::Vector2f& bUp)
 {
 	//3
-	float aLength = Utils::Distance({0.0f, 0.0f}, GetProjection(axis, aCenter - aLeftTop));
+	float aLength = Utils::Distance({0.0f, 0.0f}, Utils::DotProuct(axis, aCenter - aLeftTop));
 
 	//5
-	float bUpProjectionLength = Utils::Distance({ 0.0f, 0.0f }, GetProjection(bUp, bCenter - bLeftTop));
+	float bUpProjectionLength = Utils::Distance({ 0.0f, 0.0f }, Utils::DotProuct(bUp, bCenter - bLeftTop));
 	sf::Vector2f bTopPosition = bUp * bUpProjectionLength;
 	//6
-	float b1Length = Utils::Distance({ 0.0f, 0.0f }, GetProjection(axis, bTopPosition));
+	float b1Length = Utils::Distance({ 0.0f, 0.0f }, Utils::DotProuct(axis, bTopPosition));
 
 	//7
-	float bRightProjectionLength = Utils::Distance({ 0.0f, 0.0f }, GetProjection(bRight, bCenter - bLeftTop));
+	float bRightProjectionLength = Utils::Distance({ 0.0f, 0.0f }, Utils::DotProuct(bRight, bCenter - bLeftTop));
 	sf::Vector2f bRightPosition = bRight * bRightProjectionLength;
 
-	float b2Length = Utils::Distance({ 0.0f, 0.0f }, GetProjection(axis, bRightPosition));
+	float b2Length = Utils::Distance({ 0.0f, 0.0f }, Utils::DotProuct(axis, bRightPosition));
 
 	//8
-	float targetLength = Utils::Distance({ 0.0f, 0.0f }, GetProjection(axis, aCenter - bCenter));
+	float targetLength = Utils::Distance({ 0.0f, 0.0f }, Utils::DotProuct(axis, aCenter - bCenter));
 
 
 	return (aLength + b1Length + b2Length) > targetLength;
 }
 
-sf::Vector2f BoxCollider::GetProjection(const sf::Vector2f& axis, const sf::Vector2f& target)
-{
-	return (axis.x * target.x + axis.y * target.y) * axis;
-}
 
 #ifdef _DEBUG
 void BoxCollider::OnCollisionEnter(Collider* col)
@@ -195,9 +193,9 @@ void BoxCollider::OnCollisionEnter(Collider* col)
 	Collider::OnCollisionEnter(col);
 }
 
-void BoxCollider::OnCollisionStay(Collider* col)
+void BoxCollider::OnCollisionStay(Collider* col, const float& deltaTime)
 {
-	Collider::OnCollisionStay(col);
+	Collider::OnCollisionStay(col, deltaTime);
 	debugShape.setOutlineColor(sf::Color::Red);
 }
 

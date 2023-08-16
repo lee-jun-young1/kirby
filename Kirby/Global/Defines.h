@@ -56,11 +56,13 @@ enum class ColliderType
 enum class PhysicsLayer
 {
 	Default = 0,
-	Ground = 1,
-	Wall = 2,
-	Player = 3,
-	Item = 4,
-	Obstacle = 5,
+	Ground,
+	Player,
+	PlayerEffect,
+	Enemy,
+	EnemyEffect,
+	Item,
+	AbilityItem,
 	Count
 };
 
@@ -87,5 +89,14 @@ enum class StageIndex
 {
 	None = -1,
 };
+
+enum class KirbyAbility
+{
+	None,
+	Cutter,
+	Beam,
+	Bomb,
+};
+
 #define UILayer 100
 #include "AnimationClip.h"

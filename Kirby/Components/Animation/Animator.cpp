@@ -15,7 +15,7 @@ void Animator::AddTransition(const std::string& stateName, const std::string& tr
 {
 	if (transition.enterAnimationState == nullptr)
 	{
-		std::cout << "Invalid Animation State" << std::endl;
+		std::cout << "Invalid Animation State :: " << stateName << " "  << transitionName << std::endl;
 		return;
 	}
 
@@ -56,7 +56,7 @@ void Animator::SetEvent(std::string eventID)
 	auto find = currentState->transitions.find(currentEvent);
 	if (find == currentState->transitions.end())
 	{
-		currentEvent = "";
+ 		currentEvent = "";
 		return;
 	}
 	if (find->second.notAllowQuitTime)
@@ -92,24 +92,24 @@ void Animator::Reset()
 void Animator::Update(float dt)
 {
 	Animation::Update(dt);
-	if (!isEnable || !isPlaying || accumTime < clipFrameTime)
+	if (!isEnable || !isPlaying || accumTime != 0.0f)
 		return;
 
 
-	if (currentEvent == "")
+	if (currentEvent == "noneEvent")
 	{
 		return;
 	}
 	auto find = currentState->transitions.find(currentEvent);
 	if (find == currentState->transitions.end())
 	{
-		currentEvent = "";
+		currentEvent = "noneEvent";
 		return;
 	}
 
 	if (find->second.quitTime == currentFrame)
 	{
-		currentEvent = "";
+		currentEvent = "noneEvent";
 		currentState = find->second.enterAnimationState;
 		SetClip(currentState->clip);
 		Seek(find->second.enterTime);

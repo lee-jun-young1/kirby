@@ -24,6 +24,7 @@ class Animator : public Animation
 protected:
 	std::unordered_map<std::string, AnimationState*> states;
 	AnimationState* currentState;
+	Transition* nextTransition;
 
 	string currentEvent;
 

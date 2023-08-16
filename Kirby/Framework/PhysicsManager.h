@@ -15,6 +15,8 @@ public:
 	void AddColliders(Collider* col, const int& physicsLayer);
 	void RemoveColliders(Collider* col, const int& physicsLayer);
 	void Clear();
+	void AddCollideLayer(PhysicsLayer a, PhysicsLayer b);
+	void RemoveCollideLayer(PhysicsLayer a, PhysicsLayer b);
 };
 
 #define Physics (PhysicsManager::GetInstance())

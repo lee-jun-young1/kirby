@@ -17,7 +17,7 @@ protected:
 	float rotationOffset;
 
 	virtual void OnCollisionEnter(Collider* col);
-	virtual void OnCollisionStay(Collider* col);
+	virtual void OnCollisionStay(Collider* col, const float& deltaTime);
 	virtual void OnCollisionExit(Collider* col);
 
 	virtual void OnTriggerEnter(Collider* col);
@@ -39,6 +39,7 @@ public:
 	virtual float GetWidth() = 0;
 	virtual float GetHeight() = 0;
 
+	bool IsTrigger() { return isTrigger; }
 	void SetTrigger(bool isTrigger);
 
 	void SetOffset(sf::Vector2f offset);

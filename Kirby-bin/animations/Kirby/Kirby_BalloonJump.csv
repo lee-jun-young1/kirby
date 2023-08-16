@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-BalloonFlyIdle,2,0,,
+BalloonJump,2,1,,
 ,,,,
 TextureID,Left,Top,Width,Height
-,0,504,72,72
+,432,216,72,72
