@@ -2,5 +2,4 @@ ID,FPS,LOOPTYPE,,
 Suction,2,1,,
 ,,,,
 TextureID,Left,Top,Width,Height
-,48,48,72,72
-,240,0,72,72
+sprites/mob/mob_cutter.png,48,48,72,72
