@@ -10,6 +10,7 @@ protected:
 	
 	CameraType cameraType = CameraType::Fixed;
 	CameraType prevCameraType = CameraType::None;
+	float cameraTime = 0.0f;
 public:
 	SceneExample();
 	virtual ~SceneExample() override;

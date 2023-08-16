@@ -8,6 +8,7 @@ protected:
 	sf::Vector2f activePosition;
 	bool isOneOff = false;
 
+	bool isCollide = false;
 public:
 	CameraPointer(const string& name = "") : RectangleShapeGO(name) {}
 	virtual ~CameraPointer() {};
@@ -20,6 +21,7 @@ public:
 	void SetType(const CameraType& type) { this->type = type; }
 
 	virtual void OnTriggerEnter(Collider* col) override;
+	virtual void OnTriggerStay(Collider* col) override;
 	virtual void OnTriggerExit(Collider* col) override;
 };
 

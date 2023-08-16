@@ -189,7 +189,7 @@
     <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CameraPointer.cpp">
+    <ClCompile Include="Kirby\GameObject\CameraPointer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -410,7 +410,7 @@
     <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CameraPointer.h">
+    <ClInclude Include="Kirby\GameObject\CameraPointer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
