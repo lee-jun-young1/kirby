@@ -594,7 +594,7 @@ void SceneMapTool::SaveData(const std::wstring& path)
 					node["TexturePosition"]["y"] = ((SpriteGO*)go)->additionalData["Position"]["y"].asFloat();
 					if ((GroundType)((SpriteGO*)go)->additionalData["Type"].asInt() == GroundType::Tilted)
 					{
-						node["Angle"] = ((SpriteGO*)go)->additionalData["Type"].asFloat();
+						node["Angle"] = ((SpriteGO*)go)->additionalData["Angle"].asFloat();
 					}
 					groundNodes.append(node);
 					break;
@@ -681,63 +681,63 @@ void SceneMapTool::LoadData(const std::wstring& path)
 
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
-		Json::Value item = itemNodes[i];
-		Item* go = (Item*)CopyUIButton(item["PaletteID"].asString());
-		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		Json::Value node = itemNodes[i];
+		Item* go = (Item*)CopyUIButton(node["PaletteID"].asString());
+		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
-		go->SetItemType((ItemType)item["Type"].asInt());
+		go->SetItemType((ItemType)node["Type"].asInt());
 		cell = GetCell(loadPosition);
-		cell->AddGameObject(go, item["SortLayer"].asInt());
+		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
 
 	for (int i = 0; i < enemyNodes.size(); i++)
 	{
-		Json::Value item = enemyNodes[i];
-		Enemy* go = (Enemy*)CopyUIButton(item["PaletteID"].asString());
-		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		Json::Value node = enemyNodes[i];
+		Enemy* go = (Enemy*)CopyUIButton(node["PaletteID"].asString());
+		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
-		go->SetEnemyType((EnemyType)item["Type"].asInt());
+		go->SetEnemyType((EnemyType)node["Type"].asInt());
 		cell = GetCell(loadPosition);
-		cell->AddGameObject(go, item["SortLayer"].asInt());
+		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
 
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
-		Json::Value item = doorNodes[i];
-		SpriteGO* go = CopyUIButton(item["PaletteID"].asString());
-		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
-		go->additionalData["MovePosition"]["x"] = item["MovePosition"]["x"];
-		go->additionalData["MovePosition"]["y"] = item["MovePosition"]["y"];
+		Json::Value node = doorNodes[i];
+		SpriteGO* go = CopyUIButton(node["PaletteID"].asString());
+		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		go->additionalData["MovePosition"]["x"] = node["MovePosition"]["x"];
+		go->additionalData["MovePosition"]["y"] = node["MovePosition"]["y"];
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
 		
 		cell = GetCell(loadPosition);
-		cell->AddGameObject(go, item["SortLayer"].asInt());
+		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
 
 	for (int i = 0; i < groundNodes.size(); i++)
 	{
-		Json::Value item = groundNodes[i];
-		Ground* go = (Ground*)CopyUIButton(item["PaletteID"].asString());
-		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		Json::Value node = groundNodes[i];
+		Ground* go = (Ground*)CopyUIButton(node["PaletteID"].asString());
+		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
-		go->SetGroundIndex(item["GroundIndex"].asInt());
+		go->SetGroundIndex(node["GroundIndex"].asInt());
 		cell = GetCell(loadPosition);
-		cell->AddGameObject(go, item["SortLayer"].asInt());
+		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
 	{
-		Json::Value item = ambientObjectNodes[i];
-		AmbientObject* go = (AmbientObject*)CopyUIButton(item["PaletteID"].asString());
-		loadPosition = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		Json::Value node = ambientObjectNodes[i];
+		AmbientObject* go = (AmbientObject*)CopyUIButton(node["PaletteID"].asString());
+		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
 		cell = GetCell(loadPosition);
-		cell->AddGameObject(go, item["SortLayer"].asInt());
+		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
 }
 const std::wstring SceneMapTool::GetLoadFilePathWithOpenWindow()

@@ -639,8 +639,9 @@
       },
       "FlipX": false,
       "Layer": 0,
-      "Type": 0,
-      "Category": 4
+      "Type": 1,
+      "Category": 4,
+      "Angle" : -18.5
     },
     {
       "PaletteID": "row-4-column-11",

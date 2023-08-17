@@ -535,7 +535,6 @@ void SceneExample::LoadData(const std::wstring& path)
 	Json::Value groundNodes = rootNode["Ground"];
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
-	std::string textureId = rootNode["Path"].asString();
 
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
@@ -544,33 +543,75 @@ void SceneExample::LoadData(const std::wstring& path)
 
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
-		Json::Value item = itemNodes[i];
+		Json::Value node = itemNodes[i];
+		ItemType type = (ItemType)node["Type"].asInt();
+		std::string textureId = "sprites/item/items.png";
+		switch (type)
+		{
+		case ItemType::Life:
+			break;
+		case ItemType::God:
+			break;
+		case ItemType::MaxTomato:
+			break;
+		case ItemType::Normal:
+			break;
+		}
 	}
 
 	for (int i = 0; i < enemyNodes.size(); i++)
 	{
-		Json::Value item = enemyNodes[i];
+		Json::Value node = enemyNodes[i];
+		EnemyType type = (EnemyType)node["Type"].asInt();
+		switch (type)
+		{
+		case EnemyType::None:
+			break;
+		case EnemyType::Cutter:
+			break;
+		case EnemyType::Beam:
+			break;
+		case EnemyType::Bomb:
+			break;
+		case EnemyType::Bear:
+			break;
+		case EnemyType::Chick:
+			break;
+		case EnemyType::Fly:
+			break;
+		case EnemyType::Mushroom:
+			break;
+		case EnemyType::Normal:
+			break;
+		case EnemyType::SubBoss:
+			break;
+		case EnemyType::Boss:
+			break;
+		default:
+			break;
+		}
 	}
 
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
-		Json::Value item = doorNodes[i];
+		Json::Value node = doorNodes[i];
 	}
 
 	for (int i = 0; i < groundNodes.size(); i++)
 	{
-		Json::Value item = groundNodes[i];
-		sf::Vector2f position = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
-		sf::IntRect rect = { item["TexturePosition"]["x"].asInt(), item["TexturePosition"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
+		Json::Value node = groundNodes[i];
+		std::string textureId = rootNode["Path"].asString();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		sf::IntRect rect = { node["TexturePosition"]["x"].asInt(), node["TexturePosition"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
 		std::string tag = "Ground";
-		int sortLayer = item["SortLayer"].asInt();
+		int sortLayer = node["SortLayer"].asInt();
 
-		if ((GroundType)item["Type"].asInt() == GroundType::Throught)
+		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
 		{
 			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround(textureId));
 			throughtGround->sprite.setTextureRect(rect);
 			throughtGround->AddTag("Ground");
-			throughtGround->SetSize({ 24.0f, 24.0f });
+			throughtGround->SetSize(cellSize);
 			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
 			throughtGround->SetPosition(position);
 			BoxCollider* boxThroughtCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
@@ -586,18 +627,20 @@ void SceneExample::LoadData(const std::wstring& path)
 		ground->physicsLayer = (int)PhysicsLayer::Ground;
 		ground->sortLayer = sortLayer;
 		ground->SetPosition(position);
-		if ((GroundType)item["Type"].asInt() != GroundType::Background)
+		if ((GroundType)node["Type"].asInt() != GroundType::Background)
 		{
 			BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
-		}
-		if (!item["Angle"].isNull())
-		{
-			ground->SetRotation(item["Angle"].asFloat());
+			if (!node["Angle"].isNull())
+			{
+				//ground->SetOrigin(Origins::MC);
+				ground->SetPosition({ ground->GetPosition().x, ground->GetPosition().y });
+				boxCol->SetRotationOffset(node["Angle"].asFloat());
+			}
 		}
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
 	{
-		Json::Value item = ambientObjectNodes[i];
+		Json::Value node = ambientObjectNodes[i];
 	}
 }
