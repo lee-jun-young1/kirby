@@ -13,6 +13,7 @@ void GameObject::SetActive(bool active)
 		return;
 	}
 	isActive = active;
+	isActive ? OnEnable() : OnDisable();
 	for (auto component : components)
 	{
 		active ? component->OnGameObjectEnable() : component->OnGameObjectDisable();
@@ -29,6 +30,16 @@ void GameObject::SetName(const std::string& name)
 	this->name = name;
 }
 
+Category GameObject::GetCategory()
+{
+	return category;
+}
+
+void GameObject::SetCategory(const Category& category)
+{
+	this->category = category;
+}
+
 sf::Vector2f GameObject::GetPosition()
 {
 	return position;
@@ -43,6 +54,42 @@ void GameObject::SetPosition(const float& x, const float& y)
 {
 	this->position.x = x;
 	this->position.y = y;
+}
+
+bool GameObject::HasTag(const string& tag) const
+{
+	for (const string& t : tags)
+	{
+		if (t == tag)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void GameObject::AddTag(const string& tag)
+{
+	for (string& t : tags)
+	{
+		if (t == tag)
+		{
+			return;
+		}
+	}
+	tags.push_back(tag);
+}
+
+void GameObject::RemoveTag(const string& tag)
+{
+	for (string& t : tags)
+	{
+		if (t == tag)
+		{
+			tags.remove(tag);
+			return;
+		}
+	}
 }
 
 void GameObject::SetOrigin(const sf::Vector2f& origin)

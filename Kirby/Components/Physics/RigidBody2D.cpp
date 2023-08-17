@@ -104,12 +104,12 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol, const fl
 
 	if (rotation == 0)
 	{
-		if (normal.x > 0.0f)
+		if (normal.x > 0.0f && velocity.x <= 0.0f)
 		{
 			velocity.x = 0.0f;
 			gameObject.SetPosition(diffCol->GetCenter().x + (diffCol->GetWidth() * 0.5f) - 0.001f - thisCol->GetOffset().x, gameObject.GetPosition().y);
 		}
-		else if (normal.x < 0.0f)
+		else if (normal.x < 0.0f && velocity.x >= 0.0f)
 		{
 			velocity.x = 0.0f;
 			gameObject.SetPosition(diffCol->GetCenter().x - (diffCol->GetWidth() * 0.5f) - thisCol->GetWidth() + 0.001f - thisCol->GetOffset().x, gameObject.GetPosition().y);

@@ -9,6 +9,7 @@ class GameObject
 protected:
 	bool isActive = true;//true : Run Update(), Draw()
 
+	Category category = Category::None;
 	string name;
 
 	sf::Vector2f position;
@@ -22,7 +23,7 @@ protected:
 	list<Component*> components;
 	GameObject* parent;
 
-	string tag;
+	list<string> tags;
 public:
 	int sortLayer = 0;
 	int sortOrder = 0;
@@ -30,23 +31,27 @@ public:
 
 	bool IsActive() const;
 	void SetActive(bool active);
+	virtual void OnEnable() {};
+	virtual void OnDisable() {};
 
 	void SetParent(GameObject* parent) { this->parent = parent; }
 	GameObject* GetParent() { return parent; }
 
 	string GetName();
 	virtual void SetName(const std::string& name);
+	Category GetCategory();
+	virtual void SetCategory(const Category& category);
 
 	sf::Vector2f GetPosition();
 	virtual void SetPosition(const sf::Vector2f& position);
-
 	virtual void SetPosition(const float& x, const float& y);
 
 	sf::Vector2f GetScale() { return scale; }
 	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
 
-	const string& GetTag() { return tag; } const
-	virtual void SetTag(const string& tag) { this->tag = tag; }
+	virtual bool HasTag(const string& tag) const;
+	virtual void AddTag(const string& tag);
+	virtual void RemoveTag(const string& tag);
 
 	virtual void SetOrigin(const Origins& origin) {};
 	virtual void SetOrigin(const sf::Vector2f& origin);
@@ -65,6 +70,7 @@ public:
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);
 	virtual void OnGUI(sf::RenderWindow& window);
+
 
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();

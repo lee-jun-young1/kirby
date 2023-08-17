@@ -26,6 +26,9 @@
 #include <ThrowableGround.h>
 #include <Animator.h>
 #include <Door.h>
+#include <KirbyEffect.h>
+#include "CameraPointer.h"
+#include <Cutter.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -43,18 +46,14 @@ void SceneExample::Enter()
 	auto size = FRAMEWORK.GetWindowSize();
 	auto screenCenter = size * 0.5f;
 	worldView.setSize(size);
-	worldView.setCenter(0.0f, 0.0f);
+
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+	worldView.setCenter(0.0f,0.0f);
 
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
 	Scene::Enter();
-
-
-	GameObject* star = FindGameObject("Star");
-	Animation* starAni = (Animation*)star->GetComponent(ComponentType::Animation);
-	starAni->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
-	starAni->Play();
 
 	Reset();
 }
@@ -78,6 +77,11 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
+	auto size = FRAMEWORK.GetWindowSize();
+
+	//윈도우 가운데로
+	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
+
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = 1;
@@ -90,14 +94,25 @@ void SceneExample::Init()
 
 	kirby->SetSuction(suction);
 
-	SpriteGO* star = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Star.png", "Star"));
-	star->SetActive(false);
-	Animation* starAni = (Animation*)star->AddComponent(new Animation(*star));
-	RigidBody2D* starRig = (RigidBody2D*)star->AddComponent(new RigidBody2D(*star));
+	KirbyEffect* kirbyEffect = (KirbyEffect*)AddGameObject(new KirbyEffect("sprites/effects/KirbyEffect.png", "KirbyEffect"));
+	kirbyEffect->physicsLayer = (int)PhysicsLayer::PlayerEffect;
+	kirbyEffect->SetActive(false);
+	Animator* effectAnimator = (Animator*)kirbyEffect->AddComponent(new Animator(*kirbyEffect, "animations/Effect/KirbyEffect", "Star"));
+	RigidBody2D* effectRigidbody = (RigidBody2D*)kirbyEffect->AddComponent(new RigidBody2D(*kirbyEffect));
+	BoxCollider* effectCollider = (BoxCollider*)kirbyEffect->AddComponent(new BoxCollider(*kirbyEffect));
+	effectCollider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+	effectCollider->SetTrigger(true);
 
-	kirby->SetStarEffect(star);
+	kirby->SetEffect(kirbyEffect);
 
-
+	CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
+	tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
+	tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
+	tempCamPtr1->SetOrigin(Origins::MC);
+	tempCamPtr1->SetType(CameraType::Fixed);
+	tempCamPtr1->SetPosition({ 0.0f, 0.0f });
+	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
+	camCol1->SetTrigger(true);
 
 	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround1->SetSize({ 24.0f, 24.0f });
@@ -132,9 +147,10 @@ void SceneExample::Init()
 	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
 
 
-	for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < worldView.getSize().x * 0.33f * 0.5f; screenX += 24.0f)
+	for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
 	{
 		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		tempGround1->AddTag("Ground");
 		tempGround1->SetSize({ 24.0f, 24.0f });
 		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
 		tempGround1->SetOrigin(Origins::MC);
@@ -145,6 +161,7 @@ void SceneExample::Init()
 	for (int i = 1; i < 4; i++)
 	{
 		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		tempGround1->AddTag("Ground");
 		tempGround1->SetSize({ 24.0f, 24.0f });
 		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
 		tempGround1->SetOrigin(Origins::MC);
@@ -153,6 +170,7 @@ void SceneExample::Init()
 		BoxCollider* boxColg = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
 
 		RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		tempGround2->AddTag("Ground");
 		tempGround2->SetSize({ 24.0f, 24.0f });
 		tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
 		tempGround2->SetOrigin(Origins::MC);
@@ -163,6 +181,7 @@ void SceneExample::Init()
 
 
 	RectangleShapeGO* tempTiltedGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempTiltedGround1->AddTag("Ground");
 	tempTiltedGround1->SetSize({ 24.0f, 24.0f });
 	tempTiltedGround1->physicsLayer = (int)PhysicsLayer::Ground;
 	tempTiltedGround1->SetOrigin(Origins::MC);
@@ -172,6 +191,7 @@ void SceneExample::Init()
 	BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
 
 	RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempTiltedGround3->AddTag("Ground");
 	tempTiltedGround3->SetSize({ 24.0f, 24.0f });
 	tempTiltedGround3->physicsLayer = (int)PhysicsLayer::Ground;
 	tempTiltedGround3->SetOrigin(Origins::MC);
@@ -181,6 +201,7 @@ void SceneExample::Init()
 	BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
 
 	RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempTiltedGround2->AddTag("Ground");
 	tempTiltedGround2->SetSize({ 24.0f, 24.0f });
 	tempTiltedGround2->physicsLayer = (int)PhysicsLayer::Ground;
 	tempTiltedGround2->SetOrigin(Origins::MC);
@@ -192,6 +213,7 @@ void SceneExample::Init()
 	for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
 	{
 		ThroughtableGround* tempThroughtGround1 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+		tempThroughtGround1->AddTag("Ground");
 		tempThroughtGround1->SetSize({ 24.0f, 24.0f });
 		tempThroughtGround1->physicsLayer = (int)PhysicsLayer::Ground;
 		tempThroughtGround1->SetOrigin(Origins::MC);
@@ -200,6 +222,7 @@ void SceneExample::Init()
 		tempThroughtGround1->SetCollider(boxThroughtCol1);
 
 		ThroughtableGround* tempThroughtGround2 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+		tempThroughtGround2->AddTag("Ground");
 		tempThroughtGround2->SetSize({ 24.0f, 24.0f });
 		tempThroughtGround2->physicsLayer = (int)PhysicsLayer::Ground;
 		tempThroughtGround2->SetOrigin(Origins::MC);
@@ -209,13 +232,22 @@ void SceneExample::Init()
 	}
 
 	Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	tempDoor->physicsLayer = (int)PhysicsLayer::Ground;
+	tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
 	tempDoor->SetOrigin(Origins::BC);
 	tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	tempDoor->SetMovePosition({ -72.0f, 0.0f });
-	BoxCollider* doorCol = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
-	doorCol->SetTrigger(true);
-	doorCol->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+	tempDoor->SetMovePosition({ 240.f + 12.f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
+	BoxCollider* doorCol1 = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
+	doorCol1->SetTrigger(true);
+	doorCol1->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+
+	Door* tempDoor2 = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
+	tempDoor2->physicsLayer = (int)PhysicsLayer::Ground;
+	tempDoor2->SetOrigin(Origins::BC);
+	tempDoor2->SetPosition({ 240.f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+	tempDoor2->SetMovePosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
+	BoxCollider* doorCol2 = (BoxCollider*)tempDoor2->AddComponent(new BoxCollider(*tempDoor2));
+	doorCol2->SetTrigger(true);
+	doorCol2->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
 
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround3->SetSize({ 106.0f, 20.0f });
@@ -264,11 +296,54 @@ void SceneExample::Release()
 void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+
+	cameraTime += deltaTime * 2.0f;
+	sf::Vector2f targetPoint;
+	switch (cameraType)
+	{
+	case CameraType::Free:
+		targetPoint = kirby->GetPosition();
+		break;
+	case CameraType::Horizontal:
+		targetPoint = { kirby->GetPosition().x, worldView.getCenter().y };
+		break;
+	case CameraType::Vertical:
+		targetPoint = { worldView.getCenter().x, kirby->GetPosition().y };
+		break;
+	case CameraType::Fixed:
+		CameraPointer* camPtr = (CameraPointer*)FindGameObject("tempCamPtr");
+		targetPoint = camPtr->GetPosition() * 0.5f;
+		break;
+	}
+	worldView.setCenter(Utils::Lerp(worldView.getCenter(), targetPoint, cameraTime));
+	cameraTime = 0.0f;
+
+	if (Input.GetKey(Keyboard::LShift))
+	{
+		if (Input.GetKeyDown(Keyboard::Num1))
+		{
+			cameraType = CameraType::Free;
+		}
+		else if (Input.GetKeyDown(Keyboard::Num2))
+		{
+			cameraType = CameraType::Horizontal;
+		}
+		else if (Input.GetKeyDown(Keyboard::Num3))
+		{
+			cameraType = CameraType::Vertical;
+		}
+		else if (Input.GetKeyDown(Keyboard::Num4))
+		{
+			cameraType = CameraType::Fixed;
+		}
+	}
 
 	if (Input.GetKeyDown(Keyboard::F5))
 	{
 		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)0, "sprites/mob/mob_normal.png", "Suctionable"));
-		suctionAble->SetTag("Suctionable");
+		suctionAble->AddTag("Suctionable");
+		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetPosition(10.0f, 0.0f);
@@ -287,12 +362,12 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F6))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Suctionable"));
-		suctionAble->SetTag("Suctionable");
+		Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Cutter"));
+		suctionAble->AddTag("Suctionable");
+		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(0.0f, 0.0f);
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
@@ -304,6 +379,7 @@ void SceneExample::Update(float deltaTime)
 
 		suctionAble->Reset();
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAble->SetPosition(-10.0f, 0.0f);
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
@@ -311,7 +387,8 @@ void SceneExample::Update(float deltaTime)
 	if (Input.GetKeyDown(Keyboard::F7))
 	{
 		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)2, "sprites/mob/Mob_Beam.png", "Suctionable"));
-		suctionAble->SetTag("Suctionable");
+		suctionAble->AddTag("Suctionable");
+		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
@@ -335,7 +412,8 @@ void SceneExample::Update(float deltaTime)
 	if (Input.GetKeyDown(Keyboard::F8))
 	{
 		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)3, "sprites/mob/mob_Bomb.png", "Suctionable"));
-		suctionAble->SetTag("Suctionable");
+		suctionAble->AddTag("Suctionable");
+		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
@@ -410,6 +488,10 @@ void SceneExample::Update(float deltaTime)
 
 	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
 	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
+	if (Input.GetKeyDown(Keyboard::F11))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
+	}
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)

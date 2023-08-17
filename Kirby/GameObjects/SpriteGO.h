@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "SFML/Graphics.hpp"
+#include "json.h"
 #include "ResourceManager.h"
 
 class SpriteGO : public GameObject
@@ -37,5 +38,7 @@ public:
 
 	void SetFlipX(bool flip);
 	void SetFlipY(bool flip);
+
+	Json::Value additionalData;
 };
 

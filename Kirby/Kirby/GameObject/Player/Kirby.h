@@ -4,6 +4,7 @@
 #include <BoxCollider.h>
 #include <RigidBody2D.h>
 #include <Suction.h>
+#include <KirbyEffect.h>
 
 enum class KirbyState
 {
@@ -25,6 +26,7 @@ enum class KirbyState
 	Sit,
 	Shot,
 	Door,
+	Wall,
 };
 
 
@@ -40,8 +42,8 @@ protected:
 	RigidBody2D* rigidbody;
 
 	float moveAxisX = 0.0f;
-	float speed = 30.0f;
-	float runSpeed = 60.0f;
+	float speed = 75.0f;
+	float runSpeed = 150.0f;
 
 	float actionTime = 0.0f;
 
@@ -52,11 +54,11 @@ protected:
 
 	KirbyAbility keepInMouseAbility;
 
-	SpriteGO* starEffect;
+	KirbyEffect* kirbyEffect;
 	
 	function<void(const float&)> moveKey;
 	function<void(const float&)> dashKey;
-	function<void()> moveKeyEnd;
+	function<void(const float&)> moveKeyEnd;
 	function<void()> chargeKey;
 	function<void()> chargeKeyContinue;
 	function<void()> chargeKeyEnd;
@@ -76,7 +78,7 @@ public:
 	// Arrow
 	virtual void MoveKey(const float& axisX) override;
 	virtual void DashKey(const float& axisX) override;
-	virtual void MoveKeyEnd() override;
+	virtual void MoveKeyEnd(const float& axisX) override;
 
 	// Down
 	virtual void SitKey() override;
@@ -105,9 +107,11 @@ public:
 	void BalloonMove(const float& axis);
 	void JumpMove(const float& axis);
 	void Dash(const float& axis);
-	void MoveEnd();
+	void MoveEnd(const float& axis);
 	void BalloonMoveEnd();
 	void JumpMoveEnd();
+
+	void EquipAbility();
 
 
 	// ArrowDown
@@ -119,6 +123,7 @@ public:
 
 	// X
 	void ShotStar();
+	void ShotEmpty();
 	void DoSuction();
 	void SuctionEnd();
 
@@ -134,7 +139,7 @@ public:
 #pragma endregion
 
 	void SetSuction(Suction* suction) { this->suction = suction; }
-	void SetStarEffect(SpriteGO* starEffect) { this->starEffect = starEffect; }
+	void SetEffect(KirbyEffect* starEffect) { this->kirbyEffect = starEffect; }
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -147,7 +152,14 @@ public:
 
 	void ShotUpdate(float dt);
 
+	void WallUpdate(float dt);
+
+	void CollideUpdate(float dt);
+	void EatUpdate(float dt);
+
 	virtual void Draw(sf::RenderWindow& window) override;
+	void Damage(const int& damage, const float hitAxisX);
+	void SetInMouseType(const KirbyAbility& ability);
 	virtual void OnCollisionEnter(Collider* col) override;
 	virtual void OnCollisionStay(Collider* col) override;
 

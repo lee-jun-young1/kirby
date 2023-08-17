@@ -64,6 +64,26 @@ void ShapeGameObj::SetFillColor(sf::Color color)
 	shape->setFillColor(color);
 }
 
+void ShapeGameObj::SetOutlineColor(sf::Color color)
+{
+	shape->setOutlineColor(color);
+}
+
+void ShapeGameObj::SetOutlineThickness(const float& thickness)
+{
+	shape->setOutlineThickness(thickness);
+}
+
+const sf::Color& ShapeGameObj::GetFillColor() const
+{
+	return shape->getFillColor();
+}
+
+const sf::FloatRect& ShapeGameObj::GetGlobalBounds() const
+{
+	return shape->getGlobalBounds();
+}
+
 void ShapeGameObj::Reset()
 {
 	GameObject::Reset();

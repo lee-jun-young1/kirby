@@ -12,6 +12,7 @@ enum class SceneId
 {
 	None = -1,
 	Title,
+	MapTool,
 	Demo,
 	Game,
 	Count,
@@ -63,7 +64,19 @@ enum class PhysicsLayer
 	EnemyEffect,
 	Item,
 	AbilityItem,
+	Interact,
 	Count
+};
+
+enum class Category
+{
+	None = -1,
+	Player,
+	Item,
+	Enemy,
+	Door,
+	Ground,
+	AmbientObject,
 };
 
 enum class ShapeType
@@ -90,6 +103,14 @@ enum class StageIndex
 	None = -1,
 };
 
+enum class DoorType
+{
+	None = -1,
+	OneWay,
+	TwoWay,
+	WarpStar,
+};
+
 enum class KirbyAbility
 {
 	None,
@@ -98,5 +119,13 @@ enum class KirbyAbility
 	Bomb,
 };
 
+enum class CameraType
+{
+	None = -1,
+	Free,
+	Horizontal,
+	Vertical,
+	Fixed
+};
 #define UILayer 100
 #include "AnimationClip.h"

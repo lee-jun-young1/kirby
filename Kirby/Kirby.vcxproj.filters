@@ -165,6 +165,12 @@
     <ClCompile Include="Kirby\GameObject\AmbientObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Kirby\Scene\MapToolScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\MapToolCell.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Kirby\GameObject\Player\Playable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -184,6 +190,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\CameraPointer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -380,6 +392,9 @@
     <ClInclude Include="Kirby\GameObject\AmbientObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Kirby\GameObject\MapToolCell.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Kirby\GameObject\Player\Playable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -399,6 +414,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\ThrowableGround.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\CameraPointer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,11 +1,15 @@
 #pragma once
 #include "Scene.h"
+
+class CameraPointer;
 class SceneExample : public Scene
 {
 protected:
 	std::map<std::string, bool> mouseOverStates;
-
 	float testRotation = 0.0f;
+	
+	CameraType cameraType = CameraType::Horizontal;
+	float cameraTime = 0.0f;
 public:
 	SceneExample();
 	virtual ~SceneExample() override;
@@ -18,5 +22,8 @@ public:
 	virtual void Release() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	const CameraType& GetCameraType() const { return cameraType; }
+	void SetCameraType(const CameraType& type) { this->cameraType = type; }
 };
 

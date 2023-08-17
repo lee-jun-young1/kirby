@@ -20,7 +20,11 @@ public:
 	virtual void SetOrigin(const sf::Vector2f& origin) override;
 	virtual void SetPosition(const sf::Vector2f& position) override;
 	void SetFillColor(sf::Color color);
+	void SetOutlineColor(sf::Color color);
+	void SetOutlineThickness(const float& thickness);
 
+	const sf::Color& GetFillColor() const;
+	const sf::FloatRect& GetGlobalBounds() const;
 
 	// GameObject을(를) 통해 상속됨
 	virtual void Reset() override;
