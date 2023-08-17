@@ -9,7 +9,6 @@ protected:
 	float testRotation = 0.0f;
 	
 	CameraType cameraType = CameraType::Horizontal;
-	CameraType prevCameraType = CameraType::None;
 	float cameraTime = 0.0f;
 public:
 	SceneExample();
@@ -25,8 +24,6 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 
 	const CameraType& GetCameraType() const { return cameraType; }
-	const CameraType& GetPrevCameraType() const { return prevCameraType; }
 	void SetCameraType(const CameraType& type) { this->cameraType = type; }
-	void SetPrevCameraType(const CameraType& type) { this->prevCameraType = type; }
 };
 

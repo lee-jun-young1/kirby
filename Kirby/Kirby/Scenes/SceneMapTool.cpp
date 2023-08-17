@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "MapToolScene.h"
+#include "SceneMapTool.h"
 #include "GameObject.h"
 #include "TextGameObj.h"
 #include "Utils.h"
@@ -18,17 +18,17 @@
 #include <fstream>
 #include <commdlg.h>
 
-MapToolScene::MapToolScene() : Scene(SceneId::MapTool)
+SceneMapTool::SceneMapTool() : Scene(SceneId::MapTool)
 {
-	sceneName = "MapToolScene";
+	sceneName = "SceneMapTool";
 }
 
-MapToolScene::~MapToolScene()
+SceneMapTool::~SceneMapTool()
 {
 	Release();
 }
 
-void MapToolScene::Enter()
+void SceneMapTool::Enter()
 {
 	auto size = FRAMEWORK.GetWindowSize();
 	sf::Vector2f screenCenter = { size.x * 0.5f, size.y * 0.5f} ;
@@ -109,7 +109,7 @@ void MapToolScene::Enter()
 	Reset();
 }
 
-MapToolCell* MapToolScene::GetCell(const sf::Vector2f& position)
+MapToolCell* SceneMapTool::GetCell(const sf::Vector2f& position)
 {
 	for (auto& row : cells)
 	{
@@ -133,7 +133,7 @@ MapToolCell* MapToolScene::GetCell(const sf::Vector2f& position)
 	return nullptr;
 }
 
-void MapToolScene::SelectGameObject(SpriteGO* gameObject)
+void SceneMapTool::SelectGameObject(SpriteGO* gameObject)
 {
 	if (gameObject == nullptr)
 	{
@@ -157,7 +157,7 @@ void MapToolScene::SelectGameObject(SpriteGO* gameObject)
 	currentGO = instance;
 }
 
-void MapToolScene::ClearCells()
+void SceneMapTool::ClearCells()
 {
 	for (auto& row : cells)
 	{
@@ -184,7 +184,7 @@ void MapToolScene::ClearCells()
 	//}
 }
 
-void MapToolScene::ClearCellsByCategory(const Category& cate)
+void SceneMapTool::ClearCellsByCategory(const Category& cate)
 {
 	for (auto& row : cells)
 	{
@@ -195,7 +195,7 @@ void MapToolScene::ClearCellsByCategory(const Category& cate)
 	}
 }
 
-void MapToolScene::Init()
+void SceneMapTool::Init()
 {
 	Scene::Init();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
@@ -254,7 +254,7 @@ void MapToolScene::Init()
 
 }
 
-void MapToolScene::Update(float dt)
+void SceneMapTool::Update(float dt)
 {
 	Scene::Update(dt);
 	sf::Vector2f viewportPos = worldView.getCenter() - worldView.getSize() * 0.5f ;
@@ -426,7 +426,7 @@ void MapToolScene::Update(float dt)
 	}
 }
 
-void MapToolScene::Draw(sf::RenderWindow& window)
+void SceneMapTool::Draw(sf::RenderWindow& window)
 {
 	SortGameObjects();
 
@@ -488,11 +488,11 @@ void MapToolScene::Draw(sf::RenderWindow& window)
 	}
 }
 
-void MapToolScene::Release()
+void SceneMapTool::Release()
 {
 }
 
-void MapToolScene::Reset()
+void SceneMapTool::Reset()
 {
 	for (auto& row : cells)
 	{
@@ -520,7 +520,7 @@ void MapToolScene::Reset()
 	}
 }
 
-void MapToolScene::SaveData(const std::wstring& path)
+void SceneMapTool::SaveData(const std::wstring& path)
 {
 	if (path == "")
 	{
@@ -605,7 +605,7 @@ void MapToolScene::SaveData(const std::wstring& path)
 	}
 }
 
-void MapToolScene::LoadData(const std::wstring& path)
+void SceneMapTool::LoadData(const std::wstring& path)
 {
 	if (path == "")
 	{
@@ -724,7 +724,7 @@ void MapToolScene::LoadData(const std::wstring& path)
 		cell->AddGameObject(go, item["SortLayer"].asInt());
 	}
 }
-const std::wstring MapToolScene::GetLoadFilePathWithOpenWindow()
+const std::wstring SceneMapTool::GetLoadFilePathWithOpenWindow()
 {
 	OPENFILENAME OFN;
 	TCHAR filePathName[100] = L"";
@@ -750,7 +750,7 @@ const std::wstring MapToolScene::GetLoadFilePathWithOpenWindow()
 	return L"";
 }
 
-const std::wstring MapToolScene::GetSaveFilePathWithOpenWindow()
+const std::wstring SceneMapTool::GetSaveFilePathWithOpenWindow()
 {
 	OPENFILENAME OFN;
 	TCHAR filePathName[100] = L"";
@@ -782,7 +782,7 @@ const std::wstring MapToolScene::GetSaveFilePathWithOpenWindow()
 	return L"";
 }
 
-Json::Value MapToolScene::LoadFromJsonFile(const std::string& path)
+Json::Value SceneMapTool::LoadFromJsonFile(const std::string& path)
 {
 	std::ifstream ifile(path);
 	Json::Value rootNode;
@@ -794,7 +794,7 @@ Json::Value MapToolScene::LoadFromJsonFile(const std::string& path)
 	return rootNode;
 }
 
-SpriteGO* MapToolScene::CopyUIButton(const std::string& paletteID)
+SpriteGO* SceneMapTool::CopyUIButton(const std::string& paletteID)
 {
 	SpriteGO* findGo = (SpriteGO*)FindGameObject(paletteID);
 	if (findGo == nullptr)
@@ -806,7 +806,7 @@ SpriteGO* MapToolScene::CopyUIButton(const std::string& paletteID)
 	return instance;
 }
 
-void MapToolScene::SetLayer(int layer)
+void SceneMapTool::SetLayer(int layer)
 {
 	this->layer = layer;
 	TextGameObj* findGo = (TextGameObj*)FindGameObject("Layer");
@@ -819,7 +819,7 @@ void MapToolScene::SetLayer(int layer)
 	findGo->SetString(ss.str());
 }
 
-void MapToolScene::ReSizeMap(bool expand)
+void SceneMapTool::ReSizeMap(bool expand)
 {
 	std::cout << cells.size() * cells[cells.size() - 1].size() << std::endl;
 	if (expand)
@@ -841,7 +841,7 @@ void MapToolScene::ReSizeMap(bool expand)
 	std::cout << cells.size() * cells[cells.size() - 1].size() << std::endl;
 }
 
-void MapToolScene::AddColumn()
+void SceneMapTool::AddColumn()
 {
 	//열 추가
 	for (int i = 0; i < cellVerticalCount; i++)
@@ -854,7 +854,7 @@ void MapToolScene::AddColumn()
 	cellHorizontalCount++;
 	mapSize.x += (int)cellSize.x;
 }
-void MapToolScene::DelColumn()
+void SceneMapTool::DelColumn()
 {
 	// 열 제거
 	for (int i = 0; i < cellVerticalCount; i++)
@@ -865,7 +865,7 @@ void MapToolScene::DelColumn()
 	cellHorizontalCount--;
 	mapSize.x -= (int)cellSize.x;
 }
-void MapToolScene::AddRow()
+void SceneMapTool::AddRow()
 {
 	//행 추가
 	std::vector<MapToolCell> row;
@@ -880,7 +880,7 @@ void MapToolScene::AddRow()
 	cellVerticalCount++;
 	mapSize.y += (int)cellSize.y;
 }
-void MapToolScene::DelRow()
+void SceneMapTool::DelRow()
 {
 	// 행 제거
 	for (auto& cell : cells[cellVerticalCount - 1])
@@ -892,11 +892,11 @@ void MapToolScene::DelRow()
 	mapSize.y -= (int)cellSize.y;
 }
 
-sf::Vector2f MapToolScene::ScreenToPalettePosition(sf::Vector2f screenPos)
+sf::Vector2f SceneMapTool::ScreenToPalettePosition(sf::Vector2f screenPos)
 {
 	return window.mapPixelToCoords((sf::Vector2i)screenPos, paletteView);
 }
-sf::Vector2f MapToolScene::PalettePositionToScreen(sf::Vector2f palettePos)
+sf::Vector2f SceneMapTool::PalettePositionToScreen(sf::Vector2f palettePos)
 {
 	return (sf::Vector2f)window.mapCoordsToPixel(palettePos, paletteView);
 }

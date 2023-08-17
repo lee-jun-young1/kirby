@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "MapToolScene.h"
+#include "SceneMapTool.h"
 #include "SceneExample.h"
 #include "PhysicsManager.h"
 
@@ -22,7 +22,8 @@ void SceneManager::Init()
 	{
 		Release();
 	}
-	scenes.push_back(new MapToolScene());
+	scenes.push_back(new SceneExample());
+	scenes.push_back(new SceneMapTool());
 
 	for (auto scene : scenes)
 	{

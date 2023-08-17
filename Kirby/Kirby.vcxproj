@@ -213,7 +213,7 @@
     <ClCompile Include="GameObjects\TextGameObj.cpp" />
     <ClCompile Include="GameObjects\VertexArrayGO.cpp" />
     <ClCompile Include="Kirby\GameObject\Item.cpp" />
-    <ClCompile Include="Kirby\Scene\MapToolScene.cpp" />
+    <ClCompile Include="Kirby\Scenes\SceneMapTool.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -308,14 +308,11 @@
     <ClInclude Include="Components\Physics\RigidBody2D.h" />
     <ClInclude Include="Framework\PhysicsManager.h" />
     <ClInclude Include="Kirby\GameObject\Item.h" />
-    <ClInclude Include="Kirby\Scene\MapToolScene.h" />
+    <ClInclude Include="Kirby\Scenes\SceneMapTool.h" />
     <ClInclude Include="Kirby\GameObject\Player.h" />
-<<<<<<< HEAD
     <ClInclude Include="Kirby\GameObject\MapToolCell.h" />
-=======
     <ClInclude Include="Kirby\GameObject\Player\Playable.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Mob.h" />
->>>>>>> feature/Camera_Move
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Kirby\Scenes\SceneExample.h" />

@@ -6,7 +6,7 @@
 class SpriteGO;
 class Door;
 class UIButton;
-class MapToolScene : public Scene
+class SceneMapTool : public Scene
 {
 protected:
 	StageIndex stageIndex;
@@ -41,8 +41,8 @@ protected:
 	sf::Vector2f paletteScale = { 0.5f, 0.5f };
 
 public:
-	MapToolScene();
-	~MapToolScene();
+	SceneMapTool();
+	~SceneMapTool();
 
 	MapToolCell* GetCell(const sf::Vector2f& position);
 	void SelectGameObject(SpriteGO* gameObject);

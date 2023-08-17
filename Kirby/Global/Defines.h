@@ -109,7 +109,7 @@ enum class DoorType
 	OneWay,
 	TwoWay,
 	WarpStar,
-}
+};
 
 enum class KirbyAbility
 {
