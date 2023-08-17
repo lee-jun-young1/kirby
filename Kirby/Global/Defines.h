@@ -76,6 +76,7 @@ enum class Category
 	Enemy,
 	Door,
 	Ground,
+	Camera,
 	AmbientObject,
 };
 
@@ -90,17 +91,31 @@ enum class ShapeType
 enum class ItemType
 {
 	None = -1,
-	Fish,
+	Life,
+	God,
+	MaxTomato,
+	Normal,
 };
 
 enum class EnemyType
 {
 	None = -1,
+	Cutter,
+	Beam,
+	Bomb,
+	Bear,
+	Chick,
+	Fly,
+	Mushroom,
+	Normal,
+	SubBoss,
+	Boss,
 };
 
 enum class StageIndex
 {
 	None = -1,
+	GreenGreen,
 };
 
 enum class DoorType
@@ -125,7 +140,20 @@ enum class CameraType
 	Free,
 	Horizontal,
 	Vertical,
-	Fixed
+	Fixed,
+	MapStart,
+	MapEnd,
 };
+
+enum class GroundType
+{
+	None = -1,
+	Normal,
+	Tilted,
+	Throught,
+	Background,
+	Crashed,
+};
+
 #define UILayer 100
 #include "AnimationClip.h"

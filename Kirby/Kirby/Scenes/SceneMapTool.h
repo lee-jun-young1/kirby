@@ -10,6 +10,7 @@ class SceneMapTool : public Scene
 {
 protected:
 	StageIndex stageIndex;
+	std::string mapPath;
 
 	std::vector<RectangleShapeGO*> grids;
 	std::vector<std::vector<MapToolCell>> cells;
@@ -20,6 +21,7 @@ protected:
 	sf::Vector2i originalSize;
 	sf::Vector2i mapSize;
 	SpriteGO* currentGO = nullptr;
+	bool flipX = false;
 
 	float uiSpeed = 200.f;
 	float scrollForce = 50.f;
@@ -79,6 +81,5 @@ public:
 	sf::Vector2f ScreenToPalettePosition(sf::Vector2f screenPos);
 
 	sf::Vector2f PalettePositionToScreen(sf::Vector2f palettePos);
-
 };
 

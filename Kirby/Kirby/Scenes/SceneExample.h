@@ -8,7 +8,7 @@ protected:
 	std::map<std::string, bool> mouseOverStates;
 	float testRotation = 0.0f;
 	
-	CameraType cameraType = CameraType::Horizontal;
+	CameraType cameraType = CameraType::Free;
 	float cameraTime = 0.0f;
 public:
 	SceneExample();
@@ -22,6 +22,8 @@ public:
 	virtual void Release() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	void LoadData(const std::wstring& path);
 
 	const CameraType& GetCameraType() const { return cameraType; }
 	void SetCameraType(const CameraType& type) { this->cameraType = type; }

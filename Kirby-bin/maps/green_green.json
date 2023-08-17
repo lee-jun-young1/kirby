@@ -1,0 +1,1145 @@
+{
+	"AmbientObject" : null,
+	"Door" : null,
+	"Enemy" : 
+	[
+		{
+			"PaletteID" : "row-1-column-9",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 1,
+			"Type" : 7
+		}
+	],
+	"Ground" : 
+	[
+		{
+			"PaletteID" : "row-3-column-7",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 144.0,
+				"y" : 48.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-3-column-7",
+			"Position" : 
+			{
+				"x" : 216.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 144.0,
+				"y" : 48.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-3-column-7",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 144.0,
+				"y" : 48.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-3-column-7",
+			"Position" : 
+			{
+				"x" : 264.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 144.0,
+				"y" : 48.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-3-column-7",
+			"Position" : 
+			{
+				"x" : 288.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 144.0,
+				"y" : 48.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-1",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 1,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 24.0
+			},
+			"Type" : 2
+		},
+		{
+			"PaletteID" : "row-2-column-1",
+			"Position" : 
+			{
+				"x" : 216.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 1,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 24.0
+			},
+			"Type" : 2
+		},
+		{
+			"PaletteID" : "row-2-column-1",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 1,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 24.0
+			},
+			"Type" : 2
+		},
+		{
+			"PaletteID" : "row-2-column-1",
+			"Position" : 
+			{
+				"x" : 264.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 1,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 24.0
+			},
+			"Type" : 2
+		},
+		{
+			"PaletteID" : "row-2-column-1",
+			"Position" : 
+			{
+				"x" : 288.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 1,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 24.0
+			},
+			"Type" : 2
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 0.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 24.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 48.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 72.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 96.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 120.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 144.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-11",
+			"Position" : 
+			{
+				"x" : 168.0,
+				"y" : 168.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 240.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 0.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 24.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 48.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 72.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 96.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 120.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 144.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-2-column-16",
+			"Position" : 
+			{
+				"x" : 168.0,
+				"y" : 192.0
+			},
+			"SortLayer" : -1,
+			"TexturePosition" : 
+			{
+				"x" : 360.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 168.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 216.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 264.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 288.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-2-column-11",
+			"Position" : 
+			{
+				"x" : 312.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 240.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 0.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 24.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 48.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 72.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 96.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 120.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 144.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 168.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 216.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 264.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 288.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-2-column-16",
+			"Position" : 
+			{
+				"x" : 312.0,
+				"y" : 216.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 360.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 0.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 24.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 48.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 72.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 96.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-1",
+			"Position" : 
+			{
+				"x" : 120.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 0.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 144.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 168.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 216.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 264.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 288.0,
+				"y" : 240.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 0.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 24.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 48.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 72.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 96.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 120.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 144.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 168.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 216.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 264.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		},
+		{
+			"PaletteID" : "row-5-column-3",
+			"Position" : 
+			{
+				"x" : 288.0,
+				"y" : 264.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 48.0,
+				"y" : 96.0
+			},
+			"Type" : 0
+		}
+	],
+	"Item" : 
+	[
+		{
+			"PaletteID" : "row-1-column-15",
+			"Position" : 
+			{
+				"x" : 264.0,
+				"y" : 192.0
+			},
+			"SortLayer" : 1,
+			"Type" : 3
+		}
+	],
+	"MapSize" : 
+	{
+		"x" : 480,
+		"y" : 480
+	},
+	"Path" : "sprites/map/Green_Green.png",
+	"Player" : 
+	{
+		"PaletteID" : "Player",
+		"Position" : 
+		{
+			"x" : 24.0,
+			"y" : 168.0
+		},
+		"SortLayer" : 1
+	},
+	"Stage" : 0
+}

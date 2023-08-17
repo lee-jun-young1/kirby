@@ -44,15 +44,12 @@ void SceneMapTool::Enter()
 	paletteView.setCenter({ menuBase->GetGlobalBounds().left + menuBase->GetGlobalBounds().width * 0.5f, menuBase->GetGlobalBounds().height * 0.5f});
 
 	Json::Value mapData = LoadFromJsonFile("sprites/map/Green_Green_Data.json");
+	mapPath = mapData["Path"].asString();
 	sf::Vector2f buttonPosition = { menuBase->GetPosition().x, menuBase->GetSize().y * 0.2f };
-	std::cout
-		<< "posX: " << buttonPosition.x
-		<< " posY: " << buttonPosition.y
-		<< std::endl;
 	for (int i = 0; i < mapData["Palettes"].size(); i++)
 	{
 		Json::Value palette = mapData["Palettes"][i];
-		UIButton* button = (UIButton*)AddGameObject(new UIButton(mapData["Path"].asString(), palette["PaletteID"].asString()));
+		UIButton* button = (UIButton*)AddGameObject(new UIButton(mapPath, palette["PaletteID"].asString()));
 		sf::IntRect rect = { palette["Position"]["x"].asInt(), palette["Position"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
 		Category cate = (Category)palette["Category"].asInt();
 		button->SetOrigin(Origins::TL);
@@ -118,15 +115,6 @@ MapToolCell* SceneMapTool::GetCell(const sf::Vector2f& position)
 		{
 			if (col.GetGlobalBounds().contains(position))
 			{
-				if (col.GetGameObjects().size() > 0)
-				{
-					std::cout
-					<< " left: " << col.GetGlobalBounds().left
-					<< " top: " << col.GetGlobalBounds().top
-					<< " cellX: " << col.GetPosition().x
-					<< " cellY: " << col.GetPosition().y
-					<< std::endl;
-				}
 				return &col;
 			};
 		}
@@ -427,6 +415,12 @@ void SceneMapTool::Update(float dt)
 		ReSizeMap(false);
 	}
 
+	//Flip
+	if (Input.GetKeyDown(sf::Keyboard::Space))
+	{
+		currentGO->SetFlipX(!flipX);
+	}
+
 	if (Input.GetKeyDown(Keyboard::F11))
 	{
 		SCENE_MANAGER.ChangeScene(SceneId::Title);
@@ -545,6 +539,7 @@ void SceneMapTool::SaveData(const std::wstring& path)
 	}
 	Json::Value rootNode;
 	rootNode["Stage"] = (int)stageIndex;
+	rootNode["Path"] = mapPath;
 	rootNode["MapSize"]["x"] = mapSize.x;
 	rootNode["MapSize"]["y"] = mapSize.y;
 
@@ -553,6 +548,7 @@ void SceneMapTool::SaveData(const std::wstring& path)
 	Json::Value enemyNodes;
 	Json::Value doorNodes;
 	Json::Value groundNodes;
+	Json::Value cameraNodes;
 	Json::Value ambientObjectNodes;
 
 	for (auto& row : cells)
@@ -593,8 +589,17 @@ void SceneMapTool::SaveData(const std::wstring& path)
 					doorNodes.append(node);
 					break;
 				case Category::Ground:
-					node["GroundIndex"] = ((SpriteGO*)go)->additionalData["GroundIndex"].asInt();
+					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
+					node["TexturePosition"]["x"] = ((SpriteGO*)go)->additionalData["Position"]["x"].asFloat();
+					node["TexturePosition"]["y"] = ((SpriteGO*)go)->additionalData["Position"]["y"].asFloat();
+					if ((GroundType)((SpriteGO*)go)->additionalData["Type"].asInt() == GroundType::Tilted)
+					{
+						node["Angle"] = ((SpriteGO*)go)->additionalData["Type"].asFloat();
+					}
 					groundNodes.append(node);
+					break;
+				case Category::Camera:
+					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
 					break;
 				case Category::AmbientObject:
 					ambientObjectNodes.append(node);
@@ -683,12 +688,6 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		go->SetPosition(loadPosition);
 		go->SetItemType((ItemType)item["Type"].asInt());
 		cell = GetCell(loadPosition);
-		std::cout
-			<< "cellX: " << cell->GetPosition().x
-			<< " cellY: " << cell->GetPosition().y
-			<< " goX: " << loadPosition.x
-			<< " goY: " << loadPosition.y
-			<< std::endl;
 		cell->AddGameObject(go, item["SortLayer"].asInt());
 	}
 
@@ -838,7 +837,6 @@ void SceneMapTool::SetLayer(int layer)
 
 void SceneMapTool::ReSizeMap(bool expand)
 {
-	std::cout << cells.size() * cells[cells.size() - 1].size() << std::endl;
 	if (expand)
 	{
 		AddColumn();
@@ -854,8 +852,6 @@ void SceneMapTool::ReSizeMap(bool expand)
 			//worldView.setCenter(worldView.getCenter() - cellSize);
 		}
 	}
-
-	std::cout << cells.size() * cells[cells.size() - 1].size() << std::endl;
 }
 
 void SceneMapTool::AddColumn()

@@ -30,6 +30,13 @@
 #include "CameraPointer.h"
 #include <Cutter.h>
 
+//MapTool
+#include <fstream>
+#include "Item.h"
+#include "Player.h"
+#include "Ground.h"
+#include "Enemy.h"
+
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
 {
@@ -77,16 +84,19 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
+	LoadData(L"maps/green_green.json");
+
 	auto size = FRAMEWORK.GetWindowSize();
 
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
 
-	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
-	kirby->physicsLayer = (int)PhysicsLayer::Player;
-	kirby->sortLayer = 1;
-	kirby->SetPosition({ -80.0f, 0.0f });
+	//Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	//kirby->physicsLayer = (int)PhysicsLayer::Player;
+	//kirby->sortLayer = 1;
+	//kirby->SetPosition({ -80.0f, 0.0f });
 	
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
 	suction->physicsLayer = (int)PhysicsLayer::Player;
 	suction->SetKirby(kirby);
@@ -497,4 +507,97 @@ void SceneExample::Update(float deltaTime)
 void SceneExample::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneExample::LoadData(const std::wstring& path)
+{
+	if (path == "")
+	{
+		return;
+	}
+	std::ifstream ifile(path);
+	Json::Value rootNode;
+	if (ifile.is_open())
+	{
+		ifile >> rootNode;
+		ifile.close();
+	}
+	else
+	{
+		std::wcout << "File Open Error! Path: " << path << std::endl;
+		return;
+	}
+
+	Json::Value playerNode = rootNode["Player"];
+	Json::Value itemNodes = rootNode["Item"];
+	Json::Value enemyNodes = rootNode["Enemy"];
+	Json::Value doorNodes = rootNode["Door"];
+	Json::Value groundNodes = rootNode["Ground"];
+	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
+	sf::Vector2f cellSize = { 24.0f, 24.0f };
+	std::string textureId = rootNode["Path"].asString();
+
+	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	kirby->physicsLayer = (int)PhysicsLayer::Player;
+	kirby->sortLayer = playerNode["SortLayer"].asInt();
+	kirby->SetPosition({ playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat() });
+
+	for (int i = 0; i < itemNodes.size(); i++)
+	{
+		Json::Value item = itemNodes[i];
+	}
+
+	for (int i = 0; i < enemyNodes.size(); i++)
+	{
+		Json::Value item = enemyNodes[i];
+	}
+
+	for (int i = 0; i < doorNodes.size(); i++)
+	{
+		Json::Value item = doorNodes[i];
+	}
+
+	for (int i = 0; i < groundNodes.size(); i++)
+	{
+		Json::Value item = groundNodes[i];
+		sf::Vector2f position = { item["Position"]["x"].asFloat(), item["Position"]["y"].asFloat() };
+		sf::IntRect rect = { item["TexturePosition"]["x"].asInt(), item["TexturePosition"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
+		std::string tag = "Ground";
+		int sortLayer = item["SortLayer"].asInt();
+
+		if ((GroundType)item["Type"].asInt() == GroundType::Throught)
+		{
+			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround(textureId));
+			throughtGround->sprite.setTextureRect(rect);
+			throughtGround->AddTag("Ground");
+			throughtGround->SetSize({ 24.0f, 24.0f });
+			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
+			throughtGround->SetPosition(position);
+			BoxCollider* boxThroughtCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
+			throughtGround->SetCollider(boxThroughtCol);
+			continue;
+		}
+
+		RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		ground->AddTag("Ground");
+		ground->SetTexture(textureId);
+		ground->SetTextureRect(rect);
+		ground->SetSize(cellSize);
+		ground->physicsLayer = (int)PhysicsLayer::Ground;
+		ground->sortLayer = sortLayer;
+		ground->SetPosition(position);
+		if ((GroundType)item["Type"].asInt() != GroundType::Background)
+		{
+			BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
+		}
+		if (!item["Angle"].isNull())
+		{
+			ground->SetRotation(item["Angle"].asFloat());
+		}
+	}
+
+	for (int i = 0; i < ambientObjectNodes.size(); i++)
+	{
+		Json::Value item = ambientObjectNodes[i];
+	}
 }
