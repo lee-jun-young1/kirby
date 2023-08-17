@@ -11,8 +11,8 @@ enum class Languages
 enum class SceneId
 {
 	None = -1,
-	MapTool,
 	Title,
+	MapTool,
 	Demo,
 	Game,
 	Count,

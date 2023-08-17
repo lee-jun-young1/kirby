@@ -17,6 +17,7 @@
 #include "UIButton.h"
 #include <fstream>
 #include <commdlg.h>
+#include <SceneManager.h>
 
 SceneMapTool::SceneMapTool() : Scene(SceneId::MapTool)
 {
@@ -198,6 +199,7 @@ void SceneMapTool::ClearCellsByCategory(const Category& cate)
 void SceneMapTool::Init()
 {
 	Scene::Init();
+	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	
 	//윈도우 가운데로
@@ -424,6 +426,11 @@ void SceneMapTool::Update(float dt)
 	{
 		ReSizeMap(false);
 	}
+
+	if (Input.GetKeyDown(Keyboard::F12))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::Title);
+	}
 }
 
 void SceneMapTool::Draw(sf::RenderWindow& window)
@@ -518,6 +525,16 @@ void SceneMapTool::Reset()
 		}
 		cells.push_back(row);
 	}
+
+	for (auto go : gameObjects)
+	{
+		go->Reset();
+	}
+}
+
+void SceneMapTool::Exit()
+{
+	Scene::Exit();
 }
 
 void SceneMapTool::SaveData(const std::wstring& path)

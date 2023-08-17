@@ -488,6 +488,10 @@ void SceneExample::Update(float deltaTime)
 
 	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
 	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
+	if (Input.GetKeyDown(Keyboard::F12))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
+	}
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)
