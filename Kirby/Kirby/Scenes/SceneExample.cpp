@@ -298,7 +298,7 @@ void SceneExample::Update(float deltaTime)
 	Scene::Update(deltaTime);
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 
-	cameraTime += deltaTime * 3.0f;
+	cameraTime += deltaTime * 2.0f;
 	sf::Vector2f targetPoint;
 	switch (cameraType)
 	{
@@ -488,7 +488,7 @@ void SceneExample::Update(float deltaTime)
 
 	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
 	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
-	if (Input.GetKeyDown(Keyboard::F12))
+	if (Input.GetKeyDown(Keyboard::F11))
 	{
 		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
 	}

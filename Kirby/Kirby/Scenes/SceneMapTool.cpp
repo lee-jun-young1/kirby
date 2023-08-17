@@ -427,7 +427,7 @@ void SceneMapTool::Update(float dt)
 		ReSizeMap(false);
 	}
 
-	if (Input.GetKeyDown(Keyboard::F12))
+	if (Input.GetKeyDown(Keyboard::F11))
 	{
 		SCENE_MANAGER.ChangeScene(SceneId::Title);
 	}
