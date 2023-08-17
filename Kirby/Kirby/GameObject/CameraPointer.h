@@ -5,6 +5,7 @@ class CameraPointer : public RectangleShapeGO
 {
 protected:
 	CameraType type = CameraType::None;
+	CameraType prevType = CameraType::None;
 	sf::Vector2f activePosition;
 	bool isOneOff = false;
 

@@ -163,6 +163,7 @@
     </ClCompile>
     <ClCompile Include="Kirby\GameObject\CameraPointer.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp" />
+    <ClCompile Include="Kirby\GameObject\Mob\Cutter.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Kirby.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Controller.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -249,6 +250,7 @@
     <ClInclude Include="3rd\rapidcsv.h" />
     <ClInclude Include="Kirby\GameObject\CameraPointer.h" />
     <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\Cutter.h" />
     <ClInclude Include="Kirby\GameObject\Player\Kirby.h" />
     <ClInclude Include="Kirby\GameObject\Player\Controller.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

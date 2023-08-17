@@ -106,11 +106,11 @@ void SceneExample::Init()
 	kirby->SetEffect(kirbyEffect);
 
 	CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
-	tempCamPtr1->SetSize({ 0.01f, size.y });
+	tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
 	tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
 	tempCamPtr1->SetOrigin(Origins::MC);
-	tempCamPtr1->SetType(CameraType::Horizontal);
-	tempCamPtr1->SetPosition({ 0.0f, 0.0f});
+	tempCamPtr1->SetType(CameraType::Fixed);
+	tempCamPtr1->SetPosition({ 0.0f, 0.0f });
 	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
 	camCol1->SetTrigger(true);
 
@@ -312,7 +312,8 @@ void SceneExample::Update(float deltaTime)
 		targetPoint = { worldView.getCenter().x, kirby->GetPosition().y };
 		break;
 	case CameraType::Fixed:
-		targetPoint = worldView.getCenter();
+		CameraPointer* camPtr = (CameraPointer*)FindGameObject("tempCamPtr");
+		targetPoint = camPtr->GetPosition() * 0.5f;
 		break;
 	}
 	worldView.setCenter(Utils::Lerp(worldView.getCenter(), targetPoint, cameraTime));

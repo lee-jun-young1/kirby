@@ -8,7 +8,7 @@ protected:
 	std::map<std::string, bool> mouseOverStates;
 	float testRotation = 0.0f;
 	
-	CameraType cameraType = CameraType::Fixed;
+	CameraType cameraType = CameraType::Horizontal;
 	CameraType prevCameraType = CameraType::None;
 	float cameraTime = 0.0f;
 public:
