@@ -5,6 +5,8 @@
 #include <Utils.h>
 #include <GameObjects/RectangleShapeGO.h>
 #include <Door.h>
+#include <InputManager.h>
+#include <KirbyBackdancer.h>
 
 #pragma region KeyInput
 
@@ -642,6 +644,71 @@ void Kirby::Reset()
 {
 	SpriteGO::Reset();
 	SetOrigin({ 36.0f, 48.0f});
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[0].action =
+		[this]() {
+		SetFlipX(true);
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[1].action =
+		[this]() {
+		rigidbody->SetVelocity({ 96.0f, -96.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[7].action =
+		[this]() {
+		rigidbody->SetGravity(false);
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[11].action =
+		[this]() {
+		rigidbody->SetGravity(true);
+		rigidbody->SetVelocity({ -96.0f, -96.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[16].action =
+		[this]() {
+		rigidbody->SetGravity(false);
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[21].action =
+		[this]() {
+		rigidbody->SetGravity(true);
+		rigidbody->SetMass(1.5f);
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[35].action =
+		[this]() {
+		rigidbody->SetMass(1.0f);
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[42].action =
+		[this]() {
+		rigidbody->SetMass(2.0f);
+		rigidbody->SetVelocity({ -96.0f, -150.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[66].action =
+		[this]() {
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[82].action =
+		[this]() {
+		rigidbody->SetVelocity({ 102.0f, -150.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[105].action =
+		[this]() {
+		rigidbody->SetMass(1.5f);
+		rigidbody->SetVelocity({ 48.0f, -48.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[117].action =
+		[this]() {
+		rigidbody->SetMass(1.0f);
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[127].action =
+		[this]() {
+		rigidbody->SetVelocity({ -48.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[142].action =
+		[this]() {
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
 }
 
 void Kirby::Update(float dt)
@@ -649,6 +716,18 @@ void Kirby::Update(float dt)
 	if (update != nullptr)
 	{
 		update(dt);
+	}
+	if (Input.GetKeyDown(Keyboard::W))
+	{
+		KirbyBackdancer* kirbyCopyL = new KirbyBackdancer();
+		kirbyCopyL->SetKirby(this, { -48.0f, -72.0f });
+		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyL);
+		kirbyCopyL->Init();
+		KirbyBackdancer* kirbyCopyR = new KirbyBackdancer();
+		kirbyCopyR->SetKirby(this, { 48.0f, -72.0f });
+		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyR);
+		kirbyCopyR->Init();
+		animator->SetState("Dance");
 	}
 	SpriteGO::Update(dt);
 }
