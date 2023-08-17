@@ -10,6 +10,7 @@ Idle,TiltedL,1,0,TiltedIdleL,0
 Idle,TiltedR,1,0,TiltedIdleR,0
 Idle,Door,1,0,GoDoor,0
 Idle,Falling,1,0,Falling,0
+Idle,Shot,1,0,BalloonShot,0
 TiltedIdleL,PressJump,1,0,Jump,0
 TiltedIdleL,PressMove,1,0,Move,0
 TiltedIdleL,Run,1,0,Run,0
@@ -21,6 +22,7 @@ TiltedIdleL,NoTilted,1,0,Idle,0
 TiltedIdleL,TiltedR,1,0,TiltedIdleR,0
 TiltedIdleL,Door,1,0,GoDoor,0
 TiltedIdleL,Falling,1,0,Falling,0
+TiltedIdleL,Shot,1,0,BalloonShot,0
 TiltedIdleR,PressJump,1,0,Jump,0
 TiltedIdleR,PressMove,1,0,Move,0
 TiltedIdleR,Run,1,0,Run,0
@@ -32,6 +34,7 @@ TiltedIdleR,TiltedL,1,0,TiltedIdleL,0
 TiltedIdleR,NoTilted,1,0,Idle,0
 TiltedIdleR,Door,1,0,GoDoor,0
 TiltedIdleR,Falling,1,0,Falling,0
+TiltedIdleR,Shot,1,0,BalloonShot,0
 Jump,Idle,1,0,Idle,0
 Jump,PressJump,1,0,BalloonFly,0
 Jump,Ground,1,0,Idle,0
@@ -40,6 +43,7 @@ Jump,Hit,1,0,Hit,0
 Jump,SuperHit,1,0,SuperHit,0
 Jump,Door,1,0,GoDoor,0
 Jump,Falling,1,0,Falling,0
+Jump,Shot,1,0,BalloonShot,0
 Move,Idle,1,0,Idle,0
 Move,Run,1,0,Run,0
 Move,AbilityKeyContinue,1,0,Suction,0
@@ -48,6 +52,7 @@ Move,PressSit,1,0,Sit,0
 Move,Door,1,0,GoDoor,0
 Move,Falling,1,0,Falling,0
 Move,Wall,1,0,Wall,0
+Move,Hit,1,0,Hit,0
 Run,Idle,1,0,Idle,0
 Run,AbilityKeyContinue,1,0,Suction,0
 Run,PressJump,1,0,Jump,0
@@ -55,10 +60,12 @@ Run,PressSit,1,0,Sit,0
 Run,Door,1,0,GoDoor,0
 Run,Falling,1,0,Falling,0
 Run,Wall,1,0,Wall,0
+Run,Hit,1,0,Hit,0
 Sit,Idle,1,0,Idle,0
 Sit,AbilityKeyContinue,1,0,Suction,0
 Sit,PressJump,1,0,Tackle,0
 Sit,Falling,1,0,Falling,0
+Sit,Hit,1,0,Hit,0
 Suction,Idle,1,0,Idle,0
 Suction,Falling,1,0,Falling,0
 Suction,Balloon,1,0,BalloonIdle,0
@@ -93,16 +100,22 @@ BalloonIdle,Shot,1,0,BalloonShot,0
 BalloonMove,Idle,1,0,BalloonIdle,0
 BalloonMove,PressJump,1,0,BalloonJump,0
 BalloonMove,Shot,1,0,BalloonShot,0
+BalloonMove,Hit,1,0,BalloonHit,0
 BalloonJump,Idle,1,0,BalloonIdle,0
 BalloonJump,Shot,1,0,BalloonShot,0
+BalloonJump,Hit,1,0,BalloonHit,0
 BalloonTiltedIdleL,Idle,1,0,BalloonIdle,0
 BalloonTiltedIdleL,PressMove,1,0,BalloonMove,0
 BalloonTiltedIdleL,PressSit,1,0,BalloonEat,0
 BalloonTiltedIdleL,TiltedR,1,0,BalloonTiltedIdleR,0
 BalloonTiltedIdleL,Hit,1,0,BalloonHit,0
+BalloonTiltedIdleL,Shot,1,0,BalloonShot,0
+BalloonTiltedIdleL,Eat,1,0,BalloonEat,0
 BalloonTiltedIdleR,Idle,1,0,BalloonIdle,0
 BalloonTiltedIdleR,PressMove,1,0,BalloonMove,0
 BalloonTiltedIdleR,PressSit,1,0,BalloonEat,0
 BalloonTiltedIdleR,TiltedL,1,0,BalloonTiltedIdleL,0
 BalloonTiltedIdleR,Hit,1,0,BalloonHit,0
+BalloonTiltedIdleR,Shot,1,0,BalloonShot,0
+BalloonTiltedIdleR,Eat,1,0,BalloonEat,0
 Wall,,0,1,Idle,0

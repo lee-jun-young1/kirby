@@ -29,10 +29,19 @@ void Controller::Init()
 	Command* commandD = new Command(conditionD, actionD, 1);
 	AddCommand(commandD);
 
-	function<bool()> conditionMoveUp = []() { return Input.GetKeyUp(sf::Keyboard::Key::Left) || Input.GetKeyUp(sf::Keyboard::Key::Right); };
-	function<void(float)> actionMoveUp = [this](float deltaTime) { playable.MoveKeyEnd(); };
-	Command* commandMoveUp = new Command(conditionMoveUp, actionMoveUp, 1);
-	AddCommand(commandMoveUp);
+	function<bool()> conditionMoveUpL = []() { 
+		return (Input.GetKeyUp(sf::Keyboard::Key::Left));
+	};
+	function<void(float)> actionMoveUpL = [this](float deltaTime) { playable.MoveKeyEnd( -1.0f ); };
+	Command* commandMoveUpL = new Command(conditionMoveUpL, actionMoveUpL, 1);
+	AddCommand(commandMoveUpL);
+
+	function<bool()> conditionMoveUpR = []() {
+		return (Input.GetKeyUp(sf::Keyboard::Key::Right));
+	};
+	function<void(float)> actionMoveUpR = [this](float deltaTime) { playable.MoveKeyEnd( 1.0f ); };
+	Command* commandMoveUpR = new Command(conditionMoveUpR, actionMoveUpR, 1);
+	AddCommand(commandMoveUpR);
 
 	function<bool()> conditionCDown = [this]() { return Input.GetKeyDown(sf::Keyboard::Key::X); };
 	function<void(float)> actionCDown = [this](float deltaTime) { playable.ChargeKey(); };

@@ -42,8 +42,8 @@ protected:
 	RigidBody2D* rigidbody;
 
 	float moveAxisX = 0.0f;
-	float speed = 30.0f;
-	float runSpeed = 60.0f;
+	float speed = 75.0f;
+	float runSpeed = 150.0f;
 
 	float actionTime = 0.0f;
 
@@ -58,7 +58,7 @@ protected:
 	
 	function<void(const float&)> moveKey;
 	function<void(const float&)> dashKey;
-	function<void()> moveKeyEnd;
+	function<void(const float&)> moveKeyEnd;
 	function<void()> chargeKey;
 	function<void()> chargeKeyContinue;
 	function<void()> chargeKeyEnd;
@@ -78,7 +78,7 @@ public:
 	// Arrow
 	virtual void MoveKey(const float& axisX) override;
 	virtual void DashKey(const float& axisX) override;
-	virtual void MoveKeyEnd() override;
+	virtual void MoveKeyEnd(const float& axisX) override;
 
 	// Down
 	virtual void SitKey() override;
@@ -107,9 +107,11 @@ public:
 	void BalloonMove(const float& axis);
 	void JumpMove(const float& axis);
 	void Dash(const float& axis);
-	void MoveEnd();
+	void MoveEnd(const float& axis);
 	void BalloonMoveEnd();
 	void JumpMoveEnd();
+
+	void EquipAbility();
 
 
 	// ArrowDown
@@ -152,7 +154,12 @@ public:
 
 	void WallUpdate(float dt);
 
+	void CollideUpdate(float dt);
+	void EatUpdate(float dt);
+
 	virtual void Draw(sf::RenderWindow& window) override;
+	void Damage(const int& damage, const float hitAxisX);
+	void SetInMouseType(const KirbyAbility& ability);
 	virtual void OnCollisionEnter(Collider* col) override;
 	virtual void OnCollisionStay(Collider* col) override;
 

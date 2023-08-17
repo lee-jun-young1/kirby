@@ -19,6 +19,7 @@ PhysicsManager::PhysicsManager()
 	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::Enemy);
 	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::EnemyEffect);
 	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::Item);
+	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::Interact);
 
 	AddCollideLayer(PhysicsLayer::PlayerEffect, PhysicsLayer::Enemy);
 	AddCollideLayer(PhysicsLayer::PlayerEffect, PhysicsLayer::Item);
@@ -74,10 +75,8 @@ void PhysicsManager::AddCollideLayer(PhysicsLayer a, PhysicsLayer b)
 {
 	int targetBit = 1 << (int)b;
 	layerCollide[(int)a] = layerCollide[(int)a] | targetBit;
-	std::cout << (int)a << " = " << layerCollide[(int)a] << std::endl;
 	targetBit = 1 << (int)a;
 	layerCollide[(int)b] = layerCollide[(int)b] | targetBit;
-	std::cout << (int)b << " = " << layerCollide[(int)b] << std::endl;
 }
 
 void PhysicsManager::RemoveCollideLayer(PhysicsLayer a, PhysicsLayer b)
