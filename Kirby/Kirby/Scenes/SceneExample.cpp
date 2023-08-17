@@ -104,14 +104,14 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
-	CameraPointer* tempCamPtr = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
-	tempCamPtr->SetSize({ 0.01f, size.y });
-	tempCamPtr->physicsLayer = (int)PhysicsLayer::Ground;
-	tempCamPtr->SetOrigin(Origins::MC);
-	tempCamPtr->SetType(CameraType::Horizontal);
-	tempCamPtr->SetPosition({ 0.0f, 0.0f});
-	BoxCollider* camCol = (BoxCollider*)tempCamPtr->AddComponent(new BoxCollider(*tempCamPtr));
-	camCol->SetTrigger(true);
+	CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
+	tempCamPtr1->SetSize({ 0.01f, size.y });
+	tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
+	tempCamPtr1->SetOrigin(Origins::MC);
+	tempCamPtr1->SetType(CameraType::Horizontal);
+	tempCamPtr1->SetPosition({ 0.0f, 0.0f});
+	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
+	camCol1->SetTrigger(true);
 
 	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround1->SetSize({ 24.0f, 24.0f });
@@ -297,7 +297,7 @@ void SceneExample::Update(float deltaTime)
 	Scene::Update(deltaTime);
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 
-	cameraTime += deltaTime;
+	cameraTime += deltaTime * 3.0f;
 	sf::Vector2f targetPoint;
 	switch (cameraType)
 	{
