@@ -14,9 +14,10 @@ protected:
 	bool isTrigger;
 
 	sf::Vector2f offset;
+	float rotationOffset;
 
 	virtual void OnCollisionEnter(Collider* col);
-	virtual void OnCollisionStay(Collider* col);
+	virtual void OnCollisionStay(Collider* col, const float& deltaTime);
 	virtual void OnCollisionExit(Collider* col);
 
 	virtual void OnTriggerEnter(Collider* col);
@@ -33,16 +34,21 @@ public:
 	void SetBounciness(float bounciness);
 
 	virtual sf::Vector2f GetNormal(Collider* col);
+	virtual sf::Vector2f GetNormal(const sf::Vector2f& point);
 	virtual bool CheckCross(Collider* col) = 0;
 	virtual sf::Vector2f GetCenter() = 0;
 	virtual float GetWidth() = 0;
 	virtual float GetHeight() = 0;
 
+	bool IsTrigger() { return isTrigger; }
 	void SetTrigger(bool isTrigger);
 
 	void SetOffset(sf::Vector2f offset);
-
 	sf::Vector2f GetOffset();
+
+	void SetRotationOffset(const float& offset);
+	const float& GetRotationOffset();
+
 
 	bool CheckAllCollide(std::list<Collider*>& colliderList);
 

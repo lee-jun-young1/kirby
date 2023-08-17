@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./3rd/json;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Kirby/GameObject;./Kirby/Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./3rd/json;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Kirby/GameObject;./Kirby/GameObject/Player;./Kirby/Scenes;./Kirby/GameObject/Mob;./Kirby/GameObject/Interact;./Kirby/GameObject/Effect;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -161,9 +161,16 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\CameraPointer.cpp" />
+    <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp" />
+    <ClCompile Include="Kirby\GameObject\Mob\Cutter.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Kirby.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Controller.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Kirby\GameObject\AmbientObject.cpp" />
     <ClCompile Include="Kirby\GameObject\Background.cpp" />
-    <ClCompile Include="Kirby\GameObject\Door.cpp" />
+    <ClCompile Include="Kirby\GameObject\Interact\Door.cpp" />
     <ClCompile Include="Kirby\GameObject\Ground.cpp" />
     <ClCompile Include="Kirby\GameObject\BossEnemy.cpp" />
     <ClCompile Include="Components\Audio\AudioGroup.cpp" />
@@ -215,15 +222,20 @@
     <ClCompile Include="Framework\PhysicsManager.cpp" />
     <ClCompile Include="Kirby\GameObject\Player.cpp" />
     <ClCompile Include="Kirby\GameObject\MapToolCell.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Playable.cpp" />
+    <ClCompile Include="Kirby\GameObject\Mob\Mob.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
-    <ClCompile Include="Example\Scenes\SceneExample.cpp" />
+    <ClCompile Include="Kirby\Scenes\SceneExample.cpp" />
     <ClCompile Include="Global\Utils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Global\Variables.cpp" />
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="Framework\SpriteFont.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Skill.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\Suction.cpp" />
+    <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
@@ -238,9 +250,16 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Kirby\GameObject\CameraPointer.h" />
+    <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\Cutter.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Kirby.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Controller.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Kirby\GameObject\AmbientObject.h" />
     <ClInclude Include="Kirby\GameObject\Background.h" />
-    <ClInclude Include="Kirby\GameObject\Door.h" />
+    <ClInclude Include="Kirby\GameObject\Interact\Door.h" />
     <ClInclude Include="Kirby\GameObject\Ground.h" />
     <ClInclude Include="Kirby\GameObject\BossEnemy.h" />
     <ClInclude Include="Components\Audio\AudioGroup.h" />
@@ -291,16 +310,24 @@
     <ClInclude Include="Kirby\GameObject\Item.h" />
     <ClInclude Include="Kirby\Scene\MapToolScene.h" />
     <ClInclude Include="Kirby\GameObject\Player.h" />
+<<<<<<< HEAD
     <ClInclude Include="Kirby\GameObject\MapToolCell.h" />
+=======
+    <ClInclude Include="Kirby\GameObject\Player\Playable.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\Mob.h" />
+>>>>>>> feature/Camera_Move
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
-    <ClInclude Include="Example\Scenes\SceneExample.h" />
+    <ClInclude Include="Kirby\Scenes\SceneExample.h" />
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="Framework\SpriteFont.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Skill.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\UIButton.h" />
+    <ClInclude Include="Kirby\GameObject\Player\Suction.h" />
+    <ClInclude Include="Kirby\GameObject\ThrowableGround.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="3rd\json\json_valueiterator.inl" />

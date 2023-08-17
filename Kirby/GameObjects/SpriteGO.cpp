@@ -84,14 +84,14 @@ void SpriteGO::Draw(sf::RenderWindow& window)
 
 void SpriteGO::SetFlipX(bool flip)
 {
-	sf::Vector2f scale = sprite.getScale();
+	scale = sprite.getScale();
 	scale.x = abs(scale.x) * (flip ? -1.0f : 1.0f) * spriteDirection.x;
 	sprite.setScale(scale);
 }
 
 void SpriteGO::SetFlipY(bool flip)
 {
-	sf::Vector2f scale = sprite.getScale();
+	scale = sprite.getScale();
 	scale.y *= abs(scale.y) * (flip ? -1.0f : 1.0f) * spriteDirection.y;
 	sprite.setScale(scale);
 }

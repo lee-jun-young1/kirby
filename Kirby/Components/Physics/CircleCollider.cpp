@@ -79,9 +79,15 @@ bool CircleCollider::CheckCross(Collider* col)
 		sf::Rect<float> rect = ((BoxCollider*)col)->GetRect();
 
 		sf::Vector2f boxCenter = col->GetCenter();
+		sf::Vector2f circleCenter = center;
 
-		float xDistance = abs(center.x - boxCenter.x);
-		float yDistance = abs(center.y - boxCenter.y);
+		if (col->GetGameObject().GetRotation() != 0.0f && col->GetRotationOffset() != 0.0f)
+		{
+			circleCenter = Utils::RotateWithPivot(boxCenter, circleCenter, -(col->GetGameObject().GetRotation() + col->GetRotationOffset()));
+		}
+
+		float xDistance = abs(circleCenter.x - boxCenter.x);
+		float yDistance = abs(circleCenter.y - boxCenter.y);
 
 		//³ì»ö¿µ¿ª
 		if (xDistance > (rect.width * 0.5f + radius)) { return false; }
@@ -119,9 +125,9 @@ void CircleCollider::OnCollisionEnter(Collider* col)
 	Collider::OnCollisionEnter(col);
 }
 
-void CircleCollider::OnCollisionStay(Collider* col)
+void CircleCollider::OnCollisionStay(Collider* col, const float& deltaTime)
 {
-	Collider::OnCollisionStay(col);
+	Collider::OnCollisionStay(col, deltaTime);
 	debugShape.setOutlineColor(sf::Color::Red);
 }
 

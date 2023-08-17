@@ -1,0 +1,5 @@
+Key,Path
+Idle,animations/Mob/ChickIdle.csv
+Fly,animations/Mob/ChickFly.csv
+Suction,animations/Mob/ChickSuction.csv
+Hit,animations/Mob/ChickHit.csv

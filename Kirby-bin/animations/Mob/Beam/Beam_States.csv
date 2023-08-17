@@ -1,0 +1,5 @@
+Key,Path
+Hit,animations/Mob/BeamHit.csv
+Move,animations/Mob/BeamMove.csv
+Suction,animations/Mob/BeamSuction.csv
+Attack,animations/Mob/BeamAttack.csv

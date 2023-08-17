@@ -8,18 +8,23 @@ PhysicsManager::PhysicsManager()
 		layerCollide.push_back(0);
 		colliders.push_back(std::list<Collider*>());
 	}
-	layerCollide[1] += 1 << 3;
+	AddCollideLayer(PhysicsLayer::Ground, PhysicsLayer::Player);
+	AddCollideLayer(PhysicsLayer::Ground, PhysicsLayer::PlayerEffect);
+	AddCollideLayer(PhysicsLayer::Ground, PhysicsLayer::Enemy);
+	AddCollideLayer(PhysicsLayer::Ground, PhysicsLayer::EnemyEffect);
+	AddCollideLayer(PhysicsLayer::Ground, PhysicsLayer::Item);
+	AddCollideLayer(PhysicsLayer::Ground, PhysicsLayer::AbilityItem);
 
-	layerCollide[2] += 1 << 3;
+	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::PlayerEffect);
+	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::Enemy);
+	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::EnemyEffect);
+	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::Item);
+	AddCollideLayer(PhysicsLayer::Player, PhysicsLayer::Interact);
 
-	layerCollide[3] += 1 << 1;
-	layerCollide[3] += 1 << 2;
-	layerCollide[3] += 1 << 4;
-	layerCollide[3] += 1 << 5;
+	AddCollideLayer(PhysicsLayer::PlayerEffect, PhysicsLayer::Enemy);
+	AddCollideLayer(PhysicsLayer::PlayerEffect, PhysicsLayer::Item);
 
-	layerCollide[4] += 1 << 3;
-
-	layerCollide[5] += 1 << 3;
+	AddCollideLayer(PhysicsLayer::Enemy, PhysicsLayer::EnemyEffect);
 }
 
 std::list<Collider*> PhysicsManager::GetColliders(const int& physicsLayer)
@@ -27,7 +32,7 @@ std::list<Collider*> PhysicsManager::GetColliders(const int& physicsLayer)
 	std::list<Collider*> result;
 	for (int i = 0; i < (int)PhysicsLayer::Count; i++)
 	{
-		if (layerCollide[physicsLayer] & 1 << i && colliders[i].size() > 0)
+		if (layerCollide[physicsLayer] & (1 << i) && colliders[i].size() > 0)
 		{
 			auto it = colliders[i].begin();
 			while (it != colliders[i].end())
@@ -64,4 +69,20 @@ void PhysicsManager::Clear()
 	{
 		colliders[i].clear();
 	}
+}
+
+void PhysicsManager::AddCollideLayer(PhysicsLayer a, PhysicsLayer b)
+{
+	int targetBit = 1 << (int)b;
+	layerCollide[(int)a] = layerCollide[(int)a] | targetBit;
+	targetBit = 1 << (int)a;
+	layerCollide[(int)b] = layerCollide[(int)b] | targetBit;
+}
+
+void PhysicsManager::RemoveCollideLayer(PhysicsLayer a, PhysicsLayer b)
+{
+	int targetBit = 1 << (int)b;
+	layerCollide[(int)a] = layerCollide[(int)a] ^ targetBit;
+	targetBit = 1 << (int)a;
+	layerCollide[(int)b] = layerCollide[(int)b] ^ targetBit;
 }

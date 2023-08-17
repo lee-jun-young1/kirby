@@ -13,6 +13,8 @@ protected:
 	string name;
 
 	sf::Vector2f position;
+	float rotation; 
+	sf::Vector2f scale;
 
 	sf::Vector2f size;
 
@@ -20,6 +22,8 @@ protected:
 
 	list<Component*> components;
 	GameObject* parent;
+
+	list<string> tags;
 public:
 	int sortLayer = 0;
 	int sortOrder = 0;
@@ -27,6 +31,8 @@ public:
 
 	bool IsActive() const;
 	void SetActive(bool active);
+	virtual void OnEnable() {};
+	virtual void OnDisable() {};
 
 	void SetParent(GameObject* parent) { this->parent = parent; }
 	GameObject* GetParent() { return parent; }
@@ -38,8 +44,14 @@ public:
 
 	sf::Vector2f GetPosition();
 	virtual void SetPosition(const sf::Vector2f& position);
-
 	virtual void SetPosition(const float& x, const float& y);
+
+	sf::Vector2f GetScale() { return scale; }
+	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
+
+	virtual bool HasTag(const string& tag) const;
+	virtual void AddTag(const string& tag);
+	virtual void RemoveTag(const string& tag);
 
 	virtual void SetOrigin(const Origins& origin) {};
 	virtual void SetOrigin(const sf::Vector2f& origin);
@@ -59,6 +71,7 @@ public:
 	virtual void Draw(sf::RenderWindow& window);
 	virtual void OnGUI(sf::RenderWindow& window);
 
+
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();
 
@@ -68,10 +81,13 @@ public:
 	Component* AddComponent(Component* component);
 	void RemoveGameObject(Component* component);
 
-	virtual void OnCollisionEnter(Collider* col) {};
-	virtual void OnCollisionStay(Collider* col) {};
-	virtual void OnCollisionExit(Collider* col) {};
-	virtual void OnTriggerEnter(Collider* col) {};
-	virtual void OnTriggerStay(Collider* col) {};
-	virtual void OnTriggerExit(Collider* col) {};
+	virtual void SetRotation(const float& rotation) { this->rotation = rotation; }
+	virtual const float& GetRotation() { return rotation; }
+
+	virtual void OnCollisionEnter(Collider* col) {}
+	virtual void OnCollisionStay(Collider* col) {}
+	virtual void OnCollisionExit(Collider* col) {}
+	virtual void OnTriggerEnter(Collider* col) {}
+	virtual void OnTriggerStay(Collider* col) {}
+	virtual void OnTriggerExit(Collider* col) {}
 };

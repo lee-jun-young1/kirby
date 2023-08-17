@@ -3,11 +3,15 @@
 #include "GameObject.h"
 #include "PhysicsManager.h"
 #include "RigidBody2D.h"
+#include "Utils.h"
 
 Collider::Collider(GameObject& gameObject, ColliderType type)
 	:Component(gameObject, ComponentType::Collider, false), type(type), rigidbody(nullptr), isCollide(false), bounciness(0.0f), isTrigger(false)
 {
-	//Physics.AddColliders(this, gameObject.physicsLayer);
+	if (gameObject.IsActive())
+	{
+		Physics.AddColliders(this, gameObject.physicsLayer);
+	}
 }
 
 Collider::~Collider()
@@ -47,20 +51,163 @@ bool Collider::CheckCross(Collider* col)
 
 sf::Vector2f Collider::GetNormal(Collider* col)
 {
-	sf::Vector2f val = (col->GetCenter() - GetCenter());
-	val.x /= GetWidth() + col->GetWidth();
-	val.y /= GetHeight() + col->GetHeight();
-
-
-	if (abs(val.x) < abs(val.y))
+	float rotation = GetRotationOffset() + GetGameObject().GetRotation();
+	if (rotation == 0)
 	{
-		//cout << " X " << endl;
-		return val.y < 0.0f ? sf::Vector2f(0.0f, 1.0f) : sf::Vector2f(0.0f, -1.0f);
+		sf::Vector2f val = (col->GetCenter() - GetCenter());
+		val.x /= GetWidth() + col->GetWidth();
+		val.y /= GetHeight() + col->GetHeight();
+
+		sf::Vector2f result;
+		if (abs(val.x) >= abs(val.y))
+		{
+			//cout << " Y " << endl;
+			result.x = val.x > 0.0f ? 1.0f : -1.0f;
+		}
+		else
+		{
+			//cout << " X " << endl;
+			result.y = (val.y > 0.0f ? 1.0f : -1.0f);
+		}
+
+		return result;
 	}
 	else
 	{
-		//cout << " Y " << endl;
-		return val.x < 0.0f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f);
+		sf::Vector2f result;
+
+		sf::Vector2f rotatedVertex[4];
+
+		rotatedVertex[0] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * -0.5f, GetHeight() * -0.5f), rotation);
+		rotatedVertex[1] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * -0.5f, GetHeight() * 0.5f), rotation);
+		rotatedVertex[2] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * 0.5f, GetHeight() * -0.5f), rotation);
+		rotatedVertex[3] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * 0.5f, GetHeight() * 0.5f), rotation);
+
+
+		sf::Vector2f top = rotatedVertex[0];
+		sf::Vector2f bottom = rotatedVertex[0];
+		sf::Vector2f left = rotatedVertex[0];
+		sf::Vector2f right = rotatedVertex[0];
+		for (int i = 1; i < 4; i++)
+		{
+			if (top.y > rotatedVertex[i].y)
+			{
+				top = rotatedVertex[i];
+			}
+			if (top.y < rotatedVertex[i].y)
+			{
+				bottom = rotatedVertex[i];
+			}
+			if (left.x > rotatedVertex[i].x)
+			{
+				left = rotatedVertex[i];
+			}
+			if (right.x < rotatedVertex[i].x)
+			{
+				right = rotatedVertex[i];
+			}
+		}
+
+
+		if (col->GetCenter().y < left.y && col->GetCenter().x < top.x)
+		{
+			result.x = -1.0f;
+		}
+		else if (col->GetCenter().y < right.y && col->GetCenter().x > top.x)
+		{
+			result.y = -1.0f;
+		}
+		else if (col->GetCenter().y > left.y && col->GetCenter().x < bottom.x)
+		{
+			result.y = 1.0f;
+		}
+		else if (col->GetCenter().y > right.y && col->GetCenter().x > bottom.x)
+		{
+			result.x = 1.0f;
+		} 
+		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, (int)rotation % 90);
+		return result;
+	}
+}
+
+sf::Vector2f Collider::GetNormal(const sf::Vector2f& point)
+{
+	float rotation = GetRotationOffset() + GetGameObject().GetRotation();
+	if (rotation == 0)
+	{
+		sf::Vector2f val = (point - GetCenter());
+		val.x /= GetWidth();
+		val.y /= GetHeight();
+
+		sf::Vector2f result;
+		if (abs(val.x) >= abs(val.y))
+		{
+			//cout << " Y " << endl;
+			result.x = val.x > 0.0f ? 1.0f : -1.0f;
+		}
+		else
+		{
+			//cout << " X " << endl;
+			result.y = (val.y > 0.0f ? 1.0f : -1.0f);
+		}
+
+		return result;
+	}
+	else
+	{
+		sf::Vector2f result;
+
+		sf::Vector2f rotatedVertex[4];
+
+		rotatedVertex[0] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * -0.5f, GetHeight() * -0.5f), rotation);
+		rotatedVertex[1] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * -0.5f, GetHeight() * 0.5f), rotation);
+		rotatedVertex[2] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * 0.5f, GetHeight() * -0.5f), rotation);
+		rotatedVertex[3] = GetCenter() + Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(GetWidth() * 0.5f, GetHeight() * 0.5f), rotation);
+
+
+		sf::Vector2f top = rotatedVertex[0];
+		sf::Vector2f bottom = rotatedVertex[0];
+		sf::Vector2f left = rotatedVertex[0];
+		sf::Vector2f right = rotatedVertex[0];
+		for (int i = 1; i < 4; i++)
+		{
+			if (top.y > rotatedVertex[i].y)
+			{
+				top = rotatedVertex[i];
+			}
+			if (top.y < rotatedVertex[i].y)
+			{
+				bottom = rotatedVertex[i];
+			}
+			if (left.x > rotatedVertex[i].x)
+			{
+				left = rotatedVertex[i];
+			}
+			if (right.x < rotatedVertex[i].x)
+			{
+				right = rotatedVertex[i];
+			}
+		}
+
+
+		if (point.y < left.y && point.x < top.x)
+		{
+			result.x = -1.0f;
+		}
+		else if (point.y < right.y && point.x > top.x)
+		{
+			result.y = -1.0f;
+		}
+		else if (point.y > left.y && point.x < bottom.x)
+		{
+			result.y = 1.0f;
+		}
+		else if (point.y > right.y && point.x > bottom.x)
+		{
+			result.x = 1.0f;
+		}
+		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, (int)rotation % 90);
+		return result;
 	}
 }
 
@@ -72,6 +219,16 @@ void Collider::SetTrigger(bool isTrigger)
 void Collider::SetOffset(sf::Vector2f offset)
 {
 	this->offset = offset;
+}
+
+void Collider::SetRotationOffset(const float& offset)
+{
+	rotationOffset = offset;
+}
+
+const float& Collider::GetRotationOffset()
+{
+	return rotationOffset;
 }
 
 sf::Vector2f Collider::GetOffset()
@@ -110,11 +267,11 @@ void Collider::OnCollisionEnter(Collider* col)
 }
 
 
-void Collider::OnCollisionStay(Collider* col)
+void Collider::OnCollisionStay(Collider* col, const float& deltaTime)
 {
 	if (!isTrigger && !col->isTrigger && rigidbody != nullptr)
 	{
-		rigidbody->OnCollisionStay(this, col);
+		rigidbody->OnCollisionStay(this, col, deltaTime);
 	}
 	gameObject.OnCollisionStay(col);
 }
@@ -136,11 +293,19 @@ void Collider::OnCollisionExit(Collider* col)
 
 void Collider::OnTriggerEnter(Collider* col)
 {
+	if (rigidbody != nullptr)
+	{
+		rigidbody->OnTriggerEnter(this, col);
+	}
 	gameObject.OnTriggerEnter(col);
 }
 
 void Collider::OnTriggerStay(Collider* col)
 {
+	if (rigidbody != nullptr)
+	{
+		rigidbody->OnTriggerStay(this, col);
+	}
 	gameObject.OnTriggerStay(col);
 }
 
@@ -198,7 +363,7 @@ void Collider::Update(float deltaTime)
 				}
 				else
 				{
-					OnCollisionStay(*curIt);
+					OnCollisionStay(*curIt, deltaTime);
 				}
 				it = prevCollideList.erase(it);
 				break;

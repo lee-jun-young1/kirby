@@ -23,12 +23,16 @@ public:
 	virtual float GetWidth() override;
 	virtual float GetHeight() override;
 
+	bool SATTest(const sf::Vector2f& axis, const sf::Vector2f& aLeftTop, const sf::Vector2f& aCenter, const sf::Vector2f& bLeftTop, const sf::Vector2f& bCenter, const sf::Vector2f& bRight, const sf::Vector2f& bTop);
+
+	sf::Vector2f GetProjection(const sf::Vector2f& axis, const sf::Vector2f& target);
+
 #ifdef _DEBUG
 protected:
 	sf::RectangleShape debugShape;
 public:
 	virtual void OnCollisionEnter(Collider* col) override;
-	virtual void OnCollisionStay(Collider* col) override;
+	virtual void OnCollisionStay(Collider* col, const float& deltaTime) override;
 	virtual void OnCollisionExit(Collider* col) override;
 
 	virtual void OnTriggerEnter(Collider* col) override;

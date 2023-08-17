@@ -1,0 +1,6 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Fly,Idle,1,0,Idle,0
+Fly,Suction,1,0,Suction,0
+Idle,Fly,1,0,Fly,0
+Idle,Suction,1,0,Suction,0
+Jump,Suction,1,0,Suction,0
