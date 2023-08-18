@@ -2,10 +2,12 @@
 #include "KirbyBackdancer.h"
 #include "Animator.h"
 
-void KirbyBackdancer::Init()
+void KirbyBackdancer::Reset()
 {
-	SpriteGO::Init();
-	AddComponent(new Animator(*this, "animations/Kirby/Kirby", "Dance"));
+	SpriteGO::Reset();
+	Animation* ani = (Animation*)AddComponent(new Animation(*this));
+	ani->SetClip(Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv"));
+	ani->Play();
 }
 
 void KirbyBackdancer::Update(float dt)

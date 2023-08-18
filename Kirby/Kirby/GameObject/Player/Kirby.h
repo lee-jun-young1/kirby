@@ -27,6 +27,8 @@ enum class KirbyState
 	Shot,
 	Door,
 	Wall,
+	DanceReady,
+	Dance,
 };
 
 
@@ -155,7 +157,12 @@ public:
 	void WallUpdate(float dt);
 
 	void CollideUpdate(float dt);
-	void EatUpdate(float dt);
+	void EatUpdate(float dt); 
+	
+	void DanceReadyUpdate(float dt); 
+	void DanceUpdate(float dt); 
+	
+	void StageClear();
 
 	virtual void Draw(sf::RenderWindow& window) override;
 	void Damage(const int& damage, const float hitAxisX);

@@ -7,6 +7,7 @@
 #include <Door.h>
 #include <InputManager.h>
 #include <KirbyBackdancer.h>
+#include <GameObjects/SpriteEffect.h>
 
 #pragma region KeyInput
 
@@ -418,6 +419,38 @@ void Kirby::ChangeState(const KirbyState& state)
 			vKey = nullptr;
 			update = std::bind(&Kirby::WallUpdate, this, std::placeholders::_1);
 			break;
+		case KirbyState::DanceReady:
+			cout << "state :: DanceReady" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::DanceReadyUpdate, this, std::placeholders::_1);
+			break;
+		case KirbyState::Dance:
+			cout << "state :: Dance" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::DanceUpdate, this, std::placeholders::_1);
+			break;
 	}
 }
 
@@ -717,17 +750,9 @@ void Kirby::Update(float dt)
 	{
 		update(dt);
 	}
-	if (Input.GetKeyDown(Keyboard::W))
+	if (Input.GetKeyDown(Keyboard::Q))
 	{
-		KirbyBackdancer* kirbyCopyL = new KirbyBackdancer();
-		kirbyCopyL->SetKirby(this, { -48.0f, -72.0f });
-		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyL);
-		kirbyCopyL->Init();
-		KirbyBackdancer* kirbyCopyR = new KirbyBackdancer();
-		kirbyCopyR->SetKirby(this, { 48.0f, -72.0f });
-		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyR);
-		kirbyCopyR->Init();
-		animator->SetState("Dance");
+		StageClear();
 	}
 	SpriteGO::Update(dt);
 }
@@ -818,6 +843,63 @@ void Kirby::EatUpdate(float dt)
 	{
 		ChangeState(KirbyState::Idle);
 	}
+}
+
+void Kirby::DanceReadyUpdate(float dt)
+{
+	actionTime += dt;
+	if (actionTime >= 1.3f)
+	{
+		ChangeState(KirbyState::Dance);
+		KirbyBackdancer* kirbyCopyL = new KirbyBackdancer();
+		kirbyCopyL->SetKirby(this, { -84.0f, -48.0f });
+		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyL);
+		kirbyCopyL->Reset();
+		KirbyBackdancer* kirbyCopyR = new KirbyBackdancer();
+		kirbyCopyR->SetKirby(this, { 12.0f, -48.0f });
+		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyR);
+		kirbyCopyR->Reset();
+		animator->SetState("Dance");
+	}
+}
+
+void Kirby::DanceUpdate(float dt)
+{
+	/*actionTime += dt;
+	if (actionTime >= 1.3f)
+	{
+		ChangeState(KirbyState::Dance);
+	}*/
+}
+
+void Kirby::StageClear()
+{
+	ChangeState(KirbyState::DanceReady);
+	actionTime = 0.0f;
+	animator->SetState("DanceReady");
+	animator->Play();
+	SpriteEffect* kirbyStarL = new SpriteEffect(1.3f, "sprites/effects/KirbyEffect.png", "BackdancerStar");
+	kirbyStarL->SetPosition(position + sf::Vector2f(-6.0f, -18.0f));
+	kirbyStarL->SetScale({ 0.5f, 0.5f });
+	Animation* aniL = (Animation*)kirbyStarL->AddComponent(new Animation(*kirbyStarL));
+	aniL->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
+	aniL->Play();
+	kirbyStarL->Reset();
+	RigidBody2D* rigL = (RigidBody2D*)kirbyStarL->AddComponent(new RigidBody2D(*kirbyStarL));
+	rigL->AddForce({ -40.0f, -120.0f });
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyStarL);
+
+
+	SpriteEffect* kirbyStarR = new SpriteEffect(1.3f, "sprites/effects/KirbyEffect.png", "BackdancerStar");
+	kirbyStarR->SetPosition(position + sf::Vector2f(-6.0f, -18.0f));
+	kirbyStarR->SetScale({ 0.5f, 0.5f });
+	Animation* aniR = (Animation*)kirbyStarR->AddComponent(new Animation(*kirbyStarR));
+	aniR->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
+	aniR->Play();
+	kirbyStarR->Reset();
+	RigidBody2D* rigR = (RigidBody2D*)kirbyStarR->AddComponent(new RigidBody2D(*kirbyStarR));
+	rigR->AddForce({ 40.0f, -120.0f });
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyStarR);
 }
 
 void Kirby::Draw(sf::RenderWindow& window)
