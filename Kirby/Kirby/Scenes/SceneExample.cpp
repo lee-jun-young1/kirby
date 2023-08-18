@@ -187,7 +187,7 @@ void SceneExample::Init()
 	tempTiltedGround1->SetOrigin(Origins::MC);
 	//tempGround2->SetPosition({ 0.0f, 100.0f });
 	tempTiltedGround1->SetPosition({ -33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround1->SetRotation(45.0f);
+	tempTiltedGround1->SetRotation(-135.0f);
 	BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
 
 	RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
@@ -197,7 +197,7 @@ void SceneExample::Init()
 	tempTiltedGround3->SetOrigin(Origins::MC);
 	//tempGround2->SetPosition({ 0.0f, 100.0f });
 	tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround3->SetRotation(45.0f);
+	tempTiltedGround3->SetRotation(-135.0f);
 	BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
 
 	RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
@@ -207,7 +207,7 @@ void SceneExample::Init()
 	tempTiltedGround2->SetOrigin(Origins::MC);
 	//tempGround2->SetPosition({ 0.0f, 100.0f });
 	tempTiltedGround2->SetPosition({ 0.0f, 70.0f });
-	tempTiltedGround2->SetRotation(45.0f);
+	tempTiltedGround2->SetRotation(-135.0f);
 	BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
 
 	for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
