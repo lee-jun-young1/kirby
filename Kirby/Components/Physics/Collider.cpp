@@ -130,7 +130,6 @@ sf::Vector2f Collider::GetNormal(Collider* col)
 		{
 			rot = 90 + rot;
 		}
-		cout << rot << endl;
 		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, rot);
 		return result;
 	}
@@ -217,7 +216,6 @@ sf::Vector2f Collider::GetNormal(const sf::Vector2f& point)
 		{
 			rot = 90 + rot;
 		}
-		cout << rot << endl;
 		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, rot);
 		return result;
 	}

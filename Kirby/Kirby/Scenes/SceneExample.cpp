@@ -198,7 +198,7 @@ void SceneExample::Init()
 	tempTiltedGround1->SetOrigin(Origins::MC);
 	//tempGround2->SetPosition({ 0.0f, 100.0f });
 	tempTiltedGround1->SetPosition({ -33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround1->SetRotation(45.0f);
+	tempTiltedGround1->SetRotation(-135.0f);
 	BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
 
 	RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
@@ -208,7 +208,7 @@ void SceneExample::Init()
 	tempTiltedGround3->SetOrigin(Origins::MC);
 	//tempGround2->SetPosition({ 0.0f, 100.0f });
 	tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround3->SetRotation(45.0f);
+	tempTiltedGround3->SetRotation(-135.0f);
 	BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
 
 	RectangleShapeGO* tempTiltedGround5 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
@@ -227,8 +227,20 @@ void SceneExample::Init()
 	tempTiltedGround2->SetOrigin(Origins::MC);
 	//tempGround2->SetPosition({ 0.0f, 100.0f });
 	tempTiltedGround2->SetPosition({ 0.0f, 70.0f });
-	tempTiltedGround2->SetRotation(45.0f);
+	tempTiltedGround2->SetRotation(-135.0f);
 	BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
+
+	for (float screenX = 24.0f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
+	{
+		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+		tempGround1->AddTag("Ground");
+		tempGround1->SetSize({ 24.0f, 24.0f });
+		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
+		tempGround1->SetOrigin(Origins::MC);
+		//tempGround2->SetPosition({ 0.0f, 100.0f });
+		tempGround1->SetPosition({ screenX, 56.0f + 33.0f * 0.5f });
+		BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+	}
 
 	for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
 	{
