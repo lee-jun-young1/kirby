@@ -125,7 +125,13 @@ sf::Vector2f Collider::GetNormal(Collider* col)
 		{
 			result.x = 1.0f;
 		} 
-		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, (int)rotation % 90);
+		int rot = (int)rotation % 90;
+		if (rot < 0)
+		{
+			rot = 90 + rot;
+		}
+		cout << rot << endl;
+		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, rot);
 		return result;
 	}
 }
@@ -206,7 +212,13 @@ sf::Vector2f Collider::GetNormal(const sf::Vector2f& point)
 		{
 			result.x = 1.0f;
 		}
-		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, (int)rotation % 90);
+		int rot = (int)rotation % 90;
+		if (rot < 0)
+		{
+			rot = 90 + rot;
+		}
+		cout << rot << endl;
+		result = Utils::RotateWithPivot(sf::Vector2f(0.0f, 0.0f), result, rot);
 		return result;
 	}
 }

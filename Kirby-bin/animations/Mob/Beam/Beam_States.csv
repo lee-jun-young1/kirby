@@ -1,5 +1,8 @@
 Key,Path
-Hit,animations/Mob/BeamHit.csv
-Move,animations/Mob/BeamMove.csv
-Suction,animations/Mob/BeamSuction.csv
-Attack,animations/Mob/BeamAttack.csv
+Hit,animations/Mob/Beam/BeamHit.csv
+Jump,animations/Mob/Beam/BeamJump.csv
+JumpReady,animations/Mob/Beam/BeamJumpReady.csv
+Move,animations/Mob/Beam/BeamMove.csv
+Suction,animations/Mob/Beam/BeamSuction.csv
+Attack,animations/Mob/Beam/BeamAttack.csv
+AttackReady,animations/Mob/Beam/BeamAttackReady.csv

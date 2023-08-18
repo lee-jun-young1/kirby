@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+AttackReady,10,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,48,0,72,72
+,96,0,72,72

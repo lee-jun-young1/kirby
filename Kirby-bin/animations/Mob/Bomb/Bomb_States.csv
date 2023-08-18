@@ -1,5 +1,5 @@
 Key,Path
-Hit,animations/Mob/BombHit.csv
-Jump,animations/Mob/BombJump.csv
-Suction,animations/Mob/BombSuction.csv
-Throw,animations/Mob/BombThrow.csv
+Hit,animations/Mob/Bomb/BombHit.csv
+Jump,animations/Mob/Bomb/BombJump.csv
+Suction,animations/Mob/Bomb/BombSuction.csv
+Throw,animations/Mob/Bomb/BombThrow.csv
