@@ -545,29 +545,64 @@ void SceneExample::LoadData(const std::wstring& path)
 	{
 		Json::Value node = itemNodes[i];
 		ItemType type = (ItemType)node["Type"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		std::string textureId = "sprites/item/items.png";
+		sf::IntRect rect;
+		int sortLayer = node["SortLayer"].asInt();
 		switch (type)
 		{
 		case ItemType::Life:
+			rect = { 216, 0, 24, 24};
 			break;
 		case ItemType::God:
+			rect = { 216, 24, 24, 24 };
 			break;
 		case ItemType::MaxTomato:
+			rect = { 120, 24, 24, 24 };
 			break;
 		case ItemType::Normal:
+			rect = { 96, 24, 24, 24 };
 			break;
 		}
+		SpriteGO* item = (SpriteGO*)AddGameObject(new SpriteGO(textureId, "item"));
+		item->sprite.setTextureRect(rect);
+		item->SetSize(cellSize);
+		item->physicsLayer = (int)PhysicsLayer::Ground;
+		item->sortLayer = sortLayer;
+		item->SetPosition(position);
 	}
 
 	for (int i = 0; i < enemyNodes.size(); i++)
 	{
 		Json::Value node = enemyNodes[i];
 		EnemyType type = (EnemyType)node["Type"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		int sortLayer = node["SortLayer"].asInt();
+
 		switch (type)
 		{
-		case EnemyType::None:
-			break;
 		case EnemyType::Cutter:
+		{
+			Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Cutter"));
+			suctionAble->AddTag("Suctionable");
+			suctionAble->AddTag("Mob");
+			suctionAble->SetSize(cellSize); //
+			suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+			suctionAble->SetOrigin(Origins::BC);
+			BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+			suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+			suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+			RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+			suctionAbleCol->SetRigidbody(rig);
+			Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Cutter/Cutter", "Idle"));
+			suctionAble->SetAnimator(ani);
+			suctionAble->SetRigidBody(rig);
+
+			suctionAble->SetOrigin({ 36.0f, 48.0f });
+			suctionAble->SetPosition(position); //
+			suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+			suctionAbleCol->SetOffset({ -12.0f, -24.0f });
+		}
 			break;
 		case EnemyType::Beam:
 			break;
@@ -582,12 +617,28 @@ void SceneExample::LoadData(const std::wstring& path)
 		case EnemyType::Mushroom:
 			break;
 		case EnemyType::Normal:
+		{
+			//Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)0, "sprites/mob/mob_normal.png", "Suctionable"));
+			//suctionAble->AddTag("Suctionable");
+			//suctionAble->AddTag("Mob");
+			//suctionAble->SetSize(cellSize); //
+			//suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+			//suctionAble->SetPosition(position);
+			//BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+			//RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+			//suctionAbleCol->SetRigidbody(rig);
+			//Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Normal/Normal", "Move"));
+			//suctionAble->SetAnimator(ani);
+			//suctionAble->SetRigidBody(rig);
+
+			//suctionAble->SetOrigin({ 36.0f, 48.0f });
+			//suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+			//suctionAbleCol->SetOffset({ -12.0f, -24.0f });
+		}
 			break;
 		case EnemyType::SubBoss:
 			break;
 		case EnemyType::Boss:
-			break;
-		default:
 			break;
 		}
 	}
@@ -600,43 +651,47 @@ void SceneExample::LoadData(const std::wstring& path)
 	for (int i = 0; i < groundNodes.size(); i++)
 	{
 		Json::Value node = groundNodes[i];
-		std::string textureId = rootNode["Path"].asString();
-		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		sf::IntRect rect = { node["TexturePosition"]["x"].asInt(), node["TexturePosition"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
-		std::string tag = "Ground";
-		int sortLayer = node["SortLayer"].asInt();
+		Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "ground"));
+		ground->SetData(node);
+		ground->SetGroundType((GroundType)node["Type"].asInt());
 
-		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
-		{
-			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround(textureId));
-			throughtGround->sprite.setTextureRect(rect);
-			throughtGround->AddTag("Ground");
-			throughtGround->SetSize(cellSize);
-			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
-			throughtGround->SetPosition(position);
-			BoxCollider* boxThroughtCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
-			throughtGround->SetCollider(boxThroughtCol);
-			continue;
-		}
 
-		RectangleShapeGO* ground = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		ground->AddTag("Ground");
-		ground->SetTexture(textureId);
-		ground->SetTextureRect(rect);
-		ground->SetSize(cellSize);
-		ground->physicsLayer = (int)PhysicsLayer::Ground;
-		ground->sortLayer = sortLayer;
-		ground->SetPosition(position);
-		if ((GroundType)node["Type"].asInt() != GroundType::Background)
-		{
-			BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
-			if (!node["Angle"].isNull())
-			{
-				//ground->SetOrigin(Origins::MC);
-				ground->SetPosition({ ground->GetPosition().x, ground->GetPosition().y });
-				boxCol->SetRotationOffset(node["Angle"].asFloat());
-			}
-		}
+		//std::string textureId = rootNode["Path"].asString();
+		//sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		//sf::IntRect rect = { node["TexturePosition"]["x"].asInt(), node["TexturePosition"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
+		//std::string tag = "Ground";
+		//int sortLayer = node["SortLayer"].asInt();
+
+		//if ((GroundType)node["Type"].asInt() == GroundType::Throught)
+		//{
+		//	ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround(textureId));
+		//	throughtGround->sprite.setTextureRect(rect);
+		//	throughtGround->AddTag(tag);
+		//	throughtGround->SetSize(cellSize);
+		//	throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
+		//	throughtGround->SetPosition(position);
+		//	BoxCollider* boxThroughtCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
+		//	throughtGround->SetCollider(boxThroughtCol);
+		//	continue;
+		//}
+
+		//SpriteGO* ground = (SpriteGO*)AddGameObject(new SpriteGO(textureId, "Ground"));
+		//ground->AddTag("Ground");
+		//ground->sprite.setTextureRect(rect);
+		//ground->SetSize(cellSize);
+		//ground->physicsLayer = (int)PhysicsLayer::Ground;
+		//ground->sortLayer = sortLayer;
+		//ground->SetPosition(position);
+		//if ((GroundType)node["Type"].asInt() != GroundType::Background)
+		//{
+		//	BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
+		//	if (!node["Angle"].isNull())
+		//	{
+		//		ground->SetPosition({ ground->GetPosition().x, ground->GetPosition().y });
+		//		boxCol->SetRotationOffset(node["Angle"].asFloat());
+		//		boxCol->SetOffset({node["OffSet"]["x"].asFloat(), node["OffSet"]["y"].asFloat()});
+		//	}
+		//}
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
