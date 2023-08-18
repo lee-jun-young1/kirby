@@ -279,6 +279,38 @@ void SceneExample::Init()
 	curtain->SetFillColor({ 0, 0, 0, 0 });
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
+	SpriteGO* boomA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Boom.png", "Bomb_A"));
+	boomA->AddComponent(new Animator(*boomA, "animations/Effect/Bomb/Bomb", "Test"));
+	boomA->SetPosition(0.0f, 0.0f);
+
+	SpriteGO* beamtestA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestA->AddComponent(new Animator(*beamtestA, "animations/Kirby/Kirby", "BeamCharge"));
+	beamtestA->SetPosition(-72.0f, 0.0f);
+
+	SpriteGO* beamtestB = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestB->AddComponent(new Animator(*beamtestB, "animations/Kirby/Kirby", "BeamFullCharge"));
+	beamtestB->SetPosition(-144.0f, 0.0f);
+
+	SpriteGO* beamtestC = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestC->AddComponent(new Animator(*beamtestC, "animations/Kirby/Kirby", "BeamShot"));
+	beamtestC->SetPosition(-144.0f, -72.0f);
+
+	SpriteGO* beamtestD = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestD->AddComponent(new Animator(*beamtestD, "animations/Kirby/Kirby", "BeamAttack"));
+	beamtestD->SetPosition(-144.0f, -144.0f);
+
+	SpriteGO* beam = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Beam.png", "Charge"));
+	beam->AddComponent(new Animator(*beam, "animations/Effect/Beam/Beam", "Charge"));
+	beam->SetPosition(-72.0f, 0.0f);
+
+	SpriteGO* cutter = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter.png", "Shot"));
+	cutter->AddComponent(new Animator(*cutter, "animations/Effect/Cutter/Cutter", "Shot"));
+	cutter->SetPosition(-72.0f, -72.0f);
+
+	SpriteGO* blast = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter.png", "Blast"));
+	blast->AddComponent(new Animator(*blast, "animations/Effect/Cutter/Cutter", "Blast"));
+	blast->SetPosition(0.0f, -72.0f);
+
 	for (auto go : gameObjects)
 	{
 		go->Init();

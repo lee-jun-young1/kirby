@@ -1,0 +1,3 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Test,,0,239,Boom,0
+Boom,,0,11,Test,0

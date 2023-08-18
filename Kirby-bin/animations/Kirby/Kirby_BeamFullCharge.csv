@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+BeamFullCharge,10,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,576,0,72,72
+,648,0,72,72
