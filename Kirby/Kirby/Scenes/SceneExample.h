@@ -10,6 +10,8 @@ protected:
 	
 	CameraType cameraType = CameraType::Free;
 	float cameraTime = 0.0f;
+
+	int count = 0;
 public:
 	SceneExample();
 	virtual ~SceneExample() override;

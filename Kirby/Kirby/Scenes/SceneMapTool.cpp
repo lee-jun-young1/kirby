@@ -342,7 +342,7 @@ void SceneMapTool::Update(float dt)
 			{
 				ClearCellsByCategory(currentGO->GetCategory());
 			}
-			if (currentGO->GetCategory() != Category::Door)
+			if (currentGO->GetCategory() != Category::Door && (currentGO->GetCategory() == Category::Camera && (CameraType)currentGO->additionalData["Type"].asInt() != CameraType::Fixed))
 			{
 				cell->AddGameObject(currentGO, layer);
 			}
@@ -356,6 +356,10 @@ void SceneMapTool::Update(float dt)
 				currentGO->additionalData["MovePosition"]["y"] = currentGO->GetPosition().y;
 				prevGO = cell->AddGameObject(currentGO, layer);
 			}
+			else if (currentGO->GetCategory() == Category::Camera && (CameraType)currentGO->additionalData["Type"].asInt() == CameraType::Fixed)
+			{
+				cell->AddGameObject(currentGO, layer);
+			}
 		}
 		if (Input.GetMouseButtonUp(sf::Mouse::Left) && currentGO != nullptr)
 		{
@@ -365,6 +369,10 @@ void SceneMapTool::Update(float dt)
 				currentGO->additionalData["MovePosition"]["y"] = doorMovePosition.y;
 				prevGO->additionalData["MovePosition"]["x"] = currentGO->GetPosition().x;
 				prevGO->additionalData["MovePosition"]["y"] = currentGO->GetPosition().y;
+				cell->AddGameObject(currentGO, layer);
+			}
+			else if(currentGO->GetCategory() == Category::Camera && (CameraType)currentGO->additionalData["Type"].asInt() == CameraType::Fixed)
+			{
 				cell->AddGameObject(currentGO, layer);
 			}
 		}
@@ -595,11 +603,14 @@ void SceneMapTool::SaveData(const std::wstring& path)
 					if ((GroundType)((SpriteGO*)go)->additionalData["Type"].asInt() == GroundType::Tilted)
 					{
 						node["Angle"] = ((SpriteGO*)go)->additionalData["Angle"].asFloat();
+						node["OffSet"]["x"] = ((SpriteGO*)go)->additionalData["OffSet"]["x"].asFloat();
+						node["OffSet"]["y"] = ((SpriteGO*)go)->additionalData["OffSet"]["y"].asFloat();
 					}
 					groundNodes.append(node);
 					break;
 				case Category::Camera:
 					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
+					cameraNodes.append(node);
 					break;
 				case Category::AmbientObject:
 					ambientObjectNodes.append(node);
@@ -614,6 +625,7 @@ void SceneMapTool::SaveData(const std::wstring& path)
 	rootNode["Enemy"] = enemyNodes;
 	rootNode["Door"] = doorNodes;
 	rootNode["Ground"] = groundNodes;
+	rootNode["Camera"] = cameraNodes;
 	rootNode["AmbientObject"] = ambientObjectNodes;
 
 	Json::StreamWriterBuilder builder;

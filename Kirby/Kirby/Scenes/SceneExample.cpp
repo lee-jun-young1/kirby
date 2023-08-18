@@ -84,7 +84,7 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
-	LoadData(L"maps/green_green.json");
+	LoadData(L"maps/green_green.bak.json");
 
 	auto size = FRAMEWORK.GetWindowSize();
 
@@ -121,6 +121,7 @@ void SceneExample::Init()
 	tempCamPtr1->SetOrigin(Origins::MC);
 	tempCamPtr1->SetType(CameraType::Fixed);
 	tempCamPtr1->SetPosition({ 0.0f, 0.0f });
+	tempCamPtr1->SetTarget(kirby);
 	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
 	camCol1->SetTrigger(true);
 
@@ -209,6 +210,15 @@ void SceneExample::Init()
 	tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
 	tempTiltedGround3->SetRotation(45.0f);
 	BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
+
+	RectangleShapeGO* tempTiltedGround5 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	tempTiltedGround5->AddTag("Ground");
+	tempTiltedGround5->SetSize({ 24.0f, 24.0f });
+	tempTiltedGround5->physicsLayer = (int)PhysicsLayer::Ground;
+	tempTiltedGround5->SetOrigin(Origins::MC);
+	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	tempTiltedGround5->SetPosition({ 12.0f, 70.0f - 5.0f });
+	BoxCollider* boxCol5 = (BoxCollider*)tempTiltedGround5->AddComponent(new BoxCollider(*tempTiltedGround5));
 
 	RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	tempTiltedGround2->AddTag("Ground");
@@ -537,6 +547,7 @@ void SceneExample::LoadData(const std::wstring& path)
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	kirby->SetOrigin(Origins::BR);
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = playerNode["SortLayer"].asInt();
 	kirby->SetPosition({ playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat() });
@@ -654,44 +665,14 @@ void SceneExample::LoadData(const std::wstring& path)
 		Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "ground"));
 		ground->SetData(node);
 		ground->SetGroundType((GroundType)node["Type"].asInt());
-
-
-		//std::string textureId = rootNode["Path"].asString();
-		//sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		//sf::IntRect rect = { node["TexturePosition"]["x"].asInt(), node["TexturePosition"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
-		//std::string tag = "Ground";
-		//int sortLayer = node["SortLayer"].asInt();
-
-		//if ((GroundType)node["Type"].asInt() == GroundType::Throught)
-		//{
-		//	ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround(textureId));
-		//	throughtGround->sprite.setTextureRect(rect);
-		//	throughtGround->AddTag(tag);
-		//	throughtGround->SetSize(cellSize);
-		//	throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
-		//	throughtGround->SetPosition(position);
-		//	BoxCollider* boxThroughtCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
-		//	throughtGround->SetCollider(boxThroughtCol);
-		//	continue;
-		//}
-
-		//SpriteGO* ground = (SpriteGO*)AddGameObject(new SpriteGO(textureId, "Ground"));
-		//ground->AddTag("Ground");
-		//ground->sprite.setTextureRect(rect);
-		//ground->SetSize(cellSize);
-		//ground->physicsLayer = (int)PhysicsLayer::Ground;
-		//ground->sortLayer = sortLayer;
-		//ground->SetPosition(position);
-		//if ((GroundType)node["Type"].asInt() != GroundType::Background)
-		//{
-		//	BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
-		//	if (!node["Angle"].isNull())
-		//	{
-		//		ground->SetPosition({ ground->GetPosition().x, ground->GetPosition().y });
-		//		boxCol->SetRotationOffset(node["Angle"].asFloat());
-		//		boxCol->SetOffset({node["OffSet"]["x"].asFloat(), node["OffSet"]["y"].asFloat()});
-		//	}
-		//}
+		if (node["Position"]["x"].asInt() == 480 && node["Position"]["y"].asInt() == 216)
+		{
+			std::cout << i << std::endl;
+		}
+		if (node["Position"]["x"].asInt() == 504 && node["Position"]["y"].asInt() == 216)
+		{
+			std::cout << i << std::endl;
+		}
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)

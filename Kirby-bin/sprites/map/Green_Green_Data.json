@@ -218,7 +218,7 @@
       },
       "FlipX": false,
       "Layer": 1,
-      "Type": 0,
+      "Type": 4,
       "Category": 5
     },
     {
@@ -229,7 +229,7 @@
       },
       "FlipX": false,
       "Layer": 1,
-      "Type": 1,
+      "Type": 5,
       "Category": 5
     },
     {
@@ -240,7 +240,7 @@
       },
       "FlipX": false,
       "Layer": 1,
-      "Type": 2,
+      "Type": 3,
       "Category": 5
     },
     {
@@ -614,13 +614,13 @@
       },
       "OffSet": {
         "x": 0,
-        "y": 21.0
+        "y": 22.0
       },
       "FlipX": false,
       "Layer": 0,
       "Type": 1,
       "Category": 4,
-      "Angle" : -18.5
+      "Angle" : -18.0
     },
     {
       "PaletteID": "row-4-column-9",
@@ -630,13 +630,13 @@
       },
       "OffSet": {
         "x": 0,
-        "y": 12.0
+        "y": 13.0
       },
       "FlipX": false,
       "Layer": 0,
       "Type": 1,
       "Category": 4,
-      "Angle" : -18.5
+      "Angle" : -18.0
     },
     {
       "PaletteID": "row-4-column-10",
@@ -646,13 +646,13 @@
       },
       "OffSet": {
         "x": 0,
-        "y": 3.0
+        "y": 4.0
       },
       "FlipX": false,
       "Layer": 0,
       "Type": 1,
       "Category": 4,
-      "Angle" : -18.5
+      "Angle" : -18.0
     },
     {
       "PaletteID": "row-4-column-11",

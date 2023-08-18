@@ -10,6 +10,7 @@ protected:
 	bool isOneOff = false;
 
 	bool isCollide = false;
+	GameObject* target = nullptr;
 public:
 	CameraPointer(const string& name = "") : RectangleShapeGO(name) {}
 	virtual ~CameraPointer() {};
@@ -17,6 +18,8 @@ public:
 	virtual void Init() override;
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
+
+	void SetTarget(GameObject* go) { this->target = go; }
 
 	const CameraType& GetType() const { return type; }
 	void SetType(const CameraType& type) { this->type = type; }

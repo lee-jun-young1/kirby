@@ -22,15 +22,21 @@ void CameraPointer::Update(float dt)
 
 void CameraPointer::OnTriggerEnter(Collider* col)
 {
-	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	prevType = scene->GetCameraType();
-	scene->SetCameraType(type);
+	if (col->GetGameObject().GetName() == target->GetName())
+	{
+		SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+		prevType = scene->GetCameraType();
+		scene->SetCameraType(type);
+	}
 }
 void CameraPointer::OnTriggerStay(Collider* col)
 {
 }
 void CameraPointer::OnTriggerExit(Collider* col)
 {
-	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	scene->SetCameraType(prevType);
+	if (col->GetGameObject().GetName() == target->GetName())
+	{
+		SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+		scene->SetCameraType(prevType);
+	}
 }
