@@ -21,6 +21,7 @@ enum class KirbyState
 	TackleJump,
 	BalloonJump,
 	Collided,
+	BalloonCollided,
 	Tackle,
 	Suction,
 	Sit,
@@ -157,6 +158,8 @@ public:
 	void WallUpdate(float dt);
 
 	void CollideUpdate(float dt);
+	void BalloonCollideUpdate(float dt);
+
 	void EatUpdate(float dt); 
 	
 	void DanceReadyUpdate(float dt); 

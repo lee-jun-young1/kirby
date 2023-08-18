@@ -323,6 +323,22 @@ void Kirby::ChangeState(const KirbyState& state)
 			vKey = nullptr;
 			update = std::bind(&Kirby::CollideUpdate, this, std::placeholders::_1);
 			break;
+		case KirbyState::BalloonCollided:
+			cout << "state :: BalloonCollided" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::BalloonCollideUpdate, this, std::placeholders::_1);
+			break;
 		case KirbyState::Tackle:
 			cout << "state :: Tackle" << endl;
 			moveKey = nullptr;
@@ -837,6 +853,18 @@ void Kirby::CollideUpdate(float dt)
 	}
 }
 
+void Kirby::BalloonCollideUpdate(float dt)
+{
+	if (rigidbody->GetVelocity().y == 0.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
+	{
+		cout << "stop!!" << endl;
+		animator->SetEvent("Idle");
+		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
+		rigidbody->SetDrag(0.0f);
+		ChangeState(KirbyState::Balloon);
+	}
+}
+
 void Kirby::EatUpdate(float dt)
 {
 	if (animator->GetClipName() != "BalloonEat")
@@ -914,9 +942,17 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 		return;
 	}
 	//hp -= damage;
-	ChangeState(KirbyState::Collided);
+	if (state == KirbyState::Balloon || state == KirbyState::BalloonFly || state == KirbyState::BalloonJump || state == KirbyState::BalloonMove)
+	{
+		ChangeState(KirbyState::BalloonCollided);
+		rigidbody->SetDrag(0.99f);
+	}
+	else
+	{
+		ChangeState(KirbyState::Collided);
+		rigidbody->SetDrag(0.7f);
+	}
 	animator->SetEvent("Hit");
-	rigidbody->SetDrag(0.7f);
 	collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	collider->SetOffset({ -12.0f, -24.0f });
 	moveAxisX = -GetScale().x;
