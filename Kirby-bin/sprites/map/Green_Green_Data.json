@@ -614,7 +614,7 @@
       },
       "OffSet": {
         "x": 0,
-        "y": 22.0
+        "y": 17.0
       },
       "FlipX": false,
       "Layer": 0,
@@ -630,7 +630,7 @@
       },
       "OffSet": {
         "x": 0,
-        "y": 13.0
+        "y": 8.0
       },
       "FlipX": false,
       "Layer": 0,
@@ -646,7 +646,7 @@
       },
       "OffSet": {
         "x": 0,
-        "y": 4.0
+        "y": 1.0
       },
       "FlipX": false,
       "Layer": 0,
@@ -660,10 +660,15 @@
         "x": 240,
         "y": 72
       },
+      "OffSet": {
+        "x": 0,
+        "y": 1.0
+      },
       "FlipX": false,
       "Layer": 0,
-      "Type": 0,
-      "Category": 4
+      "Type": 1,
+      "Category": 4,
+      "Angle" : 18.0
     },
     {
       "PaletteID": "row-4-column-12",
@@ -671,10 +676,15 @@
         "x": 264,
         "y": 72
       },
+      "OffSet": {
+        "x": 0,
+        "y": 8.0
+      },
       "FlipX": false,
       "Layer": 0,
-      "Type": 0,
-      "Category": 4
+      "Type": 1,
+      "Category": 4,
+      "Angle" : 18.0
     },
     {
       "PaletteID": "row-4-column-13",
@@ -682,10 +692,15 @@
         "x": 288,
         "y": 72
       },
+      "OffSet": {
+        "x": 0,
+        "y": 17.0
+      },
       "FlipX": false,
       "Layer": 0,
-      "Type": 0,
-      "Category": 4
+      "Type": 1,
+      "Category": 4,
+      "Angle" : 18.0
     },
     {
       "PaletteID": "row-4-column-14",
@@ -695,7 +710,7 @@
       },
       "FlipX": false,
       "Layer": 0,
-      "Type": 0,
+      "Type": 3,
       "Category": 4
     },
     {

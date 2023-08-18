@@ -84,7 +84,7 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
-	LoadData(L"maps/green_green.bak.json");
+	LoadData(L"maps/temp.json");
 
 	auto size = FRAMEWORK.GetWindowSize();
 
@@ -330,6 +330,7 @@ void SceneExample::Update(float deltaTime)
 	Scene::Update(deltaTime);
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 
+
 	cameraTime += deltaTime * 2.0f;
 	sf::Vector2f targetPoint;
 	switch (cameraType)
@@ -337,15 +338,14 @@ void SceneExample::Update(float deltaTime)
 	case CameraType::Free:
 		targetPoint = kirby->GetPosition();
 		break;
-	case CameraType::Horizontal:
-		targetPoint = { kirby->GetPosition().x, worldView.getCenter().y };
-		break;
-	case CameraType::Vertical:
-		targetPoint = { worldView.getCenter().x, kirby->GetPosition().y };
-		break;
+	//case CameraType::Horizontal:
+	//	targetPoint = { kirby->GetPosition().x, worldView.getCenter().y };
+	//	break;
+	//case CameraType::Vertical:
+	//	targetPoint = { worldView.getCenter().x, kirby->GetPosition().y };
+	//	break;
 	case CameraType::Fixed:
-		CameraPointer* camPtr = (CameraPointer*)FindGameObject("tempCamPtr");
-		targetPoint = camPtr->GetPosition() * 0.5f;
+		targetPoint = worldView.getCenter();
 		break;
 	}
 	worldView.setCenter(Utils::Lerp(worldView.getCenter(), targetPoint, cameraTime));
@@ -555,11 +555,11 @@ void SceneExample::LoadData(const std::wstring& path)
 	Json::Value enemyNodes = rootNode["Enemy"];
 	Json::Value doorNodes = rootNode["Door"];
 	Json::Value groundNodes = rootNode["Ground"];
+	Json::Value cameraNodes = rootNode["Camera"];
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
-	kirby->SetOrigin(Origins::BR);
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = playerNode["SortLayer"].asInt();
 	kirby->SetPosition({ playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat() });
@@ -669,6 +669,18 @@ void SceneExample::LoadData(const std::wstring& path)
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
 		Json::Value node = doorNodes[i];
+		DoorType type = (DoorType)node["Type"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() - 24.0f };
+		sf::Vector2f movePosition = { node["MovePosition"]["x"].asFloat(), node["MovePosition"]["y"].asFloat()};
+		int sortLayer = node["SortLayer"].asInt();
+
+		Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
+		tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
+		tempDoor->SetPosition(position);
+		tempDoor->SetMovePosition(movePosition);
+		BoxCollider* doorCol = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
+		doorCol->SetTrigger(true);
+		doorCol->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
 	}
 
 	for (int i = 0; i < groundNodes.size(); i++)
@@ -677,14 +689,30 @@ void SceneExample::LoadData(const std::wstring& path)
 		Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "ground"));
 		ground->SetData(node);
 		ground->SetGroundType((GroundType)node["Type"].asInt());
-		if (node["Position"]["x"].asInt() == 480 && node["Position"]["y"].asInt() == 216)
+	}
+
+	for (int i = 0; i < cameraNodes.size(); i++)
+	{
+		Json::Value node = cameraNodes[i];
+		CameraType type = (CameraType)node["Type"].asInt();
+		if (type == CameraType::MapStart)
 		{
-			std::cout << i << std::endl;
+			type = CameraType::Free;
 		}
-		if (node["Position"]["x"].asInt() == 504 && node["Position"]["y"].asInt() == 216)
-		{
-			std::cout << i << std::endl;
-		}
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		sf::Vector2f size;
+		size.x = node["EndPosition"]["x"].asFloat() - node["Position"]["x"].asFloat() + cellSize.x;
+		size.y = node["EndPosition"]["y"].asFloat() - node["Position"]["y"].asFloat() + cellSize.y;
+
+		CameraPointer* camPtr = (CameraPointer*)AddGameObject(new CameraPointer("camPtr"));
+		camPtr->SetSize(size);
+		camPtr->physicsLayer = (int)PhysicsLayer::Ground;
+		camPtr->SetType(type);
+		camPtr->SetPosition(position);
+		camPtr->SetTarget(kirby);
+
+		BoxCollider* camCol = (BoxCollider*)camPtr->AddComponent(new BoxCollider(*camPtr));
+		camCol->SetTrigger(true);
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)

@@ -138,7 +138,6 @@ void SceneMapTool::SelectGameObject(SpriteGO* gameObject)
 	SpriteGO* instance = (SpriteGO*)AddGameObject(new SpriteGO(*gameObject));
 	instance->sprite.setScale({ 1.f, 1.f });
 	instance->sprite.setColor(sf::Color(255,255,255,128));
-	instance->SetOrigin(Origins::TL);
 	instance->SetActive(true);
 	instance->SetPosition(PalettePositionToScreen(instance->GetPosition()));
 	SetLayer(instance->sortLayer - paletteLayer);
@@ -342,7 +341,7 @@ void SceneMapTool::Update(float dt)
 			{
 				ClearCellsByCategory(currentGO->GetCategory());
 			}
-			if (currentGO->GetCategory() != Category::Door && (currentGO->GetCategory() == Category::Camera && (CameraType)currentGO->additionalData["Type"].asInt() != CameraType::Fixed))
+			if (currentGO->GetCategory() != Category::Door && currentGO->GetCategory() != Category::Camera)
 			{
 				cell->AddGameObject(currentGO, layer);
 			}
@@ -356,9 +355,9 @@ void SceneMapTool::Update(float dt)
 				currentGO->additionalData["MovePosition"]["y"] = currentGO->GetPosition().y;
 				prevGO = cell->AddGameObject(currentGO, layer);
 			}
-			else if (currentGO->GetCategory() == Category::Camera && (CameraType)currentGO->additionalData["Type"].asInt() == CameraType::Fixed)
+			else if (currentGO->GetCategory() == Category::Camera)
 			{
-				cell->AddGameObject(currentGO, layer);
+				prevGO = cell->AddGameObject(currentGO, layer);
 			}
 		}
 		if (Input.GetMouseButtonUp(sf::Mouse::Left) && currentGO != nullptr)
@@ -371,9 +370,12 @@ void SceneMapTool::Update(float dt)
 				prevGO->additionalData["MovePosition"]["y"] = currentGO->GetPosition().y;
 				cell->AddGameObject(currentGO, layer);
 			}
-			else if(currentGO->GetCategory() == Category::Camera && (CameraType)currentGO->additionalData["Type"].asInt() == CameraType::Fixed)
+			else if(currentGO->GetCategory() == Category::Camera)
 			{
-				cell->AddGameObject(currentGO, layer);
+				prevGO->additionalData["EndPosition"]["x"] = currentGO->GetPosition().x;
+				prevGO->additionalData["EndPosition"]["y"] = currentGO->GetPosition().y;
+				//auto go = cell->AddGameObject(currentGO, layer);
+				//go->additionalData["Type"] = (int)CameraType::MapEnd;
 			}
 		}
 
@@ -426,7 +428,17 @@ void SceneMapTool::Update(float dt)
 	//Flip
 	if (Input.GetKeyDown(sf::Keyboard::Space))
 	{
-		currentGO->SetFlipX(!flipX);
+		currentGO->SetFlipX(flipX);
+		flipX = !flipX;
+		currentGO->additionalData["FlipX"] = flipX;
+		std::cout << currentGO->sprite.getOrigin().x
+			<< " " <<
+		currentGO->sprite.getOrigin().y << std::endl;
+		currentGO->SetOrigin({ (flipX) ? 24.0f : 0.f, 0.f});
+		if (!currentGO->additionalData["Angle"].isNull())
+		{
+			currentGO->additionalData["Angle"] = currentGO->additionalData["Angle"].asFloat() * -1;
+		}
 	}
 
 	if (Input.GetKeyDown(Keyboard::F11))
@@ -559,10 +571,15 @@ void SceneMapTool::SaveData(const std::wstring& path)
 	Json::Value cameraNodes;
 	Json::Value ambientObjectNodes;
 
-	for (auto& row : cells)
+	for (int i = 0; i < cells.size(); i++)
 	{
-		for (auto& col : row)
+		auto row = cells[cells.size() - ( i + 1)];
+	//}
+	//for (auto& row : cells)
+	//{
+		for (int j = 0; j < row.size(); j++)
 		{
+			auto col = row[row.size() - (j + 1)];
 			if (col.GetGameObjects().size() < 1)
 			{
 				continue;
@@ -574,6 +591,7 @@ void SceneMapTool::SaveData(const std::wstring& path)
 				node["Position"]["x"] = go->GetPosition().x;
 				node["Position"]["y"] = go->GetPosition().y;
 				node["SortLayer"] = go->sortLayer;
+				node["FlipX"] = ((SpriteGO*)go)->additionalData["FlipX"].asBool();
 
 				switch (go->GetCategory())
 				{
@@ -610,6 +628,8 @@ void SceneMapTool::SaveData(const std::wstring& path)
 					break;
 				case Category::Camera:
 					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
+					node["EndPosition"]["x"] = ((SpriteGO*)go)->additionalData["EndPosition"]["x"].asFloat();
+					node["EndPosition"]["y"] = ((SpriteGO*)go)->additionalData["EndPosition"]["y"].asFloat();
 					cameraNodes.append(node);
 					break;
 				case Category::AmbientObject:
@@ -618,6 +638,31 @@ void SceneMapTool::SaveData(const std::wstring& path)
 				}
 			}
 		}
+	}
+
+	std::vector<Json::Value> sortArray;
+	for (int i = 0; i < groundNodes.size(); i++)
+	{
+		sortArray.push_back(groundNodes[i]);
+	}
+	groundNodes.clear();
+	std::sort(sortArray.begin(), sortArray.end(), [](Json::Value& a, Json::Value& b) {
+		float aY = a["Position"]["y"].asFloat();
+		float bY = b["Position"]["y"].asFloat();
+		if (!a["OffSet"]["y"].isNull())
+		{
+			aY += a["OffSet"]["y"].asFloat();
+		}
+		if (!b["OffSet"]["y"].isNull())
+		{
+			bY += b["OffSet"]["y"].asFloat();
+		}
+
+		return aY > bY;
+	});
+	for (auto& ground : sortArray)
+	{
+		groundNodes.append(ground);
 	}
 
 	rootNode["Player"] = playerNode;
@@ -685,6 +730,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	if (player != nullptr)
 	{
 		loadPosition = { playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat()};
+		player->SetFlipX(playerNode["FlipX"].isBool());
 		player->sprite.setScale({1.f, 1.f});
 		player->SetPosition(loadPosition);
 		cell = GetCell(loadPosition);
@@ -736,6 +782,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
+		go->SetFlipX(node["FlipX"].isBool());
 		go->SetGroundIndex(node["GroundIndex"].asInt());
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
