@@ -21,6 +21,7 @@ enum class KirbyState
 	TackleJump,
 	BalloonJump,
 	Collided,
+	BalloonCollided,
 	Tackle,
 	Suction,
 	Sit,
@@ -155,6 +156,7 @@ public:
 	void WallUpdate(float dt);
 
 	void CollideUpdate(float dt);
+	void BalloonCollideUpdate(float dt);
 	void EatUpdate(float dt);
 
 	virtual void Draw(sf::RenderWindow& window) override;
