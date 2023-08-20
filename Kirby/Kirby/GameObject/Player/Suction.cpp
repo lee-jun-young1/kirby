@@ -8,6 +8,10 @@ void Suction::Update(float dt)
 {
 	SetPosition(kirby->GetPosition() + sf::Vector2f(12.0f + (kirby->GetScale().x * 24.0f), 0.0f));
 }
+void Suction::OnEnable()
+{
+	suctionList.clear();
+}
 
 void Suction::OnDisable()
 {

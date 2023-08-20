@@ -120,8 +120,21 @@ void Kirby::ChangeState(const KirbyState& state)
 			moveKey = std::bind(&Kirby::Move, this, std::placeholders::_1);
 			dashKey = std::bind(&Kirby::Dash, this, std::placeholders::_1);
 			moveKeyEnd = nullptr;
-			chargeKey = nullptr;
-			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			switch (ability)
+			{
+				case KirbyAbility::None:
+					chargeKey = nullptr;
+					chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+					break;
+				case KirbyAbility::Cutter:
+					chargeKey = std::bind(&Kirby::CutterAttack, this);
+					chargeKeyContinue = nullptr;
+					break;
+				default:
+					chargeKey = nullptr;
+					chargeKeyContinue = nullptr;
+					break;
+			}
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
@@ -138,8 +151,21 @@ void Kirby::ChangeState(const KirbyState& state)
 			moveKey = std::bind(&Kirby::Move, this, std::placeholders::_1);
 			dashKey = nullptr;
 			moveKeyEnd = std::bind(&Kirby::MoveEnd, this, std::placeholders::_1);
-			chargeKey = nullptr;
-			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			switch (ability)
+			{
+			case KirbyAbility::None:
+				chargeKey = nullptr;
+				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+				break;
+			case KirbyAbility::Cutter:
+				chargeKey = std::bind(&Kirby::CutterAttack, this);
+				chargeKeyContinue = nullptr;
+				break;
+			default:
+				chargeKey = nullptr;
+				chargeKeyContinue = nullptr;
+				break;
+			}
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
@@ -156,8 +182,21 @@ void Kirby::ChangeState(const KirbyState& state)
 			moveKey = std::bind(&Kirby::Dash, this, std::placeholders::_1);
 			dashKey = nullptr;
 			moveKeyEnd = std::bind(&Kirby::MoveEnd, this, std::placeholders::_1);
-			chargeKey = nullptr;
-			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			switch (ability)
+			{
+			case KirbyAbility::None:
+				chargeKey = nullptr;
+				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+				break;
+			case KirbyAbility::Cutter:
+				chargeKey = std::bind(&Kirby::CutterDashAttack, this);
+				chargeKeyContinue = nullptr;
+				break;
+			default:
+				chargeKey = nullptr;
+				chargeKeyContinue = nullptr;
+				break;
+			}
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
@@ -246,9 +285,21 @@ void Kirby::ChangeState(const KirbyState& state)
 			moveKey = std::bind(&Kirby::JumpMove, this, std::placeholders::_1);
 			dashKey = nullptr;
 			moveKeyEnd = std::bind(&Kirby::JumpMoveEnd, this);
-			chargeKey = nullptr;
-			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
-			chargeKeyEnd = nullptr;
+			switch (ability)
+			{
+			case KirbyAbility::None:
+				chargeKey = nullptr;
+				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+				break;
+			case KirbyAbility::Cutter:
+				chargeKey = std::bind(&Kirby::CutterJumpAttack, this);
+				chargeKeyContinue = nullptr;
+				break;
+			default:
+				chargeKey = nullptr;
+				chargeKeyContinue = nullptr;
+				break;
+			}
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
 			sitKey = nullptr;
@@ -300,8 +351,21 @@ void Kirby::ChangeState(const KirbyState& state)
 			moveKey = nullptr;
 			dashKey = nullptr;
 			moveKeyEnd = std::bind(&Kirby::JumpMoveEnd, this);
-			chargeKey = nullptr;
-			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			switch (ability)
+			{
+			case KirbyAbility::None:
+				chargeKey = nullptr;
+				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+				break;
+			case KirbyAbility::Cutter:
+				chargeKey = std::bind(&Kirby::CutterDashJumpAttack, this);
+				chargeKeyContinue = nullptr;
+				break;
+			default:
+				chargeKey = nullptr;
+				chargeKeyContinue = nullptr;
+				break;
+			}
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
@@ -511,13 +575,50 @@ void Kirby::ChangeState(const KirbyState& state)
 			onCollisionEnter = nullptr;
 			onCollisionStay = nullptr;
 			break;
+		case KirbyState::Attack:
+			cout << "state :: Attack" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::AttackUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
+			break;
+		case KirbyState::JumpAttack:
+			cout << "state :: JumpAttack" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = nullptr;
+			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
+			break;
 	}
 }
 
 void Kirby::Move(const float& axis)
 {
 	ChangeState(KirbyState::Move);
-	moveAxisX = axis;
+	moveAxisX = axis; 
+	forwardTrigger->SetOffset({ -12.0f + 24.0f * moveAxisX, -24.0f });
 	SetFlipX(axis > 0.0f ? true : false);
 	animator->SetEvent("PressMove");
 }
@@ -526,6 +627,7 @@ void Kirby::BalloonMove(const float& axis)
 {
 	ChangeState(KirbyState::BalloonMove);
 	moveAxisX = axis;
+	forwardTrigger->SetOffset({ -12.0f + 24.0f * moveAxisX, -24.0f });
 	SetFlipX(axis > 0.0f ? true : false);
 	animator->SetEvent("PressMove");
 }
@@ -533,6 +635,7 @@ void Kirby::BalloonMove(const float& axis)
 void Kirby::JumpMove(const float& axis)
 {
 	moveAxisX = axis;
+	forwardTrigger->SetOffset({ -12.0f + 24.0f * moveAxisX, -24.0f });
 	SetFlipX(axis > 0.0f ? true : false);
 }
 
@@ -541,6 +644,7 @@ void Kirby::Dash(const float& axis)
 {
 	ChangeState(KirbyState::Dash);
 	moveAxisX = axis;
+	forwardTrigger->SetOffset({ -12.0f + 24.0f * moveAxisX, -24.0f });
 	SetFlipX(axis > 0.0f ? true : false);
 	animator->SetEvent("Run");
 }
@@ -633,6 +737,35 @@ void Kirby::Tackle()
 	rigidbody->SetDrag(0.7f);
 }
 
+void Kirby::CutterAttack()
+{
+	ChangeState(KirbyState::Attack);
+	if (forwardObjects.size() == 0)
+	{
+		animator->SetEvent("CutterAttack");
+	}
+	else
+	{
+		animator->SetEvent("CutterNearAttack");
+	}
+}
+void Kirby::CutterDashAttack()
+{
+	ChangeState(KirbyState::Attack);
+	animator->SetEvent("CutterDashAttack");
+}
+void Kirby::CutterJumpAttack()
+{
+	ChangeState(KirbyState::JumpAttack);
+	animator->SetEvent("CutterSkyAttack");
+}
+void Kirby::CutterDashJumpAttack()
+{
+	ChangeState(KirbyState::JumpAttack);
+	animator->SetEvent("CutterSkyDashAttack");
+}
+
+
 void Kirby::DoSuction()
 {
 	ChangeState(KirbyState::Suction);
@@ -696,7 +829,11 @@ void Kirby::Init()
 
 	rigidbody = (RigidBody2D*)AddComponent(new RigidBody2D(*this));
 	collider->SetRigidbody(rigidbody);
+
+
+
 	ChangeState(KirbyState::Idle);
+
 }
 
 void Kirby::ShotStar() 
@@ -736,6 +873,11 @@ void Kirby::Release()
 void Kirby::Reset()
 {
 	SpriteGO::Reset();
+	forwardTrigger = (KirbyForward*)SCENE_MANAGER.GetCurrentScene()->AddGameObject(new KirbyForward());
+	forwardTrigger->physicsLayer = (int)PhysicsLayer::Player;
+	forwardTrigger->SetKirby(this);
+
+
 	SetOrigin({ 36.0f, 48.0f});
 	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[0].action =
 		[this]() {
@@ -880,6 +1022,15 @@ void Kirby::ShotUpdate(float dt)
 void Kirby::WallUpdate(float dt)
 {
 	if (animator->GetClipName() != "Wall")
+	{
+		ChangeState(KirbyState::Idle);
+	}
+}
+
+
+void Kirby::AttackUpdate(float dt)
+{
+	if (animator->GetClipName() == "Idle" || animator->GetClipName() == "TiltedIdleL" || animator->GetClipName() == "TiltedIdleR" )
 	{
 		ChangeState(KirbyState::Idle);
 	}
@@ -1064,6 +1215,14 @@ void Kirby::TackleCollisionEnter(Collider * col)
 	}
 }
 
+void Kirby::CutterCollisionEnter(Collider* col)
+{
+	if (col->GetGameObject().HasTag("CutterEffect"))
+	{
+		animator->SetEvent("CutterCatch");
+	}
+}
+
 void Kirby::BalloonJumpCollisionEnter(Collider* col)
 {
 	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") && rigidbody->GetVelocity().y >= 0.0f)
@@ -1129,5 +1288,29 @@ void Kirby::SitCollisionStay(Collider* col)
 	{
 		//cout << "Kirby On!!" << endl;
 		((Collider*)col->GetGameObject().GetComponent(ComponentType::Collider))->SetTrigger(true);
+	}
+}
+
+void Kirby::AddNearUnit(GameObject* enemy) 
+{ 
+	for (auto forwardObject : forwardObjects)
+	{
+		if (enemy == forwardObject)
+		{
+			return;
+		}
+	}
+	forwardObjects.push_back(enemy); 
+}
+
+void Kirby::RemoveNearUnit(GameObject* enemy) 
+{
+	for (auto forwardObject : forwardObjects)
+	{
+		if (enemy == forwardObject)
+		{
+			forwardObjects.remove(enemy);
+			return;
+		}
 	}
 }

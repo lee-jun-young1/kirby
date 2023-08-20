@@ -35,3 +35,9 @@ BeamShot,animations/Kirby/Kirby_BeamShot.csv
 BeamDashAttack,animations/Kirby/Kirby_BeamDashAttack.csv
 BeamSkyShot,animations/Kirby/Kirby_BeamSkyShot.csv
 BeamAttack,animations/Kirby/Kirby_BeamAttack.csv
+CutterAttack,animations/Kirby/Kirby_CutterAttack.csv
+CutterCatch,animations/Kirby/Kirby_CutterCatch.csv
+CutterDashAttack,animations/Kirby/Kirby_CutterDashAttack.csv
+CutterNearAttack,animations/Kirby/Kirby_CutterNearAttack.csv
+CutterSkyAttack,animations/Kirby/Kirby_CutterSkyAttack.csv
+CutterSkyDashAttack,animations/Kirby/Kirby_CutterSkyDashAttack.csv

@@ -5,6 +5,7 @@
 #include <RigidBody2D.h>
 #include <Suction.h>
 #include <KirbyEffect.h>
+#include <KirbyForward.h>
 
 enum class KirbyState
 {
@@ -30,6 +31,8 @@ enum class KirbyState
 	Wall,
 	DanceReady,
 	Dance,
+	Attack, 
+	JumpAttack,
 };
 
 
@@ -74,6 +77,10 @@ protected:
 	function<void(float)> update;
 	function<void(Collider*)> onCollisionEnter;
 	function<void(Collider*)> onCollisionStay;
+
+
+	KirbyForward* forwardTrigger;
+	list<GameObject*> forwardObjects;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -132,12 +139,19 @@ public:
 	void DoSuction();
 	void SuctionEnd();
 
+	void CutterAttack();
+	void CutterDashAttack();
+
+	void CutterJumpAttack();
+
+	void CutterDashJumpAttack();
+
 	// C
 	void Jump();
 	void Fly();
 	void DashJump();
 	void BalloonJump();
-	void Tackle();
+	void Tackle(); 
 
 	// V
 	void UnequipAbility();
@@ -157,7 +171,8 @@ public:
 
 	void ShotUpdate(float dt);
 
-	void WallUpdate(float dt);
+	void WallUpdate(float dt); 
+	void AttackUpdate(float dt);
 
 	void CollideUpdate(float dt);
 	void BalloonCollideUpdate(float dt);
@@ -179,9 +194,14 @@ public:
 	void BalloonJumpCollisionEnter(Collider* col);
 	void SuctionCollisionEnter(Collider* col); 
 	void TackleCollisionEnter(Collider* col);
+	void CutterCollisionEnter(Collider* col);
 
 	virtual void OnCollisionStay(Collider* col) override;
 
 	void SitCollisionStay(Collider* col);
+
+	void AddNearUnit(GameObject* enemy);
+	void RemoveNearUnit(GameObject* enemy);
+
 };
 
