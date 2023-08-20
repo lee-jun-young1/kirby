@@ -130,6 +130,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::Jump, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = nullptr;
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Move:
 			cout << "state :: Move" << endl;
@@ -146,6 +148,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::Jump, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::MoveCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Dash:
 			cout << "state :: Dash" << endl;
@@ -162,6 +166,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::DashJump, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::RunUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::MoveCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Balloon:
 			cout << "state :: Balloon" << endl;
@@ -178,6 +184,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::BalloonJump, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = nullptr;
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::BalloonMove:
 			cout << "state :: BalloonMove" << endl;
@@ -194,6 +202,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::BalloonJump, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Eat:
 			cout << "state :: Eat" << endl;
@@ -210,6 +220,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::EatUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Falling:
 			cout << "state :: Falling" << endl;
@@ -226,6 +238,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = nullptr;
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Jump:
 			cout << "state :: Jump" << endl;
@@ -242,6 +256,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::Fly, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::BalloonJump:
 			cout << "state :: BalloonJump" << endl;
@@ -258,6 +274,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::BalloonJumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::BalloonFly:
 			cout << "state :: BalloonFly" << endl;
@@ -274,6 +292,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::Fly, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::DashJump:
 			cout << "state :: DashJump" << endl;
@@ -290,6 +310,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::Fly, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::RunUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::TackleJump:
 			cout << "state :: TackleJump" << endl;
@@ -306,6 +328,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Collided:
 			cout << "state :: Collided" << endl;
@@ -322,6 +346,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::CollideUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::BalloonCollided:
 			cout << "state :: BalloonCollided" << endl;
@@ -338,6 +364,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::BalloonCollideUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Tackle:
 			cout << "state :: Tackle" << endl;
@@ -354,6 +382,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::TackleUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::TackleCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Suction:
 			cout << "state :: Suction" << endl;
@@ -370,6 +400,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = nullptr;
+			onCollisionEnter = std::bind(&Kirby::SuctionCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Sit:
 			cout << "state :: Sit" << endl;
@@ -386,6 +418,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = std::bind(&Kirby::Tackle, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = nullptr;
+			onCollisionEnter = nullptr;
+			onCollisionStay = std::bind(&Kirby::SitCollisionStay, this, std::placeholders::_1);
 			break;
 		case KirbyState::Shot:
 			cout << "state :: Shot" << endl;
@@ -402,6 +436,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::ShotUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Door:
 			cout << "state :: Door" << endl;
@@ -418,6 +454,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::DoorUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Wall:
 			cout << "state :: Wall" << endl;
@@ -434,6 +472,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::WallUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::DanceReady:
 			cout << "state :: DanceReady" << endl;
@@ -450,6 +490,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::DanceReadyUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Dance:
 			cout << "state :: Dance" << endl;
@@ -466,6 +508,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::DanceUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
 			break;
 	}
 }
@@ -973,7 +1017,42 @@ void Kirby::SetInMouseType(const KirbyAbility& ability)
 
 void Kirby::OnCollisionEnter(Collider* col)
 {
-	if (state == KirbyState::Tackle && col->GetRotationOffset() + col->GetGameObject().GetRotation() == 0.0f && !col->IsTrigger() && col->GetCenter().y < position.y)
+	if (onCollisionEnter != nullptr)
+	{
+		onCollisionEnter(col);
+	}
+
+	if (col->GetGameObject().HasTag("Mob"))
+	{
+		((Mob*)&col->GetGameObject())->Damage(10.0f, col->GetGameObject().GetPosition().x < GetPosition().x ? -1.0f : 1.0f);
+		RigidBody2D* rig = ((RigidBody2D*)col->GetGameObject().GetComponent(ComponentType::RigidBody));
+	}
+}
+
+void Kirby::MoveCollisionEnter(Collider* col)
+{
+	if (col->GetGameObject().GetName() == "Ground" && abs(col->GetNormal(position + sf::Vector2f(0.0f, -12.0f)).x) > 0.8f)
+	{
+		ChangeState(KirbyState::Wall);
+		animator->SetEvent("Wall");
+	}
+}
+
+void Kirby::JumpCollisionEnter(Collider* col)
+{
+	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") && rigidbody->GetVelocity().y >= 0.0f)
+	{
+		ChangeState(KirbyState::Idle);
+		animator->SetEvent("Idle");
+		rigidbody->SetDrag(0.0f);
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+		moveAxisX = 0.0f;
+	}
+}
+
+void Kirby::TackleCollisionEnter(Collider * col)
+{
+	if (col->GetRotationOffset() + col->GetGameObject().GetRotation() == 0.0f && !col->IsTrigger() && col->GetCenter().y < position.y)
 	{
 		ChangeState(KirbyState::TackleJump);
 		animator->SetEvent("Hit");
@@ -983,45 +1062,27 @@ void Kirby::OnCollisionEnter(Collider* col)
 		moveAxisX = -GetScale().x;
 		rigidbody->SetVelocity({ 0.0f, -100.0f });
 	}
+}
 
-	if (col->GetGameObject().HasTag("Mob"))
-	{
-		((Mob*)&col->GetGameObject())->Damage(10.0f, col->GetGameObject().GetPosition().x < GetPosition().x ? -1.0f : 1.0f);
-		RigidBody2D* rig = ((RigidBody2D*)col->GetGameObject().GetComponent(ComponentType::RigidBody));
-	}
-
-	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") && 
-		(state == KirbyState::Jump || state == KirbyState::DashJump || state == KirbyState::TackleJump || state == KirbyState::BalloonFly) && rigidbody->GetVelocity().y >= 0.0f)
-	{
-		ChangeState(KirbyState::Idle);
-		animator->SetEvent("Idle");
-		rigidbody->SetDrag(0.0f);
-		rigidbody->SetVelocity({ 0.0f, 0.0f });
-		moveAxisX = 0.0f;
-	}
-
-	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") &&
-		(state == KirbyState::BalloonJump) && rigidbody->GetVelocity().y > 0.0f)
+void Kirby::BalloonJumpCollisionEnter(Collider* col)
+{
+	if ((col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") && rigidbody->GetVelocity().y >= 0.0f)
 	{
 		ChangeState(KirbyState::Balloon);
 		animator->SetEvent("Idle");
 		rigidbody->SetDrag(0.0f);
 		rigidbody->SetVelocity({ 0.0f, 0.0f });
 	}
+}
 
-	if (col->GetGameObject().HasTag("Suctionable")  && state == KirbyState::Suction)
+void Kirby::SuctionCollisionEnter(Collider* col)
+{
+	if (col->GetGameObject().HasTag("Suctionable"))
 	{
 		Mob* suctionable = (Mob*)&col->GetGameObject();
 		/////
 		suctionable->SetActive(false);
 		suction->SetActive(false);
-	}
-
-	if (col->GetGameObject().GetName() == "Ground" && abs(col->GetNormal(position + sf::Vector2f(0.0f, -12.0f)).x) > 0.8f 
-		&& (state == KirbyState::Dash || state == KirbyState::Move))
-	{
-		ChangeState(KirbyState::Wall);
-		animator->SetEvent("Wall");
 	}
 }
 
@@ -1043,10 +1104,9 @@ void Kirby::OnCollisionStay(Collider* col)
 		animator->SetEvent("NoTilted");
 	}
 
-	if (state == KirbyState::Sit && col->GetGameObject().GetName() == "ThroughtableGround")
+	if (onCollisionStay != nullptr)
 	{
-		//cout << "Kirby On!!" << endl;
-		((Collider*)col->GetGameObject().GetComponent(ComponentType::Collider))->SetTrigger(true);
+		onCollisionStay(col);
 	}
 
 	if (col->GetGameObject().GetName() == "Door")
@@ -1060,5 +1120,14 @@ void Kirby::OnCollisionStay(Collider* col)
 			doorTarget = door->GetMovePosition();
 			isDoorKeyPress = false;
 		}
+	}
+}
+
+void Kirby::SitCollisionStay(Collider* col)
+{
+	if (col->GetGameObject().GetName() == "ThroughtableGround")
+	{
+		//cout << "Kirby On!!" << endl;
+		((Collider*)col->GetGameObject().GetComponent(ComponentType::Collider))->SetTrigger(true);
 	}
 }

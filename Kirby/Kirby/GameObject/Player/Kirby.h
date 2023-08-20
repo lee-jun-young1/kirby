@@ -72,6 +72,8 @@ protected:
 	function<void()> jumpKey;
 	function<void()> vKey;
 	function<void(float)> update;
+	function<void(Collider*)> onCollisionEnter;
+	function<void(Collider*)> onCollisionStay;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -171,7 +173,15 @@ public:
 	void Damage(const int& damage, const float hitAxisX);
 	void SetInMouseType(const KirbyAbility& ability);
 	virtual void OnCollisionEnter(Collider* col) override;
+
+	void MoveCollisionEnter(Collider* col);
+	void JumpCollisionEnter(Collider* col);
+	void BalloonJumpCollisionEnter(Collider* col);
+	void SuctionCollisionEnter(Collider* col); 
+	void TackleCollisionEnter(Collider* col);
+
 	virtual void OnCollisionStay(Collider* col) override;
 
+	void SitCollisionStay(Collider* col);
 };
 
