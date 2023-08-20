@@ -8,20 +8,24 @@ protected:
 	CameraType prevType = CameraType::None;
 	bool isOneOff = false;
 
-	bool isCollide = false;
-	GameObject* target = nullptr;
+	GameObject* targetGO = nullptr;
+	sf::View* targetView = nullptr;
+	sf::Vector2f viewArea;
 public:
 	CameraPointer(const string& name = "") : RectangleShapeGO(name) {}
 	virtual ~CameraPointer() {};
 
 	virtual void Init() override;
 	virtual void Reset() override;
-	virtual void Update(float dt) override;
+	//virtual void Update(float dt) override;
 
-	void SetTarget(GameObject* go) { this->target = go; }
+	void SetTarget(GameObject* go) { this->targetGO = go; }
+	void SetTargetView(sf::View* view) { this->targetView = view; }
 
 	const CameraType& GetType() const { return type; }
 	void SetType(const CameraType& type) { this->type = type; }
+
+	const sf::Vector2f& CalculateCameraPosition(const sf::Vector2f& rate = {1.0f, 1.0f});
 
 	virtual void OnTriggerEnter(Collider* col) override;
 	virtual void OnTriggerStay(Collider* col) override;

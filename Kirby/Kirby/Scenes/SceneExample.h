@@ -11,6 +11,9 @@ protected:
 	CameraType cameraType = CameraType::Free;
 	float cameraTime = 0.0f;
 
+	CameraPointer* currentCamera = nullptr;
+	CameraPointer* previousCamera = nullptr;
+
 	int count = 0;
 public:
 	SceneExample();
@@ -29,5 +32,7 @@ public:
 
 	const CameraType& GetCameraType() const { return cameraType; }
 	void SetCameraType(const CameraType& type) { this->cameraType = type; }
+	const CameraPointer* GetCamera() const { return currentCamera; }
+	void SetCamera(CameraPointer* camera = nullptr);
 };
 

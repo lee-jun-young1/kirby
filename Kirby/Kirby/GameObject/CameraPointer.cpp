@@ -5,9 +5,6 @@
 void CameraPointer::Init()
 {
 	shape->setFillColor(sf::Color::Transparent);
-	//shape->setOutlineColor(sf::Color::Cyan);
-	//shape->setOutlineThickness(0.2f);
-	//sortLayer = 10;
 }
 
 void CameraPointer::Reset()
@@ -15,18 +12,27 @@ void CameraPointer::Reset()
 	SetActive(true);
 }
 
-void CameraPointer::Update(float dt)
+const sf::Vector2f& CameraPointer::CalculateCameraPosition(const sf::Vector2f& rate)
 {
-
+	return sf::Vector2f(GetGlobalBounds().left + (GetGlobalBounds().width * rate.x), GetGlobalBounds().top + (GetGlobalBounds().height * rate.y));
 }
 
 void CameraPointer::OnTriggerEnter(Collider* col)
 {
-	if (col->GetGameObject().GetName() == target->GetName())
+	if (col->GetGameObject().GetName() != targetGO->GetName())
 	{
-		SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-		prevType = scene->GetCameraType();
-		scene->SetCameraType(type);
+		return;
+	}
+	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+	prevType = scene->GetCameraType();
+	scene->SetCameraType(type);
+	if (scene->GetCamera() == this)
+	{
+		scene->SetCamera();
+	}
+	else
+	{
+		scene->SetCamera(this);
 	}
 }
 void CameraPointer::OnTriggerStay(Collider* col)
@@ -34,9 +40,11 @@ void CameraPointer::OnTriggerStay(Collider* col)
 }
 void CameraPointer::OnTriggerExit(Collider* col)
 {
-	if (col->GetGameObject().GetName() == target->GetName())
+	if (col->GetGameObject().GetName() != targetGO->GetName() || type != CameraType::Fixed)
 	{
-		SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-		scene->SetCameraType(prevType);
+		return;
 	}
+	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+	scene->SetCameraType(prevType);
+	scene->SetCamera();
 }

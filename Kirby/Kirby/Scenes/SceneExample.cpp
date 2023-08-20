@@ -115,15 +115,15 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
-	CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
-	tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
-	tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
-	tempCamPtr1->SetOrigin(Origins::MC);
-	tempCamPtr1->SetType(CameraType::Fixed);
-	tempCamPtr1->SetPosition({ 0.0f, 0.0f });
-	tempCamPtr1->SetTarget(kirby);
-	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
-	camCol1->SetTrigger(true);
+	//CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
+	//tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
+	//tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempCamPtr1->SetOrigin(Origins::MC);
+	//tempCamPtr1->SetType(CameraType::Fixed);
+	//tempCamPtr1->SetPosition({ 0.0f, 0.0f });
+	//tempCamPtr1->SetTarget(kirby);
+	//BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
+	//camCol1->SetTrigger(true);
 
 	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround1->SetSize({ 24.0f, 24.0f });
@@ -158,89 +158,89 @@ void SceneExample::Init()
 	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
 
 
-	for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
-	{
-		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround1->AddTag("Ground");
-		tempGround1->SetSize({ 24.0f, 24.0f });
-		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround1->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f });
-		BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-	}
-	for (int i = 1; i < 4; i++)
-	{
-		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround1->AddTag("Ground");
-		tempGround1->SetSize({ 24.0f, 24.0f });
-		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround1->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround1->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
-		BoxCollider* boxColg = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+	//for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
+	//{
+	//	RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//	tempGround1->AddTag("Ground");
+	//	tempGround1->SetSize({ 24.0f, 24.0f });
+	//	tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
+	//	tempGround1->SetOrigin(Origins::MC);
+	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	//	tempGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f });
+	//	BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+	//}
+	//for (int i = 1; i < 4; i++)
+	//{
+	//	RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//	tempGround1->AddTag("Ground");
+	//	tempGround1->SetSize({ 24.0f, 24.0f });
+	//	tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
+	//	tempGround1->SetOrigin(Origins::MC);
+	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	//	tempGround1->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
+	//	BoxCollider* boxColg = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
 
-		RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround2->AddTag("Ground");
-		tempGround2->SetSize({ 24.0f, 24.0f });
-		tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround2->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround2->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
-		BoxCollider* boxColg2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
-	}
+	//	RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//	tempGround2->AddTag("Ground");
+	//	tempGround2->SetSize({ 24.0f, 24.0f });
+	//	tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
+	//	tempGround2->SetOrigin(Origins::MC);
+	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	//	tempGround2->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
+	//	BoxCollider* boxColg2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
+	//}
 
 
-	RectangleShapeGO* tempTiltedGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempTiltedGround1->AddTag("Ground");
-	tempTiltedGround1->SetSize({ 24.0f, 24.0f });
-	tempTiltedGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	tempTiltedGround1->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempTiltedGround1->SetPosition({ -33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround1->SetRotation(-135.0f);
-	BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
+	//RectangleShapeGO* tempTiltedGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempTiltedGround1->AddTag("Ground");
+	//tempTiltedGround1->SetSize({ 24.0f, 24.0f });
+	//tempTiltedGround1->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempTiltedGround1->SetOrigin(Origins::MC);
+	////tempGround2->SetPosition({ 0.0f, 100.0f });
+	//tempTiltedGround1->SetPosition({ -33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
+	//tempTiltedGround1->SetRotation(-135.0f);
+	//BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
 
-	RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempTiltedGround3->AddTag("Ground");
-	tempTiltedGround3->SetSize({ 24.0f, 24.0f });
-	tempTiltedGround3->physicsLayer = (int)PhysicsLayer::Ground;
-	tempTiltedGround3->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround3->SetRotation(-135.0f);
-	BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
+	//RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempTiltedGround3->AddTag("Ground");
+	//tempTiltedGround3->SetSize({ 24.0f, 24.0f });
+	//tempTiltedGround3->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempTiltedGround3->SetOrigin(Origins::MC);
+	////tempGround2->SetPosition({ 0.0f, 100.0f });
+	//tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
+	//tempTiltedGround3->SetRotation(-135.0f);
+	//BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
 
-	RectangleShapeGO* tempTiltedGround5 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempTiltedGround5->AddTag("Ground");
-	tempTiltedGround5->SetSize({ 24.0f, 24.0f });
-	tempTiltedGround5->physicsLayer = (int)PhysicsLayer::Ground;
-	tempTiltedGround5->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempTiltedGround5->SetPosition({ 12.0f, 70.0f - 5.0f });
-	BoxCollider* boxCol5 = (BoxCollider*)tempTiltedGround5->AddComponent(new BoxCollider(*tempTiltedGround5));
+	//RectangleShapeGO* tempTiltedGround5 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempTiltedGround5->AddTag("Ground");
+	//tempTiltedGround5->SetSize({ 24.0f, 24.0f });
+	//tempTiltedGround5->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempTiltedGround5->SetOrigin(Origins::MC);
+	////tempGround2->SetPosition({ 0.0f, 100.0f });
+	//tempTiltedGround5->SetPosition({ 12.0f, 70.0f - 5.0f });
+	//BoxCollider* boxCol5 = (BoxCollider*)tempTiltedGround5->AddComponent(new BoxCollider(*tempTiltedGround5));
 
-	RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempTiltedGround2->AddTag("Ground");
-	tempTiltedGround2->SetSize({ 24.0f, 24.0f });
-	tempTiltedGround2->physicsLayer = (int)PhysicsLayer::Ground;
-	tempTiltedGround2->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempTiltedGround2->SetPosition({ 0.0f, 70.0f });
-	tempTiltedGround2->SetRotation(-135.0f);
-	BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
+	//RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//tempTiltedGround2->AddTag("Ground");
+	//tempTiltedGround2->SetSize({ 24.0f, 24.0f });
+	//tempTiltedGround2->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempTiltedGround2->SetOrigin(Origins::MC);
+	////tempGround2->SetPosition({ 0.0f, 100.0f });
+	//tempTiltedGround2->SetPosition({ 0.0f, 70.0f });
+	//tempTiltedGround2->SetRotation(-135.0f);
+	//BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
 
-	for (float screenX = 24.0f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
-	{
-		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround1->AddTag("Ground");
-		tempGround1->SetSize({ 24.0f, 24.0f });
-		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround1->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround1->SetPosition({ screenX, 56.0f + 33.0f * 0.5f });
-		BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-	}
+	//for (float screenX = 24.0f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
+	//{
+	//	RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
+	//	tempGround1->AddTag("Ground");
+	//	tempGround1->SetSize({ 24.0f, 24.0f });
+	//	tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
+	//	tempGround1->SetOrigin(Origins::MC);
+	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
+	//	tempGround1->SetPosition({ screenX, 56.0f + 33.0f * 0.5f });
+	//	BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
+	//}
 
 	for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
 	{
@@ -263,23 +263,23 @@ void SceneExample::Init()
 		tempThroughtGround2->SetCollider(boxThroughtCol2);
 	}
 
-	Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
-	tempDoor->SetOrigin(Origins::BC);
-	tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	tempDoor->SetMovePosition({ 240.f + 12.f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
-	BoxCollider* doorCol1 = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
-	doorCol1->SetTrigger(true);
-	doorCol1->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+	//Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
+	//tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
+	//tempDoor->SetOrigin(Origins::BC);
+	//tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+	//tempDoor->SetMovePosition({ 240.f + 12.f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
+	//BoxCollider* doorCol1 = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
+	//doorCol1->SetTrigger(true);
+	//doorCol1->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
 
-	Door* tempDoor2 = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	tempDoor2->physicsLayer = (int)PhysicsLayer::Ground;
-	tempDoor2->SetOrigin(Origins::BC);
-	tempDoor2->SetPosition({ 240.f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	tempDoor2->SetMovePosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
-	BoxCollider* doorCol2 = (BoxCollider*)tempDoor2->AddComponent(new BoxCollider(*tempDoor2));
-	doorCol2->SetTrigger(true);
-	doorCol2->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+	//Door* tempDoor2 = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
+	//tempDoor2->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempDoor2->SetOrigin(Origins::BC);
+	//tempDoor2->SetPosition({ 240.f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+	//tempDoor2->SetMovePosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
+	//BoxCollider* doorCol2 = (BoxCollider*)tempDoor2->AddComponent(new BoxCollider(*tempDoor2));
+	//doorCol2->SetTrigger(true);
+	//doorCol2->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
 
 	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround3->SetSize({ 106.0f, 20.0f });
@@ -311,6 +311,8 @@ void SceneExample::Init()
 	curtain->SetFillColor({ 0, 0, 0, 0 });
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
+
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -329,23 +331,40 @@ void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+	if (Input.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		kirby->SetPosition(Input.GetMousePosition());
+	}
 
-
-	cameraTime += deltaTime * 2.0f;
+	cameraTime += deltaTime * 2.5f;
 	sf::Vector2f targetPoint;
-	switch (cameraType)
+	if (currentCamera == nullptr)
+	{
+		return;
+	}
+	switch (currentCamera->GetType())
 	{
 	case CameraType::Free:
-		targetPoint = kirby->GetPosition();
+		targetPoint = { kirby->GetPosition().x, currentCamera->CalculateCameraPosition({0.5f, 0.5f}).y };
+		if (targetPoint.x <= FRAMEWORK.GetWindowSize().x * 0.5f)
+		{
+			targetPoint.x = currentCamera->GetGlobalBounds().left + FRAMEWORK.GetWindowSize().x * 0.5f;
+		}
+		else if (targetPoint.x >= currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f)
+		{
+			targetPoint.x = currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f;
+		}
+		if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f)
+		{
+			targetPoint.y = currentCamera->GetGlobalBounds().top + FRAMEWORK.GetWindowSize().y * 0.5f;
+		}
+		else if (targetPoint.y >= currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f)
+		{
+			targetPoint.y = currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f;
+		}
 		break;
-	//case CameraType::Horizontal:
-	//	targetPoint = { kirby->GetPosition().x, worldView.getCenter().y };
-	//	break;
-	//case CameraType::Vertical:
-	//	targetPoint = { worldView.getCenter().x, kirby->GetPosition().y };
-	//	break;
 	case CameraType::Fixed:
-		targetPoint = worldView.getCenter();
+		targetPoint = currentCamera->CalculateCameraPosition({0.5f, 0.5f});
 		break;
 	}
 	worldView.setCenter(Utils::Lerp(worldView.getCenter(), targetPoint, cameraTime));
@@ -368,6 +387,12 @@ void SceneExample::Update(float deltaTime)
 		else if (Input.GetKeyDown(Keyboard::Num4))
 		{
 			cameraType = CameraType::Fixed;
+		}
+		else if (Input.GetKeyDown(Keyboard::Num5))
+		{
+			//중간보스 격파?
+			currentCamera->SetActive(false);
+			currentCamera = previousCamera;
 		}
 	}
 
@@ -520,10 +545,11 @@ void SceneExample::Update(float deltaTime)
 
 	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
 	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
-	if (Input.GetKeyDown(Keyboard::F11))
-	{
-		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
-	}
+	//if (Input.GetKeyDown(Keyboard::F11))
+	//{
+	//	SCENE_MANAGER.ChangeScene(SceneId::MapTool);
+	//}
+
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)
@@ -704,7 +730,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		size.x = node["EndPosition"]["x"].asFloat() - node["Position"]["x"].asFloat() + cellSize.x;
 		size.y = node["EndPosition"]["y"].asFloat() - node["Position"]["y"].asFloat() + cellSize.y;
 
-		CameraPointer* camPtr = (CameraPointer*)AddGameObject(new CameraPointer("camPtr"));
+		CameraPointer* camPtr = (CameraPointer*)AddGameObject(new CameraPointer("camPtr" + std::to_string(i)));
 		camPtr->SetSize(size);
 		camPtr->physicsLayer = (int)PhysicsLayer::Ground;
 		camPtr->SetType(type);
@@ -718,5 +744,18 @@ void SceneExample::LoadData(const std::wstring& path)
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
 	{
 		Json::Value node = ambientObjectNodes[i];
+	}
+}
+
+void SceneExample::SetCamera(CameraPointer* camera)
+{ 
+	if (camera == nullptr)
+	{
+		this->currentCamera = previousCamera;
+	}
+	else
+	{
+		this->previousCamera = currentCamera;
+		this->currentCamera = camera;
 	}
 }
