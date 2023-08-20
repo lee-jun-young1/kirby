@@ -7,12 +7,10 @@ class SceneExample : public Scene
 protected:
 	std::map<std::string, bool> mouseOverStates;
 	float testRotation = 0.0f;
-	
-	CameraType cameraType = CameraType::Free;
-	float cameraTime = 0.0f;
 
 	CameraPointer* currentCamera = nullptr;
 	CameraPointer* previousCamera = nullptr;
+	float cameraTime = 0.0f;
 
 	int count = 0;
 public:
@@ -30,8 +28,6 @@ public:
 
 	void LoadData(const std::wstring& path);
 
-	const CameraType& GetCameraType() const { return cameraType; }
-	void SetCameraType(const CameraType& type) { this->cameraType = type; }
 	const CameraPointer* GetCamera() const { return currentCamera; }
 	void SetCamera(CameraPointer* camera = nullptr);
 };

@@ -23,7 +23,7 @@ protected:
 	SpriteGO* currentGO = nullptr;
 	bool flipX = false;
 
-	float uiSpeed = 200.f;
+	float uiSpeed = 300.f;
 	float scrollForce = 50.f;
 
 	int layer = 0;

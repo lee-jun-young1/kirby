@@ -333,7 +333,7 @@ void SceneExample::Update(float deltaTime)
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	if (Input.GetMouseButtonDown(sf::Mouse::Left))
 	{
-		kirby->SetPosition(Input.GetMousePosition());
+		kirby->SetPosition(ScreenToWorldPosition(Input.GetMousePosition()));
 	}
 
 	cameraTime += deltaTime * 2.5f;
@@ -346,7 +346,7 @@ void SceneExample::Update(float deltaTime)
 	{
 	case CameraType::Free:
 		targetPoint = { kirby->GetPosition().x, currentCamera->CalculateCameraPosition({0.5f, 0.5f}).y };
-		if (targetPoint.x <= FRAMEWORK.GetWindowSize().x * 0.5f)
+		if (targetPoint.x <= FRAMEWORK.GetWindowSize().x * 0.5f + 24.0f)
 		{
 			targetPoint.x = currentCamera->GetGlobalBounds().left + FRAMEWORK.GetWindowSize().x * 0.5f;
 		}
@@ -354,41 +354,26 @@ void SceneExample::Update(float deltaTime)
 		{
 			targetPoint.x = currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f;
 		}
-		if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f)
+
+		if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f + 24.0f)
 		{
 			targetPoint.y = currentCamera->GetGlobalBounds().top + FRAMEWORK.GetWindowSize().y * 0.5f;
 		}
-		else if (targetPoint.y >= currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f)
+		else if (targetPoint.y >= currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f - 24.0f)
 		{
 			targetPoint.y = currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f;
 		}
 		break;
 	case CameraType::Fixed:
-		targetPoint = currentCamera->CalculateCameraPosition({0.5f, 0.5f});
+		targetPoint = Utils::Lerp(worldView.getCenter(), currentCamera->CalculateCameraPosition({0.5f, 0.5f}), cameraTime);
 		break;
 	}
-	worldView.setCenter(Utils::Lerp(worldView.getCenter(), targetPoint, cameraTime));
+	worldView.setCenter(targetPoint);
 	cameraTime = 0.0f;
 
 	if (Input.GetKey(Keyboard::LShift))
 	{
-		if (Input.GetKeyDown(Keyboard::Num1))
-		{
-			cameraType = CameraType::Free;
-		}
-		else if (Input.GetKeyDown(Keyboard::Num2))
-		{
-			cameraType = CameraType::Horizontal;
-		}
-		else if (Input.GetKeyDown(Keyboard::Num3))
-		{
-			cameraType = CameraType::Vertical;
-		}
-		else if (Input.GetKeyDown(Keyboard::Num4))
-		{
-			cameraType = CameraType::Fixed;
-		}
-		else if (Input.GetKeyDown(Keyboard::Num5))
+		if (Input.GetKeyDown(Keyboard::Num5))
 		{
 			//중간보스 격파?
 			currentCamera->SetActive(false);
@@ -545,11 +530,11 @@ void SceneExample::Update(float deltaTime)
 
 	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
 	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
-	//if (Input.GetKeyDown(Keyboard::F11))
-	//{
-	//	SCENE_MANAGER.ChangeScene(SceneId::MapTool);
-	//}
 
+	if (Input.GetKeyDown(Keyboard::F11))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
+	}
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)
@@ -588,7 +573,7 @@ void SceneExample::LoadData(const std::wstring& path)
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = playerNode["SortLayer"].asInt();
-	kirby->SetPosition({ playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat() });
+	kirby->SetPosition({ playerNode["Position"]["x"].asFloat() + 12.0f, playerNode["Position"]["y"].asFloat() });
 
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
@@ -648,7 +633,8 @@ void SceneExample::LoadData(const std::wstring& path)
 			suctionAble->SetRigidBody(rig);
 
 			suctionAble->SetOrigin({ 36.0f, 48.0f });
-			suctionAble->SetPosition(position); //
+			suctionAble->SetPosition(position);
+			suctionAble->SetRegenPosition(position);
 			suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 			suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 		}
@@ -700,11 +686,11 @@ void SceneExample::LoadData(const std::wstring& path)
 		sf::Vector2f movePosition = { node["MovePosition"]["x"].asFloat(), node["MovePosition"]["y"].asFloat()};
 		int sortLayer = node["SortLayer"].asInt();
 
-		Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-		tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
-		tempDoor->SetPosition(position);
-		tempDoor->SetMovePosition(movePosition);
-		BoxCollider* doorCol = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
+		Door* door = (Door*)AddGameObject(new Door("", "Door"));
+		door->physicsLayer = (int)PhysicsLayer::Interact;
+		door->SetPosition(position);
+		door->SetMovePosition(movePosition);
+		BoxCollider* doorCol = (BoxCollider*)door->AddComponent(new BoxCollider(*door));
 		doorCol->SetTrigger(true);
 		doorCol->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
 	}
@@ -712,6 +698,10 @@ void SceneExample::LoadData(const std::wstring& path)
 	for (int i = 0; i < groundNodes.size(); i++)
 	{
 		Json::Value node = groundNodes[i];
+		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
+		{
+
+		}
 		Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "ground"));
 		ground->SetData(node);
 		ground->SetGroundType((GroundType)node["Type"].asInt());

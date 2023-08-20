@@ -33,6 +33,8 @@ protected:
     float currentHitTime = 0.0f;
 
     float atk = 1.0f;
+
+    sf::Vector2f regenPosition;
 public:
     Mob(KirbyAbility type, const std::string textureID = "", const string& name = "") : SpriteGO(textureID, name), type(type) {};
     bool IsSuctionable() { return suctionable; }
@@ -40,6 +42,7 @@ public:
 
     void SetAnimator(Animator* animator) { this->animator = animator; };
     void SetRigidBody(RigidBody2D* rigidbody) { this->rigidbody = rigidbody; };
+    void SetRegenPosition(const sf::Vector2f regenPosition) { this->regenPosition = regenPosition; }
 
     virtual void Reset() override;
 
@@ -50,7 +53,7 @@ public:
     virtual void UpdateSuction(float dt);
 
     void SetSuction(GameObject* target);
-
+    
     virtual void Damage(const int& damage, const float hitAxisX);
 
     virtual void OnCollisionEnter(Collider* col) override;

@@ -24,8 +24,6 @@ void CameraPointer::OnTriggerEnter(Collider* col)
 		return;
 	}
 	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	prevType = scene->GetCameraType();
-	scene->SetCameraType(type);
 	if (scene->GetCamera() == this)
 	{
 		scene->SetCamera();
@@ -40,11 +38,11 @@ void CameraPointer::OnTriggerStay(Collider* col)
 }
 void CameraPointer::OnTriggerExit(Collider* col)
 {
-	if (col->GetGameObject().GetName() != targetGO->GetName() || type != CameraType::Fixed)
-	{
-		return;
-	}
-	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	scene->SetCameraType(prevType);
-	scene->SetCamera();
+	//if (col->GetGameObject().GetName() != targetGO->GetName() || type != CameraType::Fixed)
+	//{
+	//	return;
+	//}
+	//SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+	//scene->SetCameraType(prevType);
+	//scene->SetCamera();
 }
