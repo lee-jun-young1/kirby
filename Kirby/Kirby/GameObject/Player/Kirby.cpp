@@ -8,6 +8,7 @@
 #include <InputManager.h>
 #include <KirbyBackdancer.h>
 #include <GameObjects/SpriteEffect.h>
+#include <StatusUI.h>
 
 #pragma region KeyInput
 
@@ -674,12 +675,19 @@ void Kirby::JumpMoveEnd()
 void Kirby::EquipAbility()
 {
 	ability = keepInMouseAbility;
+	cout << "Equip :: " << (int)ability << endl;
 	keepInMouseAbility = KirbyAbility::None;
 	sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
 	if (tex != nullptr)
 	{
 		SetTexture(*tex);
 		SetOrigin(origin);
+	}
+
+	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+	if (ui != nullptr)
+	{
+		ui->SetPlayer1Ability(ability);
 	}
 }
 
@@ -698,6 +706,11 @@ void Kirby::UnequipAbility()
 			SetTexture(*tex);
 			SetOrigin(origin);
 		}
+	}
+	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+	if (ui != nullptr)
+	{
+		ui->SetPlayer1Ability(ability);
 	}
 }
 
@@ -817,10 +830,11 @@ void Kirby::OnDoorKeyUp()
 
 void Kirby::Init()
 {
-	abilityTextureIDs.push_back("sprites/kirby/Class_Normal.png");
-	abilityTextureIDs.push_back("sprites/kirby/Class_Cutter.png");
-	abilityTextureIDs.push_back("sprites/kirby/Class_Beam.png");
-	abilityTextureIDs.push_back("sprites/kirby/Class_Bomb.png");
+	abilityTextureIDs.resize(30);
+	abilityTextureIDs[(int)KirbyAbility::None] = ("sprites/kirby/Class_Normal.png");
+	abilityTextureIDs[(int)KirbyAbility::Cutter] = ("sprites/kirby/Class_Cutter.png");
+	abilityTextureIDs[(int)KirbyAbility::Beam] = ("sprites/kirby/Class_Beam.png");
+	abilityTextureIDs[(int)KirbyAbility::Bomb] = ("sprites/kirby/Class_Bomb.png");
 	SpriteGO::Init();
 	animator = (Animator*)AddComponent(new Animator(*this, "animations/Kirby/Kirby", "Idle"));
 	collider = (BoxCollider*)AddComponent(new BoxCollider(*this));

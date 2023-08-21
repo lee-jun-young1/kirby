@@ -29,6 +29,7 @@
 #include <KirbyEffect.h>
 #include "CameraPointer.h"
 #include <Cutter.h>
+#include <StatusUI.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -113,6 +114,15 @@ void SceneExample::Init()
 	tempCamPtr1->SetPosition({ 0.0f, 0.0f });
 	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
 	camCol1->SetTrigger(true);
+
+	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
+	scoreText->sortLayer = UILayer + 1;
+	SpriteTextGO* liftText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
+	liftText->sortLayer = UILayer + 1;
+	StatusUI* ui = (StatusUI*)AddGameObject(new StatusUI("StatusUI"));
+	ui->sortLayer = UILayer;
+	ui->SetScoreText(scoreText);
+	ui->SetLifeText(liftText);
 
 	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround1->SetSize({ 24.0f, 24.0f });
@@ -371,9 +381,69 @@ void SceneExample::Update(float deltaTime)
 		}
 	}
 
+	if (Input.GetKeyDown(Keyboard::Num1))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::Default);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Num2))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::Boss);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Num3))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::WithPartner);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Num4))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::BossWithPartner);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad1))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer1HP(0.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad2))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer1HP(0.5f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad3))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer1HP(1.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad4))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetEnemyHP(0.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad5))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetEnemyHP(0.5f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad6))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetEnemyHP(1.0f);
+	}
+
 	if (Input.GetKeyDown(Keyboard::F5))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)0, "sprites/mob/mob_normal.png", "Suctionable"));
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob(KirbyAbility::None, "sprites/mob/mob_normal.png", "Suctionable"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
@@ -394,7 +464,7 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F6))
 	{
-		Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Cutter"));
+		Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter(KirbyAbility::Cutter, "sprites/mob/mob_Cutter.png", "Cutter"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
@@ -418,7 +488,7 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F7))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)2, "sprites/mob/Mob_Beam.png", "Suctionable"));
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob(KirbyAbility::Beam, "sprites/mob/Mob_Beam.png", "Suctionable"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
@@ -443,7 +513,7 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F8))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)3, "sprites/mob/mob_Bomb.png", "Suctionable"));
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob(KirbyAbility::Bomb, "sprites/mob/mob_Bomb.png", "Suctionable"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });

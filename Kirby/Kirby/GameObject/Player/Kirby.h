@@ -39,7 +39,7 @@ enum class KirbyState
 class Kirby : public Playable
 {
 protected:
-	KirbyAbility ability;
+	KirbyAbility ability = KirbyAbility::None;
 	KirbyState state;
 	vector<string> abilityTextureIDs;
 
@@ -58,7 +58,7 @@ protected:
 
 	Suction* suction;
 
-	KirbyAbility keepInMouseAbility;
+	KirbyAbility keepInMouseAbility = KirbyAbility::None;
 
 	KirbyEffect* kirbyEffect;
 	
