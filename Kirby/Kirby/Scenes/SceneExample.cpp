@@ -321,15 +321,15 @@ void SceneExample::Init()
 	beamtestD->AddComponent(new Animator(*beamtestD, "animations/Kirby/Kirby", "BeamAttack"));
 	beamtestD->SetPosition(-144.0f, -144.0f);
 
-	SpriteGO* beam = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Beam.png", "Charge"));
+	SpriteGO* beam = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Beam_Effect.png", "Charge"));
 	beam->AddComponent(new Animator(*beam, "animations/Effect/Beam/Beam", "Charge"));
 	beam->SetPosition(-72.0f, 0.0f);
 
-	SpriteGO* cutter = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter.png", "Shot"));
+	SpriteGO* cutter = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter_Effect.png", "Shot"));
 	cutter->AddComponent(new Animator(*cutter, "animations/Effect/Cutter/Cutter", "Shot"));
 	cutter->SetPosition(-72.0f, -72.0f);
 
-	SpriteGO* blast = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter.png", "Blast"));
+	SpriteGO* blast = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter_Effect.png", "Blast"));
 	blast->AddComponent(new Animator(*blast, "animations/Effect/Cutter/Cutter", "Blast"));
 	blast->SetPosition(0.0f, -72.0f);
 
