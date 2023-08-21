@@ -29,6 +29,7 @@
 #include <KirbyEffect.h>
 #include "CameraPointer.h"
 #include <Cutter.h>
+#include <StatusUI.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -113,6 +114,15 @@ void SceneExample::Init()
 	tempCamPtr1->SetPosition({ 0.0f, 0.0f });
 	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
 	camCol1->SetTrigger(true);
+
+	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
+	scoreText->sortLayer = UILayer + 1;
+	SpriteTextGO* liftText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
+	liftText->sortLayer = UILayer + 1;
+	StatusUI* ui = (StatusUI*)AddGameObject(new StatusUI("StatusUI"));
+	ui->sortLayer = UILayer;
+	ui->SetScoreText(scoreText);
+	ui->SetLifeText(liftText);
 
 	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
 	//tempGround1->SetSize({ 24.0f, 24.0f });
@@ -291,6 +301,38 @@ void SceneExample::Init()
 	curtain->SetFillColor({ 0, 0, 0, 0 });
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
+	SpriteGO* boomA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Boom.png", "Bomb_A"));
+	boomA->AddComponent(new Animator(*boomA, "animations/Effect/Bomb/Bomb", "Test"));
+	boomA->SetPosition(0.0f, 0.0f);
+
+	SpriteGO* beamtestA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestA->AddComponent(new Animator(*beamtestA, "animations/Kirby/Kirby", "BeamCharge"));
+	beamtestA->SetPosition(-72.0f, 0.0f);
+
+	SpriteGO* beamtestB = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestB->AddComponent(new Animator(*beamtestB, "animations/Kirby/Kirby", "BeamFullCharge"));
+	beamtestB->SetPosition(-144.0f, 0.0f);
+
+	SpriteGO* beamtestC = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestC->AddComponent(new Animator(*beamtestC, "animations/Kirby/Kirby", "BeamShot"));
+	beamtestC->SetPosition(-144.0f, -72.0f);
+
+	SpriteGO* beamtestD = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
+	beamtestD->AddComponent(new Animator(*beamtestD, "animations/Kirby/Kirby", "BeamAttack"));
+	beamtestD->SetPosition(-144.0f, -144.0f);
+
+	SpriteGO* beam = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Beam.png", "Charge"));
+	beam->AddComponent(new Animator(*beam, "animations/Effect/Beam/Beam", "Charge"));
+	beam->SetPosition(-72.0f, 0.0f);
+
+	SpriteGO* cutter = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter.png", "Shot"));
+	cutter->AddComponent(new Animator(*cutter, "animations/Effect/Cutter/Cutter", "Shot"));
+	cutter->SetPosition(-72.0f, -72.0f);
+
+	SpriteGO* blast = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter.png", "Blast"));
+	blast->AddComponent(new Animator(*blast, "animations/Effect/Cutter/Cutter", "Blast"));
+	blast->SetPosition(0.0f, -72.0f);
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -351,9 +393,69 @@ void SceneExample::Update(float deltaTime)
 		}
 	}
 
+	if (Input.GetKeyDown(Keyboard::Num1))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::Default);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Num2))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::Boss);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Num3))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::WithPartner);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Num4))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::BossWithPartner);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad1))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer1HP(0.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad2))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer1HP(0.5f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad3))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer1HP(1.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad4))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetEnemyHP(0.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad5))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetEnemyHP(0.5f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad6))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetEnemyHP(1.0f);
+	}
+
 	if (Input.GetKeyDown(Keyboard::F5))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)0, "sprites/mob/mob_normal.png", "Suctionable"));
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob(KirbyAbility::None, "sprites/mob/mob_normal.png", "Suctionable"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
@@ -374,7 +476,7 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F6))
 	{
-		Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter((KirbyAbility)1, "sprites/mob/mob_Cutter.png", "Cutter"));
+		Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter(KirbyAbility::Cutter, "sprites/mob/mob_Cutter.png", "Cutter"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
@@ -398,7 +500,7 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F7))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)2, "sprites/mob/Mob_Beam.png", "Suctionable"));
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob(KirbyAbility::Beam, "sprites/mob/Mob_Beam.png", "Suctionable"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
@@ -423,7 +525,7 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::F8))
 	{
-		Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)3, "sprites/mob/mob_Bomb.png", "Suctionable"));
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob(KirbyAbility::Bomb, "sprites/mob/mob_Bomb.png", "Suctionable"));
 		suctionAble->AddTag("Suctionable");
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });

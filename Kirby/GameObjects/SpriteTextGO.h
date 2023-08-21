@@ -5,8 +5,9 @@ class SpriteTextGO : public VertexArrayGO
 {
 protected:
 	SpriteFont* font;
+	string fontID;
 public:
-	SpriteTextGO(const std::string& name = "");
+	SpriteTextGO(const std::string& fontID = "", const std::string& name = "");
 	void SetText(std::string text, int colorIdx = 0);
 	void SetFont(SpriteFont* font);
 

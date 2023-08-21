@@ -17,6 +17,7 @@ public:
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 
+	virtual void OnEnable() override;
 	virtual void OnDisable() override;
 
 	virtual void OnTriggerStay(Collider* col) override;

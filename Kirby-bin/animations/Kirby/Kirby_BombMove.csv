@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+BombMove,10,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,432,72,72,72
+,504,72,72,72
+,576,72,72,72
+,648,72,72,72

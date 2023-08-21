@@ -1,9 +1,9 @@
 Character,RESOURCE_PATH,Left,Top,Width,Height
-s,fonts/ScoreFont.png,0,0,7,8
-c,fonts/ScoreFont.png,7,0,7,8
-o,fonts/ScoreFont.png,14,0,7,8
-r,fonts/ScoreFont.png,21,0,7,8
-e,fonts/ScoreFont.png,28,0,7,8
+S,fonts/ScoreFont.png,0,0,7,8
+C,fonts/ScoreFont.png,7,0,7,8
+O,fonts/ScoreFont.png,14,0,7,8
+R,fonts/ScoreFont.png,21,0,7,8
+E,fonts/ScoreFont.png,28,0,7,8
 :,fonts/ScoreFont.png,35,0,3,8
 0,fonts/ScoreFont.png,38,0,8,8
 1,fonts/ScoreFont.png,46,0,7,8

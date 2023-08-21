@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "SpriteTextGO.h"
+#include <ResourceManager.h>
 
-SpriteTextGO::SpriteTextGO(const std::string& name)
-	:VertexArrayGO("", name)
+SpriteTextGO::SpriteTextGO(const std::string& fontID, const std::string& name)
+	:VertexArrayGO("", name), fontID(fontID)
 {
 }
 
@@ -57,6 +58,7 @@ void SpriteTextGO::Release()
 
 void SpriteTextGO::Reset()
 {
+	SetFont(Resources.GetSpriteFont(fontID));
 	VertexArrayGO::Reset();
 }
 

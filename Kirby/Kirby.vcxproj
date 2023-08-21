@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./3rd/json;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Kirby/GameObject;./Kirby/GameObject/Player;./Kirby/Scenes;./Kirby/GameObject/Mob;./Kirby/GameObject/Interact;./Kirby/GameObject/Effect;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./Framework;./Scenes;./Global;./;./Utility;./GameObjects;./Components;./Components/Physics;./Components/Animation;./Components/Audio;./3rd;./3rd/json;./DataTables;./Animation;./Example;./Example/Scenes;./Example/GameObjects;./Kirby/GameObject;./Kirby/GameObject/Player;./Kirby/Scenes;./Kirby/GameObject/Mob;./Kirby/GameObject/Interact;./Kirby/GameObject/Effect;./Kirby/GameObject/UI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -217,6 +217,7 @@
     <ClCompile Include="GameObjects\TextGameObj.cpp" />
     <ClCompile Include="GameObjects\VertexArrayGO.cpp" />
     <ClCompile Include="Kirby\GameObject\Item.cpp" />
+    <ClCompile Include="Kirby\GameObject\Player\KirbyForward.cpp" />
     <ClCompile Include="Kirby\Scenes\SceneMapTool.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -240,6 +241,7 @@
     <ClCompile Include="Kirby\GameObject\Player\Skill.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Suction.cpp" />
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp" />
+    <ClCompile Include="Kirby\GameObject\UI\StatusUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
@@ -316,6 +318,7 @@
     <ClInclude Include="Components\Physics\RigidBody2D.h" />
     <ClInclude Include="Framework\PhysicsManager.h" />
     <ClInclude Include="Kirby\GameObject\Item.h" />
+    <ClInclude Include="Kirby\GameObject\Player\KirbyForward.h" />
     <ClInclude Include="Kirby\Scenes\SceneMapTool.h" />
     <ClInclude Include="Kirby\GameObject\Player.h" />
     <ClInclude Include="Kirby\GameObject\MapToolCell.h" />
@@ -327,6 +330,7 @@
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="Framework\SpriteFont.h" />
     <ClInclude Include="Kirby\GameObject\Player\Skill.h" />
+    <ClInclude Include="Kirby\GameObject\UI\StatusUI.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />

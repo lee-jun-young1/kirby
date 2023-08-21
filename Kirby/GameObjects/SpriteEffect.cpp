@@ -26,10 +26,10 @@ void SpriteEffect::Update(float dt)
 	SpriteGO::Update(dt);
 	timer -= dt;
 	//sprite.setColor({ 255, 255, 255, (sf::Uint8)(255 * timer * inverseDuration) });
-	sf::Color a = { 255, 255, 255, 0 };
-	sf::Color b = sf::Color::White;
-	sf::Color color = Utils::Lerp(a, b, timer * inverseDuration);
-	sprite.setColor(color);
+	//sf::Color a = { 255, 255, 255, 0 };
+	//sf::Color b = sf::Color::White;
+	//sf::Color color = Utils::Lerp(a, b, timer * inverseDuration);
+	//sprite.setColor(color);
 	if (timer < 0.0f)
 	{
 		if (pool != nullptr)
@@ -40,6 +40,7 @@ void SpriteEffect::Update(float dt)
 		else
 		{
 			SetActive(false);
+			SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(this);
 		}
 	}
 }
