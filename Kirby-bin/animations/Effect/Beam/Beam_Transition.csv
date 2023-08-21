@@ -1,0 +1,3 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Charge,,0,239,Boom,0
+Fire,,0,9,Test,0

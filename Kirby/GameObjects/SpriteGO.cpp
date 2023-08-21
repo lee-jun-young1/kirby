@@ -53,6 +53,12 @@ sf::Vector2f SpriteGO::GetSize() const
 	return sf::Vector2f(rect.width, rect.height);
 }
 
+void SpriteGO::SetScale(const sf::Vector2f& scale)
+{
+	GameObject::SetScale(scale);
+	sprite.setScale(scale);
+}
+
 void SpriteGO::Init()
 {
 }

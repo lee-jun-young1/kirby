@@ -30,6 +30,8 @@ public:
 	void SetColor(const sf::Color color) { sprite.setColor(color); }
 	const sf::Color& GetColor() { return sprite.getColor(); }
 
+	virtual void SetScale(const sf::Vector2f& scale) override;
+
 	// GameObject을(를) 통해 상속됨
 	virtual void Init() override;
 	virtual void Release() override;

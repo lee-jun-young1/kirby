@@ -128,10 +128,10 @@ enum class DoorType
 
 enum class KirbyAbility
 {
-	None,
-	Cutter,
-	Beam,
-	Bomb,
+	None = 20,
+	Cutter = 0,
+	Beam = 1,
+	Bomb = 10,
 };
 
 enum class CameraType

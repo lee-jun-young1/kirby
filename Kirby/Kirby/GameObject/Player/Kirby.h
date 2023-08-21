@@ -5,6 +5,7 @@
 #include <RigidBody2D.h>
 #include <Suction.h>
 #include <KirbyEffect.h>
+#include <KirbyForward.h>
 
 enum class KirbyState
 {
@@ -28,13 +29,17 @@ enum class KirbyState
 	Shot,
 	Door,
 	Wall,
+	DanceReady,
+	Dance,
+	Attack, 
+	JumpAttack,
 };
 
 
 class Kirby : public Playable
 {
 protected:
-	KirbyAbility ability;
+	KirbyAbility ability = KirbyAbility::None;
 	KirbyState state;
 	vector<string> abilityTextureIDs;
 
@@ -53,7 +58,7 @@ protected:
 
 	Suction* suction;
 
-	KirbyAbility keepInMouseAbility;
+	KirbyAbility keepInMouseAbility = KirbyAbility::None;
 
 	KirbyEffect* kirbyEffect;
 	
@@ -70,6 +75,12 @@ protected:
 	function<void()> jumpKey;
 	function<void()> vKey;
 	function<void(float)> update;
+	function<void(Collider*)> onCollisionEnter;
+	function<void(Collider*)> onCollisionStay;
+
+
+	KirbyForward* forwardTrigger;
+	list<GameObject*> forwardObjects;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -128,12 +139,19 @@ public:
 	void DoSuction();
 	void SuctionEnd();
 
+	void CutterAttack();
+	void CutterDashAttack();
+
+	void CutterJumpAttack();
+
+	void CutterDashJumpAttack();
+
 	// C
 	void Jump();
 	void Fly();
 	void DashJump();
 	void BalloonJump();
-	void Tackle();
+	void Tackle(); 
 
 	// V
 	void UnequipAbility();
@@ -153,17 +171,37 @@ public:
 
 	void ShotUpdate(float dt);
 
-	void WallUpdate(float dt);
+	void WallUpdate(float dt); 
+	void AttackUpdate(float dt);
 
 	void CollideUpdate(float dt);
 	void BalloonCollideUpdate(float dt);
-	void EatUpdate(float dt);
+
+	void EatUpdate(float dt); 
+	
+	void DanceReadyUpdate(float dt); 
+	void DanceUpdate(float dt); 
+	
+	void StageClear();
 
 	virtual void Draw(sf::RenderWindow& window) override;
 	void Damage(const int& damage, const float hitAxisX);
 	void SetInMouseType(const KirbyAbility& ability);
 	virtual void OnCollisionEnter(Collider* col) override;
+
+	void MoveCollisionEnter(Collider* col);
+	void JumpCollisionEnter(Collider* col);
+	void BalloonJumpCollisionEnter(Collider* col);
+	void SuctionCollisionEnter(Collider* col); 
+	void TackleCollisionEnter(Collider* col);
+	void CutterCollisionEnter(Collider* col);
+
 	virtual void OnCollisionStay(Collider* col) override;
+
+	void SitCollisionStay(Collider* col);
+
+	void AddNearUnit(GameObject* enemy);
+	void RemoveNearUnit(GameObject* enemy);
 
 };
 
