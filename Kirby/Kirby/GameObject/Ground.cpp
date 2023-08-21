@@ -32,9 +32,9 @@ void Ground::Reset()
 	case GroundType::Tilted:
 	{
 		BoxCollider* boxCol = (BoxCollider*)AddComponent(new BoxCollider(*this));
-		boxCol->SetRect({ (float)rect.left, (float)rect.top, (float)rect.width + 4.0f, (float)rect.height });
+		boxCol->SetRect({ (float)rect.left - 2.0f, (float)rect.top, (float)rect.width + 2.0f, (float)rect.height });
 		boxCol->SetRotationOffset(data["Angle"].asFloat());
-		boxCol->SetOffset({ data["OffSet"]["x"].asFloat(), data["OffSet"]["y"].asFloat() - 1.f});
+		boxCol->SetOffset({ data["OffSet"]["x"].asFloat(), data["OffSet"]["y"].asFloat()});
 	}
 	break;
 	case GroundType::Throught:

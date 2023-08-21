@@ -13,7 +13,7 @@
 			"Position" : 
 			{
 				"x" : 240.0,
-				"y" : 624.0
+				"y" : 480.0
 			},
 			"SortLayer" : 99,
 			"Type" : 5
@@ -38,7 +38,7 @@
 			"EndPosition" : 
 			{
 				"x" : 240.0,
-				"y" : 624.0
+				"y" : 480.0
 			},
 			"FlipX" : false,
 			"PaletteID" : "row-2-column-4",
@@ -4292,26 +4292,6 @@
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 168.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
 			"PaletteID" : "row-2-column-16",
 			"Position" : 
 			{
@@ -4952,26 +4932,6 @@
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 144.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
 			"PaletteID" : "row-2-column-11",
 			"Position" : 
 			{
@@ -5307,26 +5267,6 @@
 			"Type" : 0
 		},
 		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 120.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
-		},
-		{
 			"FlipX" : true,
 			"OffSet" : 
 			{
@@ -5505,26 +5445,6 @@
 				"y" : 24.0
 			},
 			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 96.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
 		},
 		{
 			"FlipX" : true,
@@ -5707,26 +5627,6 @@
 			"Type" : 3
 		},
 		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 72.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
-		},
-		{
 			"FlipX" : true,
 			"OffSet" : 
 			{
@@ -5827,26 +5727,6 @@
 			"Type" : 3
 		},
 		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 48.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
-		},
-		{
 			"FlipX" : true,
 			"OffSet" : 
 			{
@@ -5905,46 +5785,6 @@
 				"y" : 168.0
 			},
 			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 24.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 0.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 0
 		}
 	],
 	"Item" : 

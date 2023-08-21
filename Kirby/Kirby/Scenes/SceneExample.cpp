@@ -86,6 +86,7 @@ void SceneExample::Init()
 	Release();
 
 	LoadData(L"maps/Green_Green.json");
+	//LoadData(L"maps/temp.json");
 
 	auto size = FRAMEWORK.GetWindowSize();
 
@@ -252,26 +253,26 @@ void SceneExample::Init()
 	//	BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
 	//}
 
-	for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
-	{
-		ThroughtableGround* tempThroughtGround1 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
-		tempThroughtGround1->AddTag("Ground");
-		tempThroughtGround1->SetSize({ 24.0f, 24.0f });
-		tempThroughtGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempThroughtGround1->SetOrigin(Origins::MC);
-		tempThroughtGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f -48.0f });
-		BoxCollider* boxThroughtCol1 = (BoxCollider*)tempThroughtGround1->AddComponent(new BoxCollider(*tempThroughtGround1));
-		tempThroughtGround1->SetCollider(boxThroughtCol1);
+	//for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
+	//{
+	//	ThroughtableGround* tempThroughtGround1 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+	//	tempThroughtGround1->AddTag("Ground");
+	//	tempThroughtGround1->SetSize({ 24.0f, 24.0f });
+	//	tempThroughtGround1->physicsLayer = (int)PhysicsLayer::Ground;
+	//	tempThroughtGround1->SetOrigin(Origins::MC);
+	//	tempThroughtGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f -48.0f });
+	//	BoxCollider* boxThroughtCol1 = (BoxCollider*)tempThroughtGround1->AddComponent(new BoxCollider(*tempThroughtGround1));
+	//	tempThroughtGround1->SetCollider(boxThroughtCol1);
 
-		ThroughtableGround* tempThroughtGround2 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
-		tempThroughtGround2->AddTag("Ground");
-		tempThroughtGround2->SetSize({ 24.0f, 24.0f });
-		tempThroughtGround2->physicsLayer = (int)PhysicsLayer::Ground;
-		tempThroughtGround2->SetOrigin(Origins::MC);
-		tempThroughtGround2->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-		BoxCollider* boxThroughtCol2 = (BoxCollider*)tempThroughtGround2->AddComponent(new BoxCollider(*tempThroughtGround2));
-		tempThroughtGround2->SetCollider(boxThroughtCol2);
-	}
+	//	ThroughtableGround* tempThroughtGround2 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+	//	tempThroughtGround2->AddTag("Ground");
+	//	tempThroughtGround2->SetSize({ 24.0f, 24.0f });
+	//	tempThroughtGround2->physicsLayer = (int)PhysicsLayer::Ground;
+	//	tempThroughtGround2->SetOrigin(Origins::MC);
+	//	tempThroughtGround2->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
+	//	BoxCollider* boxThroughtCol2 = (BoxCollider*)tempThroughtGround2->AddComponent(new BoxCollider(*tempThroughtGround2));
+	//	tempThroughtGround2->SetCollider(boxThroughtCol2);
+	//}
 
 	//Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
 	//tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
@@ -380,41 +381,41 @@ void SceneExample::Update(float deltaTime)
 	{
 		kirby->SetPosition(ScreenToWorldPosition(Input.GetMousePosition()));
 	}
+	
+	//cameraTime += deltaTime * 2.5f;
+	//sf::Vector2f targetPoint;
+	//if (currentCamera == nullptr)
+	//{
+	//	return;
+	//}
+	//switch (currentCamera->GetType())
+	//{
+	//case CameraType::Free:
+	//	targetPoint = kirby->GetPosition();
+	//	if (targetPoint.x <= FRAMEWORK.GetWindowSize().x * 0.5f + 24.0f)
+	//	{
+	//		targetPoint.x = currentCamera->GetGlobalBounds().left + FRAMEWORK.GetWindowSize().x * 0.5f;
+	//	}
+	//	else if (targetPoint.x >= currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f)
+	//	{
+	//		targetPoint.x = currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f;
+	//	}
 
-	cameraTime += deltaTime * 2.5f;
-	sf::Vector2f targetPoint;
-	if (currentCamera == nullptr)
-	{
-		return;
-	}
-	switch (currentCamera->GetType())
-	{
-	case CameraType::Free:
-		targetPoint = kirby->GetPosition();
-		if (targetPoint.x <= FRAMEWORK.GetWindowSize().x * 0.5f + 24.0f)
-		{
-			targetPoint.x = currentCamera->GetGlobalBounds().left + FRAMEWORK.GetWindowSize().x * 0.5f;
-		}
-		else if (targetPoint.x >= currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f)
-		{
-			targetPoint.x = currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f;
-		}
-
-		if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f)
-		{
-			targetPoint.y = currentCamera->GetGlobalBounds().top + FRAMEWORK.GetWindowSize().y * 0.5f;
-		}
-		else if (targetPoint.y >= currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f - 24.0f)
-		{
-			targetPoint.y = currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f;
-		}
-		break;
-	case CameraType::Fixed:
-		targetPoint = Utils::Lerp(worldView.getCenter(), currentCamera->CalculateCameraPosition({0.5f, 0.5f}), cameraTime);
-		break;
-	}
-	worldView.setCenter(targetPoint);
-	cameraTime = 0.0f;
+	//	if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f)
+	//	{
+	//		targetPoint.y = currentCamera->GetGlobalBounds().top + FRAMEWORK.GetWindowSize().y * 0.5f;
+	//	}
+	//	else if (targetPoint.y >= currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f)
+	//	{
+	//		targetPoint.y = currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f;
+	//	}
+	//	break;
+	//case CameraType::Fixed:
+	//	targetPoint = Utils::Lerp(worldView.getCenter(), currentCamera->CalculateCameraPosition({0.5f, 0.5f}), cameraTime);
+	//	break;
+	//}
+	//worldView.setCenter(targetPoint);
+	//cameraTime = 0.0f;
 
 	if (Input.GetKey(Keyboard::LShift))
 	{
@@ -580,62 +581,6 @@ void SceneExample::Update(float deltaTime)
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
-
-	//RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");
-
-
-	//float axis = 0.0;
-	//if (Input.GetKey(Keyboard::Num1))
-	//{
-	//	axis = -1.0f;
-	//}
-	//if (Input.GetKey(Keyboard::Num2))
-	//{
-	//	axis = 1.0f;
-	//}
-
-	//float axis2 = 0.0;
-	//if (Input.GetKey(Keyboard::Num3))
-	//{
-	//	axis2 = -1.0f;
-	//}
-	//if (Input.GetKey(Keyboard::Num4))
-	//{
-	//	axis2 = 1.0f;
-	//}
-
-	//BoxCollider* rectCol = (BoxCollider*)rectGO->GetComponent(ComponentType::Collider);
-
-	//rectCol->SetRotationOffset(rectCol->GetRotationOffset() + axis2 * 30.0f * deltaTime);
-
-	//rectGO->SetRotation(rectGO->GetRotation() + axis * 30.0f * deltaTime);
-
-
-	//float axis3 = 0.0;
-	//if (Input.GetKey(Keyboard::Num5))
-	//{
-	//	axis3 = -1.0f;
-	//}
-	//if (Input.GetKey(Keyboard::Num6))
-	//{
-	//	axis3 = 1.0f;
-	//}
-
-	//RectangleShapeGO* rectGO2 = (RectangleShapeGO*)FindGameObject("SmallRect");
-
-
-	//BoxCollider* rectCol2 = (BoxCollider*)rectGO2->GetComponent(ComponentType::Collider);
-
-	//rectCol2->SetRotationOffset(rectCol2->GetRotationOffset() + axis3 * 30.0f * deltaTime);
-
-
-
-
-	//rectGO->SetPosition({ rectGO->GetPosition().x + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime, rectGO->GetPosition().y + Input.GetAxisRaw(Axis::Vertical) * 30.0f * deltaTime });
-
-	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
-	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
-
 
 }
 
@@ -814,7 +759,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		}
 		else
 		{
-			Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "ground"));
+			Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "Ground"));
 			ground->SetData(node);
 			ground->SetGroundType((GroundType)node["Type"].asInt());
 		}
@@ -832,20 +777,13 @@ void SceneExample::LoadData(const std::wstring& path)
 		{
 			type = CameraType::Free;
 		}
-		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		sf::Vector2f size;
-		size.x = node["EndPosition"]["x"].asFloat() - node["Position"]["x"].asFloat() + cellSize.x;
-		size.y = node["EndPosition"]["y"].asFloat() - node["Position"]["y"].asFloat() + cellSize.y;
 
 		Camera* camPtr = (Camera*)AddGameObject(new Camera("camPtr" + std::to_string(i)));
-		camPtr->SetSize(size);
-		camPtr->physicsLayer = (int)PhysicsLayer::Ground;
 		camPtr->SetType(type);
-		camPtr->SetPosition(position);
 		camPtr->SetTarget(kirby);
+		camPtr->SetData(node);
+		camPtr->SetView(&worldView);
 
-		BoxCollider* camCol = (BoxCollider*)camPtr->AddComponent(new BoxCollider(*camPtr));
-		camCol->SetTrigger(true);
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
