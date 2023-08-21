@@ -1,7 +1,7 @@
 #pragma once
 #include "RectangleShapeGO.h"
 class Kirby;
-class CameraPointer : public RectangleShapeGO
+class Camera : public RectangleShapeGO
 {
 protected:
 	CameraType type = CameraType::None;
@@ -12,8 +12,8 @@ protected:
 	sf::View* targetView = nullptr;
 	sf::Vector2f viewArea;
 public:
-	CameraPointer(const string& name = "") : RectangleShapeGO(name) {}
-	virtual ~CameraPointer() {};
+	Camera(const string& name = "") : RectangleShapeGO(name) {}
+	virtual ~Camera() {};
 
 	virtual void Init() override;
 	virtual void Reset() override;

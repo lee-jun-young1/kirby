@@ -1,15 +1,15 @@
 #pragma once
 #include "Scene.h"
 
-class CameraPointer;
+class Camera;
 class SceneExample : public Scene
 {
 protected:
 	std::map<std::string, bool> mouseOverStates;
 	float testRotation = 0.0f;
 
-	CameraPointer* currentCamera = nullptr;
-	CameraPointer* previousCamera = nullptr;
+	Camera* currentCamera = nullptr;
+	Camera* previousCamera = nullptr;
 	float cameraTime = 0.0f;
 
 	int count = 0;
@@ -28,7 +28,7 @@ public:
 
 	void LoadData(const std::wstring& path);
 
-	const CameraPointer* GetCamera() const { return currentCamera; }
-	void SetCamera(CameraPointer* camera = nullptr);
+	const Camera* GetCamera() const { return currentCamera; }
+	void SetCamera(Camera* camera = nullptr);
 };
 

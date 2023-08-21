@@ -82,11 +82,17 @@ void SpriteGO::Draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
+const bool& SpriteGO::GetFlipX()
+{
+	return flipX;
+}
+
 void SpriteGO::SetFlipX(bool flip)
 {
 	scale = sprite.getScale();
 	scale.x = abs(scale.x) * (flip ? -1.0f : 1.0f) * spriteDirection.x;
 	sprite.setScale(scale);
+	flipX = !flipX;
 }
 
 void SpriteGO::SetFlipY(bool flip)

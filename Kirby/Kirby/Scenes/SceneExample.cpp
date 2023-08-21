@@ -27,7 +27,7 @@
 #include <Animator.h>
 #include <Door.h>
 #include <KirbyEffect.h>
-#include "CameraPointer.h"
+#include "Camera.h"
 #include <Cutter.h>
 
 //MapTool
@@ -84,7 +84,7 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
-	LoadData(L"maps/temp.json");
+	LoadData(L"maps/Green_Green.json");
 
 	auto size = FRAMEWORK.GetWindowSize();
 
@@ -115,7 +115,7 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
-	//CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
+	//Camera* tempCamPtr1 = (Camera*)AddGameObject(new Camera("tempCamPtr"));
 	//tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
 	//tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
 	//tempCamPtr1->SetOrigin(Origins::MC);
@@ -330,6 +330,11 @@ void SceneExample::Release()
 void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
+	if (Input.GetKeyDown(Keyboard::F11))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
+	}
+
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	if (Input.GetMouseButtonDown(sf::Mouse::Left))
 	{
@@ -345,7 +350,7 @@ void SceneExample::Update(float deltaTime)
 	switch (currentCamera->GetType())
 	{
 	case CameraType::Free:
-		targetPoint = { kirby->GetPosition().x, currentCamera->CalculateCameraPosition({0.5f, 0.5f}).y };
+		targetPoint = kirby->GetPosition();
 		if (targetPoint.x <= FRAMEWORK.GetWindowSize().x * 0.5f + 24.0f)
 		{
 			targetPoint.x = currentCamera->GetGlobalBounds().left + FRAMEWORK.GetWindowSize().x * 0.5f;
@@ -355,7 +360,7 @@ void SceneExample::Update(float deltaTime)
 			targetPoint.x = currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f;
 		}
 
-		if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f + 24.0f)
+		if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f)
 		{
 			targetPoint.y = currentCamera->GetGlobalBounds().top + FRAMEWORK.GetWindowSize().y * 0.5f;
 		}
@@ -531,10 +536,7 @@ void SceneExample::Update(float deltaTime)
 	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
 	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
 
-	if (Input.GetKeyDown(Keyboard::F11))
-	{
-		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
-	}
+
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)
@@ -582,7 +584,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		std::string textureId = "sprites/item/items.png";
 		sf::IntRect rect;
-		int sortLayer = node["SortLayer"].asInt();
+		int sort = node["SortLayer"].asInt();
 		switch (type)
 		{
 		case ItemType::Life:
@@ -602,7 +604,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		item->sprite.setTextureRect(rect);
 		item->SetSize(cellSize);
 		item->physicsLayer = (int)PhysicsLayer::Ground;
-		item->sortLayer = sortLayer;
+		item->sortLayer = sort;
 		item->SetPosition(position);
 	}
 
@@ -611,7 +613,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		Json::Value node = enemyNodes[i];
 		EnemyType type = (EnemyType)node["Type"].asInt();
 		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		int sortLayer = node["SortLayer"].asInt();
+		int sort = node["SortLayer"].asInt();
 
 		switch (type)
 		{
@@ -632,6 +634,7 @@ void SceneExample::LoadData(const std::wstring& path)
 			suctionAble->SetAnimator(ani);
 			suctionAble->SetRigidBody(rig);
 
+			suctionAble->sortLayer = sort;
 			suctionAble->SetOrigin({ 36.0f, 48.0f });
 			suctionAble->SetPosition(position);
 			suctionAble->SetRegenPosition(position);
@@ -684,7 +687,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		DoorType type = (DoorType)node["Type"].asInt();
 		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() - 24.0f };
 		sf::Vector2f movePosition = { node["MovePosition"]["x"].asFloat(), node["MovePosition"]["y"].asFloat()};
-		int sortLayer = node["SortLayer"].asInt();
+		int sort = node["SortLayer"].asInt();
 
 		Door* door = (Door*)AddGameObject(new Door("", "Door"));
 		door->physicsLayer = (int)PhysicsLayer::Interact;
@@ -700,17 +703,31 @@ void SceneExample::LoadData(const std::wstring& path)
 		Json::Value node = groundNodes[i];
 		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
 		{
-
+			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+			throughtGround->AddTag("Ground");
+			throughtGround->SetSize({ 24.0f, 24.0f });
+			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
+			throughtGround->SetOrigin(Origins::MC);
+			throughtGround->SetPosition(node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat());
+			BoxCollider* throughtGroundCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
+			throughtGround->SetCollider(throughtGroundCol);
 		}
-		Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "ground"));
-		ground->SetData(node);
-		ground->SetGroundType((GroundType)node["Type"].asInt());
+		else
+		{
+			Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "ground"));
+			ground->SetData(node);
+			ground->SetGroundType((GroundType)node["Type"].asInt());
+		}
 	}
 
 	for (int i = 0; i < cameraNodes.size(); i++)
 	{
 		Json::Value node = cameraNodes[i];
 		CameraType type = (CameraType)node["Type"].asInt();
+		if (type == CameraType::MapEnd)
+		{
+			continue;
+		}
 		if (type == CameraType::MapStart)
 		{
 			type = CameraType::Free;
@@ -720,7 +737,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		size.x = node["EndPosition"]["x"].asFloat() - node["Position"]["x"].asFloat() + cellSize.x;
 		size.y = node["EndPosition"]["y"].asFloat() - node["Position"]["y"].asFloat() + cellSize.y;
 
-		CameraPointer* camPtr = (CameraPointer*)AddGameObject(new CameraPointer("camPtr" + std::to_string(i)));
+		Camera* camPtr = (Camera*)AddGameObject(new Camera("camPtr" + std::to_string(i)));
 		camPtr->SetSize(size);
 		camPtr->physicsLayer = (int)PhysicsLayer::Ground;
 		camPtr->SetType(type);
@@ -737,7 +754,7 @@ void SceneExample::LoadData(const std::wstring& path)
 	}
 }
 
-void SceneExample::SetCamera(CameraPointer* camera)
+void SceneExample::SetCamera(Camera* camera)
 { 
 	if (camera == nullptr)
 	{

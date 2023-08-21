@@ -13,9 +13,9 @@
 			"Position" : 
 			{
 				"x" : 240.0,
-				"y" : 624.0
+				"y" : 456.0
 			},
-			"SortLayer" : 99,
+			"SortLayer" : -101,
 			"Type" : 5
 		},
 		{
@@ -31,14 +31,14 @@
 				"x" : 240.0,
 				"y" : 456.0
 			},
-			"SortLayer" : -101,
+			"SortLayer" : 99,
 			"Type" : 5
 		},
 		{
 			"EndPosition" : 
 			{
 				"x" : 240.0,
-				"y" : 624.0
+				"y" : 456.0
 			},
 			"FlipX" : false,
 			"PaletteID" : "row-2-column-4",

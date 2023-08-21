@@ -66,7 +66,7 @@ void SceneMapTool::Enter()
 		{
 			buttonPosition.x += cellSize.x * paletteScale.x + paletteSpace.y;
 		}
-		button->SetPosition((buttonPosition));
+		button->SetPosition(buttonPosition);
 		button->additionalData = palette;
 		button->OnClick = [this, button]() {
 			SelectGameObject(button);
@@ -140,7 +140,10 @@ void SceneMapTool::SelectGameObject(SpriteGO* gameObject)
 	instance->sprite.setColor(sf::Color(255,255,255,128));
 	instance->SetActive(true);
 	instance->SetPosition(PalettePositionToScreen(instance->GetPosition()));
+	//instance->additionalData = gameObject->additionalData;
+	//std::cout << instance->additionalData["SortLayer"].asInt() << std::endl;
 	SetLayer(instance->sortLayer - paletteLayer);
+	
 	instance->sortLayer = UILayer - 1;
 	currentGO = instance;
 }
@@ -248,13 +251,6 @@ void SceneMapTool::Update(float dt)
 	Scene::Update(dt);
 	sf::Vector2f viewportPos = worldView.getCenter() - worldView.getSize() * 0.5f ;
 	sf::Vector2f cellOrigin = { (float)((int)viewportPos.x % (int)cellSize.x), (float)((int)viewportPos.y % (int)cellSize.y) };
-	//for (auto& row : cells)
-	//{
-	//	for (auto& col : row)
-	//	{
-	//		col.SetOrigin(cellOrigin);
-	//	}
-	//}
 	for (auto grid : grids)
 	{
 		grid->SetOrigin(cellOrigin);
@@ -278,7 +274,7 @@ void SceneMapTool::Update(float dt)
 		worldView.setCenter(worldView.getCenter().x + uiSpeed * dt, worldView.getCenter().y);
 	}
 	//paletteMove
-	if (Input.GetMouseScrollDelta() != 0)
+	if (menuBase->GetGlobalBounds().contains(ScreenToUIPosition(Input.GetMousePosition())) && Input.GetMouseScrollDelta() != 0)
 	{
 		if (Input.GetMouseScrollDelta(true) < 0 && palettes[0]->GetPosition().y > menuBase->GetSize().y * 0.2f)
 		{
@@ -312,13 +308,6 @@ void SceneMapTool::Update(float dt)
 	{
 		drawCurrentLayerOnly = !drawCurrentLayerOnly;
 		SetLayer(layer);
-	}
-
-
-	//SelectTest
-	if (Input.GetKeyDown(sf::Keyboard::Num1))
-	{
-		SelectGameObject((SpriteGO*)FindGameObject("row-6-column-6"));
 	}
 
 	auto cell = GetCell(ScreenToWorldPosition(Input.GetMousePosition()));
@@ -357,7 +346,21 @@ void SceneMapTool::Update(float dt)
 			}
 			else if (currentGO->GetCategory() == Category::Camera)
 			{
-				prevGO = cell->AddGameObject(currentGO, layer);
+				if ((CameraType)currentGO->additionalData["Type"].asInt() != CameraType::MapEnd)
+				{
+					prevGO = cell->AddGameObject(currentGO, layer);
+					SpriteGO* copy = CopyUIButton("row-2-column-5");
+					copy->sortLayer = copy->additionalData["Layer"].asInt() + paletteLayer;
+					SelectGameObject(copy);
+				}
+				else
+				{
+					prevGO->additionalData["EndPosition"]["x"] = currentGO->GetPosition().x;
+					prevGO->additionalData["EndPosition"]["y"] = currentGO->GetPosition().y;
+					cell->AddGameObject(currentGO, layer);
+					currentGO->SetActive(false);
+					currentGO = nullptr;
+				}
 			}
 		}
 		if (Input.GetMouseButtonUp(sf::Mouse::Left) && currentGO != nullptr)
@@ -370,13 +373,13 @@ void SceneMapTool::Update(float dt)
 				prevGO->additionalData["MovePosition"]["y"] = currentGO->GetPosition().y;
 				cell->AddGameObject(currentGO, layer);
 			}
-			else if(currentGO->GetCategory() == Category::Camera)
-			{
-				prevGO->additionalData["EndPosition"]["x"] = currentGO->GetPosition().x;
-				prevGO->additionalData["EndPosition"]["y"] = currentGO->GetPosition().y;
-				//auto go = cell->AddGameObject(currentGO, layer);
-				//go->additionalData["Type"] = (int)CameraType::MapEnd;
-			}
+			//else if(currentGO->GetCategory() == Category::Camera)
+			//{
+			//	prevGO->additionalData["EndPosition"]["x"] = currentGO->GetPosition().x;
+			//	prevGO->additionalData["EndPosition"]["y"] = currentGO->GetPosition().y;
+			//	auto go = cell->AddGameObject(currentGO, layer);
+			//	go->additionalData["Type"] = (int)CameraType::MapEnd;
+			//}
 		}
 
 		//Remove
@@ -428,17 +431,9 @@ void SceneMapTool::Update(float dt)
 	//Flip
 	if (Input.GetKeyDown(sf::Keyboard::Space))
 	{
-		currentGO->SetFlipX(flipX);
-		flipX = !flipX;
-		currentGO->additionalData["FlipX"] = flipX;
-		std::cout << currentGO->sprite.getOrigin().x
-			<< " " <<
-		currentGO->sprite.getOrigin().y << std::endl;
-		currentGO->SetOrigin({ (flipX) ? 24.0f : 0.f, 0.f});
-		if (!currentGO->additionalData["Angle"].isNull())
-		{
-			currentGO->additionalData["Angle"] = currentGO->additionalData["Angle"].asFloat() * -1;
-		}
+		currentGO->SetFlipX(currentGO->GetFlipX());
+		currentGO->additionalData["FlipX"] = currentGO->GetFlipX();
+		currentGO->SetOrigin({ (currentGO->GetFlipX()) ? 24.0f : 0.f, 0.f});
 	}
 
 	if (Input.GetKeyDown(Keyboard::F11))
@@ -452,18 +447,6 @@ void SceneMapTool::Draw(sf::RenderWindow& window)
 	SortGameObjects();
 
 	window.setView(worldView);
-
-	for (auto go : gameObjects)
-	{
-		if (go->sortLayer >= UILayer)
-		{
-			continue;
-		}
-		if (go->IsActive())
-		{
-			go->Draw(window);
-		}
-	}
 
 	for (auto& row : cells)
 	{
@@ -480,6 +463,19 @@ void SceneMapTool::Draw(sf::RenderWindow& window)
 			col.Draw(window);
 		}
 	}
+
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer >= UILayer)
+		{
+			continue;
+		}
+		if (go->IsActive())
+		{
+			go->Draw(window);
+		}
+	}
+
 	window.setView(uiView);
 
 
@@ -511,6 +507,17 @@ void SceneMapTool::Draw(sf::RenderWindow& window)
 
 void SceneMapTool::Release()
 {
+	for (auto& row : cells)
+	{
+		for (auto& col : row)
+		{
+			col.RemoveAllGameObject();
+		}
+	}
+	for (auto go : gameObjects)
+	{
+		delete go;
+	}
 }
 
 void SceneMapTool::Reset()
@@ -720,6 +727,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	Json::Value enemyNodes = rootNode["Enemy"];
 	Json::Value doorNodes = rootNode["Door"];
 	Json::Value groundNodes = rootNode["Ground"];
+	Json::Value cameraNodes = rootNode["Camera"];
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 
 	MapToolCell* cell;
@@ -730,9 +738,14 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	if (player != nullptr)
 	{
 		loadPosition = { playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat()};
-		player->SetFlipX(playerNode["FlipX"].isBool());
 		player->sprite.setScale({1.f, 1.f});
 		player->SetPosition(loadPosition);
+		if (playerNode["FlipX"].asBool())
+		{
+			player->SetFlipX(player->GetFlipX());
+			player->SetOrigin({ (player->GetFlipX()) ? 24.0f : 0.f, 0.f });
+		}
+		player->additionalData["FlipX"] = playerNode["FlipX"].asBool();
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(player, playerNode["SortLayer"].asInt());
 	}
@@ -744,6 +757,12 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
+		if (node["FlipX"].asBool())
+		{
+			go->SetFlipX(go->GetFlipX());
+			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
+		}
+		go->additionalData["FlipX"] = node["FlipX"].asBool();
 		go->SetItemType((ItemType)node["Type"].asInt());
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
@@ -756,6 +775,12 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
+		if (node["FlipX"].asBool())
+		{
+			go->SetFlipX(go->GetFlipX());
+			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
+		}
+		go->additionalData["FlipX"] = node["FlipX"].asBool();
 		go->SetEnemyType((EnemyType)node["Type"].asInt());
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
@@ -770,7 +795,12 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		go->additionalData["MovePosition"]["y"] = node["MovePosition"]["y"];
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
-		
+		if (node["FlipX"].asBool())
+		{
+			go->SetFlipX(go->GetFlipX());
+			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
+		}
+		go->additionalData["FlipX"] = node["FlipX"].asBool();
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
@@ -782,7 +812,12 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
-		go->SetFlipX(node["FlipX"].isBool());
+		if (node["FlipX"].asBool())
+		{
+			go->SetFlipX(go->GetFlipX());
+			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
+		}
+		go->additionalData["FlipX"] = node["FlipX"].asBool();
 		go->SetGroundIndex(node["GroundIndex"].asInt());
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
@@ -795,6 +830,26 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
+		if (node["FlipX"].asBool())
+		{
+			go->SetFlipX(!go->GetFlipX());
+			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
+		}
+		go->additionalData["FlipX"] = node["FlipX"].asBool();
+		cell = GetCell(loadPosition);
+		cell->AddGameObject(go, node["SortLayer"].asInt());
+	}
+
+	//Camera
+	for (int i = 0; i < cameraNodes.size(); i++)
+	{
+		Json::Value node = cameraNodes[i];
+		SpriteGO* go = CopyUIButton(node["PaletteID"].asString());
+		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		go->sprite.setScale({ 1.f, 1.f });
+		go->SetPosition(loadPosition);
+		go->additionalData["EndPosition"]["x"] = node["EndPosition"]["x"].asFloat();
+		go->additionalData["EndPosition"]["y"] = node["EndPosition"]["y"].asFloat();
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
@@ -877,7 +932,6 @@ SpriteGO* SceneMapTool::CopyUIButton(const std::string& paletteID)
 		return nullptr;
 	}
 	SpriteGO* instance = new SpriteGO(*findGo);
-
 	return instance;
 }
 

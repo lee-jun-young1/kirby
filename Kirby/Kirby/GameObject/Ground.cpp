@@ -17,6 +17,12 @@ void Ground::Reset()
 	physicsLayer = (int)PhysicsLayer::Ground;
 	sortLayer = data["SortLayer"].asInt();
 	SetPosition(position);
+	if (data["FlipX"].asBool())
+	{
+		std::cout << "flip" << std::endl;
+		SetFlipX(!flipX);
+		SetOrigin({ (!flipX) ? 24.0f : 0.f, 0.f });
+	}
 
 	switch (type)
 	{

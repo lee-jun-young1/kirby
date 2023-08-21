@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "CameraPointer.h"
+#include "Camera.h"
 #include "SceneManager.h"
 #include "SceneExample.h"
-void CameraPointer::Init()
+void Camera::Init()
 {
 	shape->setFillColor(sf::Color::Transparent);
 }
 
-void CameraPointer::Reset()
+void Camera::Reset()
 {
 	SetActive(true);
 }
 
-const sf::Vector2f& CameraPointer::CalculateCameraPosition(const sf::Vector2f& rate)
+const sf::Vector2f& Camera::CalculateCameraPosition(const sf::Vector2f& rate)
 {
 	return sf::Vector2f(GetGlobalBounds().left + (GetGlobalBounds().width * rate.x), GetGlobalBounds().top + (GetGlobalBounds().height * rate.y));
 }
 
-void CameraPointer::OnTriggerEnter(Collider* col)
+void Camera::OnTriggerEnter(Collider* col)
 {
 	if (col->GetGameObject().GetName() != targetGO->GetName())
 	{
@@ -33,10 +33,10 @@ void CameraPointer::OnTriggerEnter(Collider* col)
 		scene->SetCamera(this);
 	}
 }
-void CameraPointer::OnTriggerStay(Collider* col)
+void Camera::OnTriggerStay(Collider* col)
 {
 }
-void CameraPointer::OnTriggerExit(Collider* col)
+void Camera::OnTriggerExit(Collider* col)
 {
 	//if (col->GetGameObject().GetName() != targetGO->GetName() || type != CameraType::Fixed)
 	//{
