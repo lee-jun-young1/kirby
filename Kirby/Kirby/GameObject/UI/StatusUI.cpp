@@ -125,6 +125,9 @@ void StatusUI::SetPlayer1Ability(KirbyAbility ability)
 
 void StatusUI::SetPlayer2HP(float hpPercent)
 {
+	player2PrevHP = player2CurrentHP;
+	player2CurrentHP = hpSize * hpPercent;
+	player2HitTime = 0.0f;
 }
 
 void StatusUI::SetPlayer2Ability(KirbyAbility ability)
@@ -132,6 +135,7 @@ void StatusUI::SetPlayer2Ability(KirbyAbility ability)
 	int abilityIndex = (int)ability;
 	int verIndex = abilityIndex / 3;
 	int horiIndex = abilityIndex % 3;
+	ability1P.setTextureRect({ horiIndex * 64 + 32, verIndex * 40, 32, 40 });
 }
 
 void StatusUI::SetEnemyHP(float hpPercent)
