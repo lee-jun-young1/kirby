@@ -151,6 +151,7 @@ public:
 	void SuctionEnd();
 
 	void CutterAttack();
+	void BombAttack();
 	void CutterDashAttack();
 
 	void CutterJumpAttack();

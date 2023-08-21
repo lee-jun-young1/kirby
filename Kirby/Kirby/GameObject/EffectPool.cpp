@@ -76,6 +76,16 @@ void EffectPool::Init()
 	{
 		BoxCollider* col = (BoxCollider*)effect->AddComponent(new BoxCollider(*effect));
 		RigidBody2D* rig = (RigidBody2D*)effect->AddComponent(new RigidBody2D(*effect));
+		col->SetRect({ 0.0f, 0.0f, 20.0f, 20.0f });
+		col->SetOffset({ 24.0f, 24.0f });
+		col->SetRigidbody(rig);
+		col->SetTrigger(true);
+		col->SetBounciness(0.2f);
+		effect->SetPool(this);
+		effect->SetCollider(col);
+		Animator* ani = (Animator*)effect->AddComponent(new Animator(*effect, "animations/Effect/Bomb/Bomb", "Ready"));
+		effect->AddTag("BombEffect");
+		effect->SetAnimator(ani);
 	};
 	cutterEffects.Init(20);
 	beamEffects.Init(100);

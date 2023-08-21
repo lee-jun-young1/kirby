@@ -133,6 +133,11 @@ void Kirby::ChangeState(const KirbyState& state)
 					chargeKeyContinue = nullptr;
 					onCollisionEnter = nullptr;
 					break;
+				case KirbyAbility::Bomb:
+					chargeKey = std::bind(&Kirby::BombAttack, this);
+					chargeKeyContinue = nullptr;
+					onCollisionEnter = nullptr;
+					break;
 				default:
 					chargeKey = nullptr;
 					chargeKeyContinue = nullptr;
@@ -823,6 +828,18 @@ void Kirby::CutterAttack()
 		animator->SetEvent("CutterNearAttack");
 	}
 }
+
+void Kirby::BombAttack()
+{
+	ChangeState(KirbyState::Attack);
+	BombEffect* effect = effectPool->GetBombEffect(PhysicsLayer::PlayerEffect);
+	effect->SetPosition(GetPosition() - GetOrigin());
+	effect->Fire(4.5f);
+	RigidBody2D* rig = (RigidBody2D*)effect->GetComponent(ComponentType::RigidBody);
+	rig->AddForce({ scale.x * 50.0f, -100.0f });
+	animator->SetEvent("BombAttack");
+}
+
 void Kirby::CutterDashAttack()
 {
 	ChangeState(KirbyState::MeleeAttack);

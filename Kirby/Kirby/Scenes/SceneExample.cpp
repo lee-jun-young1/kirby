@@ -304,10 +304,6 @@ void SceneExample::Init()
 	curtain->SetFillColor({ 0, 0, 0, 0 });
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
-	SpriteGO* boomA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Boom.png", "Bomb_A"));
-	boomA->AddComponent(new Animator(*boomA, "animations/Effect/Bomb/Bomb", "Test"));
-	boomA->SetPosition(0.0f, 0.0f);
-
 	SpriteGO* beamtestA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
 	beamtestA->AddComponent(new Animator(*beamtestA, "animations/Kirby/Kirby", "BeamCharge"));
 	beamtestA->SetPosition(-72.0f, 0.0f);
@@ -335,6 +331,8 @@ void SceneExample::Init()
 	SpriteGO* blast = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter_Effect.png", "Blast"));
 	blast->AddComponent(new Animator(*blast, "animations/Effect/Cutter/Cutter", "Blast"));
 	blast->SetPosition(0.0f, -72.0f);
+
+	cameraType = CameraType::Free;
 
 	for (auto go : gameObjects)
 	{
