@@ -72,10 +72,10 @@
 3,animations/Effect/Bomb/Boom.csv
 3,animations/Effect/Bomb/Ready.csv
 3,animations/Effect/Bomb/Test.csv
-0,sprites/effects/Beam.png
+0,sprites/effects/Beam_Effect.png
 3,animations/Effect/Beam/Charge.csv
 3,animations/Effect/Beam/Fire.csv
-0,sprites/effects/Cutter.png
+0,sprites/effects/Cutter_Effect.png
 3,animations/Effect/Cutter/Shot.csv
 3,animations/Effect/Cutter/Blast.csv
 3,animations/Kirby/Kirby_BeamCharge.csv

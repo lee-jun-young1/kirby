@@ -23,6 +23,11 @@ void RigidBody2D::SetGravity(bool useGravity)
 	this->useGravity = useGravity;
 }
 
+const bool& RigidBody2D::GetGravity()
+{
+	return useGravity;
+}
+
 sf::Vector2f RigidBody2D::GetVelocity()
 {
 	return velocity;

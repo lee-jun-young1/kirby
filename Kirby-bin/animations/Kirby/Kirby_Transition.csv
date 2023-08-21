@@ -139,7 +139,7 @@ CutterAttack,,0,2,Idle,0
 CutterCatch,,0,1,Idle,0
 CutterDashAttack,,0,3,Idle,0
 CutterNearAttack,,0,10,Idle,0
-CutterSkyAttack,,0,1,Jump,11
+CutterSkyAttack,,0,3,Jump,11
 CutterSkyDashAttack,,0,1,Jump,11
 CutterSkyAttack,Idle,1,0,Idle,0
 CutterSkyDashAttack,Idle,1,0,Idle,0

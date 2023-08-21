@@ -9,7 +9,6 @@ void KirbyForward::Update(float dt)
 
 void KirbyForward::OnTriggerEnter(Collider* col)
 {
-	cout << "enter" << endl;
 	if (col->GetGameObject().HasTag("Suctionable"))
 	{
 		kirby->AddNearUnit(&col->GetGameObject());

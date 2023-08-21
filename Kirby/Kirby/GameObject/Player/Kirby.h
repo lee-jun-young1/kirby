@@ -6,6 +6,7 @@
 #include <Suction.h>
 #include <KirbyEffect.h>
 #include <KirbyForward.h>
+#include <EffectPool.h>
 
 enum class KirbyState
 {
@@ -33,6 +34,8 @@ enum class KirbyState
 	Dance,
 	Attack, 
 	JumpAttack,
+	MeleeAttack,
+	JumpMeleeAttack,
 };
 
 
@@ -54,6 +57,8 @@ protected:
 	float actionTime = 0.0f;
 
 	bool isDoorKeyPress = false;
+
+	bool isDownKeyPress = false;
 	sf::Vector2f doorTarget;
 
 	Suction* suction;
@@ -61,6 +66,7 @@ protected:
 	KirbyAbility keepInMouseAbility = KirbyAbility::None;
 
 	KirbyEffect* kirbyEffect;
+	EffectPool* effectPool;
 	
 	function<void(const float&)> moveKey;
 	function<void(const float&)> dashKey;
@@ -76,6 +82,7 @@ protected:
 	function<void()> vKey;
 	function<void(float)> update;
 	function<void(Collider*)> onCollisionEnter;
+	function<void(Collider*)> onCollisionEnterByAbility;
 	function<void(Collider*)> onCollisionStay;
 
 
@@ -126,10 +133,14 @@ public:
 	void EquipAbility();
 
 
-	// ArrowDown
+	// Arrow Down
 	void Eat();
 	void Sit();
 	void UnSit();
+	void OnDownKeyDown();
+	void OnDownKeyUp();
+
+	// Arrow Up
 	void OnDoorKeyDown();
 	void OnDoorKeyUp();
 
@@ -159,6 +170,7 @@ public:
 
 	void SetSuction(Suction* suction) { this->suction = suction; }
 	void SetEffect(KirbyEffect* starEffect) { this->kirbyEffect = starEffect; }
+	void SetEffectPool(EffectPool* effectPool) { this->effectPool = effectPool; }
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -173,6 +185,9 @@ public:
 
 	void WallUpdate(float dt); 
 	void AttackUpdate(float dt);
+
+	void NearAttackUpdate(float dt);
+	void NearJumpAttackUpdate(float dt);
 
 	void CollideUpdate(float dt);
 	void BalloonCollideUpdate(float dt);

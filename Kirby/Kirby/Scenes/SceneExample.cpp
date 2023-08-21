@@ -106,14 +106,17 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
-	CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
-	tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
-	tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
-	tempCamPtr1->SetOrigin(Origins::MC);
-	tempCamPtr1->SetType(CameraType::Fixed);
-	tempCamPtr1->SetPosition({ 0.0f, 0.0f });
-	BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
-	camCol1->SetTrigger(true);
+	EffectPool* effectPool = (EffectPool*)AddGameObject(new EffectPool("EffectPool"));
+	kirby->SetEffectPool(effectPool);
+
+	//CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
+	//tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
+	//tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
+	//tempCamPtr1->SetOrigin(Origins::MC);
+	//tempCamPtr1->SetType(CameraType::Fixed);
+	//tempCamPtr1->SetPosition({ 0.0f, 0.0f });
+	//BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
+	//camCol1->SetTrigger(true);
 
 	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
 	scoreText->sortLayer = UILayer + 1;

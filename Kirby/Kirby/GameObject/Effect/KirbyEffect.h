@@ -1,7 +1,6 @@
 #pragma once
 #include "SpriteGO.h"
-class KirbyEffect :
-    public SpriteGO
+class KirbyEffect : public SpriteGO
 {
 private:
 	float time;

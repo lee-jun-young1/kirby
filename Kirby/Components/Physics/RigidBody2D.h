@@ -20,6 +20,8 @@ public:
 
 	void SetGravity(bool useGravity);
 
+	const bool& GetGravity();
+
 	sf::Vector2f GetVelocity();
 	void AddForce(sf::Vector2f velocity);
 	void SetVelocity(sf::Vector2f velocity);
