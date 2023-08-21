@@ -11,6 +11,7 @@ protected:
 	Camera* currentCamera = nullptr;
 	Camera* previousCamera = nullptr;
 	float cameraTime = 0.0f;
+	std::vector<Camera*> cameras;
 
 	int count = 0;
 public:

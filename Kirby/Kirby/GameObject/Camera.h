@@ -17,6 +17,8 @@ protected:
 	sf::Vector2f cameraCenter;
 	float cameraTime = 0.0f;
 
+	bool toggle = false;
+
 	bool isIn = false;
 	bool isStay = false;
 	bool isOut = false;
@@ -37,8 +39,13 @@ public:
 	const CameraType& GetType() const { return type; }
 	void SetType(const CameraType& type) { this->type = type; }
 
+	void MoveCamera(float dt);
+
 	virtual void OnTriggerEnter(Collider* col) override;
 	virtual void OnTriggerStay(Collider* col) override;
 	virtual void OnTriggerExit(Collider* col) override;
+
+	void Deactivate() {}
+	void Activate() {}
 };
 

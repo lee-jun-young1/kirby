@@ -28,36 +28,19 @@ void Camera::Reset()
 
 void Camera::Update(float dt)
 {
-	//if (!isIn && !isStay && this->GetGlobalBounds().contains(target->GetPosition()))
+	//if (!isIn && !isStay)
 	//{
-	//	std::cout << "Camera ON" << std::endl;
-	//	isIn = true;
-	//	isOut = false;
+	//	return;
 	//}
+}
 
-	//if (isIn && !this->GetGlobalBounds().contains(target->GetPosition()))
-	//{
-	//	std::cout << "Camera OFF" << std::endl;
-	//	isOut = true;
-	//	isIn = false;
-	//	isStay = false;
-	//}
-
-	//if (isIn && !isOut && !isStay)
-	//{
-	//	isStay = true;
-	//}
-
-	if (!isIn && !isStay)
-	{
-		return;
-	}
-
+void Camera::MoveCamera(float dt)
+{
 	cameraTime += dt * 2.5f;
 	cameraCenter = target->GetPosition();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::FloatRect bounds = GetGlobalBounds();
-	
+
 	switch (type)
 	{
 	case CameraType::Free:
@@ -80,7 +63,7 @@ void Camera::Update(float dt)
 		}
 		break;
 	case CameraType::Fixed:
-		cameraCenter = Utils::Lerp(view->getCenter(), { (bounds.left + bounds.width) * 0.5f, (bounds.top + bounds.height) * 0.5f }, cameraTime);
+		cameraCenter = Utils::Lerp(view->getCenter(), {bounds.left + (bounds.width * 0.5f), bounds.top + (bounds.height * 0.5f)}, cameraTime);
 		break;
 	}
 	view->setCenter(cameraCenter);
@@ -94,14 +77,14 @@ void Camera::OnTriggerEnter(Collider* col)
 		return;
 	}
 	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	if (scene->GetCamera() == this)
-	{
-		scene->SetCamera();
-	}
-	else
-	{
-		scene->SetCamera(this);
-	}
+	scene->SetCamera(this);
+	//if (scene->GetCamera() == this)
+	//{
+	//	scene->SetCamera();
+	//}
+	//else
+	//{
+	//}
 }
 
 void Camera::OnTriggerStay(Collider* col)

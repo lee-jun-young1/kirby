@@ -391,10 +391,10 @@ void SceneMapTool::Update(float dt)
 
 
 	//Clear
-	if (Input.GetKeyDown(sf::Keyboard::F1))
-	{
-		ClearCells();
-	}
+	//if (Input.GetKeyDown(sf::Keyboard::F1))
+	//{
+	//	ClearCells();
+	//}
 
 	//Save
 	if (Input.GetKeyDown(sf::Keyboard::F5))
@@ -436,6 +436,13 @@ void SceneMapTool::Update(float dt)
 		currentGO->SetOrigin({ (currentGO->GetFlipX()) ? 24.0f : 0.f, 0.f});
 	}
 
+	if (Input.GetKeyDown(Keyboard::F1))
+	{
+		for (auto& grid : grids)
+		{
+			grid->SetOutlineThickness(0.0f);
+		}
+	}
 	if (Input.GetKeyDown(Keyboard::F11))
 	{
 		SCENE_MANAGER.ChangeScene(SceneId::Title);

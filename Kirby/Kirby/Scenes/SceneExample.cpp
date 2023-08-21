@@ -85,18 +85,13 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
-	LoadData(L"maps/Green_Green.json");
-	//LoadData(L"maps/temp.json");
+	//LoadData(L"maps/Green_Green.json");
+	LoadData(L"maps/Green_Green_2.json");
 
 	auto size = FRAMEWORK.GetWindowSize();
 
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
-
-	//Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
-	//kirby->physicsLayer = (int)PhysicsLayer::Player;
-	//kirby->sortLayer = 1;
-	//kirby->SetPosition({ -80.0f, 0.0f });
 	
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
@@ -117,16 +112,6 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
-	//Camera* tempCamPtr1 = (Camera*)AddGameObject(new Camera("tempCamPtr"));
-	//tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
-	//tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempCamPtr1->SetOrigin(Origins::MC);
-	//tempCamPtr1->SetType(CameraType::Fixed);
-	//tempCamPtr1->SetPosition({ 0.0f, 0.0f });
-	//tempCamPtr1->SetTarget(kirby);
-	//BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
-	//camCol1->SetTrigger(true);
-
 	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
 	scoreText->sortLayer = UILayer + 1;
 	SpriteTextGO* liftText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
@@ -136,184 +121,7 @@ void SceneExample::Init()
 	ui->SetScoreText(scoreText);
 	ui->SetLifeText(liftText);
 
-	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempGround1->SetSize({ 24.0f, 24.0f });
-	//tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempGround1->SetOrigin(Origins::BC);
-	//tempGround1->SetPosition(kirby->GetPosition() + sf::Vector2f(24.0f, -24.0f));
-	//BoxCollider* boxCol1 = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-
-	//for (int i = 0; i < 4; i++)
-	//{
-	/*Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)i, "", "Suctionable"));
-	suctionAble->SetSize({ 24.0f, 24.0f });
-	suctionAble->physicsLayer = (int)PhysicsLayer::Ground;
-	suctionAble->SetOrigin(Origins::BC);
-	suctionAble->SetPosition(kirby->GetPosition() + sf::Vector2f(-24.0f + i * 48.0f, 0.0f));
-	BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
-	suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-	suctionAbleCol->SetOffset({ 0.0f, -24.0f });
-	RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
-	suctionAbleCol->SetRigidbody(rig);
-	rig->SetGravity(false);*/
-	//}
-
-
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
-
-	//RectangleShapeGO* tempGround = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempGround->SetSize({ 106.0f, 20.0f });
-	//tempGround->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempGround->SetOrigin(Origins::BC);
-	//tempGround->SetPosition({ 0.0f, 100.0f });
-	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
-
-
-	//for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
-	//{
-	//	RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//	tempGround1->AddTag("Ground");
-	//	tempGround1->SetSize({ 24.0f, 24.0f });
-	//	tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	//	tempGround1->SetOrigin(Origins::MC);
-	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	//	tempGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f });
-	//	BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-	//}
-	//for (int i = 1; i < 4; i++)
-	//{
-	//	RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//	tempGround1->AddTag("Ground");
-	//	tempGround1->SetSize({ 24.0f, 24.0f });
-	//	tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	//	tempGround1->SetOrigin(Origins::MC);
-	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	//	tempGround1->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
-	//	BoxCollider* boxColg = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-
-	//	RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//	tempGround2->AddTag("Ground");
-	//	tempGround2->SetSize({ 24.0f, 24.0f });
-	//	tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
-	//	tempGround2->SetOrigin(Origins::MC);
-	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	//	tempGround2->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
-	//	BoxCollider* boxColg2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
-	//}
-
-
-	//RectangleShapeGO* tempTiltedGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempTiltedGround1->AddTag("Ground");
-	//tempTiltedGround1->SetSize({ 24.0f, 24.0f });
-	//tempTiltedGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempTiltedGround1->SetOrigin(Origins::MC);
-	////tempGround2->SetPosition({ 0.0f, 100.0f });
-	//tempTiltedGround1->SetPosition({ -33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	//tempTiltedGround1->SetRotation(-135.0f);
-	//BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
-
-	//RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempTiltedGround3->AddTag("Ground");
-	//tempTiltedGround3->SetSize({ 24.0f, 24.0f });
-	//tempTiltedGround3->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempTiltedGround3->SetOrigin(Origins::MC);
-	////tempGround2->SetPosition({ 0.0f, 100.0f });
-	//tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	//tempTiltedGround3->SetRotation(-135.0f);
-	//BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
-
-	//RectangleShapeGO* tempTiltedGround5 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempTiltedGround5->AddTag("Ground");
-	//tempTiltedGround5->SetSize({ 24.0f, 24.0f });
-	//tempTiltedGround5->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempTiltedGround5->SetOrigin(Origins::MC);
-	////tempGround2->SetPosition({ 0.0f, 100.0f });
-	//tempTiltedGround5->SetPosition({ 12.0f, 70.0f - 5.0f });
-	//BoxCollider* boxCol5 = (BoxCollider*)tempTiltedGround5->AddComponent(new BoxCollider(*tempTiltedGround5));
-
-	//RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempTiltedGround2->AddTag("Ground");
-	//tempTiltedGround2->SetSize({ 24.0f, 24.0f });
-	//tempTiltedGround2->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempTiltedGround2->SetOrigin(Origins::MC);
-	////tempGround2->SetPosition({ 0.0f, 100.0f });
-	//tempTiltedGround2->SetPosition({ 0.0f, 70.0f });
-	//tempTiltedGround2->SetRotation(-135.0f);
-	//BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
-
-	//for (float screenX = 24.0f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
-	//{
-	//	RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//	tempGround1->AddTag("Ground");
-	//	tempGround1->SetSize({ 24.0f, 24.0f });
-	//	tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	//	tempGround1->SetOrigin(Origins::MC);
-	//	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	//	tempGround1->SetPosition({ screenX, 56.0f + 33.0f * 0.5f });
-	//	BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-	//}
-
-	//for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
-	//{
-	//	ThroughtableGround* tempThroughtGround1 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
-	//	tempThroughtGround1->AddTag("Ground");
-	//	tempThroughtGround1->SetSize({ 24.0f, 24.0f });
-	//	tempThroughtGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	//	tempThroughtGround1->SetOrigin(Origins::MC);
-	//	tempThroughtGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f -48.0f });
-	//	BoxCollider* boxThroughtCol1 = (BoxCollider*)tempThroughtGround1->AddComponent(new BoxCollider(*tempThroughtGround1));
-	//	tempThroughtGround1->SetCollider(boxThroughtCol1);
-
-	//	ThroughtableGround* tempThroughtGround2 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
-	//	tempThroughtGround2->AddTag("Ground");
-	//	tempThroughtGround2->SetSize({ 24.0f, 24.0f });
-	//	tempThroughtGround2->physicsLayer = (int)PhysicsLayer::Ground;
-	//	tempThroughtGround2->SetOrigin(Origins::MC);
-	//	tempThroughtGround2->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	//	BoxCollider* boxThroughtCol2 = (BoxCollider*)tempThroughtGround2->AddComponent(new BoxCollider(*tempThroughtGround2));
-	//	tempThroughtGround2->SetCollider(boxThroughtCol2);
-	//}
-
-	//Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	//tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
-	//tempDoor->SetOrigin(Origins::BC);
-	//tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	//tempDoor->SetMovePosition({ 240.f + 12.f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
-	//BoxCollider* doorCol1 = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
-	//doorCol1->SetTrigger(true);
-	//doorCol1->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
-
-	//Door* tempDoor2 = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	//tempDoor2->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempDoor2->SetOrigin(Origins::BC);
-	//tempDoor2->SetPosition({ 240.f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	//tempDoor2->SetMovePosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
-	//BoxCollider* doorCol2 = (BoxCollider*)tempDoor2->AddComponent(new BoxCollider(*tempDoor2));
-	//doorCol2->SetTrigger(true);
-	//doorCol2->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
-
-	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempGround3->SetSize({ 106.0f, 20.0f });
-	//tempGround3->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempGround3->SetOrigin(Origins::BC);
-	//tempGround3->SetPosition({ -50.0f, 50.0f });
-	//BoxCollider* boxCol3 = (BoxCollider*)tempGround3->AddComponent(new BoxCollider(*tempGround3));
-	//boxCol3->SetRotationOffset(180.0f);
-
-	//RectangleShapeGO* smallRectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("SmallRect"));
-	//smallRectGO->SetSize({ 10.0f, 10.0f });
-	//smallRectGO->physicsLayer = (int)PhysicsLayer::Ground;
-	//smallRectGO->SetOrigin(Origins::MC);
-	//smallRectGO->SetPosition({ -20.0f, -20.0f });
-	//BoxCollider* smallBoxCol = (BoxCollider*)smallRectGO->AddComponent(new BoxCollider(*smallRectGO));
-	//smallBoxCol->SetRotationOffset(30.0f);
-
-	//CircleShapeGO* circleGO = (CircleShapeGO*)AddGameObject(new CircleShapeGO("Circle"));
-	//circleGO->SetSize({ 10.0f, 10.0f });
-	//circleGO->physicsLayer = (int)PhysicsLayer::Ground;
-	//circleGO->SetPosition({ 20.0f, 20.0f });
-	//circleGO->SetOrigin(Origins::MC);
-	//CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
 
 	RectangleShapeGO* curtain = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Curtain"));
 	curtain->SetSize(FRAMEWORK.GetWindowSize());
@@ -381,7 +189,12 @@ void SceneExample::Update(float deltaTime)
 	{
 		kirby->SetPosition(ScreenToWorldPosition(Input.GetMousePosition()));
 	}
-	
+
+	if (currentCamera != nullptr)
+	{
+		currentCamera->MoveCamera(deltaTime);
+	}
+
 	//cameraTime += deltaTime * 2.5f;
 	//sf::Vector2f targetPoint;
 	//if (currentCamera == nullptr)
@@ -783,7 +596,6 @@ void SceneExample::LoadData(const std::wstring& path)
 		camPtr->SetTarget(kirby);
 		camPtr->SetData(node);
 		camPtr->SetView(&worldView);
-
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
