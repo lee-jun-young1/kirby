@@ -1,0 +1,12 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Jump,Hit,1,0,Hit,0
+Jump,Throw,1,0,Throw,0
+Jump,Dash,1,0,Dash,0
+Jump,Death,1,0,Death,0
+Dash,Hit,1,0,Hit,0
+Dash,Death,1,0,Death,0
+Dash,Jump,1,0,Jump,0
+Throw,Jump,1,0,Jump,0
+Throw,Hit,1,0,Hit,0
+Throw,Death,1,0,Death,0
+Death,Suction,1,0,Suction,0

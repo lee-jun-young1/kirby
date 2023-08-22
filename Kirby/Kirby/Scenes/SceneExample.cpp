@@ -345,7 +345,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(0.0f, 0.0f);
+		suctionAble->SetPosition(kirby->GetPosition());
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
@@ -362,6 +362,31 @@ void SceneExample::Update(float deltaTime)
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
+	if (Input.GetKeyDown(Keyboard::F9))
+	{
+		Mob* suctionAble = (Mob*)AddGameObject(new Mob(KirbyAbility::Bomb, "sprites/mob/SB_Bomb.png", "Suctionable"));
+		suctionAble->AddTag("Suctionable");
+		suctionAble->AddTag("Mob");
+		suctionAble->SetSize({ 24.0f, 24.0f });
+		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+		suctionAble->SetOrigin(Origins::BC);
+		suctionAble->SetPosition(kirby->GetPosition());
+		suctionAble->sortLayer = 20;
+		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+		suctionAbleCol->SetRigidbody(rig);
+
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/SB-Bomb/SB-Bomb", "Jump"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
+
+		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
+	}
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)
@@ -406,6 +431,7 @@ void SceneExample::LoadData(const std::wstring& path)
 	background->sortLayer = -99;
 
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	kirby->AddTag("Kirby");
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = playerNode["SortLayer"].asInt();
 	kirby->SetPosition({ playerNode["Position"]["x"].asFloat() + 12.0f, playerNode["Position"]["y"].asFloat() });
@@ -539,6 +565,30 @@ void SceneExample::LoadData(const std::wstring& path)
 		}
 			break;
 		case EnemyType::SubBoss:
+		//{
+		//	Mob* mob = (Mob*)AddGameObject(new Mob(KirbyAbility::Bomb, "sprites/mob/SB_Bomb.png", "Suctionable"));
+		//	mob->AddTag("Suctionable");
+		//	mob->AddTag("Mob");
+		//	mob->SetSize(cellSize);
+		//	mob->physicsLayer = (int)PhysicsLayer::Enemy;
+		//	mob->SetPosition(position);
+
+		//	BoxCollider* mobCol = (BoxCollider*)mob->AddComponent(new BoxCollider(*mob));
+		//	mobCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		//	mobCol->SetOffset({ -12.0f, -24.0f });
+
+		//	RigidBody2D* rig = (RigidBody2D*)mob->AddComponent(new RigidBody2D(*mob));
+		//	mobCol->SetRigidbody(rig);
+
+		//	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/SB-Bomb/SB-Bomb", "Jump"));
+		//	mob->SetAnimator(ani);
+		//	mob->SetRigidBody(rig);
+
+		//	mob->sortLayer = sort;
+		//	mob->SetOrigin({ 36.0f, 48.0f });
+		//	mob->SetPosition(position);
+		//	mob->SetRegenPosition(position);
+		//}
 			break;
 		case EnemyType::Boss:
 			break;

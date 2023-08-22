@@ -1,5 +1,6 @@
 ID,FPS,LOOPTYPE,,
-Suction,2,1,,
+Jump,2,1,,
 ,,,,
 TextureID,Left,Top,Width,Height
-sprite/mob/mob_normal.png,0,0,72,72
+,24,120,72,72
+,96,120,72,72
