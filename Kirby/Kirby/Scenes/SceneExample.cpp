@@ -86,13 +86,14 @@ void SceneExample::Init()
 	Release();
 
 	//LoadData(L"maps/Green_Green.json");
-	LoadData(L"maps/Green_Green_2.json");
+	LoadData(L"maps/Green_Green_3.json");
 
 	auto size = FRAMEWORK.GetWindowSize();
 
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
-	
+
+
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
 	suction->physicsLayer = (int)PhysicsLayer::Player;
@@ -194,41 +195,6 @@ void SceneExample::Update(float deltaTime)
 	{
 		currentCamera->MoveCamera(deltaTime);
 	}
-
-	//cameraTime += deltaTime * 2.5f;
-	//sf::Vector2f targetPoint;
-	//if (currentCamera == nullptr)
-	//{
-	//	return;
-	//}
-	//switch (currentCamera->GetType())
-	//{
-	//case CameraType::Free:
-	//	targetPoint = kirby->GetPosition();
-	//	if (targetPoint.x <= FRAMEWORK.GetWindowSize().x * 0.5f + 24.0f)
-	//	{
-	//		targetPoint.x = currentCamera->GetGlobalBounds().left + FRAMEWORK.GetWindowSize().x * 0.5f;
-	//	}
-	//	else if (targetPoint.x >= currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f)
-	//	{
-	//		targetPoint.x = currentCamera->CalculateCameraPosition().x - FRAMEWORK.GetWindowSize().x * 0.5f;
-	//	}
-
-	//	if (targetPoint.y <= FRAMEWORK.GetWindowSize().y * 0.5f)
-	//	{
-	//		targetPoint.y = currentCamera->GetGlobalBounds().top + FRAMEWORK.GetWindowSize().y * 0.5f;
-	//	}
-	//	else if (targetPoint.y >= currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f)
-	//	{
-	//		targetPoint.y = currentCamera->CalculateCameraPosition().y - FRAMEWORK.GetWindowSize().y * 0.5f;
-	//	}
-	//	break;
-	//case CameraType::Fixed:
-	//	targetPoint = Utils::Lerp(worldView.getCenter(), currentCamera->CalculateCameraPosition({0.5f, 0.5f}), cameraTime);
-	//	break;
-	//}
-	//worldView.setCenter(targetPoint);
-	//cameraTime = 0.0f;
 
 	if (Input.GetKey(Keyboard::LShift))
 	{
@@ -430,6 +396,14 @@ void SceneExample::LoadData(const std::wstring& path)
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 
+
+	//Background
+	VertexArrayGO* background = CreateBackground({ 1, 1 }, { rootNode["MapSize"]["x"].asFloat(), rootNode["MapSize"]["y"].asFloat() });
+	AddGameObject(background);
+	background->SetOrigin(Origins::TL);
+	background->SetPosition(0.f, 0.f);
+	background->sortLayer = -99;
+
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = playerNode["SortLayer"].asInt();
@@ -593,7 +567,7 @@ void SceneExample::LoadData(const std::wstring& path)
 
 		Camera* camPtr = (Camera*)AddGameObject(new Camera("camPtr" + std::to_string(i)));
 		camPtr->SetType(type);
-		camPtr->SetTarget(kirby);
+		camPtr->SetPlayer(kirby);
 		camPtr->SetData(node);
 		camPtr->SetView(&worldView);
 	}
@@ -615,4 +589,49 @@ void SceneExample::SetCamera(Camera* camera)
 		this->previousCamera = currentCamera;
 		this->currentCamera = camera;
 	}
+}
+
+VertexArrayGO* SceneExample::CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize, const std::string& textureId)
+{
+	VertexArrayGO* background = new VertexArrayGO(textureId, "Background");
+	sf::Vector2f startPos = { 0,0 };
+
+	background->vertexArray.setPrimitiveType(sf::Quads);
+	background->vertexArray.resize(tileMatrix.x * tileMatrix.y * 4);
+
+	sf::Vector2f offsets[4] =
+	{
+		{0.f,0.f},
+		{tileSize.x,0.f},
+		{tileSize.x,tileSize.y },
+		{0.f,tileSize.y}
+	};
+
+	sf::Vector2f texOffsets[4] =
+	{
+		{0.f,0.f},
+		{texSize.x,0.f},
+		{texSize.x,texSize.y },
+		{0.f,texSize.y}
+	};
+
+	sf::Vector2f currPos = startPos;
+	for (int i = 0; i < tileMatrix.y; ++i)
+	{
+		for (int j = 0; j < tileMatrix.x; ++j)
+		{
+			int tileIndex = tileMatrix.x * i + j;
+			for (int k = 0; k < 4; ++k)
+			{
+				int vertexIndex = tileIndex * 4 + k;
+				sf::Color color = sf::Color(57, 73, 92);
+				background->vertexArray[vertexIndex].position = currPos + offsets[k];
+				background->vertexArray[vertexIndex].color = color;
+			}
+			currPos.x += tileSize.x;
+		}
+		currPos.x = startPos.x;
+		currPos.y += tileSize.y;
+	}
+	return background;
 }

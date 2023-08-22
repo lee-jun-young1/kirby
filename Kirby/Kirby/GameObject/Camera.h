@@ -13,15 +13,8 @@ protected:
 	sf::Vector2f size;
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 	
-	SpriteGO* target = nullptr;
-	sf::Vector2f cameraCenter;
+	SpriteGO* player = nullptr;
 	float cameraTime = 0.0f;
-
-	bool toggle = false;
-
-	bool isIn = false;
-	bool isStay = false;
-	bool isOut = false;
 
 	Json::Value data;
 public:
@@ -32,7 +25,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 
-	void SetTarget(SpriteGO* go) { this->target = go; }
+	void SetPlayer(SpriteGO* go) { this->player = go; }
 	void SetData(const Json::Value& data) { this->data = data; };
 	void SetView(sf::View* view) { this->view = view; }
 
@@ -40,12 +33,10 @@ public:
 	void SetType(const CameraType& type) { this->type = type; }
 
 	void MoveCamera(float dt);
+	void CheckObjectInCamera(SpriteGO* target);
 
 	virtual void OnTriggerEnter(Collider* col) override;
 	virtual void OnTriggerStay(Collider* col) override;
 	virtual void OnTriggerExit(Collider* col) override;
-
-	void Deactivate() {}
-	void Activate() {}
 };
 

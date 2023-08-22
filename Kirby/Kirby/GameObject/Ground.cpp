@@ -19,22 +19,53 @@ void Ground::Reset()
 	SetPosition(position);
 	if (data["FlipX"].asBool())
 	{
-		std::cout << "flip" << std::endl;
 		SetFlipX(!flipX);
-		SetOrigin({ (!flipX) ? 24.0f : 0.f, 0.f });
+		SetOrigin({ (!flipX) ? groundSize.x : 0.f, 0.f });
 	}
+	
+	inCameraEvent = [this]() {
+		if (this->IsActive())
+		{
+			return;
+		}
+		SetActive(true);
+	};
+	outCameraEvent = [this]() {
+		if (!this->IsActive())
+		{
+			return;
+		}
+		SetActive(false);
+	};
 
 	switch (type)
 	{
 	case GroundType::Normal:
-		AddComponent(new BoxCollider(*this));
+	{
+		BoxCollider* boxCol = (BoxCollider*)AddComponent(new BoxCollider(*this));
+		if (flipX)
+		{
+			boxCol->SetOffset({ data["OffSet"]["x"].asFloat() + groundSize.x, data["OffSet"]["y"].asFloat() });
+		}
+		else
+		{
+			boxCol->SetOffset({ data["OffSet"]["x"].asFloat(), data["OffSet"]["y"].asFloat() });
+		}
+	}
 		break;
 	case GroundType::Tilted:
 	{
 		BoxCollider* boxCol = (BoxCollider*)AddComponent(new BoxCollider(*this));
 		boxCol->SetRect({ (float)rect.left - 2.0f, (float)rect.top, (float)rect.width + 2.0f, (float)rect.height });
 		boxCol->SetRotationOffset(data["Angle"].asFloat());
-		boxCol->SetOffset({ data["OffSet"]["x"].asFloat(), data["OffSet"]["y"].asFloat()});
+		if (flipX)
+		{
+			boxCol->SetOffset({ data["OffSet"]["x"].asFloat() - groundSize.x, data["OffSet"]["y"].asFloat() });
+		}
+		else
+		{
+			boxCol->SetOffset({ data["OffSet"]["x"].asFloat(), data["OffSet"]["y"].asFloat()});
+		}
 	}
 	break;
 	case GroundType::Throught:
@@ -42,6 +73,10 @@ void Ground::Reset()
 	case GroundType::Background:
 		break;
 	case GroundType::Crashed:
+		break;
+	case GroundType::Transpar:
+		BoxCollider* boxCol = (BoxCollider*)AddComponent(new BoxCollider(*this));
+		sprite.setColor(sf::Color::Transparent);
 		break;
 	}
 }

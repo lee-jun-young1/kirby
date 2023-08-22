@@ -15,6 +15,7 @@
 #include "RectangleShapeGO.h"
 #include "SpriteGO.h"
 #include "UIButton.h"
+#include "VertexArrayGO.h"
 #include <fstream>
 #include <commdlg.h>
 #include <SceneManager.h>
@@ -191,7 +192,12 @@ void SceneMapTool::Init()
 	Scene::Init();
 	Release();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
-	
+
+	//Background
+	background = CreateBackground({ 1, 1 }, {2000, 2000});
+	background->SetOrigin(Origins::TL);
+	background->SetPosition(0.f, 0.f);
+
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - windowSize.x * 4.f) / 2, (1080 - windowSize.y * 4.f) / 2));
 
@@ -429,7 +435,7 @@ void SceneMapTool::Update(float dt)
 	}
 
 	//Flip
-	if (Input.GetKeyDown(sf::Keyboard::Space))
+	if (Input.GetKeyDown(sf::Keyboard::Space) && currentGO != nullptr)
 	{
 		currentGO->SetFlipX(currentGO->GetFlipX());
 		currentGO->additionalData["FlipX"] = currentGO->GetFlipX();
@@ -451,6 +457,7 @@ void SceneMapTool::Update(float dt)
 
 void SceneMapTool::Draw(sf::RenderWindow& window)
 {
+	window.draw(background->vertexArray);
 	SortGameObjects();
 
 	window.setView(worldView);
@@ -1032,4 +1039,49 @@ sf::Vector2f SceneMapTool::ScreenToPalettePosition(sf::Vector2f screenPos)
 sf::Vector2f SceneMapTool::PalettePositionToScreen(sf::Vector2f palettePos)
 {
 	return (sf::Vector2f)window.mapCoordsToPixel(palettePos, paletteView);
+}
+
+VertexArrayGO* SceneMapTool::CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize, const std::string& textureId)
+{
+	VertexArrayGO* background = new VertexArrayGO(textureId, "Background");
+	sf::Vector2f startPos = { 0,0 };
+
+	background->vertexArray.setPrimitiveType(sf::Quads);
+	background->vertexArray.resize(tileMatrix.x * tileMatrix.y * 4);
+
+	sf::Vector2f offsets[4] =
+	{
+		{0.f,0.f},
+		{tileSize.x,0.f},
+		{tileSize.x,tileSize.y },
+		{0.f,tileSize.y}
+	};
+
+	sf::Vector2f texOffsets[4] =
+	{
+		{0.f,0.f},
+		{texSize.x,0.f},
+		{texSize.x,texSize.y },
+		{0.f,texSize.y}
+	};
+
+	sf::Vector2f currPos = startPos;
+	for (int i = 0; i < tileMatrix.y; ++i)
+	{
+		for (int j = 0; j < tileMatrix.x; ++j)
+		{
+			int tileIndex = tileMatrix.x * i + j;
+			for (int k = 0; k < 4; ++k)
+			{
+				int vertexIndex = tileIndex * 4 + k;
+				sf::Color color = sf::Color(57, 73, 92);
+				background->vertexArray[vertexIndex].position = currPos + offsets[k];
+				background->vertexArray[vertexIndex].color = color;
+			}
+			currPos.x += tileSize.x;
+		}
+		currPos.x = startPos.x;
+		currPos.y += tileSize.y;
+	}
+	return background;
 }

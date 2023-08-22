@@ -10,8 +10,8 @@
 void Camera::Init()
 {
 	SetFillColor(sf::Color::Transparent);
-	SetOutlineThickness(0.2f);
-	SetOutlineColor(sf::Color::Cyan);
+	//SetOutlineThickness(1.2f);
+	//SetOutlineColor(sf::Color::Cyan);
 }
 
 void Camera::Reset()
@@ -37,7 +37,7 @@ void Camera::Update(float dt)
 void Camera::MoveCamera(float dt)
 {
 	cameraTime += dt * 2.5f;
-	cameraCenter = target->GetPosition();
+	sf::Vector2f cameraCenter = player->GetPosition();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::FloatRect bounds = GetGlobalBounds();
 
@@ -70,26 +70,44 @@ void Camera::MoveCamera(float dt)
 	cameraTime = 0.0f;
 }
 
+void Camera::CheckObjectInCamera(SpriteGO* target)
+{
+	std::cout << target->GetName() << std::endl;
+	if (GetGlobalBounds().contains(target->GetPosition()))
+	{
+		if (target->inCameraEvent != nullptr)
+		{
+			target->inCameraEvent();
+		}
+	}
+	else
+	{
+		if (target->outCameraEvent != nullptr)
+		{
+			target->outCameraEvent();
+		}
+	}
+}
+
 void Camera::OnTriggerEnter(Collider* col)
 {
-	if (col->GetGameObject().GetName() != target->GetName())
+	if (col->GetGameObject().GetName() != player->GetName())
 	{
 		return;
 	}
 	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	scene->SetCamera(this);
-	//if (scene->GetCamera() == this)
-	//{
-	//	scene->SetCamera();
-	//}
-	//else
-	//{
-	//}
+	if (scene->GetCamera() == this)
+	{
+		//scene->SetCamera();
+	}
+	else
+	{
+		scene->SetCamera(this);
+	}
 }
 
 void Camera::OnTriggerStay(Collider* col)
 {
-	isStay = true;
 }
 
 void Camera::OnTriggerExit(Collider* col)

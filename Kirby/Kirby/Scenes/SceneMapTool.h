@@ -6,6 +6,7 @@
 class SpriteGO;
 class Door;
 class UIButton;
+class VertexArrayGO;
 class SceneMapTool : public Scene
 {
 protected:
@@ -42,6 +43,9 @@ protected:
 	sf::Vector2f paletteSpace = { 1.f, 1.f };
 	sf::Vector2f paletteScale = { 0.5f, 0.5f };
 
+
+	//background
+	VertexArrayGO* background;
 public:
 	SceneMapTool();
 	~SceneMapTool();
@@ -79,7 +83,8 @@ public:
 	void DelRow();
 
 	sf::Vector2f ScreenToPalettePosition(sf::Vector2f screenPos);
-
 	sf::Vector2f PalettePositionToScreen(sf::Vector2f palettePos);
+
+	VertexArrayGO* CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize = { 0.f, 0.f }, const std::string& textureId = "");
 };
 

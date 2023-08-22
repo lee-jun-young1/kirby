@@ -44,5 +44,7 @@ public:
 	void SetFlipY(bool flip);
 
 	Json::Value additionalData;
+	std::function<void()> inCameraEvent = nullptr;
+	std::function<void()> outCameraEvent = nullptr;
 };
 

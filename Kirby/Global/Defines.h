@@ -153,6 +153,7 @@ enum class GroundType
 	Throught,
 	Background,
 	Crashed,
+	Transpar,
 };
 
 #define UILayer 100
