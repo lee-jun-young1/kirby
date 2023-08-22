@@ -37,7 +37,7 @@ enum class KirbyState
 	JumpMoveAttack,
 	MeleeAttack,
 	JumpMeleeAttack,
-	ThrowReady,
+	Charge,
 };
 
 
@@ -94,6 +94,7 @@ protected:
 	list<GameObject*> forwardObjects;
 
 	BombEffect* bomb;
+	BeamEffect* beam;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -174,7 +175,9 @@ public:
 	void BeamDashJumpAttackUpdate(float dt);
 
 
-	void BeamAttack();
+	void BeamAttackDown();
+
+	void BeamAttackKeyUp();
 
 	void BeamJumpAttack();
 

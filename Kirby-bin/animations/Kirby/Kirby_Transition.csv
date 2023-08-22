@@ -16,6 +16,7 @@ Idle,CutterCatch,1,0,CutterCatch,0
 Idle,CutterNearAttack,1,0,CutterNearAttack,0
 Idle,BombReady,1,0,BombReady,0
 Idle,BeamAttack,1,0,BeamAttack,0
+Idle,BeamCharge,1,0,BeamCharge,0
 Falling,Idle,1,0,Idle,0
 TiltedIdleL,PressJump,1,0,Jump,0
 TiltedIdleL,PressMove,1,0,Move,0
@@ -34,6 +35,7 @@ TiltedIdleL,CutterCatch,1,0,CutterCatch,0
 TiltedIdleL,CutterNearAttack,1,0,CutterNearAttack,0
 TiltedIdleL,BombReady,1,0,BombReady,0
 TiltedIdleL,BeamAttack,1,0,BeamAttack,0
+TiltedIdleL,BeamCharge,1,0,BeamCharge,0
 TiltedIdleR,PressJump,1,0,Jump,0
 TiltedIdleR,PressMove,1,0,Move,0
 TiltedIdleR,Run,1,0,Run,0
@@ -51,6 +53,7 @@ TiltedIdleR,CutterCatch,1,0,CutterCatch,0
 TiltedIdleR,CutterNearAttack,1,0,CutterNearAttack,0
 TiltedIdleR,BombReady,1,0,BombReady,0
 TiltedIdleR,BeamAttack,1,0,BeamAttack,0
+TiltedIdleR,BeamCharge,1,0,BeamCharge,0
 Jump,Idle,1,0,Idle,0
 Jump,PressJump,1,0,BalloonFly,0
 Jump,Ground,1,0,Idle,0
@@ -187,3 +190,7 @@ BombRunThrow,,0,5,Idle,0
 BombThrowReady,BombThrow,1,0,BombThrow,0
 BeamAttack,,0,12,Idle,0
 BeamSkyShot,,0,1,Idle,0
+BeamCharge,BeamAttack,1,0,BeamAttack,0
+BeamCharge,,0,11,BeamFullCharge,0
+BeamFullCharge,BeamShot,1,0,BeamShot,0
+BeamShot,,0,9,Idle,0

@@ -76,8 +76,11 @@ void EffectPool::Init()
 		col->SetTrigger(true);
 		col->SetRigidbody(rig);
 		rig->SetGravity(false);
-		effect->AddComponent(new Animator(*effect, "animations/Effect/Beam/Beam", "Beam"));
+		Animator* ani = (Animator*)effect->AddComponent(new Animator(*effect, "animations/Effect/Beam/Beam", "Beam"));
 		effect->SetPool(this);
+		effect->SetAnimator(ani);
+		effect->SetRigidBody(rig);
+		effect->SetCollider(col);
 		effect->AddTag("BeamEffect");
 		effect->sortLayer = 5;
 	};

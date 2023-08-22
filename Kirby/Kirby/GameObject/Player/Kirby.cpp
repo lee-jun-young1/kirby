@@ -150,7 +150,7 @@ void Kirby::ChangeState(const KirbyState& state)
 					onCollisionEnter = nullptr;
 					break;
 				case KirbyAbility::Beam:
-					chargeKey = std::bind(&Kirby::BeamAttack, this);
+					chargeKey = std::bind(&Kirby::BeamAttackDown, this);
 					sitKey = std::bind(&Kirby::Sit, this);
 					chargeKeyContinue = nullptr;
 					onCollisionEnter = nullptr;
@@ -202,7 +202,7 @@ void Kirby::ChangeState(const KirbyState& state)
 				chargeKeyContinue = nullptr;
 				break;
 			case KirbyAbility::Beam:
-				chargeKey = std::bind(&Kirby::BeamAttack, this);
+				chargeKey = std::bind(&Kirby::BeamAttackDown, this);
 				sitKey = std::bind(&Kirby::Sit, this);
 				chargeKeyContinue = nullptr;
 				break;
@@ -798,8 +798,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
 			onCollisionStay = nullptr;
 			break;
-		case KirbyState::ThrowReady:
-			cout << "state :: ThrowReady" << endl;
+		case KirbyState::Charge:
+			cout << "state :: Charge" << endl;
 			moveKey = nullptr;
 			dashKey = nullptr;
 			moveKeyEnd = nullptr;
@@ -816,6 +816,10 @@ void Kirby::ChangeState(const KirbyState& state)
 			case KirbyAbility::Bomb:
 				chargeKeyEnd = std::bind(&Kirby::BombThrowReadyUp, this);
 				update = std::bind(&Kirby::BombThrowReadyUpdate, this, std::placeholders::_1);
+				break;
+			case KirbyAbility::Beam:
+				chargeKeyEnd = std::bind(&Kirby::BeamAttackKeyUp, this);
+				update = nullptr;
 				break;
 			default:
 				chargeKeyEnd = nullptr;
@@ -996,23 +1000,60 @@ void Kirby::CutterAttack()
 		animator->SetEvent("CutterNearAttack");
 	}
 }
-void Kirby::BeamAttack()
+void Kirby::BeamAttackDown()
 {
-	ChangeState(KirbyState::Attack);
-	animator->SetEvent("BeamAttack");
-
-	BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	ChangeState(KirbyState::Charge);
+	animator->SetEvent("BeamCharge");
+	beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam->SetMode(BeamEffect::Mode::WindBall);
 	beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
 	beam->SetEffectDirection({ 1.0f, 0.0f });
 	beam->SetEffectRotation(-90.0f);
+}
+void Kirby::BeamAttackKeyUp()
+{
+	if (animator->GetClipName() == "BeamFullCharge")
+	{
+		ChangeState(KirbyState::Attack);
+		animator->SetEvent("BeamShot");
+		beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+		beam->SetMode(BeamEffect::Mode::WindBall);
+		beam->SetEffectDirection({ -scale.x, 0.0f });
+		beam->SetEffectRotation(-90.0f);
+		beam->Shot({ scale.x * 200.0f, 0.0f });
 
-	BeamEffect* beam2 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
-	beam2->SetEffectDirection({ scale.x, 0.0f });
-	beam2->SetPrevNode(beam);
 
-	BeamEffect* beam3 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
-	beam3->SetEffectDirection({ scale.x, 0.0f });
-	beam3->SetPrevNode(beam2);
+		BeamEffect* beam2 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam2->SetMode(BeamEffect::Mode::WindBall);
+		beam2->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+		beam2->SetEffectDirection({ -scale.x, 0.0f });
+		beam2->SetEffectRotation(90.0f);
+		beam2->Shot({ scale.x * 200.0f, 0.0f });
+
+		beam = nullptr;
+	}
+	else
+	{
+		beam->Return();
+		beam = nullptr;
+		ChangeState(KirbyState::Attack);
+		animator->SetEvent("BeamAttack");
+		BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam->SetMode(BeamEffect::Mode::Whip);
+		beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+		beam->SetEffectDirection({ 1.0f, 0.0f });
+		beam->SetEffectRotation(-90.0f);
+
+		BeamEffect* beam2 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam2->SetMode(BeamEffect::Mode::Whip);
+		beam2->SetEffectDirection({ scale.x, 0.0f });
+		beam2->SetPrevNode(beam);
+
+		BeamEffect* beam3 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam3->SetMode(BeamEffect::Mode::Whip);
+		beam3->SetEffectDirection({ scale.x, 0.0f });
+		beam3->SetPrevNode(beam2);
+	}
 }
 void Kirby::BeamJumpAttack()
 {
@@ -1038,7 +1079,7 @@ void Kirby::BeamJumpAttack()
 void Kirby::BombThrowReadyDown()
 {
 	actionTime = 0.0f;
-	ChangeState(KirbyState::ThrowReady);
+	ChangeState(KirbyState::Charge);
 	animator->SetEvent("BombThrowReady");
 }
 void Kirby::BombThrowReadyUp()
@@ -1156,7 +1197,7 @@ void Kirby::BeamDashJumpAttackUpdate(float dt)
 	if (actionTime > 0.1f)
 	{
 		BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
-		beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+		beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(scale.x * 12.0f, 12.0f));
 		beam->SetMode(BeamEffect::Mode::Ball);
 		RigidBody2D* rig = (RigidBody2D*)beam->GetComponent(ComponentType::RigidBody);
 		rig->AddForce(Utils::Lerp({ scale.x * 50.0f, 300.0f }, { scale.x * 200.0f, 300.0f }, Utils::RandomValue()));
@@ -1612,7 +1653,7 @@ void Kirby::StageClear()
 void Kirby::Draw(sf::RenderWindow& window)
 {
 	SpriteGO::Draw(window);
-	if (state == KirbyState::ThrowReady)
+	if (state == KirbyState::Charge)
 	{
 		window.draw(throwMarker);
 	}
