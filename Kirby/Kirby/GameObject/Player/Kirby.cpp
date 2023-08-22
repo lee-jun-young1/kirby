@@ -175,20 +175,34 @@ void Kirby::ChangeState(const KirbyState& state)
 			case KirbyAbility::None:
 				chargeKey = nullptr;
 				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+				sitKey = nullptr;
 				break;
 			case KirbyAbility::Cutter:
 				chargeKey = std::bind(&Kirby::CutterAttack, this);
 				chargeKeyContinue = nullptr;
+				sitKey = nullptr;
+				break;
+			case KirbyAbility::Bomb:
+				if (bomb == nullptr)
+				{
+					chargeKey = std::bind(&Kirby::BombAttackReady, this);
+					sitKey = nullptr;
+				}
+				else
+				{
+					sitKey = std::bind(&Kirby::Sit, this);
+					chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
+				}
 				break;
 			default:
 				chargeKey = nullptr;
 				chargeKeyContinue = nullptr;
+				sitKey = nullptr;
 				break;
 			}
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
-			sitKey = nullptr;
 			sitKeyEnd = nullptr;
 			jumpKey = std::bind(&Kirby::Jump, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
@@ -322,23 +336,41 @@ void Kirby::ChangeState(const KirbyState& state)
 				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
 				sitKey = nullptr;
 				sitKeyEnd = nullptr;
+				jumpKey = std::bind(&Kirby::Fly, this);
 				break;
 			case KirbyAbility::Cutter:
 				chargeKey = std::bind(&Kirby::CutterJumpAttack, this);
 				chargeKeyContinue = nullptr;
 				sitKey = std::bind(&Kirby::OnDownKeyDown, this);
 				sitKeyEnd = std::bind(&Kirby::OnDownKeyUp, this);
+				jumpKey = std::bind(&Kirby::Fly, this);
+				break;
+			case KirbyAbility::Bomb:
+				if (bomb == nullptr)
+				{
+					chargeKey = nullptr;
+					sitKey = nullptr;
+					jumpKey = std::bind(&Kirby::Fly, this);
+				}
+				else
+				{
+					sitKey = std::bind(&Kirby::Sit, this);
+					chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
+					jumpKey = nullptr;
+				}
+				chargeKeyContinue = nullptr;
+				sitKeyEnd = nullptr;
 				break;
 			default:
 				chargeKey = nullptr;
 				chargeKeyContinue = nullptr;
 				sitKey = nullptr;
 				sitKeyEnd = nullptr;
+				jumpKey = std::bind(&Kirby::Fly, this);
 				break;
 			}
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
-			jumpKey = std::bind(&Kirby::Fly, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::MoveUpdate, this, std::placeholders::_1);
 			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
@@ -392,24 +424,41 @@ void Kirby::ChangeState(const KirbyState& state)
 				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
 				sitKey = nullptr;
 				sitKeyEnd = nullptr;
+				jumpKey = std::bind(&Kirby::Fly, this);
 				break;
 			case KirbyAbility::Cutter:
 				chargeKey = std::bind(&Kirby::CutterDashJumpAttack, this);
 				chargeKeyContinue = nullptr;
 				sitKey = std::bind(&Kirby::OnDownKeyDown, this);
 				sitKeyEnd = std::bind(&Kirby::OnDownKeyUp, this);
+				jumpKey = std::bind(&Kirby::Fly, this);
 				break;
+			case KirbyAbility::Bomb:
+				if (bomb == nullptr)
+				{
+					chargeKey = nullptr;
+					sitKey = nullptr;
+					jumpKey = std::bind(&Kirby::Fly, this);
+				}
+				else
+				{
+					sitKey = std::bind(&Kirby::Sit, this);
+					chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
+					jumpKey = nullptr;
+				}
+				chargeKeyContinue = nullptr;
+				sitKeyEnd = nullptr;
 			default:
 				chargeKey = nullptr;
 				chargeKeyContinue = nullptr;
 				sitKey = nullptr;
 				sitKeyEnd = nullptr;
+				jumpKey = std::bind(&Kirby::Fly, this);
 				break;
 			}
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
-			jumpKey = std::bind(&Kirby::Fly, this);
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = std::bind(&Kirby::RunUpdate, this, std::placeholders::_1);
 			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
@@ -907,8 +956,6 @@ void Kirby::BombThrowReadyUp()
 	ChangeState(KirbyState::Attack);
 	sf::Vector2f force = Utils::RotateWithPivot({ 0.0f, 0.0f }, { scale.x * 120.0f, 0.0f }, Utils::Lerp(20, 85, actionTime));
 	force.y = abs(force.y) * -1.3f;
-	cout << Utils::Lerp(20, 85, actionTime) << endl;
-	cout << force.x << ", " << force.y << endl;
 	bomb->Fire(force);
 	animator->SetEvent("BombThrow");
 	bomb = nullptr;
@@ -921,8 +968,6 @@ void Kirby::BombThrowReadyUpdate(float dt)
 	actionTime += dt;
 	sf::Vector2f pos = Utils::RotateWithPivot({ 0.0f, 0.0f }, { scale.x * 120.0f, 0.0f }, Utils::Lerp(20, 85, actionTime));
 	pos.y = abs(pos.y) * -1.3f;
-	cout << Utils::Lerp(20, 85, actionTime) << endl;
-	cout << pos.x << ", " << pos.y << endl;
 	throwMarker.setPosition(GetPosition() + sf::Vector2f(0.0f, -12.0f) + Utils::Normalize(pos) * 12.0f);
 }
 
