@@ -40,6 +40,7 @@ public:
     bool IsSuctionable() { return suctionable; }
     KirbyAbility GetType() { return type; }
 
+    void SetType(KirbyAbility type) { this->type = type; }
     void SetAnimator(Animator* animator) { this->animator = animator; };
     void SetRigidBody(RigidBody2D* rigidbody) { this->rigidbody = rigidbody; };
     void SetRegenPosition(const sf::Vector2f regenPosition) { this->regenPosition = regenPosition; }

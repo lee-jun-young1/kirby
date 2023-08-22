@@ -161,6 +161,7 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\GroundPool.cpp" />
     <ClCompile Include="Kirby\GameObject\EffectPool.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\BeamEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\BombEffect.cpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="Kirby\GameObject\MapToolCell.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Playable.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Mob.cpp" />
+    <ClCompile Include="Kirby\GameObject\Mob\MobPool.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Kirby\Scenes\SceneExample.cpp" />
@@ -257,6 +259,7 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Kirby\GameObject\GroundPool.h" />
     <ClInclude Include="Kirby\GameObject\EffectPool.h" />
     <ClInclude Include="Kirby\GameObject\Effect\BeamEffect.h" />
     <ClInclude Include="Kirby\GameObject\Effect\BombEffect.h" />
@@ -326,6 +329,7 @@
     <ClInclude Include="Kirby\GameObject\MapToolCell.h" />
     <ClInclude Include="Kirby\GameObject\Player\Playable.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Mob.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\MobPool.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Kirby\Scenes\SceneExample.h" />

@@ -195,11 +195,10 @@ void SceneExample::Update(float deltaTime)
 	if (currentCamera != nullptr)
 	{
 		currentCamera->MoveCamera(deltaTime);
-		for (auto& go : gameObjects)
-		{
-			
-			currentCamera->CheckObjectInCamera((SpriteGO*)go);
-		}
+		//for (auto& go : gameObjects)
+		//{
+		//	currentCamera->CheckObjectInCamera((SpriteGO*)go);
+		//}
 	}
 
 	if (Input.GetKey(Keyboard::LShift))
@@ -427,7 +426,6 @@ void SceneExample::LoadData(const std::wstring& path)
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 
-
 	//Background
 	VertexArrayGO* background = CreateBackground({ 1, 1 }, { rootNode["MapSize"]["x"].asFloat(), rootNode["MapSize"]["y"].asFloat() });
 	AddGameObject(background);
@@ -482,56 +480,10 @@ void SceneExample::LoadData(const std::wstring& path)
 		switch (type)
 		{
 		case EnemyType::Cutter:
-		{
-			Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter(KirbyAbility::Cutter, "sprites/mob/mob_Cutter.png", "Cutter"));
-			suctionAble->AddTag("Suctionable");
-			suctionAble->AddTag("Mob");
-			suctionAble->SetSize(cellSize);
-			suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
-			suctionAble->SetOrigin(Origins::BC);
-			BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
-
-			suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-			suctionAbleCol->SetOffset({ 0.0f, -24.0f });
-
-			RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
-			suctionAbleCol->SetRigidbody(rig);
-
-			Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Cutter/Cutter", "Idle"));
-			suctionAble->SetAnimator(ani);
-			suctionAble->SetRigidBody(rig);
-
-			suctionAble->sortLayer = sort;
-			suctionAble->SetOrigin({ 36.0f, 48.0f });
-			suctionAble->SetRegenPosition(position);
-		}
 			break;
 		case EnemyType::Beam:
 			break;
 		case EnemyType::Bomb:
-		{
-			Mob* bomb = (Mob*)AddGameObject(new Mob(KirbyAbility::Bomb, "sprites/mob/mob_Bomb.png", "Suctionable"));
-			bomb->AddTag("Suctionable");
-			bomb->AddTag("Mob");
-			bomb->SetSize(cellSize);
-			bomb->physicsLayer = (int)PhysicsLayer::Enemy;
-			bomb->SetOrigin(Origins::BC);
-
-			BoxCollider* bombCol = (BoxCollider*)bomb->AddComponent(new BoxCollider(*bomb));
-			bombCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-			bombCol->SetOffset({ 0.0f, -24.0f });
-
-			RigidBody2D* rig = (RigidBody2D*)bomb->AddComponent(new RigidBody2D(*bomb));
-			bombCol->SetRigidbody(rig);
-
-			Animator* ani = (Animator*)bomb->AddComponent(new Animator(*bomb, "animations/Mob/Bomb/Bomb", "Jump"));
-			bomb->SetAnimator(ani);
-			bomb->SetRigidBody(rig);
-
-			bomb->sortLayer = sort;
-			bomb->SetOrigin({ 36.0f, 48.0f });
-			bomb->SetRegenPosition(position);
-		}
 			break;
 		case EnemyType::Bear:
 			break;
@@ -567,53 +519,8 @@ void SceneExample::LoadData(const std::wstring& path)
 		}
 			break;
 		case EnemyType::SubBoss:
-		{
-			Mob* mob = (Mob*)AddGameObject(new Mob(KirbyAbility::Bomb, "sprites/mob/SB_Bomb.png", "Suctionable"));
-			mob->AddTag("Suctionable");
-			mob->AddTag("Mob");
-			mob->SetSize(cellSize);
-			mob->physicsLayer = (int)PhysicsLayer::Enemy;
-
-			BoxCollider* mobCol = (BoxCollider*)mob->AddComponent(new BoxCollider(*mob));
-			mobCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-			mobCol->SetOffset({ -12.0f, -24.0f });
-
-			RigidBody2D* rig = (RigidBody2D*)mob->AddComponent(new RigidBody2D(*mob));
-			mobCol->SetRigidbody(rig);
-
-			Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/SB-Bomb/SB-Bomb", "Throw"));
-			mob->SetAnimator(ani);
-			mob->SetRigidBody(rig);
-
-			mob->sortLayer = sort;
-			mob->SetOrigin({ 36.0f, 48.0f });
-			mob->SetRegenPosition(position);
-		}
 			break;
 		case EnemyType::Boss:
-		{
-			Mob* mob = (Mob*)AddGameObject(new Mob(KirbyAbility::None, "sprites/mob/Boss_Wood.png", "Suctionable"));
-			mob->AddTag("Suctionable");
-			mob->AddTag("Mob");
-			mob->SetSize(cellSize);
-			mob->physicsLayer = (int)PhysicsLayer::Enemy;
-
-			BoxCollider* mobCol = (BoxCollider*)mob->AddComponent(new BoxCollider(*mob));
-			mobCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-			mobCol->SetOffset({ -12.0f, -24.0f });
-
-			RigidBody2D* rig = (RigidBody2D*)mob->AddComponent(new RigidBody2D(*mob));
-			mobCol->SetRigidbody(rig);
-
-			Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Wood/Wood", "Idle"));
-			mob->SetAnimator(ani);
-			mob->SetRigidBody(rig);
-
-			mob->sortLayer = sort;
-			mob->SetOrigin({ 36.0f, 48.0f });
-			mob->SetPosition({ 100.0f, 0.0f });
-			mob->SetRegenPosition(position);
-		}
 			break;
 		}
 	}
