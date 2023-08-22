@@ -75,17 +75,11 @@ void Camera::CheckObjectInCamera(SpriteGO* target)
 	std::cout << target->GetName() << std::endl;
 	if (GetGlobalBounds().contains(target->GetPosition()))
 	{
-		if (target->inCameraEvent != nullptr)
-		{
-			target->inCameraEvent();
-		}
+
 	}
 	else
 	{
-		if (target->outCameraEvent != nullptr)
-		{
-			target->outCameraEvent();
-		}
+
 	}
 }
 
