@@ -8,6 +8,7 @@ void Mob::Reset()
 {
     SpriteGO::Reset();
     update = std::bind(&Mob::UpdateMove, this, std::placeholders::_1);
+    SetPosition(regenPosition);
 }
 
 void Mob::Update(float dt)

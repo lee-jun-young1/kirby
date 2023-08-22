@@ -27,9 +27,16 @@
 #include <Animator.h>
 #include <Door.h>
 #include <KirbyEffect.h>
-#include "CameraPointer.h"
+#include "Camera.h"
 #include <Cutter.h>
 #include <StatusUI.h>
+
+//MapTool
+#include <fstream>
+#include "Item.h"
+#include "Player.h"
+#include "Ground.h"
+#include "Enemy.h"
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -78,16 +85,15 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
+	//LoadData(L"maps/Green_Green.json");
+	LoadData(L"maps/Green_Green_3.json");
+
 	auto size = FRAMEWORK.GetWindowSize();
 
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
 
-	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
-	kirby->physicsLayer = (int)PhysicsLayer::Player;
-	kirby->sortLayer = 1;
-	kirby->SetPosition({ -80.0f, 0.0f });
-	kirby->AddTag("Kirby");
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
 	suction->physicsLayer = (int)PhysicsLayer::Player;
@@ -107,17 +113,9 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
+
 	EffectPool* effectPool = (EffectPool*)AddGameObject(new EffectPool("EffectPool"));
 	kirby->SetEffectPool(effectPool);
-
-	//CameraPointer* tempCamPtr1 = (CameraPointer*)AddGameObject(new CameraPointer("tempCamPtr"));
-	//tempCamPtr1->SetSize({ 80.0f * 2.0f, size.y });
-	//tempCamPtr1->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempCamPtr1->SetOrigin(Origins::MC);
-	//tempCamPtr1->SetType(CameraType::Fixed);
-	//tempCamPtr1->SetPosition({ 0.0f, 0.0f });
-	//BoxCollider* camCol1 = (BoxCollider*)tempCamPtr1->AddComponent(new BoxCollider(*tempCamPtr1));
-	//camCol1->SetTrigger(true);
 
 	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
 	scoreText->sortLayer = UILayer + 1;
@@ -128,175 +126,7 @@ void SceneExample::Init()
 	ui->SetScoreText(scoreText);
 	ui->SetLifeText(liftText);
 
-	//RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempGround1->SetSize({ 24.0f, 24.0f });
-	//tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempGround1->SetOrigin(Origins::BC);
-	//tempGround1->SetPosition(kirby->GetPosition() + sf::Vector2f(24.0f, -24.0f));
-	//BoxCollider* boxCol1 = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-
-	//for (int i = 0; i < 4; i++)
-	//{
-	/*Mob* suctionAble = (Mob*)AddGameObject(new Mob((KirbyAbility)i, "", "Suctionable"));
-	suctionAble->SetSize({ 24.0f, 24.0f });
-	suctionAble->physicsLayer = (int)PhysicsLayer::Ground;
-	suctionAble->SetOrigin(Origins::BC);
-	suctionAble->SetPosition(kirby->GetPosition() + sf::Vector2f(-24.0f + i * 48.0f, 0.0f));
-	BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
-	suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-	suctionAbleCol->SetOffset({ 0.0f, -24.0f });
-	RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
-	suctionAbleCol->SetRigidbody(rig);
-	rig->SetGravity(false);*/
-	//}
-
-
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
-
-	//RectangleShapeGO* tempGround = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempGround->SetSize({ 106.0f, 20.0f });
-	//tempGround->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempGround->SetOrigin(Origins::BC);
-	//tempGround->SetPosition({ 0.0f, 100.0f });
-	//BoxCollider* boxCol = (BoxCollider*)tempGround->AddComponent(new BoxCollider(*tempGround));
-
-
-	for (float screenX = worldView.getSize().x * 0.33f * -0.5f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
-	{
-		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround1->AddTag("Ground");
-		tempGround1->SetSize({ 24.0f, 24.0f });
-		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround1->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f });
-		BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-	}
-	for (int i = 1; i < 4; i++)
-	{
-		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround1->AddTag("Ground");
-		tempGround1->SetSize({ 24.0f, 24.0f });
-		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround1->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround1->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
-		BoxCollider* boxColg = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-
-		RectangleShapeGO* tempGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround2->AddTag("Ground");
-		tempGround2->SetSize({ 24.0f, 24.0f });
-		tempGround2->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround2->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround2->SetPosition({ worldView.getSize().x * 0.33f * -0.5f + 24.0f, 80.0f + (-24.0f * i) + 33.0f * 0.5f });
-		BoxCollider* boxColg2 = (BoxCollider*)tempGround2->AddComponent(new BoxCollider(*tempGround2));
-	}
-
-
-	RectangleShapeGO* tempTiltedGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempTiltedGround1->AddTag("Ground");
-	tempTiltedGround1->SetSize({ 24.0f, 24.0f });
-	tempTiltedGround1->physicsLayer = (int)PhysicsLayer::Ground;
-	tempTiltedGround1->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempTiltedGround1->SetPosition({ -33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround1->SetRotation(-135.0f);
-	BoxCollider* boxCol = (BoxCollider*)tempTiltedGround1->AddComponent(new BoxCollider(*tempTiltedGround1));
-
-	RectangleShapeGO* tempTiltedGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempTiltedGround3->AddTag("Ground");
-	tempTiltedGround3->SetSize({ 24.0f, 24.0f });
-	tempTiltedGround3->physicsLayer = (int)PhysicsLayer::Ground;
-	tempTiltedGround3->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempTiltedGround3->SetPosition({ 33.0f * 0.5f, 70.0f + 33.0f * 0.5f });
-	tempTiltedGround3->SetRotation(-135.0f);
-	BoxCollider* boxCol3 = (BoxCollider*)tempTiltedGround3->AddComponent(new BoxCollider(*tempTiltedGround3));
-
-	RectangleShapeGO* tempTiltedGround2 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	tempTiltedGround2->AddTag("Ground");
-	tempTiltedGround2->SetSize({ 24.0f, 24.0f });
-	tempTiltedGround2->physicsLayer = (int)PhysicsLayer::Ground;
-	tempTiltedGround2->SetOrigin(Origins::MC);
-	//tempGround2->SetPosition({ 0.0f, 100.0f });
-	tempTiltedGround2->SetPosition({ 0.0f, 70.0f });
-	tempTiltedGround2->SetRotation(-135.0f);
-	BoxCollider* boxCol2 = (BoxCollider*)tempTiltedGround2->AddComponent(new BoxCollider(*tempTiltedGround2));
-
-	for (float screenX = 24.0f; screenX < 1920.f * 0.33f * 0.5f; screenX += 24.0f)
-	{
-		RectangleShapeGO* tempGround1 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-		tempGround1->AddTag("Ground");
-		tempGround1->SetSize({ 24.0f, 24.0f });
-		tempGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempGround1->SetOrigin(Origins::MC);
-		//tempGround2->SetPosition({ 0.0f, 100.0f });
-		tempGround1->SetPosition({ screenX, 56.0f + 33.0f * 0.5f });
-		BoxCollider* boxCol = (BoxCollider*)tempGround1->AddComponent(new BoxCollider(*tempGround1));
-	}
-
-	for (float screenX = worldView.getSize().x * 0.33f * 0.5f; screenX > 24.0f; screenX -= 24.0f)
-	{
-		ThroughtableGround* tempThroughtGround1 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
-		tempThroughtGround1->AddTag("Ground");
-		tempThroughtGround1->SetSize({ 24.0f, 24.0f });
-		tempThroughtGround1->physicsLayer = (int)PhysicsLayer::Ground;
-		tempThroughtGround1->SetOrigin(Origins::MC);
-		tempThroughtGround1->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f -48.0f });
-		BoxCollider* boxThroughtCol1 = (BoxCollider*)tempThroughtGround1->AddComponent(new BoxCollider(*tempThroughtGround1));
-		tempThroughtGround1->SetCollider(boxThroughtCol1);
-
-		ThroughtableGround* tempThroughtGround2 = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
-		tempThroughtGround2->AddTag("Ground");
-		tempThroughtGround2->SetSize({ 24.0f, 24.0f });
-		tempThroughtGround2->physicsLayer = (int)PhysicsLayer::Ground;
-		tempThroughtGround2->SetOrigin(Origins::MC);
-		tempThroughtGround2->SetPosition({ screenX, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-		BoxCollider* boxThroughtCol2 = (BoxCollider*)tempThroughtGround2->AddComponent(new BoxCollider(*tempThroughtGround2));
-		tempThroughtGround2->SetCollider(boxThroughtCol2);
-	}
-
-	Door* tempDoor = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	tempDoor->physicsLayer = (int)PhysicsLayer::Interact;
-	tempDoor->SetOrigin(Origins::BC);
-	tempDoor->SetPosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	tempDoor->SetMovePosition({ 240.f + 12.f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
-	BoxCollider* doorCol1 = (BoxCollider*)tempDoor->AddComponent(new BoxCollider(*tempDoor));
-	doorCol1->SetTrigger(true);
-	doorCol1->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
-
-	Door* tempDoor2 = (Door*)AddGameObject(new Door("sprites/temp/Door.png", "Door"));
-	tempDoor2->physicsLayer = (int)PhysicsLayer::Ground;
-	tempDoor2->SetOrigin(Origins::BC);
-	tempDoor2->SetPosition({ 240.f, 80.0f + 33.0f * 0.5f - 36.0f - 24.0f });
-	tempDoor2->SetMovePosition({ -72.0f - 10.0f, 80.0f + 33.0f * 0.5f - 36.0f + 24.0f - 0.3f });
-	BoxCollider* doorCol2 = (BoxCollider*)tempDoor2->AddComponent(new BoxCollider(*tempDoor2));
-	doorCol2->SetTrigger(true);
-	doorCol2->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
-
-	//RectangleShapeGO* tempGround3 = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Ground"));
-	//tempGround3->SetSize({ 106.0f, 20.0f });
-	//tempGround3->physicsLayer = (int)PhysicsLayer::Ground;
-	//tempGround3->SetOrigin(Origins::BC);
-	//tempGround3->SetPosition({ -50.0f, 50.0f });
-	//BoxCollider* boxCol3 = (BoxCollider*)tempGround3->AddComponent(new BoxCollider(*tempGround3));
-	//boxCol3->SetRotationOffset(180.0f);
-
-	//RectangleShapeGO* smallRectGO = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("SmallRect"));
-	//smallRectGO->SetSize({ 10.0f, 10.0f });
-	//smallRectGO->physicsLayer = (int)PhysicsLayer::Ground;
-	//smallRectGO->SetOrigin(Origins::MC);
-	//smallRectGO->SetPosition({ -20.0f, -20.0f });
-	//BoxCollider* smallBoxCol = (BoxCollider*)smallRectGO->AddComponent(new BoxCollider(*smallRectGO));
-	//smallBoxCol->SetRotationOffset(30.0f);
-
-	//CircleShapeGO* circleGO = (CircleShapeGO*)AddGameObject(new CircleShapeGO("Circle"));
-	//circleGO->SetSize({ 10.0f, 10.0f });
-	//circleGO->physicsLayer = (int)PhysicsLayer::Ground;
-	//circleGO->SetPosition({ 20.0f, 20.0f });
-	//circleGO->SetOrigin(Origins::MC);
-	//CircleCollider* circleCol = (CircleCollider*)circleGO->AddComponent(new CircleCollider(*circleGO));
 
 	RectangleShapeGO* curtain = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Curtain"));
 	curtain->SetSize(FRAMEWORK.GetWindowSize());
@@ -333,7 +163,6 @@ void SceneExample::Init()
 	blast->AddComponent(new Animator(*blast, "animations/Effect/Cutter/Cutter", "Blast"));
 	blast->SetPosition(0.0f, -72.0f);
 
-	cameraType = CameraType::Free;
 
 	for (auto go : gameObjects)
 	{
@@ -352,46 +181,29 @@ void SceneExample::Release()
 void SceneExample::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
-	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
-
-	cameraTime += deltaTime * 2.0f;
-	sf::Vector2f targetPoint;
-	switch (cameraType)
+	if (Input.GetKeyDown(Keyboard::F11))
 	{
-	case CameraType::Free:
-		targetPoint = kirby->GetPosition();
-		break;
-	case CameraType::Horizontal:
-		targetPoint = { kirby->GetPosition().x, worldView.getCenter().y };
-		break;
-	case CameraType::Vertical:
-		targetPoint = { worldView.getCenter().x, kirby->GetPosition().y };
-		break;
-	case CameraType::Fixed:
-		CameraPointer* camPtr = (CameraPointer*)FindGameObject("tempCamPtr");
-		targetPoint = camPtr->GetPosition() * 0.5f;
-		break;
+		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
 	}
-	worldView.setCenter(Utils::Lerp(worldView.getCenter(), targetPoint, cameraTime));
-	cameraTime = 0.0f;
+
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+	if (Input.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		kirby->SetPosition(ScreenToWorldPosition(Input.GetMousePosition()));
+	}
+
+	if (currentCamera != nullptr)
+	{
+		currentCamera->MoveCamera(deltaTime);
+	}
 
 	if (Input.GetKey(Keyboard::LShift))
 	{
-		if (Input.GetKeyDown(Keyboard::Num1))
+		if (Input.GetKeyDown(Keyboard::Num5))
 		{
-			cameraType = CameraType::Free;
-		}
-		else if (Input.GetKeyDown(Keyboard::Num2))
-		{
-			cameraType = CameraType::Horizontal;
-		}
-		else if (Input.GetKeyDown(Keyboard::Num3))
-		{
-			cameraType = CameraType::Vertical;
-		}
-		else if (Input.GetKeyDown(Keyboard::Num4))
-		{
-			cameraType = CameraType::Fixed;
+			//중간보스 격파?
+			currentCamera->SetActive(false);
+			currentCamera = previousCamera;
 		}
 	}
 
@@ -462,7 +274,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
-		suctionAble->SetPosition(10.0f, 0.0f);
+		suctionAble->SetPosition(kirby->GetPosition());
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
@@ -550,67 +362,308 @@ void SceneExample::Update(float deltaTime)
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
 	}
 
-	//RectangleShapeGO* rectGO = (RectangleShapeGO*)FindGameObject("Rect");
-
-
-	//float axis = 0.0;
-	//if (Input.GetKey(Keyboard::Num1))
-	//{
-	//	axis = -1.0f;
-	//}
-	//if (Input.GetKey(Keyboard::Num2))
-	//{
-	//	axis = 1.0f;
-	//}
-
-	//float axis2 = 0.0;
-	//if (Input.GetKey(Keyboard::Num3))
-	//{
-	//	axis2 = -1.0f;
-	//}
-	//if (Input.GetKey(Keyboard::Num4))
-	//{
-	//	axis2 = 1.0f;
-	//}
-
-	//BoxCollider* rectCol = (BoxCollider*)rectGO->GetComponent(ComponentType::Collider);
-
-	//rectCol->SetRotationOffset(rectCol->GetRotationOffset() + axis2 * 30.0f * deltaTime);
-
-	//rectGO->SetRotation(rectGO->GetRotation() + axis * 30.0f * deltaTime);
-
-
-	//float axis3 = 0.0;
-	//if (Input.GetKey(Keyboard::Num5))
-	//{
-	//	axis3 = -1.0f;
-	//}
-	//if (Input.GetKey(Keyboard::Num6))
-	//{
-	//	axis3 = 1.0f;
-	//}
-
-	//RectangleShapeGO* rectGO2 = (RectangleShapeGO*)FindGameObject("SmallRect");
-
-
-	//BoxCollider* rectCol2 = (BoxCollider*)rectGO2->GetComponent(ComponentType::Collider);
-
-	//rectCol2->SetRotationOffset(rectCol2->GetRotationOffset() + axis3 * 30.0f * deltaTime);
-
-
-
-
-	//rectGO->SetPosition({ rectGO->GetPosition().x + Input.GetAxisRaw(Axis::Horizontal) * 30.0f * deltaTime, rectGO->GetPosition().y + Input.GetAxisRaw(Axis::Vertical) * 30.0f * deltaTime });
-
-	//CircleShapeGO* circleGO = (CircleShapeGO*)FindGameObject("Circle");
-	////circleGO->SetPosition(Utils::RotateWithPivot(rectGO->GetPosition(), circleGO->GetPosition(), 30.0f * deltaTime));
-	if (Input.GetKeyDown(Keyboard::F11))
-	{
-		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
-	}
 }
 
 void SceneExample::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneExample::LoadData(const std::wstring& path)
+{
+	if (path == "")
+	{
+		return;
+	}
+	std::ifstream ifile(path);
+	Json::Value rootNode;
+	if (ifile.is_open())
+	{
+		ifile >> rootNode;
+		ifile.close();
+	}
+	else
+	{
+		std::wcout << "File Open Error! Path: " << path << std::endl;
+		return;
+	}
+
+	Json::Value playerNode = rootNode["Player"];
+	Json::Value itemNodes = rootNode["Item"];
+	Json::Value enemyNodes = rootNode["Enemy"];
+	Json::Value doorNodes = rootNode["Door"];
+	Json::Value groundNodes = rootNode["Ground"];
+	Json::Value cameraNodes = rootNode["Camera"];
+	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
+	sf::Vector2f cellSize = { 24.0f, 24.0f };
+
+
+	//Background
+	VertexArrayGO* background = CreateBackground({ 1, 1 }, { rootNode["MapSize"]["x"].asFloat(), rootNode["MapSize"]["y"].asFloat() });
+	AddGameObject(background);
+	background->SetOrigin(Origins::TL);
+	background->SetPosition(0.f, 0.f);
+	background->sortLayer = -99;
+
+	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	kirby->physicsLayer = (int)PhysicsLayer::Player;
+	kirby->sortLayer = playerNode["SortLayer"].asInt();
+	kirby->SetPosition({ playerNode["Position"]["x"].asFloat() + 12.0f, playerNode["Position"]["y"].asFloat() });
+
+	for (int i = 0; i < itemNodes.size(); i++)
+	{
+		Json::Value node = itemNodes[i];
+		ItemType type = (ItemType)node["Type"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		std::string textureId = "sprites/item/items.png";
+		sf::IntRect rect;
+		int sort = node["SortLayer"].asInt();
+		switch (type)
+		{
+		case ItemType::Life:
+			rect = { 216, 0, 24, 24};
+			break;
+		case ItemType::God:
+			rect = { 216, 24, 24, 24 };
+			break;
+		case ItemType::MaxTomato:
+			rect = { 120, 24, 24, 24 };
+			break;
+		case ItemType::Normal:
+			rect = { 96, 24, 24, 24 };
+			break;
+		}
+		SpriteGO* item = (SpriteGO*)AddGameObject(new SpriteGO(textureId, "item"));
+		item->sprite.setTextureRect(rect);
+		item->SetSize(cellSize);
+		item->physicsLayer = (int)PhysicsLayer::Ground;
+		item->sortLayer = sort;
+		item->SetPosition(position);
+	}
+
+	for (int i = 0; i < enemyNodes.size(); i++)
+	{
+		Json::Value node = enemyNodes[i];
+		EnemyType type = (EnemyType)node["Type"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		int sort = node["SortLayer"].asInt();
+
+		switch (type)
+		{
+		case EnemyType::Cutter:
+		{
+			Cutter* suctionAble = (Cutter*)AddGameObject(new Cutter(KirbyAbility::Cutter, "sprites/mob/mob_Cutter.png", "Cutter"));
+			suctionAble->AddTag("Suctionable");
+			suctionAble->AddTag("Mob");
+			suctionAble->SetSize(cellSize);
+			suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+			suctionAble->SetOrigin(Origins::BC);
+			BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+
+			suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+			suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+
+			RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+			suctionAbleCol->SetRigidbody(rig);
+
+			Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Cutter/Cutter", "Idle"));
+			suctionAble->SetAnimator(ani);
+			suctionAble->SetRigidBody(rig);
+
+			suctionAble->sortLayer = sort;
+			suctionAble->SetOrigin({ 36.0f, 48.0f });
+			suctionAble->SetPosition(position);
+			suctionAble->SetRegenPosition(position);
+		}
+			break;
+		case EnemyType::Beam:
+			break;
+		case EnemyType::Bomb:
+		{
+			Mob* bomb = (Mob*)AddGameObject(new Mob(KirbyAbility::Bomb, "sprites/mob/mob_Bomb.png", "Suctionable"));
+			bomb->AddTag("Suctionable");
+			bomb->AddTag("Mob");
+			bomb->SetSize(cellSize);
+			bomb->physicsLayer = (int)PhysicsLayer::Enemy;
+			bomb->SetOrigin(Origins::BC);
+
+			BoxCollider* bombCol = (BoxCollider*)bomb->AddComponent(new BoxCollider(*bomb));
+			bombCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+			bombCol->SetOffset({ 0.0f, -24.0f });
+
+			RigidBody2D* rig = (RigidBody2D*)bomb->AddComponent(new RigidBody2D(*bomb));
+			bombCol->SetRigidbody(rig);
+
+			Animator* ani = (Animator*)bomb->AddComponent(new Animator(*bomb, "animations/Mob/Bomb/Bomb", "Jump"));
+			bomb->SetAnimator(ani);
+			bomb->SetRigidBody(rig);
+
+			bomb->sortLayer = sort;
+			bomb->SetOrigin({ 36.0f, 48.0f });
+			bomb->SetPosition(position);
+			bomb->SetRegenPosition(position);
+		}
+			break;
+		case EnemyType::Bear:
+			break;
+		case EnemyType::Chick:
+			break;
+		case EnemyType::Fly:
+			break;
+		case EnemyType::Mushroom:
+			break;
+		case EnemyType::Normal:
+		{
+			Mob* normal = (Mob*)AddGameObject(new Mob(KirbyAbility::None, "sprites/mob/mob_normal.png", "Suctionable"));
+			normal->AddTag("Suctionable");
+			normal->AddTag("Mob");
+			normal->SetSize(cellSize);
+			normal->physicsLayer = (int)PhysicsLayer::Enemy;
+			normal->SetPosition(position);
+
+			BoxCollider* normalCol = (BoxCollider*)normal->AddComponent(new BoxCollider(*normal));
+			normalCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+			normalCol->SetOffset({ -12.0f, -24.0f });
+
+			RigidBody2D* rig = (RigidBody2D*)normal->AddComponent(new RigidBody2D(*normal));
+			normalCol->SetRigidbody(rig);
+
+			Animator* ani = (Animator*)normal->AddComponent(new Animator(*normal, "animations/Mob/Normal/Normal", "Move"));
+			normal->SetAnimator(ani);
+			normal->SetRigidBody(rig);
+
+			normal->sortLayer = sort;
+			normal->SetOrigin({ 36.0f, 48.0f });
+			normal->SetPosition(position);
+			normal->SetRegenPosition(position);
+		}
+			break;
+		case EnemyType::SubBoss:
+			break;
+		case EnemyType::Boss:
+			break;
+		}
+	}
+
+	for (int i = 0; i < doorNodes.size(); i++)
+	{
+		Json::Value node = doorNodes[i];
+		DoorType type = (DoorType)node["Type"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() - 24.0f };
+		sf::Vector2f movePosition = { node["MovePosition"]["x"].asFloat(), node["MovePosition"]["y"].asFloat()};
+		int sort = node["SortLayer"].asInt();
+
+		Door* door = (Door*)AddGameObject(new Door("", "Door"));
+		door->physicsLayer = (int)PhysicsLayer::Interact;
+		door->SetPosition(position);
+		door->SetMovePosition(movePosition);
+		BoxCollider* doorCol = (BoxCollider*)door->AddComponent(new BoxCollider(*door));
+		doorCol->SetTrigger(true);
+		doorCol->SetRect({ 0.0f, 0.0f, 24.0f, 48.0f });
+	}
+
+	for (int i = 0; i < groundNodes.size(); i++)
+	{
+		Json::Value node = groundNodes[i];
+		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
+		{
+			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+			throughtGround->AddTag("Ground");
+			throughtGround->SetSize({ 24.0f, 24.0f });
+			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
+			throughtGround->SetOrigin(Origins::MC);
+			throughtGround->SetPosition(node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat());
+			BoxCollider* throughtGroundCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
+			throughtGround->SetCollider(throughtGroundCol);
+		}
+		else
+		{
+			Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "Ground"));
+			ground->SetData(node);
+			ground->SetGroundType((GroundType)node["Type"].asInt());
+		}
+	}
+
+	for (int i = 0; i < cameraNodes.size(); i++)
+	{
+		Json::Value node = cameraNodes[i];
+		CameraType type = (CameraType)node["Type"].asInt();
+		if (type == CameraType::MapEnd)
+		{
+			continue;
+		}
+		if (type == CameraType::MapStart)
+		{
+			type = CameraType::Free;
+		}
+
+		Camera* camPtr = (Camera*)AddGameObject(new Camera("camPtr" + std::to_string(i)));
+		camPtr->SetType(type);
+		camPtr->SetPlayer(kirby);
+		camPtr->SetData(node);
+		camPtr->SetView(&worldView);
+	}
+
+	for (int i = 0; i < ambientObjectNodes.size(); i++)
+	{
+		Json::Value node = ambientObjectNodes[i];
+	}
+}
+
+void SceneExample::SetCamera(Camera* camera)
+{ 
+	if (camera == nullptr)
+	{
+		this->currentCamera = previousCamera;
+	}
+	else
+	{
+		this->previousCamera = currentCamera;
+		this->currentCamera = camera;
+	}
+}
+
+VertexArrayGO* SceneExample::CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize, const std::string& textureId)
+{
+	VertexArrayGO* background = new VertexArrayGO(textureId, "Background");
+	sf::Vector2f startPos = { 0,0 };
+
+	background->vertexArray.setPrimitiveType(sf::Quads);
+	background->vertexArray.resize(tileMatrix.x * tileMatrix.y * 4);
+
+	sf::Vector2f offsets[4] =
+	{
+		{0.f,0.f},
+		{tileSize.x,0.f},
+		{tileSize.x,tileSize.y },
+		{0.f,tileSize.y}
+	};
+
+	sf::Vector2f texOffsets[4] =
+	{
+		{0.f,0.f},
+		{texSize.x,0.f},
+		{texSize.x,texSize.y },
+		{0.f,texSize.y}
+	};
+
+	sf::Vector2f currPos = startPos;
+	for (int i = 0; i < tileMatrix.y; ++i)
+	{
+		for (int j = 0; j < tileMatrix.x; ++j)
+		{
+			int tileIndex = tileMatrix.x * i + j;
+			for (int k = 0; k < 4; ++k)
+			{
+				int vertexIndex = tileIndex * 4 + k;
+				sf::Color color = sf::Color(57, 73, 92);
+				background->vertexArray[vertexIndex].position = currPos + offsets[k];
+				background->vertexArray[vertexIndex].color = color;
+			}
+			currPos.x += tileSize.x;
+		}
+		currPos.x = startPos.x;
+		currPos.y += tileSize.y;
+	}
+	return background;
 }

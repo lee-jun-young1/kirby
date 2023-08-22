@@ -1,0 +1,5 @@
+Key,Path
+Hit,animations/Mob/Fly/FlyHit.csv
+Move,animations/Mob/Fly/FlyMove.csv
+Fly,animations/Mob/Fly/FlyFly.csv
+Suction,animations/Mob/Fly/FlySuction.csv
