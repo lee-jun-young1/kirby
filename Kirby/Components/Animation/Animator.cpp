@@ -109,7 +109,7 @@ void Animator::Update(float dt)
 
 	if (find->second.quitTime == currentFrame)
 	{
-		currentEvent = "noneEvent";
+		currentEvent = "";
 		currentState = find->second.enterAnimationState;
 		SetClip(currentState->clip);
 		Seek(find->second.enterTime);

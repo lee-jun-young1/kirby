@@ -1,7 +1,8 @@
 ID,FPS,LOOPTYPE,,
-CutterSkyAttack,10,1,,
+CutterSkyAttack,10,0,,
 ,,,,
 TextureID,Left,Top,Width,Height
 ,432,0,72,72
 ,504,0,72,72
+,432,288,72,72
 ,432,288,72,72

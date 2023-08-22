@@ -1,4 +1,4 @@
 Key,Path
-Boom,animations/Effect/Bomb/Boom.csv
 Ready,animations/Effect/Bomb/Ready.csv
-Test,animations/Effect/Bomb/Test.csv
+Boom,animations/Effect/Bomb/Boom.csv
+BoomEnd,animations/Effect/Bomb/BoomEnd.csv

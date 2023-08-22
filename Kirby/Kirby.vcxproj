@@ -161,9 +161,10 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="BeamEffect.cpp" />
+    <ClCompile Include="Kirby\GameObject\EffectPool.cpp" />
+    <ClCompile Include="Kirby\GameObject\Effect\BeamEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\BombEffect.cpp" />
-    <ClCompile Include="CutterEffect.cpp" />
+    <ClCompile Include="Kirby\GameObject\Effect\CutterEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\KirbyBackdancer.cpp" />
     <ClCompile Include="Kirby\GameObject\Camera.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp" />
@@ -256,9 +257,10 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
-    <ClInclude Include="BeamEffect.h" />
+    <ClInclude Include="Kirby\GameObject\EffectPool.h" />
+    <ClInclude Include="Kirby\GameObject\Effect\BeamEffect.h" />
     <ClInclude Include="Kirby\GameObject\Effect\BombEffect.h" />
-    <ClInclude Include="CutterEffect.h" />
+    <ClInclude Include="Kirby\GameObject\Effect\CutterEffect.h" />
     <ClInclude Include="Kirby\GameObject\Effect\KirbyBackdancer.h" />
     <ClInclude Include="Kirby\GameObject\Camera.h" />
     <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h" />

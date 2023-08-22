@@ -93,8 +93,17 @@ void SceneExample::Init()
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
 
+<<<<<<< HEAD
 
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+=======
+	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	kirby->physicsLayer = (int)PhysicsLayer::Player;
+	kirby->sortLayer = 1;
+	kirby->SetPosition({ -80.0f, 0.0f });
+	kirby->AddTag("Kirby");
+	
+>>>>>>> develop
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
 	suction->physicsLayer = (int)PhysicsLayer::Player;
 	suction->SetKirby(kirby);
@@ -113,6 +122,10 @@ void SceneExample::Init()
 
 	kirby->SetEffect(kirbyEffect);
 
+
+	EffectPool* effectPool = (EffectPool*)AddGameObject(new EffectPool("EffectPool"));
+	kirby->SetEffectPool(effectPool);
+
 	SpriteTextGO* scoreText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
 	scoreText->sortLayer = UILayer + 1;
 	SpriteTextGO* liftText = (SpriteTextGO*)AddGameObject(new SpriteTextGO("fonts/ScoreFont_Data.csv"));
@@ -130,10 +143,6 @@ void SceneExample::Init()
 	curtain->sortLayer = INT_MAX;
 	curtain->SetFillColor({ 0, 0, 0, 0 });
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
-
-	SpriteGO* boomA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Boom.png", "Bomb_A"));
-	boomA->AddComponent(new Animator(*boomA, "animations/Effect/Bomb/Bomb", "Test"));
-	boomA->SetPosition(0.0f, 0.0f);
 
 	SpriteGO* beamtestA = (SpriteGO*)AddGameObject(new SpriteGO("sprites/kirby/Class_Beam.png", "BeamTest"));
 	beamtestA->AddComponent(new Animator(*beamtestA, "animations/Kirby/Kirby", "BeamCharge"));
@@ -162,6 +171,8 @@ void SceneExample::Init()
 	SpriteGO* blast = (SpriteGO*)AddGameObject(new SpriteGO("sprites/effects/Cutter_Effect.png", "Blast"));
 	blast->AddComponent(new Animator(*blast, "animations/Effect/Cutter/Cutter", "Blast"));
 	blast->SetPosition(0.0f, -72.0f);
+
+	cameraType = CameraType::Free;
 
 	for (auto go : gameObjects)
 	{

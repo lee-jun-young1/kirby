@@ -6,6 +6,7 @@
 #include <Suction.h>
 #include <KirbyEffect.h>
 #include <KirbyForward.h>
+#include <EffectPool.h>
 
 enum class KirbyState
 {
@@ -33,6 +34,9 @@ enum class KirbyState
 	Dance,
 	Attack, 
 	JumpAttack,
+	MeleeAttack,
+	JumpMeleeAttack,
+	ThrowReady,
 };
 
 
@@ -54,6 +58,8 @@ protected:
 	float actionTime = 0.0f;
 
 	bool isDoorKeyPress = false;
+
+	bool isDownKeyPress = false;
 	sf::Vector2f doorTarget;
 
 	Suction* suction;
@@ -61,6 +67,7 @@ protected:
 	KirbyAbility keepInMouseAbility = KirbyAbility::None;
 
 	KirbyEffect* kirbyEffect;
+	EffectPool* effectPool;
 	
 	function<void(const float&)> moveKey;
 	function<void(const float&)> dashKey;
@@ -75,12 +82,17 @@ protected:
 	function<void()> jumpKey;
 	function<void()> vKey;
 	function<void(float)> update;
+	function<void(float)> updateByAbility;
 	function<void(Collider*)> onCollisionEnter;
+	function<void(Collider*)> onCollisionEnterByAbility;
 	function<void(Collider*)> onCollisionStay;
 
+	sf::CircleShape throwMarker;
 
 	KirbyForward* forwardTrigger;
 	list<GameObject*> forwardObjects;
+
+	BombEffect* bomb;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -126,10 +138,14 @@ public:
 	void EquipAbility();
 
 
-	// ArrowDown
+	// Arrow Down
 	void Eat();
 	void Sit();
 	void UnSit();
+	void OnDownKeyDown();
+	void OnDownKeyUp();
+
+	// Arrow Up
 	void OnDoorKeyDown();
 	void OnDoorKeyUp();
 
@@ -140,7 +156,14 @@ public:
 	void SuctionEnd();
 
 	void CutterAttack();
+	void BombThrowReadyDown();
+	void BombThrowReadyUp();
+	void BombThrowReadyUpdate(float dt);
+	void BombAttackReady();
+	void BombInstall();
 	void CutterDashAttack();
+
+	void BombDashAttack();
 
 	void CutterJumpAttack();
 
@@ -159,6 +182,7 @@ public:
 
 	void SetSuction(Suction* suction) { this->suction = suction; }
 	void SetEffect(KirbyEffect* starEffect) { this->kirbyEffect = starEffect; }
+	void SetEffectPool(EffectPool* effectPool) { this->effectPool = effectPool; }
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -174,13 +198,18 @@ public:
 	void WallUpdate(float dt); 
 	void AttackUpdate(float dt);
 
+	void NearAttackUpdate(float dt);
+	void NearJumpAttackUpdate(float dt);
+
 	void CollideUpdate(float dt);
 	void BalloonCollideUpdate(float dt);
 
 	void EatUpdate(float dt); 
 	
 	void DanceReadyUpdate(float dt); 
-	void DanceUpdate(float dt); 
+	void DanceUpdate(float dt);
+	void BombUpdate(float dt);
+
 	
 	void StageClear();
 

@@ -1,6 +1,10 @@
 ID,FPS,LOOPTYPE,,
-BombRunThrow,10,1,,
+BombRunThrow,10,0,,
 ,,,,
 TextureID,Left,Top,Width,Height
+,504,144,72,72
 ,432,216,72,72
-,432,288,72,72
+,432,216,72,72
+,432,216,72,72
+,504,216,72,72
+,504,216,72,72
