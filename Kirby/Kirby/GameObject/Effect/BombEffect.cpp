@@ -3,12 +3,13 @@
 #include "RigidBody2D.h"
 #include "EffectPool.h"
 #include <Mob.h>
+#include <Kirby.h>
 
 void BombEffect::Update(float deltaTime)
 {
-	cout << animator->GetClipName() << endl;
 	if (animator->GetClipName() == "BoomEnd")
 	{
+		cout << "Return!!" << endl;
 		pool->ReturnBombEffect(this);
 	} 
 	else if (animator->GetClipName() == "Boom")
@@ -19,17 +20,42 @@ void BombEffect::Update(float deltaTime)
 		collider->SetRect({ 0.0f, 0.0f, 72.0f, 72.0f });
 		collider->SetOffset({ 0.0f, 0.0f });
 	}
+	else if (animator->GetClipName() == "Ready")
+	{
+		animator->SetEvent("");
+	}
 }
 
 void BombEffect::OnTriggerEnter(Collider* col)
 {
 	if (col->GetGameObject().HasTag("Mob") && animator->GetClipName() == "Ready")
 	{
-		animator->Seek(237);
+		collider->GetRigidBody()->SetVelocity({ 0.0f, 0.0f });
+		collider->GetRigidBody()->SetGravity(false);
+		animator->SetEvent("Boom");
 	}
 	else if (col->GetGameObject().HasTag("Ground") && animator->GetClipName() == "Ready")
 	{
-		collider->SetTrigger(false);
+		if (col->GetNormal(collider->GetCenter()).y == 0.0f)
+		{
+			collider->GetRigidBody()->SetVelocity({ 0.0f, 0.0f });
+			collider->GetRigidBody()->SetGravity(false);
+			animator->SetEvent("Boom");
+		}
+		else
+		{
+			lastForce *= 0.7f;
+			cout << lastForce.y << endl;
+			if (lastForce.y > -30.0f)
+			{
+				collider->GetRigidBody()->SetVelocity({0.0f, 0.0f});
+				collider->GetRigidBody()->SetGravity(false);
+			}
+			else
+			{
+				collider->GetRigidBody()->SetVelocity(lastForce);
+			}
+		}
 	}
 }
 
@@ -38,16 +64,33 @@ void BombEffect::OnTriggerStay(Collider* col)
 	if (col->GetGameObject().HasTag("Mob"))
 	{
 		((Mob*)&col->GetGameObject())->Damage(1.0f, col->GetGameObject().GetPosition().x < GetPosition().x + sprite.getGlobalBounds().width * 0.5f ? -1.0f : 1.0f);
-		SetActive(false);
+	}
+	if (col->GetGameObject().HasTag("Kirby") && animator->GetClipName() != "Ready")
+	{
+		((Kirby*)&col->GetGameObject())->Damage(1.0f, col->GetGameObject().GetPosition().x < GetPosition().x + sprite.getGlobalBounds().width * 0.5f ? -1.0f : 1.0f);
 	}
 }
 
-void BombEffect::Fire(float bombTime)
+void BombEffect::Fire(const sf::Vector2f& force)
 {
+	lastForce = force;
+	collider->GetRigidBody()->SetGravity(true);
+	collider->GetRigidBody()->AddForce(force);
+}
+
+void BombEffect::RunFire(const sf::Vector2f& force)
+{
+	collider->GetRigidBody()->SetGravity(false);
+	collider->GetRigidBody()->AddForce(force);
+}
+
+
+void BombEffect::Ready()
+{
+	animator->SetState("Ready");
+	collider->SetTrigger(true);
 	collider->SetRect({ 0.0f, 0.0f, 20.0f, 20.0f });
 	collider->SetOffset({ 24.0f, 24.0f });
-	collider->GetRigidBody()->SetGravity(true);
-	collider->SetTrigger(true);
-	time = 0.0f;
-	this->bombTime = bombTime;
+	collider->GetRigidBody()->SetVelocity({0.0f, 0.0f});
+	collider->GetRigidBody()->SetGravity(false);
 }

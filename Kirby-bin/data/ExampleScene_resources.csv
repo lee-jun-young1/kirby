@@ -92,3 +92,9 @@
 3,animations/Kirby/Kirby_CutterSkyDashAttack.csv
 0,sprites/UI/Game/Status.png
 0,sprites/UI/Game/Ability.png
+3,animations/Kirby/Kirby_BombReady.csv
+3,animations/Kirby/Kirby_BombMove.csv
+3,animations/Kirby/Kirby_BombRun.csv
+3,animations/Kirby/Kirby_BombThrow.csv
+3,animations/Kirby/Kirby_BombInstall.csv
+3,animations/Kirby/Kirby_BombRunThrow.csv

@@ -255,9 +255,6 @@ void Collider::OnCollisionEnter(Collider* col)
 		{
 			sf::Vector2f newVelocity = rigidbody->GetVelocity();
 
-
-			cout << normal.x << " " << normal.y << endl;
-
 			if (abs(normal.x) > 0.0f)
 			{
 				newVelocity.x *= -1.0f;

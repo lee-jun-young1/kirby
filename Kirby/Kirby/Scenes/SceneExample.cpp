@@ -87,6 +87,7 @@ void SceneExample::Init()
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
 	kirby->sortLayer = 1;
 	kirby->SetPosition({ -80.0f, 0.0f });
+	kirby->AddTag("Kirby");
 	
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
 	suction->physicsLayer = (int)PhysicsLayer::Player;

@@ -36,6 +36,7 @@ enum class KirbyState
 	JumpAttack,
 	MeleeAttack,
 	JumpMeleeAttack,
+	ThrowReady,
 };
 
 
@@ -81,13 +82,17 @@ protected:
 	function<void()> jumpKey;
 	function<void()> vKey;
 	function<void(float)> update;
+	function<void(float)> updateByAbility;
 	function<void(Collider*)> onCollisionEnter;
 	function<void(Collider*)> onCollisionEnterByAbility;
 	function<void(Collider*)> onCollisionStay;
 
+	sf::CircleShape throwMarker;
 
 	KirbyForward* forwardTrigger;
 	list<GameObject*> forwardObjects;
+
+	BombEffect* bomb;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -151,8 +156,14 @@ public:
 	void SuctionEnd();
 
 	void CutterAttack();
-	void BombAttack();
+	void BombThrowReadyDown();
+	void BombThrowReadyUp();
+	void BombThrowReadyUpdate(float dt);
+	void BombAttackReady();
+	void BombInstall();
 	void CutterDashAttack();
+
+	void BombDashAttack();
 
 	void CutterJumpAttack();
 
@@ -196,7 +207,9 @@ public:
 	void EatUpdate(float dt); 
 	
 	void DanceReadyUpdate(float dt); 
-	void DanceUpdate(float dt); 
+	void DanceUpdate(float dt);
+	void BombUpdate(float dt);
+
 	
 	void StageClear();
 

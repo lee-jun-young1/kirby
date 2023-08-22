@@ -41,3 +41,9 @@ CutterDashAttack,animations/Kirby/Kirby_CutterDashAttack.csv
 CutterNearAttack,animations/Kirby/Kirby_CutterNearAttack.csv
 CutterSkyAttack,animations/Kirby/Kirby_CutterSkyAttack.csv
 CutterSkyDashAttack,animations/Kirby/Kirby_CutterSkyDashAttack.csv
+BombReady,animations/Kirby/Kirby_BombReady.csv
+BombMove,animations/Kirby/Kirby_BombMove.csv
+BombThrow,animations/Kirby/Kirby_BombThrow.csv
+BombInstall,animations/Kirby/Kirby_BombInstall.csv
+BombRun,animations/Kirby/Kirby_BombRun.csv
+BombRunThrow,animations/Kirby/Kirby_BombRunThrow.csv
