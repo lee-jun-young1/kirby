@@ -139,13 +139,19 @@ void Kirby::ChangeState(const KirbyState& state)
 					if (bomb == nullptr)
 					{
 						chargeKey = std::bind(&Kirby::BombAttackReady, this);
-						sitKey = nullptr;
+						sitKey = std::bind(&Kirby::Sit, this);
 					}
 					else
 					{
-						sitKey = std::bind(&Kirby::Sit, this);
+						sitKey = nullptr;
 						chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
 					}
+					chargeKeyContinue = nullptr;
+					onCollisionEnter = nullptr;
+					break;
+				case KirbyAbility::Beam:
+					chargeKey = std::bind(&Kirby::BeamAttack, this);
+					sitKey = std::bind(&Kirby::Sit, this);
 					chargeKeyContinue = nullptr;
 					onCollisionEnter = nullptr;
 					break;
@@ -186,13 +192,19 @@ void Kirby::ChangeState(const KirbyState& state)
 				if (bomb == nullptr)
 				{
 					chargeKey = std::bind(&Kirby::BombAttackReady, this);
-					sitKey = nullptr;
+					sitKey = std::bind(&Kirby::Sit, this);
 				}
 				else
 				{
-					sitKey = std::bind(&Kirby::Sit, this);
+					sitKey = nullptr;
 					chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
 				}
+				chargeKeyContinue = nullptr;
+				break;
+			case KirbyAbility::Beam:
+				chargeKey = std::bind(&Kirby::BeamAttack, this);
+				sitKey = std::bind(&Kirby::Sit, this);
+				chargeKeyContinue = nullptr;
 				break;
 			default:
 				chargeKey = nullptr;
@@ -321,8 +333,8 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = nullptr;
-			onCollisionEnter = nullptr;
-			onCollisionStay = nullptr;
+			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr; 
 			break;
 		case KirbyState::Jump:
 			cout << "state :: Jump" << endl;
@@ -358,6 +370,13 @@ void Kirby::ChangeState(const KirbyState& state)
 					chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
 					jumpKey = nullptr;
 				}
+				chargeKeyContinue = nullptr;
+				sitKeyEnd = nullptr;
+				break;
+			case KirbyAbility::Beam:
+				chargeKey = std::bind(&Kirby::BeamJumpAttack, this);
+				sitKey = nullptr;
+				jumpKey = std::bind(&Kirby::Fly, this);
 				chargeKeyContinue = nullptr;
 				sitKeyEnd = nullptr;
 				break;
@@ -448,6 +467,13 @@ void Kirby::ChangeState(const KirbyState& state)
 				}
 				chargeKeyContinue = nullptr;
 				sitKeyEnd = nullptr;
+			case KirbyAbility::Beam:
+				chargeKey = std::bind(&Kirby::BeamDashJumpAttack, this);
+				chargeKeyContinue = nullptr;
+				sitKey = nullptr;
+				sitKeyEnd = nullptr;
+				jumpKey = std::bind(&Kirby::Fly, this);
+				break;
 			default:
 				chargeKey = nullptr;
 				chargeKeyContinue = nullptr;
@@ -724,7 +750,33 @@ void Kirby::ChangeState(const KirbyState& state)
 			sitKeyEnd = nullptr;
 			jumpKey = nullptr;
 			vKey = nullptr;
-			update = nullptr;
+			update = std::bind(&Kirby::JumpAttackUpdate, this, std::placeholders::_1);
+			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
+			onCollisionStay = nullptr;
+			break;
+		case KirbyState::JumpMoveAttack:
+			cout << "state :: JumpAttack" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			switch (ability)
+			{
+			case KirbyAbility::Beam:
+				update = std::bind(&Kirby::BeamDashJumpAttackUpdate, this, std::placeholders::_1);
+				break;
+			default:
+				update = nullptr;
+				break;
+			}
 			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
 			onCollisionStay = nullptr;
 			break;
@@ -944,6 +996,45 @@ void Kirby::CutterAttack()
 		animator->SetEvent("CutterNearAttack");
 	}
 }
+void Kirby::BeamAttack()
+{
+	ChangeState(KirbyState::Attack);
+	animator->SetEvent("BeamAttack");
+
+	BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+	beam->SetEffectDirection({ 1.0f, 0.0f });
+	beam->SetEffectRotation(-90.0f);
+
+	BeamEffect* beam2 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam2->SetEffectDirection({ scale.x, 0.0f });
+	beam2->SetPrevNode(beam);
+
+	BeamEffect* beam3 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam3->SetEffectDirection({ scale.x, 0.0f });
+	beam3->SetPrevNode(beam2);
+}
+void Kirby::BeamJumpAttack()
+{
+	ChangeState(KirbyState::JumpAttack);
+	animator->SetEvent("BeamAttack");
+
+	BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam->SetMode(BeamEffect::Mode::Whip);
+	beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+	beam->SetEffectDirection({ 1.0f, 0.0f });
+	beam->SetEffectRotation(-90.0f);
+
+	BeamEffect* beam2 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam->SetMode(BeamEffect::Mode::Whip);
+	beam2->SetEffectDirection({ scale.x, 0.0f });
+	beam2->SetPrevNode(beam);
+
+	BeamEffect* beam3 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam->SetMode(BeamEffect::Mode::Whip);
+	beam3->SetEffectDirection({ scale.x, 0.0f });
+	beam3->SetPrevNode(beam2);
+}
 void Kirby::BombThrowReadyDown()
 {
 	actionTime = 0.0f;
@@ -1051,6 +1142,33 @@ void Kirby::CutterDashJumpAttack()
 	}
 }
 
+void Kirby::BeamDashJumpAttack()
+{
+	ChangeState(KirbyState::JumpMoveAttack);
+	animator->SetEvent("BeamSkyShot");
+	rigidbody->SetVelocity({ scale.x * -50.0f, -50.0f });
+	actionTime = 0.0f;
+}
+
+void Kirby::BeamDashJumpAttackUpdate(float dt)
+{
+	actionTime += dt;
+	if (actionTime > 0.1f)
+	{
+		BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+		beam->SetMode(BeamEffect::Mode::Ball);
+		RigidBody2D* rig = (RigidBody2D*)beam->GetComponent(ComponentType::RigidBody);
+		rig->AddForce(Utils::Lerp({ scale.x * 50.0f, 300.0f }, { scale.x * 200.0f, 300.0f }, Utils::RandomValue()));
+		actionTime -= 0.1f;
+	}
+
+	if (animator->GetClipName() == "Idle" || animator->GetClipName() == "TiltedIdleL" || animator->GetClipName() == "TiltedIdleR")
+	{
+		ChangeState(KirbyState::Falling);
+		animator->SetEvent("Falling");
+	}
+}
 
 void Kirby::DoSuction()
 {
@@ -1337,9 +1455,28 @@ void Kirby::AttackUpdate(float dt)
 {
 	if (animator->GetClipName() == "Idle" || animator->GetClipName() == "TiltedIdleL" || animator->GetClipName() == "TiltedIdleR" )
 	{
-		ChangeState(KirbyState::Idle);
+		if (rigidbody->GetVelocity().y != 0.0f)
+		{
+			ChangeState(KirbyState::Falling);
+			animator->SetEvent("Falling");
+		}
+		else
+		{
+			ChangeState(KirbyState::Idle);
+		}
 	}
 }
+
+void Kirby::JumpAttackUpdate(float dt)
+{
+	rigidbody->SetVelocity({ 0.0f, 0.0f });
+	if (animator->GetClipName() == "Idle" || animator->GetClipName() == "TiltedIdleL" || animator->GetClipName() == "TiltedIdleR")
+	{
+		ChangeState(KirbyState::Falling);
+		animator->SetEvent("Falling");
+	}
+}
+
 
 void Kirby::NearAttackUpdate(float dt)
 {

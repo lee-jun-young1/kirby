@@ -34,6 +34,7 @@ enum class KirbyState
 	Dance,
 	Attack, 
 	JumpAttack,
+	JumpMoveAttack,
 	MeleeAttack,
 	JumpMeleeAttack,
 	ThrowReady,
@@ -169,6 +170,14 @@ public:
 
 	void CutterDashJumpAttack();
 
+	void BeamDashJumpAttack();
+	void BeamDashJumpAttackUpdate(float dt);
+
+
+	void BeamAttack();
+
+	void BeamJumpAttack();
+
 	// C
 	void Jump();
 	void Fly();
@@ -197,6 +206,10 @@ public:
 
 	void WallUpdate(float dt); 
 	void AttackUpdate(float dt);
+
+	void JumpAttackUpdate(float dt);
+
+	void JumpMoveAttackUpdate(float dt);
 
 	void NearAttackUpdate(float dt);
 	void NearJumpAttackUpdate(float dt);

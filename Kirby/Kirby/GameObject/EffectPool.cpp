@@ -70,7 +70,16 @@ void EffectPool::Init()
 	beamEffects.OnCreate = [this](BeamEffect* effect)
 	{
 		BoxCollider* col = (BoxCollider*)effect->AddComponent(new BoxCollider(*effect));
+		RigidBody2D* rig = (RigidBody2D*)effect->AddComponent(new RigidBody2D(*effect));
+		col->SetRect({ 0.0f, 0.0f, 8.0f, 8.0f });
+		col->SetOffset({ 32.0f, 32.0f });
 		col->SetTrigger(true);
+		col->SetRigidbody(rig);
+		rig->SetGravity(false);
+		effect->AddComponent(new Animator(*effect, "animations/Effect/Beam/Beam", "Beam"));
+		effect->SetPool(this);
+		effect->AddTag("BeamEffect");
+		effect->sortLayer = 5;
 	};
 	bombEffects.OnCreate = [this](BombEffect* effect)
 	{
