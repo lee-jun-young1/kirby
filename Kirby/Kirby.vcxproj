@@ -161,6 +161,8 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\Beam.cpp" />
+    <ClCompile Include="Kirby\GameObject\Mob\Bomb.cpp" />
     <ClCompile Include="Kirby\GameObject\GroundPool.cpp" />
     <ClCompile Include="Kirby\GameObject\EffectPool.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\BeamEffect.cpp" />
@@ -260,6 +262,8 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\Beam.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\Bomb.h" />
     <ClInclude Include="Kirby\GameObject\GroundPool.h" />
     <ClInclude Include="Kirby\GameObject\EffectPool.h" />
     <ClInclude Include="Kirby\GameObject\Effect\BeamEffect.h" />

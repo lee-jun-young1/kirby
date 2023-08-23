@@ -2,7 +2,6 @@
 #include "Cutter.h"
 #include "BoxCollider.h"
 #include "RigidBody2D.h"
-#include "Animator.h"
 
 void Cutter::Init()
 {
@@ -17,8 +16,6 @@ void Cutter::Init()
     boxCol->SetOffset({ 0.0f, -24.0f });
     RigidBody2D* rig = (RigidBody2D*)AddComponent(new RigidBody2D(*this));
     boxCol->SetRigidbody(rig);
-    //Animator* ani = (Animator*)AddComponent(new Animator(*this, "animations/Mob/Cutter/Cutter", "Idle"));
-    //SetAnimator(ani);
     SetRigidBody(rig);
     SetOrigin({ 36.0f, 48.0f });
 

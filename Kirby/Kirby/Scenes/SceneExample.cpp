@@ -22,22 +22,25 @@
 #include <Utils.h>
 #include <Controller.h>
 #include <Kirby.h>
-#include <Mob.h>
 #include <ThrowableGround.h>
 #include <Animator.h>
 #include <Door.h>
 #include <KirbyEffect.h>
 #include "Camera.h"
-#include <Cutter.h>
 #include <StatusUI.h>
-#include "MobPool.h"
 //MapTool
 #include <fstream>
 #include "Item.h"
 #include "Player.h"
 #include "Ground.h"
 #include "Enemy.h"
-#include <SemiBossBomb.h>
+//Enemy
+#include "MobPool.h"
+#include "Mob.h"
+#include "Cutter.h"
+#include "Bomb.h"
+#include "Beam.h"
+#include "SemiBossBomb.h"
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -66,17 +69,50 @@ void SceneExample::Enter()
 	for (int i = 0; i < rootNode["Enemy"].size(); i++)
 	{
 		Json::Value node = rootNode["Enemy"][i];
-		//if ((EnemyType)node["Type"].asInt() != EnemyType::Cutter)
-		//{
-		//	continue;
-		//}
-		Cutter* mob = mobPool->GetCutter();
-		mob->sortLayer = node["SortLayer"].asInt();
-		mob->SetRegenPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() });
+		int sort = node["SortLayer"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		EnemyType type = (EnemyType)node["Type"].asInt();
+		switch (type)
+		{
+		case EnemyType::Cutter:
+		{
+			Cutter* mob = mobPool->GetCutter();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+		}
+			break;
+		case EnemyType::Beam:
+		{
+			Beam* mob = mobPool->GetBeam();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+		}
+			break;
+		case EnemyType::Bomb:
+		{
+			Bomb* mob = mobPool->GetBomb();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+		}
+			break;
+		case EnemyType::Bear:
+			break;
+		case EnemyType::Chick:
+			break;
+		case EnemyType::Fly:
+			break;
+		case EnemyType::Mushroom:
+			break;
+		case EnemyType::Normal:
+			break;
+		case EnemyType::SB_Bomb:
+			break;
+		case EnemyType::Wood:
+			break;
+		}
 	}
 
 	Scene::Enter();
-
 	Reset();
 }
 
@@ -186,7 +222,6 @@ void SceneExample::Update(float deltaTime)
 		currentCamera->MoveCamera(deltaTime);
 		std::list<GameObject*> goList;
 		FindGameObjects(goList, "Ground");
-		FindGameObjects(goList, "Mob");
 		for (auto go : goList)
 		{
 			currentCamera->SetActiveInCamera((SpriteGO*)go);

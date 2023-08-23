@@ -4,17 +4,23 @@
 #include "Mob.h"
 #include "Cutter.h"
 #include "SemiBossBomb.h"
+#include "Bomb.h"
+#include "Beam.h"
 class MobPool : public GameObject
 {
 protected:
 	ObjectPool<Mob> mobs;
 	ObjectPool<SemiBossBomb> semiBossBombs;
 	ObjectPool<Cutter> cutters;
+	ObjectPool<Bomb> bombs;
+	ObjectPool<Beam> beams;
 
 public:
 	MobPool(const std::string& name = "") : GameObject(name) {}
 
 	Cutter* GetCutter();
+	Bomb* GetBomb();
+	Beam* GetBeam();
 	void ClearAllPool();
 
 	virtual void Init() override;
