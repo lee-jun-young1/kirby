@@ -66,6 +66,8 @@
 3,animations/Kirby/Kirby_BalloonEmptyShot.csv
 3,animations/Effect/EmptyShot.csv
 3,animations/Kirby/Kirby_Wall.csv
+0,sprites/map/Green_Green.png
+0,sprites/item/items.png
 3,animations/Kirby/Kirby_Dance.csv
 3,animations/Kirby/Kirby_DanceReady.csv
 0,sprites/effects/Boom.png

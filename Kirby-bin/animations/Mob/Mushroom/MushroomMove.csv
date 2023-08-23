@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+Move,2,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,0,0,72,72
+,48,0,72,72

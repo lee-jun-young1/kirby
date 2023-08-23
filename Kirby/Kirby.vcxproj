@@ -166,7 +166,7 @@
     <ClCompile Include="Kirby\GameObject\Effect\BombEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\CutterEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\KirbyBackdancer.cpp" />
-    <ClCompile Include="Kirby\GameObject\CameraPointer.cpp" />
+    <ClCompile Include="Kirby\GameObject\Camera.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Cutter.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Kirby.cpp" />
@@ -262,7 +262,7 @@
     <ClInclude Include="Kirby\GameObject\Effect\BombEffect.h" />
     <ClInclude Include="Kirby\GameObject\Effect\CutterEffect.h" />
     <ClInclude Include="Kirby\GameObject\Effect\KirbyBackdancer.h" />
-    <ClInclude Include="Kirby\GameObject\CameraPointer.h" />
+    <ClInclude Include="Kirby\GameObject\Camera.h" />
     <ClInclude Include="Kirby\GameObject\Effect\KirbyEffect.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Cutter.h" />
     <ClInclude Include="Kirby\GameObject\Player\Kirby.h" />
