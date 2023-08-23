@@ -34,9 +34,10 @@ enum class KirbyState
 	Dance,
 	Attack, 
 	JumpAttack,
+	JumpMoveAttack,
 	MeleeAttack,
 	JumpMeleeAttack,
-	ThrowReady,
+	Charge,
 };
 
 
@@ -64,7 +65,7 @@ protected:
 
 	Suction* suction;
 
-	KirbyAbility keepInMouseAbility = KirbyAbility::None;
+	KirbyAbility keepInMouseAbility = KirbyAbility::Null;
 
 	KirbyEffect* kirbyEffect;
 	EffectPool* effectPool;
@@ -93,6 +94,7 @@ protected:
 	list<GameObject*> forwardObjects;
 
 	BombEffect* bomb;
+	BeamEffect* beam;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -169,6 +171,16 @@ public:
 
 	void CutterDashJumpAttack();
 
+	void BeamDashJumpAttack();
+	void BeamDashJumpAttackUpdate(float dt);
+
+
+	void BeamAttackDown();
+
+	void BeamAttackKeyUp();
+
+	void BeamJumpAttack();
+
 	// C
 	void Jump();
 	void Fly();
@@ -198,6 +210,10 @@ public:
 	void WallUpdate(float dt); 
 	void AttackUpdate(float dt);
 
+	void JumpAttackUpdate(float dt);
+
+	void JumpMoveAttackUpdate(float dt);
+
 	void NearAttackUpdate(float dt);
 	void NearJumpAttackUpdate(float dt);
 
@@ -221,7 +237,8 @@ public:
 	void MoveCollisionEnter(Collider* col);
 	void JumpCollisionEnter(Collider* col);
 	void BalloonJumpCollisionEnter(Collider* col);
-	void SuctionCollisionEnter(Collider* col); 
+	void SuctionCollisionEnter(Collider* col);
+
 	void TackleCollisionEnter(Collider* col);
 	void CutterCollisionEnter(Collider* col);
 

@@ -245,6 +245,7 @@
     <ClCompile Include="Kirby\GameObject\Player\Suction.cpp" />
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp" />
     <ClCompile Include="Kirby\GameObject\UI\StatusUI.cpp" />
+    <ClCompile Include="SemiBossBomb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
@@ -337,6 +338,7 @@
     <ClInclude Include="Framework\SpriteFont.h" />
     <ClInclude Include="Kirby\GameObject\Player\Skill.h" />
     <ClInclude Include="Kirby\GameObject\UI\StatusUI.h" />
+    <ClInclude Include="SemiBossBomb.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />

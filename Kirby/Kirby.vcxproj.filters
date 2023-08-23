@@ -225,7 +225,7 @@
     <ClCompile Include="Kirby\GameObject\Mob\MobPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby\GameObject\GroundPool.cpp">
+    <ClCompile Include="SemiBossBomb.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -479,7 +479,7 @@
     <ClInclude Include="Kirby\GameObject\Mob\MobPool.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Kirby\GameObject\GroundPool.h">
+    <ClInclude Include="SemiBossBomb.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

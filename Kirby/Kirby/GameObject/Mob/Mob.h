@@ -35,6 +35,9 @@ protected:
     float atk = 1.0f;
 
     sf::Vector2f regenPosition;
+
+    int maxHP = 10;
+    int currentHP = 10;
 public:
     Mob(KirbyAbility type, const std::string textureID = "", const string& name = "") : SpriteGO(textureID, name), type(type) {};
     Mob(const std::string textureID = "", const string& name = "") : SpriteGO(textureID, name){};

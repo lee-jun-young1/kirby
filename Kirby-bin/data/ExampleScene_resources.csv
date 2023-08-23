@@ -77,6 +77,8 @@
 0,sprites/effects/Beam_Effect.png
 3,animations/Effect/Beam/Charge.csv
 3,animations/Effect/Beam/Fire.csv
+3,animations/Effect/Beam/Beam.csv
+3,animations/Effect/Beam/Tornado.csv
 0,sprites/effects/Cutter_Effect.png
 3,animations/Effect/Cutter/Shot.csv
 3,animations/Effect/Cutter/Blast.csv
@@ -100,6 +102,7 @@
 3,animations/Kirby/Kirby_BombThrow.csv
 3,animations/Kirby/Kirby_BombInstall.csv
 3,animations/Kirby/Kirby_BombRunThrow.csv
+0,sprites/mob/SB_Bomb.png
 0,sprites/mob/Mob_Fly.png
 0,sprites/mob/Mob_mushroom.png
 0,sprites/mob/Boss_Wood.png
@@ -123,6 +126,7 @@
 3,animations/Mob/SB-Bomb/SB-BombThrow.csv
 3,animations/Mob/SB-Bomb/SB-BombDeath.csv
 3,animations/Mob/SB-Bomb/SB-BombSuction.csv
+3,animations/Mob/SB-Bomb/SB-BombTripleThrow.csv
 0,sprites/mob/Mob_Bear.png
 3,animations/Mob/Bear/BearHit.csv
 3,animations/Mob/Bear/BearJump.csv
