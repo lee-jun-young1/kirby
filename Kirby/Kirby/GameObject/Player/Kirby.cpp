@@ -338,7 +338,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = nullptr;
 			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
-			onCollisionStay = nullptr; 
+			onCollisionStay = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
 			break;
 		case KirbyState::Jump:
 			cout << "state :: Jump" << endl;
@@ -465,12 +465,13 @@ void Kirby::ChangeState(const KirbyState& state)
 				}
 				else
 				{
-					sitKey = std::bind(&Kirby::Sit, this);
 					chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
+					sitKey = std::bind(&Kirby::Sit, this);
 					jumpKey = nullptr;
 				}
 				chargeKeyContinue = nullptr;
 				sitKeyEnd = nullptr;
+				break;
 			case KirbyAbility::Beam:
 				chargeKey = std::bind(&Kirby::BeamDashJumpAttack, this);
 				chargeKeyContinue = nullptr;
@@ -759,7 +760,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			onCollisionStay = nullptr;
 			break;
 		case KirbyState::JumpMoveAttack:
-			cout << "state :: JumpAttack" << endl;
+			cout << "state :: JumpMoveAttack" << endl;
 			moveKey = nullptr;
 			dashKey = nullptr;
 			moveKeyEnd = nullptr;
@@ -1204,7 +1205,7 @@ void Kirby::CutterJumpAttack()
 	}
 	else
 	{
-		ChangeState(KirbyState::JumpAttack);
+		ChangeState(KirbyState::JumpMoveAttack);
 		CutterEffect* effect = effectPool->GetCutterEffect(PhysicsLayer::PlayerEffect);
 		effect->SetPosition(GetPosition() - GetOrigin());
 		effect->Fire({ sprite.getScale().x, 0.0f });
@@ -1221,7 +1222,7 @@ void Kirby::CutterDashJumpAttack()
 	}
 	else
 	{
-		ChangeState(KirbyState::JumpAttack);
+		ChangeState(KirbyState::JumpMoveAttack);
 		CutterEffect* effect = effectPool->GetCutterEffect(PhysicsLayer::PlayerEffect);
 		effect->SetPosition(GetPosition() - GetOrigin());
 		effect->Fire({ sprite.getScale().x, 0.0f });
@@ -1318,7 +1319,6 @@ void Kirby::OnDoorKeyDown()
 
 void Kirby::OnDoorKeyUp()
 {
-	cout << "isDoorKeyPress = false" << endl;
 	isDoorKeyPress = false;
 }
 
@@ -1605,7 +1605,6 @@ void Kirby::CollideUpdate(float dt)
 {
 	if (rigidbody->GetVelocity().y == 0.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
 	{
-		cout << "stop!!" << endl;
 		animator->SetEvent("Idle");
 		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
 		rigidbody->SetDrag(0.0f);
@@ -1617,7 +1616,6 @@ void Kirby::BalloonCollideUpdate(float dt)
 {
 	if (rigidbody->GetVelocity().y == 0.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
 	{
-		cout << "stop!!" << endl;
 		animator->SetEvent("Idle");
 		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
 		rigidbody->SetDrag(0.0f);
@@ -1889,7 +1887,6 @@ void Kirby::SitCollisionStay(Collider* col)
 {
 	if (col->GetGameObject().GetName() == "ThroughtableGround")
 	{
-		//cout << "Kirby On!!" << endl;
 		((Collider*)col->GetGameObject().GetComponent(ComponentType::Collider))->SetTrigger(true);
 	}
 }
