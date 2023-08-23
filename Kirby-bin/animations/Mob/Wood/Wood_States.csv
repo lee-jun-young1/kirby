@@ -1,0 +1,6 @@
+Key,Path
+LightHit,animations/Mob/Wood/WoodLightHit.csv
+HeavyHit,animations/Mob/Wood/WoodHeavyHit.csv
+Attack,animations/Mob/Wood/WoodAttack.csv
+Idle,animations/Mob/Wood/WoodIdle.csv
+Death,animations/Mob/Wood/WoodDeath.csv

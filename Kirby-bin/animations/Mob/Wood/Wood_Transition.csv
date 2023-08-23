@@ -1,0 +1,13 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Idle,Attack,1,0,Attack,0
+Idle,LightHit,1,0,LightHit,0
+Idle,HeavyHit,1,0,HeavyHit,0
+Idle,Death,1,0,Death,0
+Attack,LightHit,1,0,LightHit,0
+Attack,HeavyHit,1,0,HeavyHit,0
+Attack,Idle,1,0,Idle,0
+Attack,Death,1,0,Death,0
+LightHit,Attack,1,0,Attack,0
+LightHit,Idle,1,0,Idle,0
+HeavyHit,Attack,1,0,Attack,0
+HeavyHit,Idle,1,0,Idle,0
