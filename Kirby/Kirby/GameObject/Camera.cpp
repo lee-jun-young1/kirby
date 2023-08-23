@@ -25,6 +25,12 @@ void Camera::Reset()
 	physicsLayer = (int)PhysicsLayer::Ground;
 	BoxCollider* camCol = (BoxCollider*)this->AddComponent(new BoxCollider(*this));
 	camCol->SetTrigger(true);
+	std::cout << "cccc" << size.x << ", " << size.y << std::endl;
+	realCheckArea = { GetGlobalBounds().left, GetGlobalBounds().top, FRAMEWORK.GetWindowSize().x, FRAMEWORK.GetWindowSize().y};
+	realCheckArea.left -= correctSize.x;
+	realCheckArea.top -= correctSize.y;
+	realCheckArea.width += (correctSize.x * 2.f);
+	realCheckArea.height += (correctSize.y * 2.f);
 }
 
 void Camera::MoveCamera(float dt)
@@ -65,13 +71,7 @@ void Camera::MoveCamera(float dt)
 
 void Camera::SetActiveInCamera(SpriteGO* target)
 {
-	sf::FloatRect checkArea = GetGlobalBounds();
-	checkArea.left -= correctSize.x;
-	checkArea.top -= correctSize.y;
-	checkArea.width += (correctSize.x * 2.f);
-	checkArea.height += (correctSize.y * 2.f);
-
-	if (checkArea.contains(target->GetPosition()))
+	if (realCheckArea.contains(target->GetPosition()))
 	{
 		if (target->inCameraEvent != nullptr)
 		{
@@ -102,16 +102,26 @@ void Camera::OnTriggerEnter(Collider* col)
 
 void Camera::OnTriggerStay(Collider* col)
 {
+	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+	if (scene->GetCamera() == this)
+	{
+		if (kirby->GetPosition().x - cellSize.x * 0.5f <= GetGlobalBounds().left)
+		{
+			kirby->SetPosition(GetGlobalBounds().left + cellSize.x * 0.5f, kirby->GetPosition().y);
+		}
+		else if(kirby ->GetPosition().x + cellSize.x * 0.5f >= GetGlobalBounds().left + GetGlobalBounds().width)
+		{
+			kirby->SetPosition(GetGlobalBounds().left + GetGlobalBounds().width - cellSize.x * 0.5f, kirby->GetPosition().y);
+		}
+		if (kirby->GetPosition().y - cellSize.y <= GetGlobalBounds().top)
+		{
+			kirby->SetPosition(kirby->GetPosition().y, GetGlobalBounds().top + cellSize.y);
+		}
+	}
+
 }
 
 void Camera::OnTriggerExit(Collider* col)
 {
-	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	if (scene->GetCamera() == this)
-	{
-		if (kirby->GetPosition().x <= GetGlobalBounds().left + cellSize.x)
-		{
-			kirby->SetPosition(GetGlobalBounds().left, kirby->GetPosition().y);
-		}
-	}
+
 }

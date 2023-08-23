@@ -9,8 +9,9 @@ protected:
 	CameraType type = CameraType::None;
 
 	sf::View* view = nullptr;
-	sf::Vector2f correctSize = {100.0f, 50.0f};
+	sf::Vector2f correctSize = { 0.0f, 0.0f };
 	sf::Vector2f size;
+	sf::FloatRect realCheckArea;
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 	
 	Kirby* kirby = nullptr;
