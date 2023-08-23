@@ -9,6 +9,13 @@ void Mob::Reset()
     SpriteGO::Reset();
     update = std::bind(&Mob::UpdateMove, this, std::placeholders::_1);
     SetPosition(regenPosition);
+
+    inCameraEvent = [this]() {
+        SetActive(true);
+    };
+    outCameraEvent = [this]() {
+        SetActive(false);
+    };
 }
 
 void Mob::Update(float dt)

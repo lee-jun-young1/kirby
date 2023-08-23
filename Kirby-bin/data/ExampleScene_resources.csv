@@ -123,3 +123,13 @@
 3,animations/Mob/SB-Bomb/SB-BombThrow.csv
 3,animations/Mob/SB-Bomb/SB-BombDeath.csv
 3,animations/Mob/SB-Bomb/SB-BombSuction.csv
+0,sprites/mob/Mob_Bear.png
+3,animations/Mob/Bear/BearHit.csv
+3,animations/Mob/Bear/BearJump.csv
+3,animations/Mob/Bear/BearRush.csv
+3,animations/Mob/Bear/BearSuction.csv
+0,sprites/mob/Mob_chick.png
+3,animations/Mob/Chick/ChickFly.csv
+3,animations/Mob/Chick/ChickIdle.csv
+3,animations/Mob/Chick/ChickJump.csv
+3,animations/Mob/Chick/ChickSuction.csv

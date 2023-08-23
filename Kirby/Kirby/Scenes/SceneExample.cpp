@@ -30,7 +30,7 @@
 #include "Camera.h"
 #include <Cutter.h>
 #include <StatusUI.h>
-
+#include "MobPool.h"
 //MapTool
 #include <fstream>
 #include "Item.h"
@@ -61,6 +61,15 @@ void SceneExample::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
+	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
+	for (int i = 0; i < rootNode["Enemy"].size(); i++)
+	{
+		Json::Value node = rootNode["Enemy"][i];
+		Mob* mob = mobPool->GetMob((EnemyType)node["Type"].asInt());
+		mob->sortLayer = node["SortLayer"].asInt();
+		mob->SetRegenPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() });
+	}
+
 	Scene::Enter();
 
 	Reset();
@@ -68,7 +77,6 @@ void SceneExample::Enter()
 
 void SceneExample::Reset()
 {
-
 	for (auto go : gameObjects)
 	{
 		go->Reset();
@@ -77,6 +85,8 @@ void SceneExample::Reset()
 
 void SceneExample::Exit()
 {
+	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
+	mobPool->ClearPool();
 	Scene::Exit();
 }
 
@@ -85,16 +95,15 @@ void SceneExample::Init()
 	Scene::Init();
 	Release();
 
-	//LoadData(L"maps/Green_Green.json");
-	LoadData(L"maps/Green_Green_3.json");
-
 	auto size = FRAMEWORK.GetWindowSize();
 
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
 
-	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
-	
+	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
+	kirby->AddTag("Kirby");
+	kirby->physicsLayer = (int)PhysicsLayer::Player;
+
 	Suction* suction = (Suction*)AddGameObject(new Suction("Suction"));
 	suction->physicsLayer = (int)PhysicsLayer::Player;
 	suction->SetKirby(kirby);
@@ -125,7 +134,7 @@ void SceneExample::Init()
 	ui->sortLayer = UILayer;
 	ui->SetScoreText(scoreText);
 	ui->SetLifeText(liftText);
-
+	
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
 	RectangleShapeGO* curtain = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Curtain"));
@@ -163,6 +172,8 @@ void SceneExample::Init()
 	blast->AddComponent(new Animator(*blast, "animations/Effect/Cutter/Cutter", "Blast"));
 	blast->SetPosition(0.0f, -72.0f);
 
+	MobPool* mobPool = (MobPool*)AddGameObject(new MobPool("MobPool"));
+	LoadData(L"maps/Green_Green_3.json");
 
 	for (auto go : gameObjects)
 	{
@@ -195,17 +206,20 @@ void SceneExample::Update(float deltaTime)
 	if (currentCamera != nullptr)
 	{
 		currentCamera->MoveCamera(deltaTime);
-		//for (auto& go : gameObjects)
-		//{
-		//	currentCamera->CheckObjectInCamera((SpriteGO*)go);
-		//}
+		std::list<GameObject*> goList;
+		FindGameObjects(goList, "Ground");
+		FindGameObjects(goList, "Mob");
+		for (auto go : goList)
+		{
+			currentCamera->SetActiveInCamera((SpriteGO*)go);
+		}
 	}
 
 	if (Input.GetKey(Keyboard::LShift))
 	{
 		if (Input.GetKeyDown(Keyboard::Num5))
 		{
-			//Fixed 카메라 해제
+			//현재 카메라 해제
 			currentCamera->SetActive(false);
 			currentCamera = previousCamera;
 		}
@@ -278,7 +292,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
-		suctionAble->SetPosition(kirby->GetPosition());
+		suctionAble->SetRegenPosition(ScreenToWorldPosition(Input.GetMousePosition()));
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
@@ -290,6 +304,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
+		
 	}
 
 	if (Input.GetKeyDown(Keyboard::F6))
@@ -374,7 +389,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(kirby->GetPosition());
+		suctionAble->SetRegenPosition(ScreenToWorldPosition(Input.GetMousePosition()));
 		suctionAble->sortLayer = 20;
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
@@ -405,7 +420,6 @@ void SceneExample::LoadData(const std::wstring& path)
 		return;
 	}
 	std::ifstream ifile(path);
-	Json::Value rootNode;
 	if (ifile.is_open())
 	{
 		ifile >> rootNode;
@@ -417,27 +431,23 @@ void SceneExample::LoadData(const std::wstring& path)
 		return;
 	}
 
-	Json::Value playerNode = rootNode["Player"];
 	Json::Value itemNodes = rootNode["Item"];
-	Json::Value enemyNodes = rootNode["Enemy"];
 	Json::Value doorNodes = rootNode["Door"];
 	Json::Value groundNodes = rootNode["Ground"];
 	Json::Value cameraNodes = rootNode["Camera"];
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 
-	//Background
-	VertexArrayGO* background = CreateBackground({ 1, 1 }, { rootNode["MapSize"]["x"].asFloat(), rootNode["MapSize"]["y"].asFloat() });
+	//Temp Background
+	VertexArrayGO* background = CreateBackground({ 1, 1 }, { 1920.0f, 1080.0f });
 	AddGameObject(background);
 	background->SetOrigin(Origins::TL);
 	background->SetPosition(0.f, 0.f);
 	background->sortLayer = -99;
 
-	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
-	kirby->AddTag("Kirby");
-	kirby->physicsLayer = (int)PhysicsLayer::Player;
-	kirby->sortLayer = playerNode["SortLayer"].asInt();
-	kirby->SetPosition({ playerNode["Position"]["x"].asFloat() + 12.0f, playerNode["Position"]["y"].asFloat() });
+	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
+	kirby->sortLayer = rootNode["Player"]["SortLayer"].asInt();
+	kirby->SetPosition({ rootNode["Player"]["Position"]["x"].asFloat() + 12.0f, rootNode["Player"]["Position"]["y"].asFloat() });
 
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
@@ -456,10 +466,10 @@ void SceneExample::LoadData(const std::wstring& path)
 			rect = { 216, 24, 24, 24 };
 			break;
 		case ItemType::MaxTomato:
-			rect = { 120, 24, 24, 24 };
+			rect = { 96, 24, 24, 24 };
 			break;
 		case ItemType::Normal:
-			rect = { 96, 24, 24, 24 };
+			rect = { 120, 24, 24, 24 };
 			break;
 		}
 		SpriteGO* item = (SpriteGO*)AddGameObject(new SpriteGO(textureId, "item"));
@@ -470,60 +480,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		item->SetPosition(position);
 	}
 
-	for (int i = 0; i < enemyNodes.size(); i++)
-	{
-		Json::Value node = enemyNodes[i];
-		EnemyType type = (EnemyType)node["Type"].asInt();
-		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		int sort = node["SortLayer"].asInt();
 
-		switch (type)
-		{
-		case EnemyType::Cutter:
-			break;
-		case EnemyType::Beam:
-			break;
-		case EnemyType::Bomb:
-			break;
-		case EnemyType::Bear:
-			break;
-		case EnemyType::Chick:
-			break;
-		case EnemyType::Fly:
-			break;
-		case EnemyType::Mushroom:
-			break;
-		case EnemyType::Normal:
-		{
-			Mob* mob = (Mob*)AddGameObject(new Mob(KirbyAbility::None, "sprites/mob/mob_normal.png", "Suctionable"));
-			mob->AddTag("Suctionable");
-			mob->AddTag("Mob");
-			mob->SetSize(cellSize);
-			mob->physicsLayer = (int)PhysicsLayer::Enemy;
-
-			BoxCollider* mobCol = (BoxCollider*)mob->AddComponent(new BoxCollider(*mob));
-			mobCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
-			mobCol->SetOffset({ -12.0f, -24.0f });
-
-			RigidBody2D* rig = (RigidBody2D*)mob->AddComponent(new RigidBody2D(*mob));
-			mobCol->SetRigidbody(rig);
-
-			Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Normal/Normal", "Move"));
-			mob->SetAnimator(ani);
-			mob->SetRigidBody(rig);
-
-			mob->sortLayer = sort;
-			mob->SetOrigin({ 36.0f, 48.0f });
-			mob->SetPosition(position);
-			mob->SetRegenPosition(position);
-		}
-			break;
-		case EnemyType::SubBoss:
-			break;
-		case EnemyType::Boss:
-			break;
-		}
-	}
 
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
@@ -579,7 +536,7 @@ void SceneExample::LoadData(const std::wstring& path)
 
 		Camera* camPtr = (Camera*)AddGameObject(new Camera("camPtr" + std::to_string(i)));
 		camPtr->SetType(type);
-		camPtr->SetPlayer(kirby);
+		camPtr->SetKirby(kirby);
 		camPtr->SetData(node);
 		camPtr->SetView(&worldView);
 	}

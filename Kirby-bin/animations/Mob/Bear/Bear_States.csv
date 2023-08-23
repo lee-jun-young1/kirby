@@ -1,5 +1,5 @@
 Key,Path
-Hit,animations/Mob/BearHit.csv
-Jump,animations/Mob/BearJump.csv
-Suction,animations/Mob/BearSuction.csv
-Rush,animations/Mob/BearRush.csv
+Hit,animations/Mob/Bear/BearHit.csv
+Jump,animations/Mob/Bear/BearJump.csv
+Suction,animations/Mob/Bear/BearSuction.csv
+Rush,animations/Mob/Bear/BearRush.csv

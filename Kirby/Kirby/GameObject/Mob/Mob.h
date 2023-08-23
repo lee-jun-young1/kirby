@@ -37,8 +37,10 @@ protected:
     sf::Vector2f regenPosition;
 public:
     Mob(KirbyAbility type, const std::string textureID = "", const string& name = "") : SpriteGO(textureID, name), type(type) {};
+    Mob(const std::string textureID = "", const string& name = "") : SpriteGO(textureID, name){};
     bool IsSuctionable() { return suctionable; }
     KirbyAbility GetType() { return type; }
+    const sf::Vector2f& GetRegenPosition() const { return regenPosition; };
 
     void SetType(KirbyAbility type) { this->type = type; }
     void SetAnimator(Animator* animator) { this->animator = animator; };

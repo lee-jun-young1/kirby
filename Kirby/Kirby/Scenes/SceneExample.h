@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "json.h"
 
 class Camera;
 class VertexArrayGO;
@@ -12,9 +13,9 @@ protected:
 	Camera* currentCamera = nullptr;
 	Camera* previousCamera = nullptr;
 	float cameraTime = 0.0f;
-	std::vector<Camera*> cameras;
-
 	int count = 0;
+
+	Json::Value rootNode;
 public:
 	SceneExample();
 	virtual ~SceneExample() override;
@@ -32,6 +33,8 @@ public:
 
 	const Camera* GetCamera() const { return currentCamera; }
 	void SetCamera(Camera* camera = nullptr);
+
+	//Temp Background
 	VertexArrayGO* CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize = { 0.f, 0.f }, const std::string& textureId = "");
 };
 

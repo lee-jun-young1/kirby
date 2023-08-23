@@ -7,28 +7,120 @@
 
 Mob* MobPool::GetMob(const EnemyType& type)
 {
-	//Mob* mob = mobs.Get();
-	//mob->SetActive(false);
-	//mob->physicsLayer = (int)PhysicsLayer::Enemy;
-	//mob->SetActive(true);
-	//SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
-	//return mob;
-	return nullptr;
+	KirbyAbility ability = KirbyAbility::None;
+	std::string texturePath;
+	std::string animationPath;
+	std::string defaultAction = "Move";
+	bool isSuctionAble = true;
+	switch (type)
+	{
+	case EnemyType::Cutter:
+	{
+		ability = KirbyAbility::Cutter;
+		texturePath = "sprites/mob/mob_Cutter.png";
+		animationPath = "animations/Mob/Cutter/Cutter";
+		defaultAction = "Jump";
+	}
+		break;
+	case EnemyType::Beam:
+	{
+		ability = KirbyAbility::Beam;
+		texturePath = "sprites/mob/Mob_Beam.png";
+		animationPath = "animations/Mob/Beam/Beam";
+	}
+		break;
+	case EnemyType::Bomb:
+	{
+		ability = KirbyAbility::Bomb;
+		texturePath = "sprites/mob/mob_Bomb.png";
+		animationPath = "animations/Mob/Bomb/Bomb";
+		defaultAction = "Jump";
+	}
+		break;
+	case EnemyType::Bear:
+	{
+		texturePath = "sprites/mob/Mob_Bear.png";
+		animationPath = "animations/Mob/Bear/Bear";
+		defaultAction = "Jump";
+	}
+		break;
+	case EnemyType::Chick:
+	{
+		texturePath = "sprites/mob/Mob_chick.png";
+		animationPath = "animations/Mob/Chick/Chick";
+		defaultAction = "Idle";
+	}
+		break;
+	case EnemyType::Normal:
+	{
+		texturePath = "sprites/mob/mob_normal.png";
+		animationPath = "animations/Mob/Normal/Normal";
+	}
+		break;
+	case EnemyType::Fly:
+	{
+		texturePath = "sprites/mob/Mob_Fly.png";
+		animationPath = "animations/Mob/Fly/Fly";
+		defaultAction = "Fly";
+	}
+		break;
+	case EnemyType::Mushroom:
+	{
+		texturePath = "sprites/mob/Mob_mushroom.png";
+		animationPath = "animations/Mob/Mushroom/Mushroom";
+		defaultAction = "Jump";
+	}
+		break;
+	case EnemyType::SB_Bomb:
+	{
+		ability = KirbyAbility::Bomb;
+		texturePath = "sprites/mob/SB_Bomb.png";
+		animationPath = "animations/Mob/SB-Bomb/SB-Bomb";
+		defaultAction = "Jump";
+		isSuctionAble = false;
+	}
+		break;
+	case EnemyType::Wood:
+	{
+		texturePath = "sprites/mob/Boss_Wood.png";
+		animationPath = "animations/Mob/Wood/Wood";
+		defaultAction = "Idle";
+		isSuctionAble = false;
+	}
+		break;
+	default:
+		break;
+	}
+	Mob* mob = mobs.Get();
+	if (isSuctionAble)
+	{
+		mob->AddTag("Suctionable");
+	}
+	mob->SetType(ability);
+	mob->SetTextureID(texturePath);
+
+	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, animationPath, defaultAction));
+	mob->SetAnimator(ani);
+	mob->SetActive(false);
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
+	return mob;
 }
 
-void MobPool::ReturnMob(Mob* mob)
+void MobPool::ClearPool()
 {
-	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
-	mobs.Return(mob);
+	for (auto mob : mobs.GetUseList())
+	{
+		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
+	}
+	mobs.Clear();
 }
 
 void MobPool::Init()
 {
 	GameObject::Init();
 	mobs.OnCreate = [this](Mob* mob) {
-		mob->AddTag("Suctionable");
+		mob->SetName("Mob");
 		mob->AddTag("Mob");
-		mob->SetSize({24.0f, 24.0f});
 		mob->physicsLayer = (int)PhysicsLayer::Enemy;
 
 		BoxCollider* mobCol = (BoxCollider*)mob->AddComponent(new BoxCollider(*mob));
@@ -37,15 +129,10 @@ void MobPool::Init()
 
 		RigidBody2D* rig = (RigidBody2D*)mob->AddComponent(new RigidBody2D(*mob));
 		mobCol->SetRigidbody(rig);
-
-		Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Normal/Normal", "Move"));
-		mob->SetAnimator(ani);
 		mob->SetRigidBody(rig);
-
-		mob->sortLayer = 1;
 		mob->SetOrigin({ 36.0f, 48.0f });
-		mob->SetRegenPosition(position);
 	};
+	mobs.Init(30);
 }
 
 void MobPool::Release()

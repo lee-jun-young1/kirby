@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "ObjectPool.h"
 #include "Mob.h"
+#include "Cutter.h"
+
 class MobPool : public GameObject
 {
 protected:
@@ -11,8 +13,7 @@ public:
 	MobPool(const std::string& name = "") : GameObject(name) {}
 
 	Mob* GetMob(const EnemyType& type);
-
-	void ReturnMob(Mob* mob);
+	void ClearPool();
 
 	virtual void Init() override;
 	virtual void Release() override;

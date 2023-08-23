@@ -7,6 +7,7 @@
 #include "Framework.h"
 #include "Utils.h"
 #include "BoxCollider.h"
+#include "Kirby.h"
 void Camera::Init()
 {
 	SetFillColor(sf::Color::Transparent);
@@ -26,18 +27,10 @@ void Camera::Reset()
 	camCol->SetTrigger(true);
 }
 
-void Camera::Update(float dt)
-{
-	//if (!isIn && !isStay)
-	//{
-	//	return;
-	//}
-}
-
 void Camera::MoveCamera(float dt)
 {
 	cameraTime += dt * 2.5f;
-	sf::Vector2f cameraCenter = player->GetPosition();
+	sf::Vector2f cameraCenter = kirby->GetPosition();
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	sf::FloatRect bounds = GetGlobalBounds();
 
@@ -70,31 +63,38 @@ void Camera::MoveCamera(float dt)
 	cameraTime = 0.0f;
 }
 
-void Camera::CheckObjectInCamera(SpriteGO* target)
+void Camera::SetActiveInCamera(SpriteGO* target)
 {
-	std::cout << target->GetName() << std::endl;
-	if (GetGlobalBounds().contains(target->GetPosition()))
-	{
+	sf::FloatRect checkArea = GetGlobalBounds();
+	checkArea.left -= correctSize.x;
+	checkArea.top -= correctSize.y;
+	checkArea.width += (correctSize.x * 2.f);
+	checkArea.height += (correctSize.y * 2.f);
 
+	if (checkArea.contains(target->GetPosition()))
+	{
+		if (target->inCameraEvent != nullptr)
+		{
+			target->inCameraEvent();
+		}
 	}
 	else
 	{
-
+		if (target->outCameraEvent != nullptr)
+		{
+			target->outCameraEvent();
+		}
 	}
 }
 
 void Camera::OnTriggerEnter(Collider* col)
 {
-	if (col->GetGameObject().GetName() != player->GetName())
+	if (col->GetGameObject().GetName() != "Kirby")
 	{
 		return;
 	}
 	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	if (scene->GetCamera() == this)
-	{
-		//scene->SetCamera();
-	}
-	else
+	if (scene->GetCamera() != this)
 	{
 		scene->SetCamera(this);
 	}
@@ -106,5 +106,12 @@ void Camera::OnTriggerStay(Collider* col)
 
 void Camera::OnTriggerExit(Collider* col)
 {
-
+	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+	if (scene->GetCamera() == this)
+	{
+		if (kirby->GetPosition().x <= GetGlobalBounds().left + cellSize.x)
+		{
+			kirby->SetPosition(GetGlobalBounds().left, kirby->GetPosition().y);
+		}
+	}
 }
