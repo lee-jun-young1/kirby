@@ -177,6 +177,8 @@ public:
 
 	void BeamAttackDown();
 
+	void BeamDashAttack();
+
 	void BeamAttackKeyUp();
 
 	void BeamJumpAttack();

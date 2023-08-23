@@ -137,40 +137,6 @@ void SceneExample::Init()
 	curtain->SetFillColor({ 0, 0, 0, 0 });
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
-	//BeamEffect* beam = (BeamEffect*)AddGameObject(new BeamEffect("sprites/effects/Beam_Effect.png", "BeamEffectRoot"));
-	//beam->AddComponent(new Animator(*beam, "animations/Effect/Beam/Beam", "Beam"));
-	//beam->SetPosition(-72.0f, 0.0f);
-	//beam->SetEffectDirection({ 1.0f, 0.0f });
-
-	//BeamEffect* beam2 = (BeamEffect*)AddGameObject(new BeamEffect("sprites/effects/Beam_Effect.png", "BeamTail"));
-	//beam2->AddComponent(new Animator(*beam2, "animations/Effect/Beam/Beam", "Beam"));
-	//beam2->SetPosition(-82.0f, 0.0f);
-	//beam2->SetEffectDirection({ 1.0f, 0.0f });
-	//beam2->SetPrevNode(beam);
-
-	//BeamEffect* beam3 = (BeamEffect*)AddGameObject(new BeamEffect("sprites/effects/Beam_Effect.png", "BeamTail"));
-	//beam3->AddComponent(new Animator(*beam3, "animations/Effect/Beam/Beam", "Beam"));
-	//beam3->SetPosition(-92.0f, 0.0f);
-	//beam3->SetEffectDirection({ 1.0f, 0.0f });
-	//beam3->SetPrevNode(beam2);
-
-	//BeamEffect* beam4 = (BeamEffect*)AddGameObject(new BeamEffect("sprites/effects/Beam_Effect.png", "BeamEffectRoot"));
-	//beam4->AddComponent(new Animator(*beam4, "animations/Effect/Beam/Beam", "Beam"));
-	//beam4->SetPosition(0.0f, 0.0f);
-	//beam4->SetEffectDirection({ 1.0f, 0.0f });
-
-	//BeamEffect* beam5 = (BeamEffect*)AddGameObject(new BeamEffect("sprites/effects/Beam_Effect.png", "BeamTail"));
-	//beam5->AddComponent(new Animator(*beam5, "animations/Effect/Beam/Beam", "Beam"));
-	//beam5->SetPosition(0.0f, 0.0f);
-	//beam5->SetEffectDirection({ -1.0f, 0.0f });
-	//beam5->SetPrevNode(beam4);
-
-	//BeamEffect* beam6 = (BeamEffect*)AddGameObject(new BeamEffect("sprites/effects/Beam_Effect.png", "BeamTail"));
-	//beam6->AddComponent(new Animator(*beam6, "animations/Effect/Beam/Beam", "Beam"));
-	//beam6->SetPosition(0.0f, 0.0f);
-	//beam6->SetEffectDirection({ -1.0f, 0.0f });
-	//beam6->SetPrevNode(beam5);
-
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -290,6 +256,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetPosition(ScreenToWorldPosition({ 72.0f, -72.0f }));
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
@@ -313,6 +280,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetPosition(ScreenToWorldPosition({ 72.0f, -72.0f }));
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
 		suctionAble->SetPosition(-10.0f, 0.0f);
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
@@ -339,6 +307,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetPosition(ScreenToWorldPosition({ 72.0f, -72.0f }));
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
@@ -364,6 +333,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetPosition(ScreenToWorldPosition({ 72.0f, -72.0f }));
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });

@@ -248,6 +248,10 @@ void Kirby::ChangeState(const KirbyState& state)
 				}
 				chargeKeyContinue = nullptr;
 				break;
+			case KirbyAbility::Beam:
+				chargeKey = std::bind(&Kirby::BeamDashAttack, this);
+				chargeKeyContinue = nullptr;
+				break;
 			default:
 				chargeKey = nullptr;
 				chargeKeyContinue = nullptr;
@@ -1009,6 +1013,48 @@ void Kirby::BeamAttackDown()
 	beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
 	beam->SetEffectDirection({ 1.0f, 0.0f });
 	beam->SetEffectRotation(-90.0f);
+}
+
+void Kirby::BeamDashAttack()
+{
+	ChangeState(KirbyState::Attack);
+	animator->SetEvent("BeamDashAttack");
+	BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam->SetMode(BeamEffect::Mode::Tornado);
+	beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+	beam->SetEffectDirection({ 1.0f, 0.0f });
+	beam->SetEffectRotation(-90.0f);
+
+	for (int i = 0; i < 4; i++)
+	{
+		BeamEffect* beam2 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam2->SetMode(BeamEffect::Mode::Tornado);
+		beam2->SetEffectDirection({ scale.x, 0.0f });
+		beam2->SetPrevNode(beam);
+		beam2->SetEffectRotation(-40.0f);
+		beam2->SetTime(i * 1.0f);
+
+		BeamEffect* beam3 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam3->SetMode(BeamEffect::Mode::Tornado);
+		beam3->SetEffectDirection({ scale.x, 0.0f });
+		beam3->SetPrevNode(beam2);
+		beam3->SetEffectRotation(-30.0f);
+		beam3->SetTime(i * 1.0f);
+
+		BeamEffect* beam4 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam4->SetMode(BeamEffect::Mode::Tornado);
+		beam4->SetEffectDirection({ scale.x, 0.0f });
+		beam4->SetPrevNode(beam3);
+		beam4->SetEffectRotation(-20.0f);
+		beam4->SetTime(i * 1.0f);
+
+		BeamEffect* beam5 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam5->SetMode(BeamEffect::Mode::Tornado);
+		beam5->SetEffectDirection({ scale.x, 0.0f });
+		beam5->SetPrevNode(beam4);
+		beam5->SetEffectRotation(10.0f);
+		beam5->SetTime(i * 1.0f);
+	}
 }
 void Kirby::BeamAttackKeyUp()
 {

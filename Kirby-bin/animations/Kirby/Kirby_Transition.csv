@@ -89,6 +89,7 @@ Run,Falling,1,0,Falling,0
 Run,Wall,1,0,Wall,0
 Run,Hit,1,0,Hit,0
 Run,CutterDashAttack,1,0,CutterDashAttack,0
+Run,BeamDashAttack,1,0,BeamDashAttack,0
 Sit,Idle,1,0,Idle,0
 Sit,AbilityKeyContinue,1,0,Suction,0
 Sit,PressJump,1,0,Tackle,0
@@ -194,3 +195,4 @@ BeamCharge,BeamAttack,1,0,BeamAttack,0
 BeamCharge,,0,11,BeamFullCharge,0
 BeamFullCharge,BeamShot,1,0,BeamShot,0
 BeamShot,,0,9,Idle,0
+BeamDashAttack,,0,2,Idle,0
