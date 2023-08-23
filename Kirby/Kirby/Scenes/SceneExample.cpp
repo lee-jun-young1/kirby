@@ -383,7 +383,7 @@ void SceneExample::Update(float deltaTime)
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
 
-		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Bomb/Bomb", "Jump"));
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/SB-Bomb/SB-Bomb", "Jump"));
 		suctionAble->SetAnimator(ani);
 		suctionAble->SetRigidBody(rig);
 		EffectPool* effectPool = (EffectPool*)FindGameObject("EffectPool");

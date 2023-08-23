@@ -61,7 +61,7 @@ void BombEffect::OnTriggerEnter(Collider* col)
 
 void BombEffect::OnTriggerStay(Collider* col)
 {
-	if (col->GetGameObject().HasTag("Mob"))
+	if (col->GetGameObject().HasTag("Mob") && animator->GetClipName() != "Ready")
 	{
 		((Mob*)&col->GetGameObject())->Damage(1.0f, col->GetGameObject().GetPosition().x < GetPosition().x + sprite.getGlobalBounds().width * 0.5f ? -1.0f : 1.0f);
 	}
