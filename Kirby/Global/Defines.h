@@ -128,6 +128,7 @@ enum class DoorType
 
 enum class KirbyAbility
 {
+	Null = -1,
 	None = 20,
 	Cutter = 0,
 	Beam = 1,

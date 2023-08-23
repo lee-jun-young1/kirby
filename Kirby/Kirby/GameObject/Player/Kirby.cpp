@@ -578,7 +578,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			vKey = nullptr;
 			update = nullptr;
 			onCollisionEnter = std::bind(&Kirby::SuctionCollisionEnter, this, std::placeholders::_1);
-			onCollisionStay = nullptr;
+			onCollisionStay = std::bind(&Kirby::SuctionCollisionEnter, this, std::placeholders::_1);
 			break;
 		case KirbyState::Sit:
 			cout << "state :: Sit" << endl;
@@ -893,7 +893,7 @@ void Kirby::EquipAbility()
 {
 	ability = keepInMouseAbility;
 	cout << "Equip :: " << (int)ability << endl;
-	keepInMouseAbility = KirbyAbility::None;
+	keepInMouseAbility = KirbyAbility::Null;
 	sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
 
 	switch (ability)
@@ -932,7 +932,7 @@ void Kirby::UnequipAbility()
 		ChangeState(KirbyState::Shot);
 		animator->SetEvent("Shot");
 		ability = KirbyAbility::None;
-		keepInMouseAbility = KirbyAbility::None;
+		keepInMouseAbility = KirbyAbility::Null;
 		ShotStar();
 		sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
 		if (tex != nullptr)
@@ -1220,9 +1220,16 @@ void Kirby::DoSuction()
 
 void Kirby::SuctionEnd()
 {
-	ChangeState(KirbyState::Idle);
-	animator->SetEvent("Idle");
 	suction->SetActive(false);
+	if (keepInMouseAbility == KirbyAbility::Null)
+	{
+		ChangeState(KirbyState::Idle);
+		animator->SetEvent("Idle");
+	} else
+	{
+		ChangeState(KirbyState::Balloon);
+		animator->SetEvent("Balloon");
+	}
 }
 
 void Kirby::Eat()
@@ -1303,7 +1310,7 @@ void Kirby::ShotStar()
 	kirbyEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
 	kirbyEffect->StarShot(GetScale().x);
 	((Animator*)kirbyEffect->GetComponent(ComponentType::Animation))->SetState("Star");
-	keepInMouseAbility = KirbyAbility::None;
+	keepInMouseAbility = KirbyAbility::Null;
 	rigidbody->SetVelocity({ 0.0f, 0.0f });
 	ChangeState(KirbyState::Shot);
 	moveAxisX = 0.0f;
@@ -1316,7 +1323,7 @@ void Kirby::ShotEmpty()
 	kirbyEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
 	kirbyEffect->EmptyShot(GetScale().x);
 	((Animator*)kirbyEffect->GetComponent(ComponentType::Animation))->SetState("EmptyShot");
-	keepInMouseAbility = KirbyAbility::None;
+	keepInMouseAbility = KirbyAbility::Null;
 	rigidbody->SetVelocity({ 0.0f, 0.0f });
 	ChangeState(KirbyState::Shot);
 	moveAxisX = 0.0f;
@@ -1690,7 +1697,7 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 
 void Kirby::SetInMouseType(const KirbyAbility& ability)
 {
-	if (keepInMouseAbility != KirbyAbility::None)
+	if (keepInMouseAbility != KirbyAbility::Null)
 	{
 		return;
 	}
@@ -1779,12 +1786,21 @@ void Kirby::SuctionCollisionEnter(Collider* col)
 {
 	if (col->GetGameObject().HasTag("Suctionable"))
 	{
-		Mob* suctionable = (Mob*)&col->GetGameObject();
+		if (col->GetGameObject().HasTag("Mob"))
+		{
+			Mob* mob = (Mob*)&col->GetGameObject();
+			keepInMouseAbility = mob->GetType();
+		}
+		else
+		{
+			keepInMouseAbility = KirbyAbility::None;
+		}
 		/////
-		suctionable->SetActive(false);
-		suction->SetActive(false);
+		col->GetGameObject().SetActive(false); 
+		SuctionEnd();
 	}
 }
+
 
 void Kirby::OnCollisionStay(Collider* col)
 {

@@ -28,7 +28,7 @@ void BombEffect::Update(float deltaTime)
 
 void BombEffect::OnTriggerEnter(Collider* col)
 {
-	if (col->GetGameObject().HasTag("Mob") && animator->GetClipName() == "Ready")
+	if (physicsLayer == (int)PhysicsLayer::PlayerEffect && col->GetGameObject().HasTag("Mob") && animator->GetClipName() == "Ready")
 	{
 		collider->GetRigidBody()->SetVelocity({ 0.0f, 0.0f });
 		collider->GetRigidBody()->SetGravity(false);

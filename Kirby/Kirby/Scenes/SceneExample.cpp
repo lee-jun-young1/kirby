@@ -37,6 +37,7 @@
 #include "Player.h"
 #include "Ground.h"
 #include "Enemy.h"
+#include <SemiBossBomb.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -108,7 +109,8 @@ void SceneExample::Init()
 	Animator* effectAnimator = (Animator*)kirbyEffect->AddComponent(new Animator(*kirbyEffect, "animations/Effect/KirbyEffect", "Star"));
 	RigidBody2D* effectRigidbody = (RigidBody2D*)kirbyEffect->AddComponent(new RigidBody2D(*kirbyEffect));
 	BoxCollider* effectCollider = (BoxCollider*)kirbyEffect->AddComponent(new BoxCollider(*kirbyEffect));
-	effectCollider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+	effectCollider->SetRect({ 0.0f, 0.0f, 20.0f, 20.0f });
+	effectCollider->SetOffset({ 2.0f, 2.0f });
 	effectCollider->SetTrigger(true);
 
 	kirby->SetEffect(kirbyEffect);
@@ -168,7 +170,6 @@ void SceneExample::Init()
 	//beam6->SetPosition(0.0f, 0.0f);
 	//beam6->SetEffectDirection({ -1.0f, 0.0f });
 	//beam6->SetPrevNode(beam5);
-	cameraType = CameraType::Free;
 
 	for (auto go : gameObjects)
 	{
@@ -280,7 +281,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->AddTag("Mob");
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
-		suctionAble->SetPosition(kirby->GetPosition());
+		suctionAble->SetPosition(FindGameObject("Kirby")->GetPosition() + sf::Vector2f(144.0f, -144.0f));
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
 		suctionAbleCol->SetRigidbody(rig);
@@ -326,7 +327,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(0.0f, 0.0f);
+		suctionAble->SetPosition(FindGameObject("Kirby")->GetPosition() + sf::Vector2f(144.0f, -144.0f));
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
@@ -351,7 +352,7 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetSize({ 24.0f, 24.0f });
 		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
 		suctionAble->SetOrigin(Origins::BC);
-		suctionAble->SetPosition(0.0f, 0.0f);
+		suctionAble->SetPosition(FindGameObject("Kirby")->GetPosition() + sf::Vector2f(72.0f, -72.0f));
 		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
@@ -363,6 +364,33 @@ void SceneExample::Update(float deltaTime)
 		suctionAble->SetRigidBody(rig);
 
 		suctionAble->Reset();
+		suctionAble->SetOrigin({ 36.0f, 48.0f });
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
+	}
+
+	if (Input.GetKeyDown(Keyboard::F9))
+	{
+		SemiBossBomb* suctionAble = (SemiBossBomb*)AddGameObject(new SemiBossBomb(KirbyAbility::Bomb, "sprites/mob/SB_Bomb.png", "Suctionable"));
+		suctionAble->AddTag("Mob");
+		suctionAble->SetSize({ 24.0f, 24.0f });
+		suctionAble->physicsLayer = (int)PhysicsLayer::Enemy;
+		suctionAble->SetOrigin(Origins::BC);
+
+		BoxCollider* suctionAbleCol = (BoxCollider*)suctionAble->AddComponent(new BoxCollider(*suctionAble));
+		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		suctionAbleCol->SetOffset({ 0.0f, -24.0f });
+		RigidBody2D* rig = (RigidBody2D*)suctionAble->AddComponent(new RigidBody2D(*suctionAble));
+		suctionAbleCol->SetRigidbody(rig);
+
+		Animator* ani = (Animator*)suctionAble->AddComponent(new Animator(*suctionAble, "animations/Mob/Bomb/Bomb", "Jump"));
+		suctionAble->SetAnimator(ani);
+		suctionAble->SetRigidBody(rig);
+		EffectPool* effectPool = (EffectPool*)FindGameObject("EffectPool");
+		suctionAble->SetEffectPool(effectPool);
+
+		suctionAble->Reset();
+		suctionAble->SetPosition(ScreenToWorldPosition({ 72.0f, -72.0f }));
 		suctionAble->SetOrigin({ 36.0f, 48.0f });
 		suctionAbleCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		suctionAbleCol->SetOffset({ -12.0f, -24.0f });
