@@ -3,7 +3,8 @@
 class Playable : public SpriteGO
 {
 protected:
-	int hp = 100;
+	int maxHP = 100;
+	int currentHP = 100;
 public:
 	Playable(const std::string textureID = "", const std::string& name = "") : SpriteGO(textureID, name) {};
 	virtual void MoveKey(const float&) = 0;
@@ -20,5 +21,6 @@ public:
 	virtual void VKey() = 0;
 
 	virtual void Damage(const int& damage, const float hitAxisX) = 0;
+	virtual void Heal(const int& heal) = 0;
 };
 

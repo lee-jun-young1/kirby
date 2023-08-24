@@ -1716,7 +1716,16 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 	{
 		return;
 	}
-	//hp -= damage;
+
+	currentHP -= damage;
+	Utils::Clamp(currentHP, 0, 100);
+
+	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+	ui->SetPlayer1HP(currentHP / (float)maxHP);
+	if (currentHP <= 0.0f)
+	{
+		//die
+	}
 	if (bomb != nullptr)
 	{
 		bomb->Fire({ 0.0f, 0.0f });
@@ -1737,6 +1746,15 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 	collider->SetOffset({ -12.0f, -24.0f });
 	moveAxisX = -GetScale().x;
 	rigidbody->SetVelocity({ hitAxisX * 100.0f, 0.0f });
+}
+
+void Kirby::Heal(const int& heal)
+{
+	currentHP += heal;
+	Utils::Clamp(currentHP, 0, 100);
+
+	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+	ui->SetPlayer1HP(currentHP / (float)maxHP);
 }
 
 void Kirby::SetInMouseType(const KirbyAbility& ability)
