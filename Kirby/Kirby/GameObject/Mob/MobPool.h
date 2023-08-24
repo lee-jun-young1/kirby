@@ -23,7 +23,7 @@ protected:
 	ObjectPool<Bear> bears;
 	ObjectPool<Mushroom> mushrooms;
 	ObjectPool<Chick> chicks;
-	//ObjectPool<SemiBossBomb> semiBossBombs;
+	ObjectPool<SemiBossBomb> semiBossBombs;
 
 public:
 	MobPool(const std::string& name = "") : GameObject(name) {}
@@ -37,7 +37,7 @@ public:
 	Bear* GetBear();
 	Chick* GetChick();
 	Mushroom* GetMushroom();
-	//SemiBossBomb* GetSemiBossBomb();
+	SemiBossBomb* GetSemiBossBomb();
 
 
 	void MobReturn(Mob* mob);

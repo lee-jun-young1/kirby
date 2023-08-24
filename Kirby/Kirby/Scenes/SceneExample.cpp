@@ -198,6 +198,7 @@ void SceneExample::Update(float deltaTime)
 		std::list<GameObject*> goList;
 		FindGameObjects(goList, "GenPoint");
 		FindGameObjects(goList, "Ground");
+		FindGameObjects(goList, "ThroughtableGround");
 		FindGameObjects(goList, "Mob");
 		for (auto go : goList)
 		{
@@ -468,18 +469,17 @@ void SceneExample::LoadData(const std::wstring& path)
 		int sort = node["SortLayer"].asInt();
 		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		EnemyType type = (EnemyType)node["Type"].asInt();
-
-		if (type == EnemyType::SB_Bomb || type == EnemyType::Wood)
+		if (type == EnemyType::Wood)
 		{
 			continue;
 		}
-
 		GenPoint* genPoint = (GenPoint*)AddGameObject(new GenPoint("GenPoint"));
 		genPoint->SetEnemyType(type);
 		genPoint->SetPosition(position);
 		genPoint->sortLayer = sort;
 		genPoint->SetMobPool(mobPool);
 	}
+
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
 		Json::Value node = doorNodes[i];
@@ -502,7 +502,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		Json::Value node = groundNodes[i];
 		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
 		{
-			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround("ThroughtableGround"));
+			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
 			throughtGround->AddTag("Ground");
 			throughtGround->SetSize({ 24.0f, 24.0f });
 			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
@@ -540,7 +540,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		cam->SetType(type);
 		cam->SetKirby(kirby);
 		cam->SetSize(size);
-		cam->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat()+36.0f });
+		cam->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat()+24.0f });
 		cam->SetView(&worldView);
 	}
 
