@@ -362,6 +362,17 @@
 	[
 		{
 			"FlipX" : false,
+			"PaletteID" : "row-1-column-11",
+			"Position" : 
+			{
+				"x" : 1152.0,
+				"y" : 1128.0
+			},
+			"SortLayer" : 1,
+			"Type" : 9
+		},
+		{
+			"FlipX" : false,
 			"PaletteID" : "row-1-column-4",
 			"Position" : 
 			{
@@ -2098,26 +2109,6 @@
 				"y" : 336.0
 			},
 			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-2",
-			"Position" : 
-			{
-				"x" : 1152.0,
-				"y" : 1128.0
-			},
-			"SortLayer" : 1,
-			"TexturePosition" : 
-			{
-				"x" : 24.0,
-				"y" : 24.0
-			},
-			"Type" : 5
 		},
 		{
 			"FlipX" : false,

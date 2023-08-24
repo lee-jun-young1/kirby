@@ -108,8 +108,8 @@ enum class EnemyType
 	Fly,
 	Mushroom,
 	Normal,
-	SubBoss,
-	Boss,
+	SB_Bomb,
+	Wood,
 };
 
 enum class StageIndex

@@ -24,17 +24,9 @@ void Ground::Reset()
 	}
 	
 	inCameraEvent = [this]() {
-		if (this->IsActive())
-		{
-			return;
-		}
 		SetActive(true);
 	};
 	outCameraEvent = [this]() {
-		if (!this->IsActive())
-		{
-			return;
-		}
 		SetActive(false);
 	};
 
