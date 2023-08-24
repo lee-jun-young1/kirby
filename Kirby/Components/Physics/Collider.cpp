@@ -55,19 +55,19 @@ sf::Vector2f Collider::GetNormal(Collider* col)
 	if (rotation == 0)
 	{
 		sf::Vector2f val = (col->GetCenter() - GetCenter());
-		val.x /= GetWidth() + col->GetWidth();
+		val.x /= (GetWidth() + col->GetWidth());
 		val.y /= GetHeight() + col->GetHeight();
 
 		sf::Vector2f result;
-		if (abs(val.x) >= abs(val.y))
-		{
-			//cout << " Y " << endl;
-			result.x = val.x > 0.0f ? 1.0f : -1.0f;
-		}
-		else
+		if (abs(val.x) <= abs(val.y))
 		{
 			//cout << " X " << endl;
 			result.y = (val.y > 0.0f ? 1.0f : -1.0f);
+		}
+		else
+		{
+			//cout << " Y " << endl;
+			result.x = val.x > 0.0f ? 1.0f : -1.0f;
 		}
 
 		return result;

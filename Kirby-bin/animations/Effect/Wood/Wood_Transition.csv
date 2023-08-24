@@ -1,0 +1,3 @@
+StateName,EventName,IgnoreExitTime,ExitTime,TargetState,EnterTime
+Apple,Breath,1,0,Breath,0
+Breath,Apple,1,0,Apple,0

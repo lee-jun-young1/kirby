@@ -31,6 +31,15 @@ BombEffect* EffectPool::GetBombEffect(const PhysicsLayer& layer)
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(effect);
 	return effect;
 }
+WoodEffect* EffectPool::GetWoodEffect(const PhysicsLayer& layer)
+{
+	WoodEffect* effect = woodEffects.Get();
+	effect->SetActive(false);
+	effect->physicsLayer = (int)layer;
+	effect->SetActive(true);
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(effect);
+	return effect;
+}
 
 void EffectPool::ReturnCutterEffect(CutterEffect* effect)
 {
@@ -48,6 +57,12 @@ void EffectPool::ReturnBombEffect(BombEffect* effect)
 {
 	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(effect);
 	bombEffects.Return(effect);
+}
+
+void EffectPool::ReturnWoodEffect(WoodEffect* effect)
+{
+	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(effect);
+	woodEffects.Return(effect);
 }
 
 void EffectPool::Init()
@@ -99,9 +114,25 @@ void EffectPool::Init()
 		effect->AddTag("BombEffect");
 		effect->SetAnimator(ani);
 	};
+	woodEffects.OnCreate = [this](WoodEffect* effect)
+	{
+		BoxCollider* col = (BoxCollider*)effect->AddComponent(new BoxCollider(*effect));
+		RigidBody2D* rig = (RigidBody2D*)effect->AddComponent(new RigidBody2D(*effect));
+		col->SetRect({ 0.0f, 0.0f, 20.0f, 20.0f });
+		col->SetOffset({ 24.0f, 24.0f });
+		col->SetRigidbody(rig);
+		col->SetTrigger(true);
+		col->SetBounciness(0.2f);
+		effect->SetPool(this);
+		Animator* ani = (Animator*)effect->AddComponent(new Animator(*effect, "animations/Effect/Wood/Wood", "Apple"));
+		effect->AddTag("WoodEffect");
+		effect->SetAnimator(ani);
+		effect->SetRigidBody(rig);
+	};
 	cutterEffects.Init(20);
 	beamEffects.Init(100);
 	bombEffects.Init(20);
+	woodEffects.Init(20);
 }
 
 void EffectPool::Release()

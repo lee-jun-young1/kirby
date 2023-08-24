@@ -25,6 +25,7 @@ protected:
 	sf::Vector2f effectPoint;
 	float effectRotation = -20.0f;
 	float time = 0.0f;
+	float removeTime = 0.0f;
 public:
 	BeamEffect(const std::string textureID = "sprites/effects/Beam_Effect.png", const std::string& name = "BeamEffect") 
 		:SpriteGO(textureID, name) {};
@@ -34,6 +35,7 @@ public:
 	void Shot(const sf::Vector2f& power);
 	void SetEffectDirection(const sf::Vector2f& effectDirection) { this->effectDirection = effectDirection; }
 	void SetEffectRotation(const float& effectRotation) { this->effectRotation = effectRotation; }
+	void SetTime(const float& time) { this->time = time; }
 	void SetPrevNode(BeamEffect* prevNode) { this->prevNode = prevNode; }
 	void SetPool(EffectPool* pool) { this->pool = pool; }
 	void SetMode(const Mode& mode);

@@ -1,6 +1,7 @@
 ID,FPS,LOOPTYPE,,
-HeavyHit,10,0,,
+HeavyHit,2,0,,
 ,,,,
 TextureID,Left,Top,Width,Height
 ,0,192,72,72
+,72,192,72,72
 ,72,192,72,72

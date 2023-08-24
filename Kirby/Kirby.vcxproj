@@ -165,6 +165,7 @@
     <ClCompile Include="Kirby\GameObject\Mob\Chick.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Bear.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Fly.cpp" />
+    <ClCompile Include="Kirby\GameObject\Mob\BossWood.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Beam.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Bomb.cpp" />
     <ClCompile Include="Kirby\GameObject\GroundPool.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Kirby\GameObject\Mob\Chick.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Bear.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Fly.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\BossWood.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Beam.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Bomb.h" />
     <ClInclude Include="Kirby\GameObject\GroundPool.h" />
@@ -356,13 +358,14 @@
     <ClInclude Include="Framework\SpriteFont.h" />
     <ClInclude Include="Kirby\GameObject\Player\Skill.h" />
     <ClInclude Include="Kirby\GameObject\UI\StatusUI.h" />
-    <ClInclude Include="SemiBossBomb.h" />
+    <ClInclude Include="Kirby\GameObject\Mob\SemiBossBomb.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="Kirby\GameObject\Player\Suction.h" />
     <ClInclude Include="Kirby\GameObject\ThrowableGround.h" />
+    <ClInclude Include="Kirby\GameObject\Effect\WoodEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="3rd\json\json_valueiterator.inl" />
