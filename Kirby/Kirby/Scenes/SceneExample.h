@@ -15,7 +15,6 @@ protected:
 	float cameraTime = 0.0f;
 	int count = 0;
 
-	Json::Value rootNode;
 public:
 	SceneExample();
 	virtual ~SceneExample() override;
@@ -30,6 +29,7 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 
 	void LoadData(const std::wstring& path);
+	void LoadDataEnter(const std::wstring& path);
 
 	const Camera* GetCamera() const { return currentCamera; }
 	void SetCamera(Camera* camera = nullptr);

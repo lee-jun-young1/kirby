@@ -10,7 +10,7 @@ Cutter* MobPool::GetCutter()
 	Cutter* mob = cutters.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Cutter/Cutter", "Idle"));
 	mob->SetAnimator(ani);
-	mob->SetActive(true);
+	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -20,7 +20,7 @@ Bomb* MobPool::GetBomb()
 	Bomb* mob = bombs.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Bomb/Bomb", "Jump"));
 	mob->SetAnimator(ani);
-	mob->SetActive(true);
+	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -30,9 +30,18 @@ Beam* MobPool::GetBeam()
 	Beam* mob = beams.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Beam/Beam", "Move"));
 	mob->SetAnimator(ani);
-	mob->SetActive(false);
+	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
+}
+
+void MobPool::MobReturn(Mob* mob)
+{
+	if (mob->GetEnemyType() == EnemyType::Beam)
+	{
+		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
+		beams.Return((Beam*)mob);
+	}
 }
 
 void MobPool::ClearAllPool()
@@ -77,7 +86,7 @@ void MobPool::Init()
 	beams.OnCreate = [this](Beam* mob)
 	{
 	};
-	cutters.Init(20);
+	cutters.Init(10);
 	//semiBossBombs.Init(2);
 	bombs.Init(10);
 	beams.Init(10);

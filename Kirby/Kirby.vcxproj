@@ -234,6 +234,7 @@
     <ClCompile Include="Kirby\GameObject\Player\Playable.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Mob.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\MobPool.cpp" />
+    <ClCompile Include="Kirby\GameObject\MabToolButton.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Kirby\Scenes\SceneExample.cpp" />
@@ -335,6 +336,7 @@
     <ClInclude Include="Kirby\GameObject\Player\Playable.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Mob.h" />
     <ClInclude Include="Kirby\GameObject\Mob\MobPool.h" />
+    <ClInclude Include="Kirby\GameObject\MabToolButton.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Kirby\Scenes\SceneExample.h" />

@@ -3,7 +3,7 @@
 class Cutter : public Mob
 {
 public:
-    Cutter(KirbyAbility type = KirbyAbility::Cutter, const std::string textureID = "sprites/mob/mob_Cutter.png", const string& name = "Cutter")
+    Cutter(KirbyAbility type = KirbyAbility::Cutter, const std::string textureID = "sprites/mob/mob_Cutter.png", const string& name = "Mob")
         :Mob(type, textureID, name) {}
 
     virtual void Init() override;

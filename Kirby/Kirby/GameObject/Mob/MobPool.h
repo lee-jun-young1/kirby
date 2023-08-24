@@ -21,6 +21,8 @@ public:
 	Cutter* GetCutter();
 	Bomb* GetBomb();
 	Beam* GetBeam();
+	
+	void MobReturn(Mob* mob);
 	void ClearAllPool();
 
 	virtual void Init() override;

@@ -65,52 +65,7 @@ void SceneExample::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
-	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
-	for (int i = 0; i < rootNode["Enemy"].size(); i++)
-	{
-		Json::Value node = rootNode["Enemy"][i];
-		int sort = node["SortLayer"].asInt();
-		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		EnemyType type = (EnemyType)node["Type"].asInt();
-		switch (type)
-		{
-		case EnemyType::Cutter:
-		{
-			Cutter* mob = mobPool->GetCutter();
-			mob->sortLayer = sort;
-			mob->SetRegenPosition(position);
-		}
-			break;
-		case EnemyType::Beam:
-		{
-			Beam* mob = mobPool->GetBeam();
-			mob->sortLayer = sort;
-			mob->SetRegenPosition(position);
-		}
-			break;
-		case EnemyType::Bomb:
-		{
-			Bomb* mob = mobPool->GetBomb();
-			mob->sortLayer = sort;
-			mob->SetRegenPosition(position);
-		}
-			break;
-		case EnemyType::Bear:
-			break;
-		case EnemyType::Chick:
-			break;
-		case EnemyType::Fly:
-			break;
-		case EnemyType::Mushroom:
-			break;
-		case EnemyType::Normal:
-			break;
-		case EnemyType::SB_Bomb:
-			break;
-		case EnemyType::Wood:
-			break;
-		}
-	}
+	//LoadDataEnter(L"maps/Green_Green_3.json");
 
 	Scene::Enter();
 	Reset();
@@ -222,6 +177,7 @@ void SceneExample::Update(float deltaTime)
 		currentCamera->MoveCamera(deltaTime);
 		std::list<GameObject*> goList;
 		FindGameObjects(goList, "Ground");
+		FindGameObjects(goList, "Mob");
 		for (auto go : goList)
 		{
 			currentCamera->SetActiveInCamera((SpriteGO*)go);
@@ -425,6 +381,76 @@ void SceneExample::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }
+void SceneExample::LoadDataEnter(const std::wstring& path)
+{
+	if (path == "")
+	{
+		return;
+	}
+	std::ifstream ifile(path);
+	Json::Value rootNode;
+	if (ifile.is_open())
+	{
+		ifile >> rootNode;
+		ifile.close();
+	}
+	else
+	{
+		std::wcout << "File Open Error! Path: " << path << std::endl;
+		return;
+	}
+	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
+	for (int i = 0; i < rootNode["Enemy"].size(); i++)
+	{
+		Json::Value node = rootNode["Enemy"][i];
+		int sort = node["SortLayer"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		EnemyType type = (EnemyType)node["Type"].asInt();
+
+		switch (type)
+		{
+		case EnemyType::Cutter:
+		{
+			Cutter* mob = mobPool->GetCutter();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
+		break;
+		case EnemyType::Beam:
+		{
+			Beam* mob = mobPool->GetBeam();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
+		break;
+		case EnemyType::Bomb:
+		{
+			Bomb* mob = mobPool->GetBomb();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
+		break;
+		case EnemyType::Bear:
+			break;
+		case EnemyType::Chick:
+			break;
+		case EnemyType::Fly:
+			break;
+		case EnemyType::Mushroom:
+			break;
+		case EnemyType::Normal:
+			break;
+		case EnemyType::SB_Bomb:
+			break;
+		case EnemyType::Wood:
+			break;
+		}
+	}
+
+}
 
 void SceneExample::LoadData(const std::wstring& path)
 {
@@ -433,6 +459,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		return;
 	}
 	std::ifstream ifile(path);
+	Json::Value rootNode;
 	if (ifile.is_open())
 	{
 		ifile >> rootNode;
