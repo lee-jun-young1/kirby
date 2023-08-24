@@ -120,7 +120,7 @@ BalloonEmptyShot,,0,1,Idle,0
 BalloonFly,Idle,1,0,Idle,0
 BalloonFly,PressJump,1,0,BalloonFly,0
 BalloonFly,AbilityKeyContinue,1,0,Suction,0
-BalloonFly,Hit,1,0,BalloonHit,0
+BalloonFly,Hit,1,0,Hit,0
 BalloonFly,Shot,1,0,BalloonEmptyShot,0
 BalloonHit,Idle,1,0,BalloonIdle,0
 BalloonIdle,Eat,1,0,BalloonEat,0

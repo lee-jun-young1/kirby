@@ -1722,7 +1722,7 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 		bomb->Fire({ 0.0f, 0.0f });
 		bomb = nullptr;
 	}
-	if (state == KirbyState::Balloon || state == KirbyState::BalloonFly || state == KirbyState::BalloonJump || state == KirbyState::BalloonMove)
+	if (state == KirbyState::BalloonCollided || state == KirbyState::Balloon || state == KirbyState::BalloonJump || state == KirbyState::BalloonMove)
 	{
 		ChangeState(KirbyState::BalloonCollided);
 		rigidbody->SetDrag(0.99f);

@@ -124,7 +124,7 @@ void RigidBody2D::OnCollisionStay(Collider* thisCol, Collider* diffCol, const fl
 			isVerticalCollided = true;
 			velocity.y = 0.0f;
 			//cout << (normal.y > 0.0f ? rect.top + rect.height : rect.top - rect.height) << endl;
-			gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y + (diffCol->GetHeight()) - 0.001f - thisCol->GetOffset().y);
+			gameObject.SetPosition(gameObject.GetPosition().x, diffCol->GetCenter().y + (diffCol->GetHeight() * 0.5f) - 0.001f - thisCol->GetOffset().y);
 		}
 		else if (normal.y <= 0.0f && velocity.y >= 0.0f)
 		{

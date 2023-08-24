@@ -41,6 +41,7 @@
 #include "Bomb.h"
 #include "Beam.h"
 #include "SemiBossBomb.h"
+#include <BossWood.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -131,6 +132,17 @@ void SceneExample::Init()
 	ui->sortLayer = UILayer;
 	ui->SetScoreText(scoreText);
 	ui->SetLifeText(liftText);
+
+	BossWood* boss = (BossWood*)AddGameObject(new BossWood());
+	boss->AddTag("Mob");
+	boss->physicsLayer = (int)PhysicsLayer::Enemy;
+	boss->SetPosition(1154.0f, 1128.0f);
+	Animator* bossAnimator = (Animator*)boss->AddComponent(new Animator(*boss, "animations/Mob/Wood/Wood", "Idle"));
+	boss->SetAnimator(bossAnimator);
+	BoxCollider* bossCol = (BoxCollider*)boss->AddComponent(new BoxCollider(*boss));
+	bossCol->SetRect({ 0.0f, 0.0f, 24.0f * 3.0f, 24.0f * 5.0f });
+	bossCol->SetTrigger(true);
+	boss->SetEffectPool(effectPool);
 	
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
@@ -168,7 +180,12 @@ void SceneExample::Update(float deltaTime)
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	if (Input.GetMouseButtonDown(sf::Mouse::Left))
 	{
-		kirby->SetPosition(ScreenToWorldPosition(Input.GetMousePosition()));
+		//kirby->SetPosition(ScreenToWorldPosition(Input.GetMousePosition()));
+		cout << ScreenToWorldPosition(Input.GetMousePosition()).x << ", " << ScreenToWorldPosition(Input.GetMousePosition()).y << endl;
+	}
+	if (Input.GetKeyDown(sf::Keyboard::Num9))
+	{
+		kirby->SetPosition({ 1000.0f, 1128.0f });
 	}
 
 	if (currentCamera != nullptr)
