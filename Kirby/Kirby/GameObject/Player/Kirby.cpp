@@ -1603,7 +1603,7 @@ void Kirby::NearJumpAttackUpdate(float dt)
 
 void Kirby::CollideUpdate(float dt)
 {
-	if (rigidbody->GetVelocity().y == 0.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
+	if (abs(rigidbody->GetVelocity().y) <= 1.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
 	{
 		animator->SetEvent("Idle");
 		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
@@ -1673,6 +1673,18 @@ void Kirby::BombUpdate(float dt)
 
 void Kirby::StageClear()
 {
+	ability = KirbyAbility::None;
+	sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
+	if (tex != nullptr)
+	{
+		SetTexture(*tex);
+		SetOrigin(origin);
+	}
+	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+	if (ui != nullptr)
+	{
+		ui->SetPlayer1Ability(ability);
+	}
 	ChangeState(KirbyState::DanceReady);
 	actionTime = 0.0f;
 	animator->SetState("DanceReady");

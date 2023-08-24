@@ -225,9 +225,6 @@
     <ClCompile Include="Kirby\GameObject\Mob\MobPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby\GameObject\Mob\SemiBossBomb.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Kirby\GameObject\GroundPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -262,6 +259,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Kirby\GameObject\Effect\WoodEffect.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\SemiBossBomb.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

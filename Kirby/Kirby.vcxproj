@@ -161,6 +161,7 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Effect\WoodEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\GenPoint.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Chick.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Bear.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Kirby\GameObject\Camera.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\KirbyEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Cutter.cpp" />
+    <ClCompile Include="Kirby\GameObject\Mob\SemiBossBomb.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Kirby.cpp" />
     <ClCompile Include="Kirby\GameObject\Player\Controller.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -255,7 +257,6 @@
     <ClCompile Include="Kirby\GameObject\Player\Suction.cpp" />
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp" />
     <ClCompile Include="Kirby\GameObject\UI\StatusUI.cpp" />
-    <ClCompile Include="SemiBossBomb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
