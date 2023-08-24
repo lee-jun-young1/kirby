@@ -13,8 +13,8 @@
 #include "Framework.h"
 #include "InputManager.h"
 #include "RectangleShapeGO.h"
-#include "SpriteGO.h"
 #include "UIButton.h"
+#include "MapToolPalette.h"
 #include "VertexArrayGO.h"
 #include <fstream>
 #include <commdlg.h>
@@ -50,7 +50,7 @@ void SceneMapTool::Enter()
 	for (int i = 0; i < mapData["Palettes"].size(); i++)
 	{
 		Json::Value palette = mapData["Palettes"][i];
-		UIButton* button = (UIButton*)AddGameObject(new UIButton(mapPath, palette["PaletteID"].asString()));
+		MapToolPalette* button = (MapToolPalette*)AddGameObject(new MapToolPalette(mapPath, palette["PaletteID"].asString()));
 		sf::IntRect rect = { palette["Position"]["x"].asInt(), palette["Position"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
 		Category cate = (Category)palette["Category"].asInt();
 		button->SetOrigin(Origins::TL);
@@ -123,7 +123,7 @@ MapToolCell* SceneMapTool::GetCell(const sf::Vector2f& position)
 	return nullptr;
 }
 
-void SceneMapTool::SelectGameObject(SpriteGO* gameObject)
+void SceneMapTool::SelectGameObject(MapToolPalette* gameObject)
 {
 	if (gameObject == nullptr)
 	{
@@ -136,7 +136,7 @@ void SceneMapTool::SelectGameObject(SpriteGO* gameObject)
 		currentGO = nullptr;
 	}
 	
-	SpriteGO* instance = (SpriteGO*)AddGameObject(new SpriteGO(*gameObject));
+	MapToolPalette* instance = (MapToolPalette*)AddGameObject(new MapToolPalette(*gameObject));
 	instance->sprite.setScale({ 1.f, 1.f });
 	instance->sprite.setColor(sf::Color(255,255,255,128));
 	instance->SetActive(true);
@@ -355,7 +355,7 @@ void SceneMapTool::Update(float dt)
 				if ((CameraType)currentGO->additionalData["Type"].asInt() != CameraType::MapEnd)
 				{
 					prevGO = cell->AddGameObject(currentGO, layer);
-					SpriteGO* copy = CopyUIButton("row-2-column-5");
+					MapToolPalette* copy = CopyUIButton("row-2-column-5");
 					copy->sortLayer = copy->additionalData["Layer"].asInt() + paletteLayer;
 					SelectGameObject(copy);
 				}
@@ -612,7 +612,7 @@ void SceneMapTool::SaveData(const std::wstring& path)
 				node["Position"]["x"] = go->GetPosition().x;
 				node["Position"]["y"] = go->GetPosition().y;
 				node["SortLayer"] = go->sortLayer;
-				node["FlipX"] = ((SpriteGO*)go)->additionalData["FlipX"].asBool();
+				node["FlipX"] = ((MapToolPalette*)go)->additionalData["FlipX"].asBool();
 
 				switch (go->GetCategory())
 				{
@@ -622,35 +622,35 @@ void SceneMapTool::SaveData(const std::wstring& path)
 					playerNode = node;
 					break;
 				case Category::Item:
-					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
+					node["Type"] = ((MapToolPalette*)go)->additionalData["Type"].asInt();
 					itemNodes.append(node);
 					break;
 				case Category::Enemy:
-					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
+					node["Type"] = ((MapToolPalette*)go)->additionalData["Type"].asInt();
 					enemyNodes.append(node);
 					break;
 				case Category::Door:
-					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
-					node["MovePosition"]["x"] = ((SpriteGO*)go)->additionalData["MovePosition"]["x"].asFloat();
-					node["MovePosition"]["y"] = ((SpriteGO*)go)->additionalData["MovePosition"]["y"].asFloat();
+					node["Type"] = ((MapToolPalette*)go)->additionalData["Type"].asInt();
+					node["MovePosition"]["x"] = ((MapToolPalette*)go)->additionalData["MovePosition"]["x"].asFloat();
+					node["MovePosition"]["y"] = ((MapToolPalette*)go)->additionalData["MovePosition"]["y"].asFloat();
 					doorNodes.append(node);
 					break;
 				case Category::Ground:
-					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
-					node["TexturePosition"]["x"] = ((SpriteGO*)go)->additionalData["Position"]["x"].asFloat();
-					node["TexturePosition"]["y"] = ((SpriteGO*)go)->additionalData["Position"]["y"].asFloat();
-					if ((GroundType)((SpriteGO*)go)->additionalData["Type"].asInt() == GroundType::Tilted)
+					node["Type"] = ((MapToolPalette*)go)->additionalData["Type"].asInt();
+					node["TexturePosition"]["x"] = ((MapToolPalette*)go)->additionalData["Position"]["x"].asFloat();
+					node["TexturePosition"]["y"] = ((MapToolPalette*)go)->additionalData["Position"]["y"].asFloat();
+					if ((GroundType)((MapToolPalette*)go)->additionalData["Type"].asInt() == GroundType::Tilted)
 					{
-						node["Angle"] = ((SpriteGO*)go)->additionalData["Angle"].asFloat();
-						node["OffSet"]["x"] = ((SpriteGO*)go)->additionalData["OffSet"]["x"].asFloat();
-						node["OffSet"]["y"] = ((SpriteGO*)go)->additionalData["OffSet"]["y"].asFloat();
+						node["Angle"] = ((MapToolPalette*)go)->additionalData["Angle"].asFloat();
+						node["OffSet"]["x"] = ((MapToolPalette*)go)->additionalData["OffSet"]["x"].asFloat();
+						node["OffSet"]["y"] = ((MapToolPalette*)go)->additionalData["OffSet"]["y"].asFloat();
 					}
 					groundNodes.append(node);
 					break;
 				case Category::Camera:
-					node["Type"] = ((SpriteGO*)go)->additionalData["Type"].asInt();
-					node["EndPosition"]["x"] = ((SpriteGO*)go)->additionalData["EndPosition"]["x"].asFloat();
-					node["EndPosition"]["y"] = ((SpriteGO*)go)->additionalData["EndPosition"]["y"].asFloat();
+					node["Type"] = ((MapToolPalette*)go)->additionalData["Type"].asInt();
+					node["EndPosition"]["x"] = ((MapToolPalette*)go)->additionalData["EndPosition"]["x"].asFloat();
+					node["EndPosition"]["y"] = ((MapToolPalette*)go)->additionalData["EndPosition"]["y"].asFloat();
 					cameraNodes.append(node);
 					break;
 				case Category::AmbientObject:
@@ -748,7 +748,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	sf::Vector2f loadPosition;
 	int loadLayer = 0;
 
-	SpriteGO* player = CopyUIButton(playerNode["PaletteID"].asString());
+	MapToolPalette* player = CopyUIButton(playerNode["PaletteID"].asString());
 	if (player != nullptr)
 	{
 		loadPosition = { playerNode["Position"]["x"].asFloat(), playerNode["Position"]["y"].asFloat()};
@@ -767,7 +767,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
 		Json::Value node = itemNodes[i];
-		Item* go = (Item*)CopyUIButton(node["PaletteID"].asString());
+		MapToolPalette* go = (MapToolPalette*)CopyUIButton(node["PaletteID"].asString());
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
@@ -777,7 +777,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
 		}
 		go->additionalData["FlipX"] = node["FlipX"].asBool();
-		go->SetItemType((ItemType)node["Type"].asInt());
+		go->additionalData["Type"] = node["Type"].asInt();
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
@@ -785,7 +785,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	for (int i = 0; i < enemyNodes.size(); i++)
 	{
 		Json::Value node = enemyNodes[i];
-		Enemy* go = (Enemy*)CopyUIButton(node["PaletteID"].asString());
+		MapToolPalette* go = (MapToolPalette*)CopyUIButton(node["PaletteID"].asString());
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
@@ -795,7 +795,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
 		}
 		go->additionalData["FlipX"] = node["FlipX"].asBool();
-		go->SetEnemyType((EnemyType)node["Type"].asInt());
+		go->additionalData["Type"] = node["Type"].asInt();
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
@@ -803,7 +803,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
 		Json::Value node = doorNodes[i];
-		SpriteGO* go = CopyUIButton(node["PaletteID"].asString());
+		MapToolPalette* go = CopyUIButton(node["PaletteID"].asString());
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->additionalData["MovePosition"]["x"] = node["MovePosition"]["x"];
 		go->additionalData["MovePosition"]["y"] = node["MovePosition"]["y"];
@@ -822,7 +822,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	for (int i = 0; i < groundNodes.size(); i++)
 	{
 		Json::Value node = groundNodes[i];
-		Ground* go = (Ground*)CopyUIButton(node["PaletteID"].asString());
+		MapToolPalette* go = (MapToolPalette*)CopyUIButton(node["PaletteID"].asString());
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
@@ -832,7 +832,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
 		}
 		go->additionalData["FlipX"] = node["FlipX"].asBool();
-		go->SetGroundIndex(node["GroundIndex"].asInt());
+		go->additionalData["GroundIndex"] = node["GroundIndex"].asInt();
 		cell = GetCell(loadPosition);
 		cell->AddGameObject(go, node["SortLayer"].asInt());
 	}
@@ -840,7 +840,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
 	{
 		Json::Value node = ambientObjectNodes[i];
-		AmbientObject* go = (AmbientObject*)CopyUIButton(node["PaletteID"].asString());
+		MapToolPalette* go = (MapToolPalette*)CopyUIButton(node["PaletteID"].asString());
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
@@ -858,7 +858,7 @@ void SceneMapTool::LoadData(const std::wstring& path)
 	for (int i = 0; i < cameraNodes.size(); i++)
 	{
 		Json::Value node = cameraNodes[i];
-		SpriteGO* go = CopyUIButton(node["PaletteID"].asString());
+		MapToolPalette* go = CopyUIButton(node["PaletteID"].asString());
 		loadPosition = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		go->sprite.setScale({ 1.f, 1.f });
 		go->SetPosition(loadPosition);
@@ -938,14 +938,14 @@ Json::Value SceneMapTool::LoadFromJsonFile(const std::string& path)
 	return rootNode;
 }
 
-SpriteGO* SceneMapTool::CopyUIButton(const std::string& paletteID)
+MapToolPalette* SceneMapTool::CopyUIButton(const std::string& paletteID)
 {
-	SpriteGO* findGo = (SpriteGO*)FindGameObject(paletteID);
+	MapToolPalette* findGo = (MapToolPalette*)FindGameObject(paletteID);
 	if (findGo == nullptr)
 	{
 		return nullptr;
 	}
-	SpriteGO* instance = new SpriteGO(*findGo);
+	MapToolPalette* instance = new MapToolPalette(*findGo);
 	return instance;
 }
 

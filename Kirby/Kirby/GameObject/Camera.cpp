@@ -11,17 +11,11 @@
 void Camera::Init()
 {
 	SetFillColor(sf::Color::Transparent);
-	//SetOutlineThickness(1.2f);
-	//SetOutlineColor(sf::Color::Cyan);
 }
 
 void Camera::Reset()
 {
 	GameObject::Reset();
-	size.x = data["EndPosition"]["x"].asFloat() - data["Position"]["x"].asFloat() + cellSize.x;
-	size.y = data["EndPosition"]["y"].asFloat() - data["Position"]["y"].asFloat() + cellSize.y;
-	SetSize(size);
-	SetPosition({ data["Position"]["x"].asFloat(), data["Position"]["y"].asFloat() });
 	physicsLayer = (int)PhysicsLayer::Ground;
 	BoxCollider* camCol = (BoxCollider*)this->AddComponent(new BoxCollider(*this));
 	camCol->SetTrigger(true);

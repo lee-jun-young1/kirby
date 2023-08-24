@@ -40,6 +40,11 @@
 #include "Cutter.h"
 #include "Bomb.h"
 #include "Beam.h"
+#include "Normal.h"
+#include "Fly.h"
+#include "Bear.h"
+#include "Chick.h"
+#include "Mushroom.h"
 #include "SemiBossBomb.h"
 
 SceneExample::SceneExample() 
@@ -65,7 +70,7 @@ void SceneExample::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
-	//LoadDataEnter(L"maps/Green_Green_3.json");
+	LoadDataEnter(L"maps/Green_Green_3.json");
 
 	Scene::Enter();
 	Reset();
@@ -142,7 +147,7 @@ void SceneExample::Init()
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
 	MobPool* mobPool = (MobPool*)AddGameObject(new MobPool("MobPool"));
-	LoadData(L"maps/Green_Green_3.json");
+	LoadData(L"maps/temp.json");
 
 	for (auto go : gameObjects)
 	{
@@ -434,18 +439,60 @@ void SceneExample::LoadDataEnter(const std::wstring& path)
 		}
 		break;
 		case EnemyType::Bear:
+		{
+			Bear* mob = mobPool->GetBear();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
 			break;
 		case EnemyType::Chick:
+		{
+			Chick* mob = mobPool->GetChick();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
 			break;
 		case EnemyType::Fly:
+		{
+			Fly* mob = mobPool->GetFly();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
 			break;
 		case EnemyType::Mushroom:
+		{
+			Mushroom* mob = mobPool->GetMushroom();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
 			break;
 		case EnemyType::Normal:
+		{
+			Normal* mob = mobPool->GetNormal();
+			mob->sortLayer = sort;
+			mob->SetRegenPosition(position);
+			mob->SetEnemeyType(type);
+		}
 			break;
 		case EnemyType::SB_Bomb:
+		//{
+		//	SemiBossBomb* mob = mobPool->GetSemiBossBomb();
+		//	mob->sortLayer = sort;
+		//	mob->SetRegenPosition(position);
+		//	mob->SetEnemeyType(type);
+		//}
 			break;
 		case EnemyType::Wood:
+		//{
+		//	Cutter* mob = mobPool->GetCutter();
+		//	mob->sortLayer = sort;
+		//	mob->SetRegenPosition(position);
+		//	mob->SetEnemeyType(type);
+		//}
 			break;
 		}
 	}
@@ -565,6 +612,7 @@ void SceneExample::LoadData(const std::wstring& path)
 	{
 		Json::Value node = cameraNodes[i];
 		CameraType type = (CameraType)node["Type"].asInt();
+		
 		if (type == CameraType::MapEnd)
 		{
 			continue;
@@ -573,11 +621,15 @@ void SceneExample::LoadData(const std::wstring& path)
 		{
 			type = CameraType::Free;
 		}
+		sf::Vector2f size;
+		size.x = node["EndPosition"]["x"].asFloat() - node["Position"]["x"].asFloat() + cellSize.x;
+		size.y = node["EndPosition"]["y"].asFloat() - node["Position"]["y"].asFloat() + cellSize.y;
 
 		Camera* camPtr = (Camera*)AddGameObject(new Camera("camPtr" + std::to_string(i)));
 		camPtr->SetType(type);
 		camPtr->SetKirby(kirby);
-		camPtr->SetData(node);
+		camPtr->SetSize(size);
+		camPtr->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() });
 		camPtr->SetView(&worldView);
 	}
 

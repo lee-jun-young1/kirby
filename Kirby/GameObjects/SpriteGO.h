@@ -42,7 +42,5 @@ public:
 	const bool& GetFlipX();
 	void SetFlipX(bool flip);
 	void SetFlipY(bool flip);
-
-	Json::Value additionalData;
 };
 
