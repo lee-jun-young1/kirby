@@ -22,21 +22,23 @@ void Item::Reset()
 	}
 	sprite.setTextureRect(rect);
 	SetSize({24.0f, 24.0f});
-	physicsLayer = (int)PhysicsLayer::Item;
 }
 
 void Item::OnCollisionEnter(Collider* col)
 {
-	switch (itemType)
+	if (col->GetGameObject().GetName() == "Kirby")
 	{
-	case ItemType::Life:
-		break;
-	case ItemType::God:
-		break;
-	case ItemType::MaxTomato:
-		break;
-	case ItemType::Normal:
-		break;
+		switch (itemType)
+		{
+		case ItemType::Life:
+			break;
+		case ItemType::God:
+			break;
+		case ItemType::MaxTomato:
+			break;
+		case ItemType::Normal:
+			break;
+		}
+		SetActive(false);
 	}
-	SetActive(false);
 }

@@ -449,9 +449,14 @@ void SceneExample::LoadData(const std::wstring& path)
 	{
 		Json::Value node = itemNodes[i];
 		Item* item = (Item*)AddGameObject(new Item("sprites/item/items.png", "Item"));
+		item->SetOrigin(Origins::BC);
 		item->SetItemType((ItemType)node["Type"].asInt());
+		item->physicsLayer = (int)PhysicsLayer::Item;
 		item->sortLayer = node["SortLayer"].asInt();
 		item->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() });
+		BoxCollider* boxCol = (BoxCollider*)item->AddComponent(new BoxCollider(*item));
+		boxCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		boxCol->SetOffset({ 0.0f, 0.0f });
 	}
 
 	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
