@@ -53,7 +53,7 @@ void StatusUI::Update(float deltaTime)
 	if (enemyHitTime < 1.0f)
 	{
 		enemyHitTime += deltaTime;
-		hpEnemy.setSize({ Utils::Lerp(enemyPrevHP, enemyCurrentHP, enemyHitTime), 10.0f });
+		hpEnemy.setSize({ Utils::Lerp(enemyPrevHP, enemyCurrentHP, enemyHitTime, true), 10.0f });
 		hpEnemy.setFillColor((int)(enemyHitTime * 10.0f) % 2 == 0 ? sf::Color::Red : sf::Color::White);
 	}
 }
@@ -110,6 +110,10 @@ void StatusUI::SetUIMode(UIMode mode)
 
 void StatusUI::SetPlayer1HP(float hpPercent)
 {
+	if (hpPercent < 0)
+	{
+		hpPercent = 0;
+	}
 	player1PrevHP = player1CurrentHP;
 	player1CurrentHP = hpSize * hpPercent;
 	player1HitTime = 0.0f;
@@ -125,6 +129,10 @@ void StatusUI::SetPlayer1Ability(KirbyAbility ability)
 
 void StatusUI::SetPlayer2HP(float hpPercent)
 {
+	if (hpPercent < 0)
+	{
+		hpPercent = 0;
+	}
 	player2PrevHP = player2CurrentHP;
 	player2CurrentHP = hpSize * hpPercent;
 	player2HitTime = 0.0f;
@@ -140,6 +148,12 @@ void StatusUI::SetPlayer2Ability(KirbyAbility ability)
 
 void StatusUI::SetEnemyHP(float hpPercent)
 {
+	cout << hpPercent << endl;
+	if (hpPercent < 0.0f)
+	{
+		hpPercent = 0.0f;
+	}
+	cout << hpPercent << endl;
 	enemyPrevHP = enemyCurrentHP;
 	enemyCurrentHP = hpSize * hpPercent;
 	enemyHitTime = 0.0f;

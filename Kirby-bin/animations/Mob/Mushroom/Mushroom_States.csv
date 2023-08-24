@@ -1,0 +1,6 @@
+Key,Path
+Hit,animations/Mob/Mushroom/MushroomHit.csv
+JumpWithCap,animations/Mob/Mushroom/MushroomJumpWithCap.csv
+Jump,animations/Mob/Mushroom/MushroomJump.csv
+ShootCap,animations/Mob/Mushroom/MushroomShootCap.csv
+Suction,animations/Mob/Mushroom/MushroomSuction.csv

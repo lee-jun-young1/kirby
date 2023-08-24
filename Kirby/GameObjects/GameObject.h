@@ -90,4 +90,7 @@ public:
 	virtual void OnTriggerEnter(Collider* col) {}
 	virtual void OnTriggerStay(Collider* col) {}
 	virtual void OnTriggerExit(Collider* col) {}
+
+	std::function<void()> inCameraEvent = nullptr;
+	std::function<void()> outCameraEvent = nullptr;
 };

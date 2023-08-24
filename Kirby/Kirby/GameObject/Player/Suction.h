@@ -10,7 +10,7 @@ class Suction : public GameObject
 private:
 	BoxCollider* collider;
 	Kirby* kirby;
-	list<Mob*> suctionList;
+	list<GameObject*> suctionList;
 public:
 	Suction(const string& name = "Suction") : GameObject(name) {};
 	void SetKirby(Kirby* kirby) { this->kirby = kirby; }

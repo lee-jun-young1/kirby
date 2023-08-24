@@ -3,11 +3,22 @@
 #include <Suction.h>
 #include "Utils.h"
 #include <Playable.h>
+#include "MobPool.h"
 
 void Mob::Reset()
 {
     SpriteGO::Reset();
     update = std::bind(&Mob::UpdateMove, this, std::placeholders::_1);
+    SetPosition(regenPosition);
+    currentHP = maxHP;
+    SetActive(false);
+
+    inCameraEvent = [this]() {
+        SetActive(true);
+    };
+    outCameraEvent = [this]() {
+        mobPool->MobReturn(this);
+    };
 }
 
 void Mob::Update(float dt)

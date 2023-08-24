@@ -248,6 +248,10 @@ void Kirby::ChangeState(const KirbyState& state)
 				}
 				chargeKeyContinue = nullptr;
 				break;
+			case KirbyAbility::Beam:
+				chargeKey = std::bind(&Kirby::BeamDashAttack, this);
+				chargeKeyContinue = nullptr;
+				break;
 			default:
 				chargeKey = nullptr;
 				chargeKeyContinue = nullptr;
@@ -334,7 +338,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			vKey = std::bind(&Kirby::UnequipAbility, this);
 			update = nullptr;
 			onCollisionEnter = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
-			onCollisionStay = nullptr; 
+			onCollisionStay = std::bind(&Kirby::JumpCollisionEnter, this, std::placeholders::_1);
 			break;
 		case KirbyState::Jump:
 			cout << "state :: Jump" << endl;
@@ -461,12 +465,13 @@ void Kirby::ChangeState(const KirbyState& state)
 				}
 				else
 				{
-					sitKey = std::bind(&Kirby::Sit, this);
 					chargeKey = std::bind(&Kirby::BombThrowReadyDown, this);
+					sitKey = std::bind(&Kirby::Sit, this);
 					jumpKey = nullptr;
 				}
 				chargeKeyContinue = nullptr;
 				sitKeyEnd = nullptr;
+				break;
 			case KirbyAbility::Beam:
 				chargeKey = std::bind(&Kirby::BeamDashJumpAttack, this);
 				chargeKeyContinue = nullptr;
@@ -578,7 +583,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			vKey = nullptr;
 			update = nullptr;
 			onCollisionEnter = std::bind(&Kirby::SuctionCollisionEnter, this, std::placeholders::_1);
-			onCollisionStay = nullptr;
+			onCollisionStay = std::bind(&Kirby::SuctionCollisionEnter, this, std::placeholders::_1);
 			break;
 		case KirbyState::Sit:
 			cout << "state :: Sit" << endl;
@@ -755,7 +760,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			onCollisionStay = nullptr;
 			break;
 		case KirbyState::JumpMoveAttack:
-			cout << "state :: JumpAttack" << endl;
+			cout << "state :: JumpMoveAttack" << endl;
 			moveKey = nullptr;
 			dashKey = nullptr;
 			moveKeyEnd = nullptr;
@@ -893,7 +898,7 @@ void Kirby::EquipAbility()
 {
 	ability = keepInMouseAbility;
 	cout << "Equip :: " << (int)ability << endl;
-	keepInMouseAbility = KirbyAbility::None;
+	keepInMouseAbility = KirbyAbility::Null;
 	sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
 
 	switch (ability)
@@ -932,7 +937,7 @@ void Kirby::UnequipAbility()
 		ChangeState(KirbyState::Shot);
 		animator->SetEvent("Shot");
 		ability = KirbyAbility::None;
-		keepInMouseAbility = KirbyAbility::None;
+		keepInMouseAbility = KirbyAbility::Null;
 		ShotStar();
 		sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
 		if (tex != nullptr)
@@ -1009,6 +1014,48 @@ void Kirby::BeamAttackDown()
 	beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
 	beam->SetEffectDirection({ 1.0f, 0.0f });
 	beam->SetEffectRotation(-90.0f);
+}
+
+void Kirby::BeamDashAttack()
+{
+	ChangeState(KirbyState::Attack);
+	animator->SetEvent("BeamDashAttack");
+	BeamEffect* beam = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+	beam->SetMode(BeamEffect::Mode::Tornado);
+	beam->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(1.0f + (21.0f * scale.x), -2.0f));
+	beam->SetEffectDirection({ 1.0f, 0.0f });
+	beam->SetEffectRotation(-90.0f);
+
+	for (int i = 0; i < 4; i++)
+	{
+		BeamEffect* beam2 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam2->SetMode(BeamEffect::Mode::Tornado);
+		beam2->SetEffectDirection({ scale.x, 0.0f });
+		beam2->SetPrevNode(beam);
+		beam2->SetEffectRotation(-40.0f);
+		beam2->SetTime(i * 1.0f);
+
+		BeamEffect* beam3 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam3->SetMode(BeamEffect::Mode::Tornado);
+		beam3->SetEffectDirection({ scale.x, 0.0f });
+		beam3->SetPrevNode(beam2);
+		beam3->SetEffectRotation(-30.0f);
+		beam3->SetTime(i * 1.0f);
+
+		BeamEffect* beam4 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam4->SetMode(BeamEffect::Mode::Tornado);
+		beam4->SetEffectDirection({ scale.x, 0.0f });
+		beam4->SetPrevNode(beam3);
+		beam4->SetEffectRotation(-20.0f);
+		beam4->SetTime(i * 1.0f);
+
+		BeamEffect* beam5 = effectPool->GetBeamEffect(PhysicsLayer::PlayerEffect);
+		beam5->SetMode(BeamEffect::Mode::Tornado);
+		beam5->SetEffectDirection({ scale.x, 0.0f });
+		beam5->SetPrevNode(beam4);
+		beam5->SetEffectRotation(10.0f);
+		beam5->SetTime(i * 1.0f);
+	}
 }
 void Kirby::BeamAttackKeyUp()
 {
@@ -1158,7 +1205,7 @@ void Kirby::CutterJumpAttack()
 	}
 	else
 	{
-		ChangeState(KirbyState::JumpAttack);
+		ChangeState(KirbyState::JumpMoveAttack);
 		CutterEffect* effect = effectPool->GetCutterEffect(PhysicsLayer::PlayerEffect);
 		effect->SetPosition(GetPosition() - GetOrigin());
 		effect->Fire({ sprite.getScale().x, 0.0f });
@@ -1175,7 +1222,7 @@ void Kirby::CutterDashJumpAttack()
 	}
 	else
 	{
-		ChangeState(KirbyState::JumpAttack);
+		ChangeState(KirbyState::JumpMoveAttack);
 		CutterEffect* effect = effectPool->GetCutterEffect(PhysicsLayer::PlayerEffect);
 		effect->SetPosition(GetPosition() - GetOrigin());
 		effect->Fire({ sprite.getScale().x, 0.0f });
@@ -1220,9 +1267,16 @@ void Kirby::DoSuction()
 
 void Kirby::SuctionEnd()
 {
-	ChangeState(KirbyState::Idle);
-	animator->SetEvent("Idle");
 	suction->SetActive(false);
+	if (keepInMouseAbility == KirbyAbility::Null)
+	{
+		ChangeState(KirbyState::Idle);
+		animator->SetEvent("Idle");
+	} else
+	{
+		ChangeState(KirbyState::Balloon);
+		animator->SetEvent("Balloon");
+	}
 }
 
 void Kirby::Eat()
@@ -1265,7 +1319,6 @@ void Kirby::OnDoorKeyDown()
 
 void Kirby::OnDoorKeyUp()
 {
-	cout << "isDoorKeyPress = false" << endl;
 	isDoorKeyPress = false;
 }
 
@@ -1303,7 +1356,7 @@ void Kirby::ShotStar()
 	kirbyEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
 	kirbyEffect->StarShot(GetScale().x);
 	((Animator*)kirbyEffect->GetComponent(ComponentType::Animation))->SetState("Star");
-	keepInMouseAbility = KirbyAbility::None;
+	keepInMouseAbility = KirbyAbility::Null;
 	rigidbody->SetVelocity({ 0.0f, 0.0f });
 	ChangeState(KirbyState::Shot);
 	moveAxisX = 0.0f;
@@ -1316,7 +1369,7 @@ void Kirby::ShotEmpty()
 	kirbyEffect->SetPosition(GetPosition() - sf::Vector2f(0.0f, GetOrigin().y * 0.5f));
 	kirbyEffect->EmptyShot(GetScale().x);
 	((Animator*)kirbyEffect->GetComponent(ComponentType::Animation))->SetState("EmptyShot");
-	keepInMouseAbility = KirbyAbility::None;
+	keepInMouseAbility = KirbyAbility::Null;
 	rigidbody->SetVelocity({ 0.0f, 0.0f });
 	ChangeState(KirbyState::Shot);
 	moveAxisX = 0.0f;
@@ -1552,7 +1605,6 @@ void Kirby::CollideUpdate(float dt)
 {
 	if (rigidbody->GetVelocity().y == 0.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
 	{
-		cout << "stop!!" << endl;
 		animator->SetEvent("Idle");
 		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
 		rigidbody->SetDrag(0.0f);
@@ -1564,7 +1616,6 @@ void Kirby::BalloonCollideUpdate(float dt)
 {
 	if (rigidbody->GetVelocity().y == 0.0f && abs(rigidbody->GetVelocity().x) < 30.0f)
 	{
-		cout << "stop!!" << endl;
 		animator->SetEvent("Idle");
 		rigidbody->SetVelocity({ 0.0f, rigidbody->GetVelocity().y });
 		rigidbody->SetDrag(0.0f);
@@ -1690,7 +1741,7 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 
 void Kirby::SetInMouseType(const KirbyAbility& ability)
 {
-	if (keepInMouseAbility != KirbyAbility::None)
+	if (keepInMouseAbility != KirbyAbility::Null)
 	{
 		return;
 	}
@@ -1779,12 +1830,21 @@ void Kirby::SuctionCollisionEnter(Collider* col)
 {
 	if (col->GetGameObject().HasTag("Suctionable"))
 	{
-		Mob* suctionable = (Mob*)&col->GetGameObject();
+		if (col->GetGameObject().HasTag("Mob"))
+		{
+			Mob* mob = (Mob*)&col->GetGameObject();
+			keepInMouseAbility = mob->GetType();
+		}
+		else
+		{
+			keepInMouseAbility = KirbyAbility::None;
+		}
 		/////
-		suctionable->SetActive(false);
-		suction->SetActive(false);
+		col->GetGameObject().SetActive(false); 
+		SuctionEnd();
 	}
 }
+
 
 void Kirby::OnCollisionStay(Collider* col)
 {
@@ -1827,7 +1887,6 @@ void Kirby::SitCollisionStay(Collider* col)
 {
 	if (col->GetGameObject().GetName() == "ThroughtableGround")
 	{
-		//cout << "Kirby On!!" << endl;
 		((Collider*)col->GetGameObject().GetComponent(ComponentType::Collider))->SetTrigger(true);
 	}
 }

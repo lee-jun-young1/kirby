@@ -1,0 +1,7 @@
+ID,FPS,LOOPTYPE,,
+Fly,3,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,24,24,72,72
+,72,24,72,72
+,120,24,72,72

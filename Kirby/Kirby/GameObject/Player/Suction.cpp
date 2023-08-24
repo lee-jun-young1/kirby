@@ -17,8 +17,17 @@ void Suction::OnDisable()
 {
 	for (auto go : suctionList)
 	{
-		kirby->SetInMouseType(go->GetType());
-		go->SetActive(false);
+		if (go->HasTag("Mob"))
+		{
+			Mob* mob = dynamic_cast<Mob*>(go);
+			kirby->SetInMouseType(mob->GetType());
+			go->SetActive(false);
+		}
+		else
+		{
+			kirby->SetInMouseType(KirbyAbility::None);
+			go->SetActive(false);
+		}
 	}
 }
 
@@ -26,18 +35,28 @@ void Suction::OnDisable()
 
 void Suction::OnTriggerStay(Collider* col)
 {
-	Mob* mob = dynamic_cast<Mob*>(&col->GetGameObject());
-	if (mob != nullptr && mob->IsSuctionable())
+	GameObject* go = &col->GetGameObject();
+	if (go != nullptr && go->HasTag("Suctionable"))
 	{
-		for (auto go : suctionList)
+		for (auto suction : suctionList)
 		{
-			if (go == mob)
+			if (suction == go)
 			{
 				return;
 			}
 		}
-		suctionList.push_back(mob);
-		mob->SetSuction(kirby);
+		RigidBody2D* rig = (RigidBody2D*)go->GetComponent(ComponentType::RigidBody);
+		if (rig != nullptr)
+		{
+			rig->SetVelocity((kirby->GetPosition() + sf::Vector2f(0.0f, -12.0f)) - col->GetCenter());
+			rig->SetGravity(false);
+		}
+		suctionList.push_back(go);
+		if (go->HasTag("Mob"))
+		{
+			Mob* mob = dynamic_cast<Mob*>(go);
+			mob->SetSuction(kirby);
+		}
 	}
 }
 

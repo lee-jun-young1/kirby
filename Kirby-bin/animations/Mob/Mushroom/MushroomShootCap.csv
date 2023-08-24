@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+ShootCap,2,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,24,120,72,72
+,96,120,72,72

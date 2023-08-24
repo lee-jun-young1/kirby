@@ -65,7 +65,7 @@ protected:
 
 	Suction* suction;
 
-	KirbyAbility keepInMouseAbility = KirbyAbility::None;
+	KirbyAbility keepInMouseAbility = KirbyAbility::Null;
 
 	KirbyEffect* kirbyEffect;
 	EffectPool* effectPool;
@@ -177,6 +177,8 @@ public:
 
 	void BeamAttackDown();
 
+	void BeamDashAttack();
+
 	void BeamAttackKeyUp();
 
 	void BeamJumpAttack();
@@ -237,7 +239,8 @@ public:
 	void MoveCollisionEnter(Collider* col);
 	void JumpCollisionEnter(Collider* col);
 	void BalloonJumpCollisionEnter(Collider* col);
-	void SuctionCollisionEnter(Collider* col); 
+	void SuctionCollisionEnter(Collider* col);
+
 	void TackleCollisionEnter(Collider* col);
 	void CutterCollisionEnter(Collider* col);
 

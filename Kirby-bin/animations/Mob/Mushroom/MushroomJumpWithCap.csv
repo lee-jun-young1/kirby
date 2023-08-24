@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+JumpWithCap,2,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,24,24,72,72
+,96,24,72,72

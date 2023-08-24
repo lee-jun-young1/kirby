@@ -8,7 +8,8 @@ class SpriteGO : public GameObject
 {
 protected:
 	sf::Vector2f spriteDirection;
-
+	
+	bool flipX = false;
 public:
 	sf::Sprite sprite;
 	std::string textureID;
@@ -38,6 +39,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 
+	const bool& GetFlipX();
 	void SetFlipX(bool flip);
 	void SetFlipY(bool flip);
 
