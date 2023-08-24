@@ -14,10 +14,10 @@ void Item::Reset()
 		rect = { 216, 24, 24, 24 };
 		break;
 	case ItemType::MaxTomato:
-		rect = { 96, 24, 24, 24 };
+		rect = { 120, 24, 24, 24 };
 		break;
 	case ItemType::Normal:
-		rect = { 120, 24, 24, 24 };
+		rect = { 96, 24, 24, 24 };
 		break;
 	}
 	sprite.setTextureRect(rect);
@@ -28,6 +28,7 @@ void Item::OnCollisionEnter(Collider* col)
 {
 	if (col->GetGameObject().GetName() == "Kirby")
 	{
+		std::cout << (int)itemType << std::endl;
 		switch (itemType)
 		{
 		case ItemType::Life:
@@ -35,8 +36,10 @@ void Item::OnCollisionEnter(Collider* col)
 		case ItemType::God:
 			break;
 		case ItemType::MaxTomato:
+			kirby->Heal(maxTomatoHealHp);
 			break;
 		case ItemType::Normal:
+			kirby->Heal(normalHealHp);
 			break;
 		}
 		SetActive(false);

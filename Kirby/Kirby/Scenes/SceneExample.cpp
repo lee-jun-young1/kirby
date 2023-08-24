@@ -158,7 +158,7 @@ void SceneExample::Init()
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
 	MobPool* mobPool = (MobPool*)AddGameObject(new MobPool("MobPool"));
-	LoadData(L"maps/Green_Green_3.json");
+	LoadData(L"maps/Green_Green.json");
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -242,6 +242,7 @@ void SceneExample::Update(float deltaTime)
 	{
 		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
 		ui->SetPlayer1HP(0.0f);
+		kirby->Damage(50,1);
 	}
 
 	if (Input.GetKeyDown(Keyboard::Numpad2))
@@ -454,6 +455,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		item->physicsLayer = (int)PhysicsLayer::Item;
 		item->sortLayer = node["SortLayer"].asInt();
 		item->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() });
+		item->SetKirby(kirby);
 		BoxCollider* boxCol = (BoxCollider*)item->AddComponent(new BoxCollider(*item));
 		boxCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 		boxCol->SetOffset({ 0.0f, 0.0f });
@@ -500,7 +502,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		Json::Value node = groundNodes[i];
 		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
 		{
-			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround("Ground"));
+			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround("ThroughtableGround"));
 			throughtGround->AddTag("Ground");
 			throughtGround->SetSize({ 24.0f, 24.0f });
 			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
