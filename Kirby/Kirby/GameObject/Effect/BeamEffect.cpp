@@ -7,10 +7,11 @@
 void BeamEffect::Update(float deltaTime)
 {
     time += deltaTime;
+    removeTime += deltaTime;
     switch(mode)
     {
     case Mode::Whip:
-        if (time > 1.0f)
+        if (removeTime > 1.0f)
         {
             pool->ReturnBeamEffect(this);
         }
@@ -27,6 +28,17 @@ void BeamEffect::Update(float deltaTime)
         }
        break;
     case Mode::Tornado:
+        if (prevNode != nullptr)
+        {
+            cout << time  << " , " << cos(time) << endl;
+            sf::Vector2f pos = Utils::RotateWithPivot({ 0.0f, 0.0f }, { 15.0f, 0.0f }, Utils::Lerp(-effectRotation, effectRotation, abs(cos(time* 4.0f))));
+            pos.x *= effectDirection.x;
+            SetPosition(prevNode->GetPosition() + pos);
+        }
+        if (removeTime > 1.0f)
+        {
+            pool->ReturnBeamEffect(this);
+        }
         break;
     case Mode::WindBall:
         effectRotation += 720.0f * deltaTime * effectDirection.x;
@@ -65,6 +77,7 @@ void BeamEffect::Shot(const sf::Vector2f& power)
 
 void BeamEffect::SetMode(const Mode& mode)
 { 
+    removeTime = 0.0f;
     this->mode = mode; 
     switch (mode)
     {

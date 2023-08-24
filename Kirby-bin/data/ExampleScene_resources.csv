@@ -137,3 +137,6 @@
 3,animations/Mob/Chick/ChickIdle.csv
 3,animations/Mob/Chick/ChickJump.csv
 3,animations/Mob/Chick/ChickSuction.csv
+0,sprites/effects/wood.png
+3,animations/Effect/Wood/Apple.csv
+3,animations/Effect/Wood/Breath.csv

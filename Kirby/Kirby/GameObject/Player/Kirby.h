@@ -61,6 +61,7 @@ protected:
 	bool isDoorKeyPress = false;
 
 	bool isDownKeyPress = false;
+
 	sf::Vector2f doorTarget;
 
 	Suction* suction;
@@ -177,6 +178,8 @@ public:
 
 	void BeamAttackDown();
 
+	void BeamDashAttack();
+
 	void BeamAttackKeyUp();
 
 	void BeamJumpAttack();
@@ -230,7 +233,8 @@ public:
 	void StageClear();
 
 	virtual void Draw(sf::RenderWindow& window) override;
-	void Damage(const int& damage, const float hitAxisX);
+	virtual void Damage(const int& damage, const float hitAxisX) override;
+	virtual void Heal(const int& heal) override;
 	void SetInMouseType(const KirbyAbility& ability);
 	virtual void OnCollisionEnter(Collider* col) override;
 
