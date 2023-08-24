@@ -28,6 +28,7 @@
 #include <KirbyEffect.h>
 #include "Camera.h"
 #include <StatusUI.h>
+#include "GenPoint.h"
 //MapTool
 #include <fstream>
 #include "Item.h"
@@ -40,6 +41,11 @@
 #include "Cutter.h"
 #include "Bomb.h"
 #include "Beam.h"
+#include "Normal.h"
+#include "Fly.h"
+#include "Bear.h"
+#include "Chick.h"
+#include "Mushroom.h"
 #include "SemiBossBomb.h"
 #include <BossWood.h>
 
@@ -65,8 +71,6 @@ void SceneExample::Enter()
 
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
-
-	//LoadDataEnter(L"maps/Green_Green_3.json");
 
 	Scene::Enter();
 	Reset();
@@ -192,11 +196,12 @@ void SceneExample::Update(float deltaTime)
 	{
 		currentCamera->MoveCamera(deltaTime);
 		std::list<GameObject*> goList;
+		FindGameObjects(goList, "GenPoint");
 		FindGameObjects(goList, "Ground");
 		FindGameObjects(goList, "Mob");
 		for (auto go : goList)
 		{
-			currentCamera->SetActiveInCamera((SpriteGO*)go);
+			currentCamera->SetActiveInCamera(go);
 		}
 	}
 
@@ -401,76 +406,6 @@ void SceneExample::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }
-void SceneExample::LoadDataEnter(const std::wstring& path)
-{
-	if (path == "")
-	{
-		return;
-	}
-	std::ifstream ifile(path);
-	Json::Value rootNode;
-	if (ifile.is_open())
-	{
-		ifile >> rootNode;
-		ifile.close();
-	}
-	else
-	{
-		std::wcout << "File Open Error! Path: " << path << std::endl;
-		return;
-	}
-	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
-	for (int i = 0; i < rootNode["Enemy"].size(); i++)
-	{
-		Json::Value node = rootNode["Enemy"][i];
-		int sort = node["SortLayer"].asInt();
-		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		EnemyType type = (EnemyType)node["Type"].asInt();
-
-		switch (type)
-		{
-		case EnemyType::Cutter:
-		{
-			Cutter* mob = mobPool->GetCutter();
-			mob->sortLayer = sort;
-			mob->SetRegenPosition(position);
-			mob->SetEnemeyType(type);
-		}
-		break;
-		case EnemyType::Beam:
-		{
-			Beam* mob = mobPool->GetBeam();
-			mob->sortLayer = sort;
-			mob->SetRegenPosition(position);
-			mob->SetEnemeyType(type);
-		}
-		break;
-		case EnemyType::Bomb:
-		{
-			Bomb* mob = mobPool->GetBomb();
-			mob->sortLayer = sort;
-			mob->SetRegenPosition(position);
-			mob->SetEnemeyType(type);
-		}
-		break;
-		case EnemyType::Bear:
-			break;
-		case EnemyType::Chick:
-			break;
-		case EnemyType::Fly:
-			break;
-		case EnemyType::Mushroom:
-			break;
-		case EnemyType::Normal:
-			break;
-		case EnemyType::SB_Bomb:
-			break;
-		case EnemyType::Wood:
-			break;
-		}
-	}
-
-}
 
 void SceneExample::LoadData(const std::wstring& path)
 {
@@ -494,6 +429,7 @@ void SceneExample::LoadData(const std::wstring& path)
 	Json::Value itemNodes = rootNode["Item"];
 	Json::Value doorNodes = rootNode["Door"];
 	Json::Value groundNodes = rootNode["Ground"];
+	Json::Value enemyNodes = rootNode["Enemy"];
 	Json::Value cameraNodes = rootNode["Camera"];
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
@@ -532,16 +468,33 @@ void SceneExample::LoadData(const std::wstring& path)
 			rect = { 120, 24, 24, 24 };
 			break;
 		}
-		SpriteGO* item = (SpriteGO*)AddGameObject(new SpriteGO(textureId, "item"));
+		Item* item = (Item*)AddGameObject(new Item(textureId, "item"));
 		item->sprite.setTextureRect(rect);
 		item->SetSize(cellSize);
-		item->physicsLayer = (int)PhysicsLayer::Ground;
+		item->physicsLayer = (int)PhysicsLayer::Item;
 		item->sortLayer = sort;
 		item->SetPosition(position);
 	}
 
+	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
+	for (int i = 0; i < enemyNodes.size(); i++)
+	{
+		Json::Value node = enemyNodes[i];
+		int sort = node["SortLayer"].asInt();
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+		EnemyType type = (EnemyType)node["Type"].asInt();
 
+		if (type == EnemyType::SB_Bomb || type == EnemyType::Wood)
+		{
+			continue;
+		}
 
+		GenPoint* genPoint = (GenPoint*)AddGameObject(new GenPoint("GenPoint"));
+		genPoint->SetEnemyType(type);
+		genPoint->SetPosition(position);
+		genPoint->sortLayer = sort;
+		genPoint->SetMobPool(mobPool);
+	}
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
 		Json::Value node = doorNodes[i];
@@ -564,7 +517,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		Json::Value node = groundNodes[i];
 		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
 		{
-			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
+			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround("Ground"));
 			throughtGround->AddTag("Ground");
 			throughtGround->SetSize({ 24.0f, 24.0f });
 			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
@@ -585,6 +538,7 @@ void SceneExample::LoadData(const std::wstring& path)
 	{
 		Json::Value node = cameraNodes[i];
 		CameraType type = (CameraType)node["Type"].asInt();
+		
 		if (type == CameraType::MapEnd)
 		{
 			continue;
@@ -593,12 +547,16 @@ void SceneExample::LoadData(const std::wstring& path)
 		{
 			type = CameraType::Free;
 		}
+		sf::Vector2f size;
+		size.x = node["EndPosition"]["x"].asFloat() - node["Position"]["x"].asFloat() + cellSize.x;
+		size.y = node["EndPosition"]["y"].asFloat() - node["Position"]["y"].asFloat() + cellSize.y;
 
-		Camera* camPtr = (Camera*)AddGameObject(new Camera("camPtr" + std::to_string(i)));
-		camPtr->SetType(type);
-		camPtr->SetKirby(kirby);
-		camPtr->SetData(node);
-		camPtr->SetView(&worldView);
+		Camera* cam = (Camera*)AddGameObject(new Camera("Camera"));
+		cam->SetType(type);
+		cam->SetKirby(kirby);
+		cam->SetSize(size);
+		cam->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat()+36.0f });
+		cam->SetView(&worldView);
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)

@@ -3,21 +3,16 @@
 #include <Suction.h>
 #include "Utils.h"
 #include <Playable.h>
-#include "MobPool.h"
-
+#include "GenPoint.h"
 void Mob::Reset()
 {
     SpriteGO::Reset();
     update = std::bind(&Mob::UpdateMove, this, std::placeholders::_1);
-    SetPosition(regenPosition);
+    SetPosition(position);
     currentHP = maxHP;
-    SetActive(false);
 
-    inCameraEvent = [this]() {
-        SetActive(true);
-    };
     outCameraEvent = [this]() {
-        mobPool->MobReturn(this);
+        genPoint->MobRemove();
     };
 }
 
@@ -68,7 +63,7 @@ void Mob::UpdateSuction(float dt)
     SetPosition(Utils::Lerp(suctionStartPos, target->GetPosition(), suctionTime));
     if (suctionTime > 1.0f)
     {
-        SetActive(false);
+        genPoint->MobRemove();
     }
 }
 

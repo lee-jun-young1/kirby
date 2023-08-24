@@ -7,6 +7,7 @@ class SpriteGO;
 class Door;
 class UIButton;
 class VertexArrayGO;
+class MapToolPalette;
 class SceneMapTool : public Scene
 {
 protected:
@@ -21,7 +22,7 @@ protected:
 
 	sf::Vector2i originalSize;
 	sf::Vector2i mapSize;
-	SpriteGO* currentGO = nullptr;
+	MapToolPalette* currentGO = nullptr;
 	bool flipX = false;
 
 	float uiSpeed = 300.f;
@@ -31,7 +32,7 @@ protected:
 	bool drawCurrentLayerOnly = false;
 
 	//door
-	SpriteGO* prevGO = nullptr;
+	MapToolPalette* prevGO = nullptr;
 	sf::Vector2f doorMovePosition;
 
 	//palette
@@ -51,7 +52,7 @@ public:
 	~SceneMapTool();
 
 	MapToolCell* GetCell(const sf::Vector2f& position);
-	void SelectGameObject(SpriteGO* gameObject);
+	void SelectGameObject(MapToolPalette* gameObject);
 
 	void ClearCells();
 	void ClearCellsByCategory(const Category& cate);
@@ -73,7 +74,7 @@ public:
 	const std::wstring GetSaveFilePathWithOpenWindow();
 
 	Json::Value LoadFromJsonFile(const std::string& path);
-	SpriteGO* CopyUIButton(const std::string& name);
+	MapToolPalette* CopyUIButton(const std::string& name);
 	void SetLayer(int layer);
 	void ReSizeMap(bool expand);
 

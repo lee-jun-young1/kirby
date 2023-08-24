@@ -7,6 +7,7 @@ class Enemy;
 class Ground;
 class Door;
 class AmbientObject;
+class MapToolPalette;
 class MapToolCell : public RectangleShapeGO
 {
 protected:
@@ -20,7 +21,7 @@ public:
 
 	void AddGameObject(RectangleShapeGO* gameObject, int layer);
 	//void AddGameObject(SpriteGO* gameObject, int layer);
-	SpriteGO* AddGameObject(SpriteGO* gameObject, int layer);
+	MapToolPalette* AddGameObject(MapToolPalette* gameObject, int layer);
 
 	void RemoveGameObject(int layer);
 	void RemoveAllGameObject();

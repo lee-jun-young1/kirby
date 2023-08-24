@@ -3,6 +3,7 @@
 #include <Animator.h>
 #include <RigidBody2D.h>
 class MobPool;
+class GenPoint;
 class Mob : public SpriteGO
 {
 protected:
@@ -36,24 +37,20 @@ protected:
 
     float atk = 1.0f;
 
-    sf::Vector2f regenPosition;
-
     int maxHP = 10;
     int currentHP = 10;
 
-    MobPool* mobPool = nullptr;
+    GenPoint* genPoint = nullptr;
 public:
     Mob(KirbyAbility type, const std::string textureID = "", const string& name = "") : SpriteGO(textureID, name), type(type) {};
     bool IsSuctionable() { return suctionable; }
     KirbyAbility GetType() { return type; }
     EnemyType GetEnemyType() { return enemyType; }
-    const sf::Vector2f& GetRegenPosition() const { return regenPosition; };
 
     void SetEnemeyType(EnemyType type) { this->enemyType = type; }
     void SetAnimator(Animator* animator) { this->animator = animator; };
     void SetRigidBody(RigidBody2D* rigidbody) { this->rigidbody = rigidbody; };
-    void SetRegenPosition(const sf::Vector2f regenPosition) { this->regenPosition = regenPosition; }
-    void SetMobPool(MobPool* mobPool) { this->mobPool = mobPool; }
+    void SetGenPoint(GenPoint* genPoint) { this->genPoint = genPoint; }
 
     virtual void Reset() override;
 

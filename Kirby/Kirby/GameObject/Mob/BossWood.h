@@ -15,6 +15,8 @@ class BossWood : public Mob
 	EffectPool* effectPool;
 	Pattern pattern = Pattern::Breath;
 	int eventCount = 0;
+
+
 public:
 	BossWood(KirbyAbility type = KirbyAbility::None, const std::string textureID = "sprites/mob/Boss_Wood.png", const string& name = "BossWood")
 		:Mob(type, textureID, name) {}

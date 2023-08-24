@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "MapToolCell.h"
 #include "SpriteGO.h"
+#include "MapToolPalette.h"
+
 MapToolCell::MapToolCell(const string& name)
 	:RectangleShapeGO(name)
 {
@@ -34,13 +36,13 @@ void MapToolCell::AddGameObject(RectangleShapeGO* gameObject, int layer)
 	gameObjects.push_back(instance);
 }
 
-SpriteGO* MapToolCell::AddGameObject(SpriteGO* gameObject, int layer)
+MapToolPalette* MapToolCell::AddGameObject(MapToolPalette* gameObject, int layer)
 {
 	if (gameObject == nullptr)
 	{
 		return nullptr;
 	}
-	SpriteGO* instance = new SpriteGO(*gameObject);
+	MapToolPalette* instance = new MapToolPalette(*gameObject);
 	instance->sprite.setColor(sf::Color(255, 255, 255, 255));
 	instance->sortLayer = layer;
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
@@ -89,7 +91,7 @@ void MapToolCell::RemoveAllGameObjectByCategory(const Category& cate)
 {
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
-		if ((*it)->GetCategory() == cate)
+		if (((MapToolPalette*)(*it))->GetCategory() == cate)
 		{
 			delete* it;
 			it = gameObjects.erase(it);

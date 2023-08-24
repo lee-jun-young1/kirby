@@ -225,9 +225,6 @@
     <ClCompile Include="Kirby\GameObject\Mob\MobPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby\GameObject\Mob\SemiBossBomb.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Kirby\GameObject\GroundPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -237,13 +234,34 @@
     <ClCompile Include="Kirby\GameObject\Mob\Beam.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Kirby\GameObject\MabToolButton.cpp">
+    <ClCompile Include="Kirby\GameObject\Mob\Chick.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\Bear.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\Fly.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\MapToolPalette.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\Mushroom.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\Normal.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\GenPoint.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Kirby\GameObject\Mob\BossWood.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Kirby\GameObject\Effect\WoodEffect.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Mob\SemiBossBomb.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -509,7 +527,25 @@
     <ClInclude Include="Kirby\GameObject\Mob\Beam.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Kirby\GameObject\MabToolButton.h">
+    <ClInclude Include="Kirby\GameObject\Mob\Chick.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Mob\Bear.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Mob\Fly.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\MapToolPalette.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Mob\Mushroom.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Mob\Normal.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\Mob\GenPoint.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\Mob\BossWood.h">

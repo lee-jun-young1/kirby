@@ -6,22 +6,40 @@
 #include "SemiBossBomb.h"
 #include "Bomb.h"
 #include "Beam.h"
+#include "Normal.h"
+#include "Fly.h"
+#include "Bear.h"
+#include "Chick.h"
+#include "Mushroom.h"
+
 class MobPool : public GameObject
 {
 protected:
-	ObjectPool<Mob> mobs;
-	ObjectPool<SemiBossBomb> semiBossBombs;
 	ObjectPool<Cutter> cutters;
 	ObjectPool<Bomb> bombs;
 	ObjectPool<Beam> beams;
+	ObjectPool<Normal> normals;
+	ObjectPool<Fly> flies;
+	ObjectPool<Bear> bears;
+	ObjectPool<Mushroom> mushrooms;
+	ObjectPool<Chick> chicks;
+	//ObjectPool<SemiBossBomb> semiBossBombs;
 
 public:
 	MobPool(const std::string& name = "") : GameObject(name) {}
 
+	Mob* GetMob(EnemyType type);
 	Cutter* GetCutter();
 	Bomb* GetBomb();
 	Beam* GetBeam();
-	
+	Normal* GetNormal();
+	Fly* GetFly();
+	Bear* GetBear();
+	Chick* GetChick();
+	Mushroom* GetMushroom();
+	//SemiBossBomb* GetSemiBossBomb();
+
+
 	void MobReturn(Mob* mob);
 	void ClearAllPool();
 

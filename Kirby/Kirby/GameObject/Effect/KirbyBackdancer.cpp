@@ -14,6 +14,4 @@ void KirbyBackdancer::Update(float dt)
 {
 	SpriteGO::Update(dt);
 	SetPosition(kirby->GetPosition() + offset);
-
-	cout << GetPosition().x << endl;
 }
