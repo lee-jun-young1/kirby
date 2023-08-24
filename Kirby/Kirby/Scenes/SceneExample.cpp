@@ -70,7 +70,7 @@ void SceneExample::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
-	LoadDataEnter(L"maps/Green_Green_3.json");
+	//LoadDataEnter(L"maps/Green_Green_3.json");
 
 	Scene::Enter();
 	Reset();
@@ -147,7 +147,7 @@ void SceneExample::Init()
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
 	MobPool* mobPool = (MobPool*)AddGameObject(new MobPool("MobPool"));
-	LoadData(L"maps/temp.json");
+	LoadData(L"maps/Green_Green_3.json");
 
 	for (auto go : gameObjects)
 	{
