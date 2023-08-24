@@ -63,7 +63,7 @@ void Camera::MoveCamera(float dt)
 	cameraTime = 0.0f;
 }
 
-void Camera::SetActiveInCamera(SpriteGO* target)
+void Camera::SetActiveInCamera(GameObject* target)
 {
 	//커비를 기준으로
 	realCheckArea = kirby->sprite.getGlobalBounds();
@@ -74,9 +74,10 @@ void Camera::SetActiveInCamera(SpriteGO* target)
 
 	if (realCheckArea.contains(target->GetPosition()))
 	{
-		if (target->inCameraEvent != nullptr)
+		if (target->inCameraEvent != nullptr && !target->inCamera)
 		{
 			target->inCameraEvent();
+			target->inCamera = true;
 		}
 	}
 	else
@@ -84,6 +85,10 @@ void Camera::SetActiveInCamera(SpriteGO* target)
 		if (target->outCameraEvent != nullptr)
 		{
 			target->outCameraEvent();
+		}
+		if (target->inCamera)
+		{
+			target->inCamera = false;
 		}
 	}
 }
@@ -103,23 +108,22 @@ void Camera::OnTriggerEnter(Collider* col)
 
 void Camera::OnTriggerStay(Collider* col)
 {
-	SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
-	if (scene->GetCamera() == this)
-	{
-		//if (kirby->GetPosition().x - cellSize.x * 0.5f <= GetGlobalBounds().left)
-		//{
-		//	kirby->SetPosition(GetGlobalBounds().left + cellSize.x * 0.5f, kirby->GetPosition().y);
-		//}
-		//else if(kirby ->GetPosition().x + cellSize.x * 0.5f >= GetGlobalBounds().left + GetGlobalBounds().width)
-		//{
-		//	kirby->SetPosition(GetGlobalBounds().left + GetGlobalBounds().width - cellSize.x * 0.5f, kirby->GetPosition().y);
-		//}
-		//if (kirby->GetPosition().y - cellSize.y <= GetGlobalBounds().top)
-		//{
-		//	kirby->SetPosition(kirby->GetPosition().y, GetGlobalBounds().top + cellSize.y);
-		//}
-	}
-
+	//SceneExample* scene = (SceneExample*)SCENE_MANAGER.GetCurrentScene();
+	//if (scene->GetCamera() == this)
+	//{
+	//	if (kirby->GetPosition().x - cellSize.x * 0.5f <= GetGlobalBounds().left)
+	//	{
+	//		kirby->SetPosition(GetGlobalBounds().left + cellSize.x * 0.5f, kirby->GetPosition().y);
+	//	}
+	//	else if(kirby ->GetPosition().x + cellSize.x * 0.5f >= GetGlobalBounds().left + GetGlobalBounds().width)
+	//	{
+	//		kirby->SetPosition(GetGlobalBounds().left + GetGlobalBounds().width - cellSize.x * 0.5f, kirby->GetPosition().y);
+	//	}
+	//	if (kirby->GetPosition().y - cellSize.y <= GetGlobalBounds().top)
+	//	{
+	//		kirby->SetPosition(kirby->GetPosition().y, GetGlobalBounds().top + cellSize.y);
+	//	}
+	//}
 }
 
 void Camera::OnTriggerExit(Collider* col)

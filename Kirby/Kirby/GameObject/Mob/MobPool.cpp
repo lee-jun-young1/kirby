@@ -211,7 +211,6 @@ Cutter* MobPool::GetCutter()
 	Cutter* mob = cutters.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Cutter/Cutter", "Idle"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -221,7 +220,6 @@ Bomb* MobPool::GetBomb()
 	Bomb* mob = bombs.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Bomb/Bomb", "Jump"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -231,7 +229,6 @@ Beam* MobPool::GetBeam()
 	Beam* mob = beams.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Beam/Beam", "Move"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -241,7 +238,6 @@ Normal* MobPool::GetNormal()
 	Normal* mob = normals.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Normal/Normal", "Move"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -251,7 +247,6 @@ Fly* MobPool::GetFly()
 	Fly* mob = flies.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Fly/Fly", "Fly"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -261,7 +256,6 @@ Bear* MobPool::GetBear()
 	Bear* mob = bears.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Bear/Bear", "Jump"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -271,7 +265,6 @@ Chick* MobPool::GetChick()
 	Chick* mob = chicks.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Chick/Chick", "Idle"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }
@@ -281,7 +274,6 @@ Mushroom* MobPool::GetMushroom()
 	Mushroom* mob = mushrooms.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Mushroom/Mushroom", "JumpWithCap"));
 	mob->SetAnimator(ani);
-	mob->SetMobPool(this);
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
 }

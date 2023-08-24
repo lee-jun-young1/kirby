@@ -614,7 +614,7 @@ void SceneMapTool::SaveData(const std::wstring& path)
 				node["SortLayer"] = go->sortLayer;
 				node["FlipX"] = ((MapToolPalette*)go)->additionalData["FlipX"].asBool();
 
-				switch (go->GetCategory())
+				switch (((MapToolPalette*)go)->GetCategory())
 				{
 				case Category::None:
 					break;

@@ -182,7 +182,53 @@
 			"Type" : 0
 		}
 	],
-	"Enemy" : null,
+	"Enemy" : 
+	[
+		{
+			"FlipX" : false,
+			"PaletteID" : "row-1-column-2",
+			"Position" : 
+			{
+				"x" : 96.0,
+				"y" : 360.0
+			},
+			"SortLayer" : 1,
+			"Type" : 0
+		},
+		{
+			"FlipX" : false,
+			"PaletteID" : "row-1-column-2",
+			"Position" : 
+			{
+				"x" : 72.0,
+				"y" : 360.0
+			},
+			"SortLayer" : 1,
+			"Type" : 0
+		},
+		{
+			"FlipX" : false,
+			"PaletteID" : "row-1-column-2",
+			"Position" : 
+			{
+				"x" : 48.0,
+				"y" : 360.0
+			},
+			"SortLayer" : 1,
+			"Type" : 0
+		},
+		{
+			"FlipX" : false,
+			"PaletteID" : "row-1-column-2",
+			"Position" : 
+			{
+				"x" : 24.0,
+				"y" : 360.0
+			},
+			"SortLayer" : 1,
+			"Type" : 0
+		}
+	],
 	"Ground" : 
 	[
 		{
@@ -2800,7 +2846,7 @@
 		"Position" : 
 		{
 			"x" : 0.0,
-			"y" : 120.0
+			"y" : 384.0
 		},
 		"SortLayer" : 1
 	},

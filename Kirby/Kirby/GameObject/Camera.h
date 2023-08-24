@@ -10,16 +10,13 @@ protected:
 	CameraType type = CameraType::None;
 
 	sf::View* view = nullptr;
-	sf::Vector2f correctSize = { 200.0f, 150.0f };
+	sf::Vector2f correctSize = { 216.0f, 144.0f };
 	sf::Vector2f size;
 	sf::FloatRect realCheckArea;
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 
-	std::list<GameObject*> gameObjects;
-
 	Kirby* kirby = nullptr;
 	float cameraTime = 0.0f;
-
 public:
 	Camera(const string& name = "") : RectangleShapeGO(name) {}
 	virtual ~Camera() {};
@@ -34,7 +31,7 @@ public:
 	void SetType(const CameraType& type) { this->type = type; }
 
 	void MoveCamera(float dt);
-	void SetActiveInCamera(SpriteGO* target);
+	void SetActiveInCamera(GameObject* target);
 
 	virtual void OnTriggerEnter(Collider* col) override;
 	virtual void OnTriggerStay(Collider* col) override;

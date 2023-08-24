@@ -91,7 +91,7 @@ void MapToolCell::RemoveAllGameObjectByCategory(const Category& cate)
 {
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
-		if ((*it)->GetCategory() == cate)
+		if (((MapToolPalette*)(*it))->GetCategory() == cate)
 		{
 			delete* it;
 			it = gameObjects.erase(it);
