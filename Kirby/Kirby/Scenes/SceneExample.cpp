@@ -428,32 +428,10 @@ void SceneExample::LoadData(const std::wstring& path)
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
 		Json::Value node = itemNodes[i];
-		ItemType type = (ItemType)node["Type"].asInt();
-		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		std::string textureId = "sprites/item/items.png";
-		sf::IntRect rect;
-		int sort = node["SortLayer"].asInt();
-		switch (type)
-		{
-		case ItemType::Life:
-			rect = { 216, 0, 24, 24};
-			break;
-		case ItemType::God:
-			rect = { 216, 24, 24, 24 };
-			break;
-		case ItemType::MaxTomato:
-			rect = { 96, 24, 24, 24 };
-			break;
-		case ItemType::Normal:
-			rect = { 120, 24, 24, 24 };
-			break;
-		}
-		Item* item = (Item*)AddGameObject(new Item(textureId, "item"));
-		item->sprite.setTextureRect(rect);
-		item->SetSize(cellSize);
-		item->physicsLayer = (int)PhysicsLayer::Item;
-		item->sortLayer = sort;
-		item->SetPosition(position);
+		Item* item = (Item*)AddGameObject(new Item("sprites/item/items.png", "Item"));
+		item->SetItemType((ItemType)node["Type"].asInt());
+		item->sortLayer = node["SortLayer"].asInt();
+		item->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() });
 	}
 
 	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");

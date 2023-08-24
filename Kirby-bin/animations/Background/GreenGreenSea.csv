@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+Sea,5,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,0,0,64,32
+,64,0,64,32
+,128,0,64,32
+,192,0,64,32

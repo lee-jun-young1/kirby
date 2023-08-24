@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+Flower1,5,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,0,96,48,24
+,72,96,48,24
+,144,96,48,24
+,216,96,48,24
