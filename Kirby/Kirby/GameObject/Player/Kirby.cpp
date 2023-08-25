@@ -1753,6 +1753,12 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 		ChangeState(KirbyState::Collided);
 		rigidbody->SetDrag(0.7f);
 	}
+	if (beam != nullptr)
+	{
+		beam->Return();
+		beam = nullptr;
+	}
+
 	animator->SetEvent("Hit");
 	collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	collider->SetOffset({ -12.0f, -24.0f });
