@@ -1562,11 +1562,45 @@ void Kirby::DoorUpdate(float dt)
 void Kirby::WarpStarUpdate(float dt)
 {
 	actionTime += dt;
-	if (actionTime >= 4.0f)
+	if (actionTime >= 5.0f)
 	{
 		rigidbody->SetVelocity({ 0.0f, 0.0f });
 		ChangeState(KirbyState::Idle);
 		animator->SetState("Idle");
+	}
+	else if (actionTime < 0.5f)
+	{
+		rigidbody->SetMass(-1.0f);
+	}
+	else if (actionTime < 1.0f)
+	{
+		rigidbody->SetMass(2.0f);
+	}
+	else if (actionTime < 1.5f)
+	{
+		rigidbody->SetMass(-2.0f);
+	}
+	else if (actionTime < 2.0f)
+	{
+		rigidbody->SetMass(2.0f);
+		rigidbody->SetVelocity({ -200.0f, rigidbody->GetVelocity().y });
+	}
+	else if (actionTime < 3.0f)
+	{
+		rigidbody->SetMass(-1.0f);
+		rigidbody->SetVelocity({ 400.0f, rigidbody->GetVelocity().y });
+	}
+	else if (actionTime < 3.4f)
+	{
+		RectangleShapeGO* curtain = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Curtain");
+		curtain->SetFillColor(Utils::Lerp({ 0, 0, 0, 0 }, { 0, 0, 0, 255 }, actionTime * 5.0f - 1.0f, true));
+	}
+	else if (actionTime < 3.6f)
+	{
+		rigidbody->SetMass(1.0f);
+		SetPosition(doorTarget);
+		//animator->SetEvent("Idle");
+		rigidbody->SetVelocity({ 100.0f, 0.0f });
 		sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
 		if (tex != nullptr)
 		{
@@ -1578,27 +1612,15 @@ void Kirby::WarpStarUpdate(float dt)
 		{
 			ui->SetPlayer1Ability(ability);
 		}
+
+		animator->Play();
+		animator->SetState("WarpStarRoll");
 	}
-	else if (actionTime < 2.2f)
-	{
-	}
-	else if (actionTime < 2.4f)
-	{
-		RectangleShapeGO* curtain = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Curtain");
-		curtain->SetFillColor(Utils::Lerp({ 0, 0, 0, 0 }, { 0, 0, 0, 255 }, actionTime * 5.0f - 1.0f, true));
-	}
-	else if (actionTime < 2.6f)
-	{
-		SetPosition(doorTarget);
-		//animator->SetEvent("Idle");
-		rigidbody->SetVelocity({ 100.0f, 0.0f });
-	}
-	else if (actionTime < 2.8f)
+	else if (actionTime < 3.8f)
 	{
 		SetPosition(doorTarget);
 		RectangleShapeGO* curtain = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Curtain");
 		curtain->SetFillColor(Utils::Lerp({ 0, 0, 0, 255 }, { 0, 0, 0, 0 }, actionTime * 5.0f - 3.0f, true));
-		animator->SetState("WarpStarRoll");
 	}
 }
 
@@ -2052,7 +2074,7 @@ void Kirby::OnCollisionStay(Collider* col)
 			WarpStar* star = (WarpStar*)&col->GetGameObject();
 			star->SetActive(false);
 			ChangeState(KirbyState::WarpStar);
-			animator->SetEvent("WarpStar");
+			//animator->SetEvent("WarpStar");
 			actionTime = 0.0f;
 			doorTarget = star->GetMovePosition();
 			isDoorKeyPress = false;
@@ -2070,6 +2092,8 @@ void Kirby::OnCollisionStay(Collider* col)
 			{
 				ui->SetPlayer1Ability(KirbyAbility::WarpStar);
 			}
+			animator->Stop();
+			sprite.setTextureRect({(int)ability * 72, 0, 72, 72});
 		}
 	}
 }
