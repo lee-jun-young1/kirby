@@ -50,3 +50,5 @@ BombRun,animations/Kirby/Kirby_BombRun.csv
 BombRunThrow,animations/Kirby/Kirby_BombRunThrow.csv
 Death,animations/Kirby/Kirby_Death.csv
 DeathReady,animations/Kirby/Kirby_DeathReady.csv
+WarpStar,animations/Kirby/Kirby_WarpStar.csv
+WarpStarRoll,animations/Kirby/Kirby_WarpStarRoll.csv

@@ -13,7 +13,7 @@ void ClearItem::Init()
 	Animation* ani = (Animation*)GetComponent(ComponentType::Animation);
 	if (ani == nullptr)
 	{
-		Animation* ani = (Animation*)AddComponent(new Animation(*this));
+		ani = (Animation*)AddComponent(new Animation(*this));
 		ani->SetClip(Resources.GetAnimationClip("animations/Item/ClearStar.csv"));
 	}
 }

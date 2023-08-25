@@ -145,3 +145,7 @@
 3,animations/Kirby/Kirby_DanceLookDown.csv
 3,animations/Item/ClearStar.csv
 0,sprites/item/ClearStar.png
+0,sprites/effects/WarpStar.png
+3,animations/Item/WarpStar.csv
+3,animations/Kirby/Kirby_WarpStar.csv
+3,animations/Kirby/Kirby_WarpStarRoll.csv

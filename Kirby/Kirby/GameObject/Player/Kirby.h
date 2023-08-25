@@ -29,6 +29,7 @@ enum class KirbyState
 	Sit,
 	Shot,
 	Door,
+	WarpStar,
 	Wall,
 	DanceReady,
 	Dance,
@@ -207,6 +208,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	void DoorUpdate(float dt);
+	void WarpStarUpdate(float dt);
 	void MoveUpdate(float dt);
 	void RunUpdate(float dt);
 	void TackleUpdate(float dt);

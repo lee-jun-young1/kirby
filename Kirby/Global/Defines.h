@@ -133,6 +133,7 @@ enum class KirbyAbility
 	Cutter = 0,
 	Beam = 1,
 	Bomb = 10,
+	WarpStar = 27,
 };
 
 enum class CameraType

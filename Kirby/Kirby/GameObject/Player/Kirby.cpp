@@ -11,6 +11,7 @@
 #include <StatusUI.h>
 #include <Camera.h>
 #include <Framework.h>
+#include <WarpStar.h>
 
 #pragma region KeyInput
 
@@ -657,6 +658,24 @@ void Kirby::ChangeState(const KirbyState& state)
 			jumpKey = nullptr;
 			vKey = nullptr;
 			update = std::bind(&Kirby::DoorUpdate, this, std::placeholders::_1);
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
+			break;
+		case KirbyState::WarpStar:
+			cout << "state :: WarpStar" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = std::bind(&Kirby::WarpStarUpdate, this, std::placeholders::_1);
 			onCollisionEnter = nullptr;
 			onCollisionStay = nullptr;
 			break;
@@ -1357,6 +1376,8 @@ void Kirby::Init()
 	abilityTextureIDs[(int)KirbyAbility::Cutter] = ("sprites/kirby/Class_Cutter.png");
 	abilityTextureIDs[(int)KirbyAbility::Beam] = ("sprites/kirby/Class_Beam.png");
 	abilityTextureIDs[(int)KirbyAbility::Bomb] = ("sprites/kirby/Class_Bomb.png");
+	//Warp
+	abilityTextureIDs[(int)KirbyAbility::WarpStar] = ("sprites/kirby/Kirby_WarpStar.png");
 	SpriteGO::Init();
 	animator = (Animator*)AddComponent(new Animator(*this, "animations/Kirby/Kirby", "Idle"));
 	collider = (BoxCollider*)AddComponent(new BoxCollider(*this));
@@ -1536,7 +1557,49 @@ void Kirby::DoorUpdate(float dt)
 		RectangleShapeGO* curtain = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Curtain");
 		curtain->SetFillColor(Utils::Lerp({ 0, 0, 0, 255 }, { 0, 0, 0, 0 }, actionTime * 5.0f - 3.0f, true));
 	}
+}
 
+void Kirby::WarpStarUpdate(float dt)
+{
+	actionTime += dt;
+	if (actionTime >= 4.0f)
+	{
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+		ChangeState(KirbyState::Idle);
+		animator->SetState("Idle");
+		sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
+		if (tex != nullptr)
+		{
+			SetTexture(*tex);
+			SetOrigin(origin);
+		}
+		StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+		if (ui != nullptr)
+		{
+			ui->SetPlayer1Ability(ability);
+		}
+	}
+	else if (actionTime < 2.2f)
+	{
+	}
+	else if (actionTime < 2.4f)
+	{
+		RectangleShapeGO* curtain = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Curtain");
+		curtain->SetFillColor(Utils::Lerp({ 0, 0, 0, 0 }, { 0, 0, 0, 255 }, actionTime * 5.0f - 1.0f, true));
+	}
+	else if (actionTime < 2.6f)
+	{
+		SetPosition(doorTarget);
+		//animator->SetEvent("Idle");
+		rigidbody->SetVelocity({ 100.0f, 0.0f });
+	}
+	else if (actionTime < 2.8f)
+	{
+		SetPosition(doorTarget);
+		RectangleShapeGO* curtain = (RectangleShapeGO*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Curtain");
+		curtain->SetFillColor(Utils::Lerp({ 0, 0, 0, 255 }, { 0, 0, 0, 0 }, actionTime * 5.0f - 3.0f, true));
+		animator->SetState("WarpStarRoll");
+	}
 }
 
 void Kirby::MoveUpdate(float dt)
@@ -1977,6 +2040,35 @@ void Kirby::OnCollisionStay(Collider* col)
 			actionTime = 0.0f;
 			doorTarget = door->GetMovePosition();
 			isDoorKeyPress = false;
+		}
+	}
+
+
+	if (col->GetGameObject().GetName() == "WarpStar")
+	{
+		if (state != KirbyState::WarpStar)
+		{
+			WarpStar* star = (WarpStar*)&col->GetGameObject();
+			star->SetActive(false);
+			ChangeState(KirbyState::WarpStar);
+			animator->SetEvent("WarpStar");
+			actionTime = 0.0f;
+			doorTarget = star->GetMovePosition();
+			isDoorKeyPress = false;
+
+			
+
+			sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)KirbyAbility::WarpStar]);
+			if (tex != nullptr)
+			{
+				SetTexture(*tex);
+				SetOrigin(origin);
+			}
+			StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+			if (ui != nullptr)
+			{
+				ui->SetPlayer1Ability(KirbyAbility::WarpStar);
+			}
 		}
 	}
 }
