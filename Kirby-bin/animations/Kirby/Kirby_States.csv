@@ -47,3 +47,5 @@ BombThrow,animations/Kirby/Kirby_BombThrow.csv
 BombInstall,animations/Kirby/Kirby_BombInstall.csv
 BombRun,animations/Kirby/Kirby_BombRun.csv
 BombRunThrow,animations/Kirby/Kirby_BombRunThrow.csv
+Death,animations/Kirby/Kirby_Death.csv
+DeathReady,animations/Kirby/Kirby_DeathReady.csv

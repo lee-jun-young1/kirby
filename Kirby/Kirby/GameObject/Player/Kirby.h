@@ -38,6 +38,7 @@ enum class KirbyState
 	MeleeAttack,
 	JumpMeleeAttack,
 	Charge,
+	Death,
 };
 
 
