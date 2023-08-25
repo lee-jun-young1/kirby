@@ -14,6 +14,8 @@ void Camera::Update(float deltaTime)
 {
 	cameraTime += deltaTime * 2.5f;
 	sf::Vector2f cameraCenter = kirby->GetPosition();
+	SetPosition(cameraCenter);
+
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 
 	switch (type)
@@ -43,15 +45,25 @@ void Camera::Update(float deltaTime)
 	}
 	view->setCenter(cameraCenter);
 	cameraTime = 0.0f;
-	SetPosition(cameraCenter);
 
 	//Check object
-	for (auto go : gameObjects)
+	for (auto go : *gameObjects)
 	{
 		if (go->GetName() == "GenPoint" || go->GetName() == "Mob" || go->GetName() == "Ground" || go->GetName() == "ThroughtableGround")
 		{
-			SetActiveInCamera(go);
+			SetActiveInCamera((SpriteGO*)go);
 		}
+		//if (go->GetName() == "CameraArea")
+		//{
+		//	if (((CameraArea*)go)->GetGlobalBounds().contains(position))
+		//	{
+		//		SetCameraArea(((CameraArea*)go));
+		//	}
+		//	if (((CameraArea*)go)->GetType() == CameraType::Fixed && !((CameraArea*)go)->GetGlobalBounds().contains(position))
+		//	{
+		//		SetPrevCam();
+		//	}
+		//}
 	}
 }
 
@@ -62,6 +74,8 @@ void Camera::SetCameraArea(CameraArea* area)
 	prevAreaBounds = areaBounds;
 	type = area->GetType();
 	areaBounds = area->GetGlobalBounds();
+	checkArea = areaBounds;
+
 }
 
 void Camera::SetType(const CameraType& type, const sf::Vector2f& position)
@@ -105,8 +119,6 @@ void Camera::SetPrevCam()
 
 void Camera::SetActiveInCamera(GameObject* target)
 {
-	//커비를 기준으로
-	checkArea = areaBounds;
 
 	if (checkArea.contains(target->GetPosition()))
 	{

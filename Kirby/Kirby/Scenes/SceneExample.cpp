@@ -30,6 +30,7 @@
 #include <StatusUI.h>
 #include "GenPoint.h"
 #include "CameraArea.h"
+#include "Background.h"
 //MapTool
 #include <fstream>
 #include "Item.h"
@@ -73,9 +74,6 @@ void SceneExample::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
 
-	Camera* cam = (Camera*)FindGameObject("Camera");
-	cam->SetGameObjects(gameObjects);
-
 	Scene::Enter();
 	Reset();
 }
@@ -104,6 +102,9 @@ void SceneExample::Init()
 
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
+
+	//Background
+	Background* background = (Background*)AddGameObject(new Background("sprites/background/Green_Green_Background.png", "Background"));
 
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->AddTag("Kirby");
@@ -165,8 +166,14 @@ void SceneExample::Init()
 	Camera* cam = (Camera*)AddGameObject(new Camera("Camera"));
 	cam->SetKirby(kirby);
 	cam->SetView(&worldView);
-
+	cam->SetGameObjects(&gameObjects);
+	cam->physicsLayer = (int)PhysicsLayer::Default;
+	BoxCollider* camCol = (BoxCollider*)cam->AddComponent(new BoxCollider(*cam));
+	camCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+	camCol->SetOffset({ -12.0f, -24.0f });
+	
 	LoadData(L"maps/Green_Green.json");
+
 
 	for (auto go : gameObjects)
 	{
@@ -423,12 +430,6 @@ void SceneExample::LoadData(const std::wstring& path)
 	Json::Value ambientObjectNodes = rootNode["AmbientObject"];
 	sf::Vector2f cellSize = { 24.0f, 24.0f };
 
-	//Temp Background
-	VertexArrayGO* background = CreateBackground({ 1, 1 }, { 1920.0f, 1080.0f });
-	AddGameObject(background);
-	background->SetOrigin(Origins::TL);
-	background->SetPosition(0.f, 0.f);
-	background->sortLayer = -99;
 
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	kirby->sortLayer = rootNode["Player"]["SortLayer"].asInt();
@@ -475,7 +476,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		int sort = node["SortLayer"].asInt();
 
 		Door* door = (Door*)AddGameObject(new Door("", "Door"));
-		door->physicsLayer = (int)PhysicsLayer::Interact;
+		door->physicsLayer = (int)PhysicsLayer::Ground;
 		door->SetPosition(position);
 		door->SetMovePosition(movePosition);
 		BoxCollider* doorCol = (BoxCollider*)door->AddComponent(new BoxCollider(*door));
@@ -491,7 +492,7 @@ void SceneExample::LoadData(const std::wstring& path)
 			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
 			throughtGround->AddTag("Ground");
 			throughtGround->SetSize({ 24.0f, 24.0f });
-			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
+			throughtGround->physicsLayer = (int)PhysicsLayer::Default;
 			throughtGround->SetOrigin(Origins::MC);
 			throughtGround->SetPosition(node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat());
 			BoxCollider* throughtGroundCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
@@ -527,7 +528,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		area->SetType(type);
 		area->SetPosition(position);
 		area->SetSize(size);
-		area->physicsLayer = (int)PhysicsLayer::Interact;
+		area->physicsLayer = (int)PhysicsLayer::Default;
 		area->SetCamera(cam);
 		BoxCollider* col = (BoxCollider*)area->AddComponent(new BoxCollider(*area));
 		col->SetTrigger(true);
@@ -537,49 +538,4 @@ void SceneExample::LoadData(const std::wstring& path)
 	{
 		Json::Value node = ambientObjectNodes[i];
 	}
-}
-
-VertexArrayGO* SceneExample::CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize, const std::string& textureId)
-{
-	VertexArrayGO* background = new VertexArrayGO(textureId, "Background");
-	sf::Vector2f startPos = { 0,0 };
-
-	background->vertexArray.setPrimitiveType(sf::Quads);
-	background->vertexArray.resize(tileMatrix.x * tileMatrix.y * 4);
-
-	sf::Vector2f offsets[4] =
-	{
-		{0.f,0.f},
-		{tileSize.x,0.f},
-		{tileSize.x,tileSize.y },
-		{0.f,tileSize.y}
-	};
-
-	sf::Vector2f texOffsets[4] =
-	{
-		{0.f,0.f},
-		{texSize.x,0.f},
-		{texSize.x,texSize.y },
-		{0.f,texSize.y}
-	};
-
-	sf::Vector2f currPos = startPos;
-	for (int i = 0; i < tileMatrix.y; ++i)
-	{
-		for (int j = 0; j < tileMatrix.x; ++j)
-		{
-			int tileIndex = tileMatrix.x * i + j;
-			for (int k = 0; k < 4; ++k)
-			{
-				int vertexIndex = tileIndex * 4 + k;
-				sf::Color color = sf::Color(57, 73, 92);
-				background->vertexArray[vertexIndex].position = currPos + offsets[k];
-				background->vertexArray[vertexIndex].color = color;
-			}
-			currPos.x += tileSize.x;
-		}
-		currPos.x = startPos.x;
-		currPos.y += tileSize.y;
-	}
-	return background;
 }

@@ -10,7 +10,7 @@ void CameraArea::Reset()
 
 void CameraArea::OnTriggerEnter(Collider* col)
 {
-	if (camera == nullptr || col->GetGameObject().GetName() != "Kirby")
+	if (camera == nullptr || col->GetGameObject().GetName() != "Camera")
 	{
 		return;
 	}
@@ -19,7 +19,7 @@ void CameraArea::OnTriggerEnter(Collider* col)
 
 void CameraArea::OnTriggerExit(Collider* col)
 {
-	if (camera == nullptr || col->GetGameObject().GetName() != "Kirby")
+	if (camera == nullptr || col->GetGameObject().GetName() != "Camera")
 	{
 		return;
 	}

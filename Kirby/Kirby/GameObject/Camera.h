@@ -21,7 +21,7 @@ protected:
 	Kirby* kirby = nullptr;
 	sf::View* view = nullptr;
 	CameraArea* area = nullptr;
-	std::list<GameObject*> gameObjects;
+	std::list<GameObject*>* gameObjects = nullptr;
 
 public:
 	Camera(const string& name = "") : GameObject(name) {}
@@ -30,7 +30,7 @@ public:
 
 	void SetKirby(Kirby* go) { this->kirby = go; }
 	void SetView(sf::View* view) { this->view = view; }
-	void SetGameObjects(std::list<GameObject*> gameObjects) { this->gameObjects = gameObjects; }
+	void SetGameObjects(std::list<GameObject*>* gameObjects) { this->gameObjects = gameObjects; }
 	void SetCameraArea(CameraArea* area);
 
 	const CameraType& GetType() const { return type; }

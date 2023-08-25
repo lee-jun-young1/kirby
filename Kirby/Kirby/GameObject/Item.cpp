@@ -32,6 +32,7 @@ void Item::OnCollisionEnter(Collider* col)
 		switch (itemType)
 		{
 		case ItemType::Life:
+			Variables::Life += 1;
 			break;
 		case ItemType::God:
 			break;

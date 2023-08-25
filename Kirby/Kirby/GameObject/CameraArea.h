@@ -8,7 +8,8 @@ class CameraArea : public RectangleShapeGO
 protected:
 	CameraType type = CameraType::None;
 	Camera* camera = nullptr;
-
+	
+	bool isOn = false;
 public:
 	CameraArea(const string& name = "") : RectangleShapeGO(name) { }
 

@@ -9,7 +9,6 @@
 void SemiBossBomb::Init()
 {
 	Mob::Init();
-	AddTag("Suctionable");
 	AddTag("Mob");
 	SetSize({ 24.0f, 24.0f });
 	physicsLayer = (int)PhysicsLayer::Enemy;
@@ -33,7 +32,7 @@ void SemiBossBomb::OnDisable()
 	if (currentHP <= 0)
 	{
 		Camera* camera = (Camera*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Camera");
-		camera->SetType(CameraType::Free);
+		camera->DeActiveCurrentArea();
 	}
 }
 

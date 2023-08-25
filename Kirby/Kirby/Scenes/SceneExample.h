@@ -9,7 +9,6 @@ protected:
 	std::map<std::string, bool> mouseOverStates;
 	float testRotation = 0.0f;
 
-	float cameraTime = 0.0f;
 	int count = 0;
 
 public:
