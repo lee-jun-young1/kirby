@@ -9,6 +9,8 @@
 #include <KirbyBackdancer.h>
 #include <GameObjects/SpriteEffect.h>
 #include <StatusUI.h>
+#include <Camera.h>
+#include <Framework.h>
 
 #pragma region KeyInput
 
@@ -423,7 +425,14 @@ void Kirby::ChangeState(const KirbyState& state)
 			dashKey = nullptr;
 			moveKeyEnd = std::bind(&Kirby::JumpMoveEnd, this);
 			chargeKey = std::bind(&Kirby::ShotEmpty, this);
-			chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+			switch (ability)
+			{
+			case KirbyAbility::None:
+				chargeKeyContinue = std::bind(&Kirby::DoSuction, this);
+				break;
+			default:
+				chargeKeyContinue = nullptr;
+			}
 			chargeKeyEnd = nullptr;
 			doorKey = std::bind(&Kirby::OnDoorKeyDown, this);
 			doorKeyEnd = std::bind(&Kirby::OnDoorKeyUp, this);
@@ -682,9 +691,9 @@ void Kirby::ChangeState(const KirbyState& state)
 			sitKey = nullptr;
 			sitKeyEnd = nullptr;
 			jumpKey = nullptr;
-			vKey = nullptr;
+			vKey = nullptr; 
 			update = std::bind(&Kirby::DanceReadyUpdate, this, std::placeholders::_1);
-			onCollisionEnter = nullptr;
+			onCollisionEnter = std::bind(&Kirby::KirbyDanceCollisionEnter, this, std::placeholders::_1);
 			onCollisionStay = nullptr;
 			break;
 		case KirbyState::Dance:
@@ -831,6 +840,24 @@ void Kirby::ChangeState(const KirbyState& state)
 				update = nullptr;
 				break;
 			}
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
+			break;
+		case KirbyState::Death:
+			cout << "state :: Death" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = nullptr;
 			onCollisionEnter = nullptr;
 			onCollisionStay = nullptr;
 			break;
@@ -1386,6 +1413,7 @@ void Kirby::Release()
 void Kirby::Reset()
 {
 	SpriteGO::Reset();
+	onEvent = false;
 	forwardTrigger = (KirbyForward*)SCENE_MANAGER.GetCurrentScene()->AddGameObject(new KirbyForward());
 	forwardTrigger->physicsLayer = (int)PhysicsLayer::Player;
 	forwardTrigger->SetKirby(this);
@@ -1456,6 +1484,12 @@ void Kirby::Reset()
 	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[142].action =
 		[this]() {
 		rigidbody->SetVelocity({ 0.0f, 0.0f });
+	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Death.csv")->frames[0].action =
+		[this]() {
+		collider->SetTrigger(true);
+		rigidbody->SetVelocity({ 0.0f, -400.0f });
+		rigidbody->SetMass(3.0f);
 	};
 }
 
@@ -1633,19 +1667,26 @@ void Kirby::EatUpdate(float dt)
 
 void Kirby::DanceReadyUpdate(float dt)
 {
-	actionTime += dt;
-	if (actionTime >= 1.3f)
+	if (onEvent)
 	{
-		ChangeState(KirbyState::Dance);
-		KirbyBackdancer* kirbyCopyL = new KirbyBackdancer();
-		kirbyCopyL->SetKirby(this, { -84.0f, -48.0f });
-		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyL);
-		kirbyCopyL->Reset();
-		KirbyBackdancer* kirbyCopyR = new KirbyBackdancer();
-		kirbyCopyR->SetKirby(this, { 12.0f, -48.0f });
-		SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyR);
-		kirbyCopyR->Reset();
-		animator->SetState("Dance");
+		actionTime += dt;
+		if (actionTime >= 1.3f)
+		{
+			ChangeState(KirbyState::Dance);
+			KirbyBackdancer* kirbyCopyL = new KirbyBackdancer();
+			kirbyCopyL->SetKirby(this, { -84.0f, -48.0f });
+			SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyL);
+			kirbyCopyL->Reset();
+			KirbyBackdancer* kirbyCopyR = new KirbyBackdancer();
+			kirbyCopyR->SetKirby(this, { 12.0f, -48.0f });
+			SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyCopyR);
+			kirbyCopyR->Reset();
+			animator->SetState("Dance");
+		}
+	}
+	else if (rigidbody->GetVelocity().y == 0.0f)
+	{
+		DanceReady();
 	}
 }
 
@@ -1673,44 +1714,10 @@ void Kirby::BombUpdate(float dt)
 
 void Kirby::StageClear()
 {
-	ability = KirbyAbility::None;
-	sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
-	if (tex != nullptr)
-	{
-		SetTexture(*tex);
-		SetOrigin(origin);
-	}
-	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
-	if (ui != nullptr)
-	{
-		ui->SetPlayer1Ability(ability);
-	}
 	ChangeState(KirbyState::DanceReady);
 	actionTime = 0.0f;
-	animator->SetState("DanceReady");
+	animator->SetState("DanceLookDown");
 	animator->Play();
-	SpriteEffect* kirbyStarL = new SpriteEffect(1.3f, "sprites/effects/KirbyEffect.png", "BackdancerStar");
-	kirbyStarL->SetPosition(position + sf::Vector2f(-6.0f, -18.0f));
-	kirbyStarL->SetScale({ 0.5f, 0.5f });
-	Animation* aniL = (Animation*)kirbyStarL->AddComponent(new Animation(*kirbyStarL));
-	aniL->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
-	aniL->Play();
-	kirbyStarL->Reset();
-	RigidBody2D* rigL = (RigidBody2D*)kirbyStarL->AddComponent(new RigidBody2D(*kirbyStarL));
-	rigL->AddForce({ -40.0f, -120.0f });
-	SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyStarL);
-
-
-	SpriteEffect* kirbyStarR = new SpriteEffect(1.3f, "sprites/effects/KirbyEffect.png", "BackdancerStar");
-	kirbyStarR->SetPosition(position + sf::Vector2f(-6.0f, -18.0f));
-	kirbyStarR->SetScale({ 0.5f, 0.5f });
-	Animation* aniR = (Animation*)kirbyStarR->AddComponent(new Animation(*kirbyStarR));
-	aniR->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
-	aniR->Play();
-	kirbyStarR->Reset();
-	RigidBody2D* rigR = (RigidBody2D*)kirbyStarR->AddComponent(new RigidBody2D(*kirbyStarR));
-	rigR->AddForce({ 40.0f, -120.0f });
-	SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyStarR);
 }
 
 void Kirby::Draw(sf::RenderWindow& window)
@@ -1724,7 +1731,7 @@ void Kirby::Draw(sf::RenderWindow& window)
 
 void Kirby::Damage(const int& damage, const float hitAxisX)
 {
-	if (state == KirbyState::Tackle || state == KirbyState::Suction || state == KirbyState::Eat)
+	if (state == KirbyState::Tackle || state == KirbyState::Suction || state == KirbyState::Eat || state == KirbyState::Death)
 	{
 		return;
 	}
@@ -1734,10 +1741,6 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 
 	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
 	ui->SetPlayer1HP(currentHP / (float)maxHP);
-	if (currentHP <= 0.0f)
-	{
-		//die
-	}
 	if (bomb != nullptr)
 	{
 		bomb->Fire({ 0.0f, 0.0f });
@@ -1753,11 +1756,26 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 		ChangeState(KirbyState::Collided);
 		rigidbody->SetDrag(0.7f);
 	}
+	if (beam != nullptr)
+	{
+		beam->Return();
+		beam = nullptr;
+	}
+
 	animator->SetEvent("Hit");
 	collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	collider->SetOffset({ -12.0f, -24.0f });
 	moveAxisX = -GetScale().x;
 	rigidbody->SetVelocity({ hitAxisX * 100.0f, 0.0f });
+	if (currentHP <= 0.0f)
+	{
+		//die
+		animator->SetEvent("Death");
+		ChangeState(KirbyState::Death);
+		Camera* camera = (Camera*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Camera");
+		camera->SetPosition((Vector2f)FRAMEWORK.GetWindow().getPosition());
+		camera->SetType(CameraType::Fixed);
+	}
 }
 
 void Kirby::Heal(const int& heal)
@@ -1875,6 +1893,56 @@ void Kirby::SuctionCollisionEnter(Collider* col)
 	}
 }
 
+void Kirby::KirbyDanceCollisionEnter(Collider* col)
+{
+	if (!onEvent && (col->GetGameObject().GetName() == "Ground" || col->GetGameObject().GetName() == "ThroughtableGround") && rigidbody->GetVelocity().y >= 0.0f)
+	{
+		DanceReady();
+	}
+}
+
+void Kirby::DanceReady()
+{
+	ability = KirbyAbility::None;
+	sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
+	if (tex != nullptr)
+	{
+		SetTexture(*tex);
+		SetOrigin(origin);
+	}
+	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+	if (ui != nullptr)
+	{
+		ui->SetPlayer1Ability(ability);
+	}
+
+	onEvent = true;
+	animator->SetState("DanceReady");
+	animator->Play();
+
+	SpriteEffect* kirbyStarL = new SpriteEffect(1.3f, "sprites/effects/KirbyEffect.png", "BackdancerStar");
+	kirbyStarL->SetPosition(position + sf::Vector2f(-6.0f, -18.0f));
+	kirbyStarL->SetScale({ 0.5f, 0.5f });
+	Animation* aniL = (Animation*)kirbyStarL->AddComponent(new Animation(*kirbyStarL));
+	aniL->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
+	aniL->Play();
+	kirbyStarL->Reset();
+	RigidBody2D* rigL = (RigidBody2D*)kirbyStarL->AddComponent(new RigidBody2D(*kirbyStarL));
+	rigL->AddForce({ -40.0f, -120.0f });
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyStarL);
+
+
+	SpriteEffect* kirbyStarR = new SpriteEffect(1.3f, "sprites/effects/KirbyEffect.png", "BackdancerStar");
+	kirbyStarR->SetPosition(position + sf::Vector2f(-6.0f, -18.0f));
+	kirbyStarR->SetScale({ 0.5f, 0.5f });
+	Animation* aniR = (Animation*)kirbyStarR->AddComponent(new Animation(*kirbyStarR));
+	aniR->SetClip(Resources.GetAnimationClip("animations/Effect/Star.csv"));
+	aniR->Play();
+	kirbyStarR->Reset();
+	RigidBody2D* rigR = (RigidBody2D*)kirbyStarR->AddComponent(new RigidBody2D(*kirbyStarR));
+	rigR->AddForce({ 40.0f, -120.0f });
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(kirbyStarR);
+}
 
 void Kirby::OnCollisionStay(Collider* col)
 {

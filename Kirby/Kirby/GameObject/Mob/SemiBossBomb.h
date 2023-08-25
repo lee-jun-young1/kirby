@@ -25,6 +25,7 @@ class SemiBossBomb : public Mob
 public:
     SemiBossBomb(KirbyAbility type = KirbyAbility::Bomb, const std::string textureID = "sprites/mob/SB_Bomb.png", const string& name = "Mob") : Mob(type, textureID, name) {};
     virtual void Init() override;
+    virtual void OnDisable() override;
     virtual void Reset() override;
     void WakeUp();
     virtual void Damage(const int& damage, const float hitAxisX) override;

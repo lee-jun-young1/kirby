@@ -13,8 +13,8 @@ protected:
         Move,
         Hit,
         Suction,
+        Death,
     };
-    bool suctionable = true;
     KirbyAbility type;
     EnemyType enemyType;
     float speed = -15.0f;
@@ -40,10 +40,11 @@ protected:
     int maxHP = 10;
     int currentHP = 10;
 
+    int score = 100;
+
     GenPoint* genPoint = nullptr;
 public:
     Mob(KirbyAbility type, const std::string textureID = "", const string& name = "") : SpriteGO(textureID, name), type(type) {};
-    bool IsSuctionable() { return suctionable; }
     KirbyAbility GetType() { return type; }
     EnemyType GetEnemyType() { return enemyType; }
 
@@ -57,6 +58,7 @@ public:
     virtual void Update(float dt) override;
     virtual void UpdateIdle(float dt);
     virtual void UpdateMove(float dt);
+    virtual void UpdateDeath(float dt);
     virtual void UpdateHit(float dt);
     virtual void UpdateSuction(float dt);
 

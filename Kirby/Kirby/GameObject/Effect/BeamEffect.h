@@ -26,9 +26,12 @@ protected:
 	float effectRotation = -20.0f;
 	float time = 0.0f;
 	float removeTime = 0.0f;
+
+	int damage = 0.0f;
 public:
 	BeamEffect(const std::string textureID = "sprites/effects/Beam_Effect.png", const std::string& name = "BeamEffect") 
 		:SpriteGO(textureID, name) {};
+	virtual void Reset() override;
 	virtual void Update(float deltaTime) override;
 	virtual void OnTriggerEnter(Collider* col) override;
 	const float& GetTotalRotation() const;
