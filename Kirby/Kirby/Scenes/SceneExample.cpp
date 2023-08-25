@@ -201,22 +201,6 @@ void SceneExample::Update(float deltaTime)
 		kirby->SetPosition({ 1000.0f, 1128.0f });
 	}
 
-	Camera* cam = (Camera*)FindGameObject("Camera");
-
-	if (Input.GetKey(Keyboard::LShift))
-	{
-		if (Input.GetKeyDown(Keyboard::Num4))
-		{
-			//중간 보스 격파
-			cam->DeActiveCurrentArea();
-		}
-		if (Input.GetKeyDown(Keyboard::Num5))
-		{
-			//죽었을때
-			sf::Vector2f size = FRAMEWORK.GetWindowSize();
-			cam->SetType(CameraType::Fixed, worldView.getCenter());
-		}
-	}
 
 	if (Input.GetKeyDown(Keyboard::Num1))
 	{

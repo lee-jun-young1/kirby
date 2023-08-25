@@ -37,6 +37,7 @@ public:
 	void SetType(const CameraType& type, const sf::Vector2f& position = { 0.0f, 0.0f });
 
 	void DeActiveCurrentArea();
+	void DeActiveOtherAreas();
 	void SetPrevCam();
 	void SetActiveInCamera(GameObject* target);
 };

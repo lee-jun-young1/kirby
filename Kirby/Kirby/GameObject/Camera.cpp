@@ -83,6 +83,20 @@ void Camera::DeActiveCurrentArea()
 	area = nullptr;
 }
 
+void Camera::DeActiveOtherAreas()
+{
+	std::list<GameObject*> list;
+	SCENE_MANAGER.GetCurrentScene()->FindGameObjects(list, "CameraArea");
+	for (auto go : list)
+	{
+		if (go == area)
+		{
+			continue;
+		}
+		go->SetActive(false);
+	}
+}
+
 void Camera::SetPrevCam()
 {
 	type = prevType;
@@ -92,11 +106,7 @@ void Camera::SetPrevCam()
 void Camera::SetActiveInCamera(GameObject* target)
 {
 	//커비를 기준으로
-	checkArea = kirby->sprite.getGlobalBounds();
-	checkArea.left -= correctSize.x;
-	checkArea.top -= correctSize.y;
-	checkArea.width += (correctSize.x * 2.f);
-	checkArea.height += (correctSize.y * 2.f);
+	checkArea = areaBounds;
 
 	if (checkArea.contains(target->GetPosition()))
 	{
