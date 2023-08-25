@@ -151,3 +151,8 @@
 0,sprites/backgorund/Green_Green_Background2_Animation.png
 0,sprites/backgorund/Green_Green_Background2_Animation2.png
 0,sprites/backgorund/Green_Green_Background3.png
+0,sprites/effects/WarpStar.png
+3,animations/Item/WarpStar.csv
+3,animations/Kirby/Kirby_WarpStar.csv
+3,animations/Kirby/Kirby_WarpStarRoll.csv
+0,sprites/kirby/Kirby_WarpStar.png

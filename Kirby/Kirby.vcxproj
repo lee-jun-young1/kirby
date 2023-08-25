@@ -259,6 +259,7 @@
     <ClCompile Include="Kirby\GameObject\Player\Suction.cpp" />
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp" />
     <ClCompile Include="Kirby\GameObject\UI\StatusUI.cpp" />
+    <ClCompile Include="Kirby\GameObject\Interact\WarpStar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
@@ -371,6 +372,7 @@
     <ClInclude Include="Kirby\GameObject\Player\Suction.h" />
     <ClInclude Include="Kirby\GameObject\ThrowableGround.h" />
     <ClInclude Include="Kirby\GameObject\Effect\WoodEffect.h" />
+    <ClInclude Include="Kirby\GameObject\Interact\WarpStar.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="3rd\json\json_valueiterator.inl" />

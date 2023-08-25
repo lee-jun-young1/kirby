@@ -50,6 +50,7 @@
 #include "Mushroom.h"
 #include "SemiBossBomb.h"
 #include <BossWood.h>
+#include <WarpStar.h>
 
 SceneExample::SceneExample() 
 	: Scene(SceneId::Title)
@@ -154,6 +155,14 @@ void SceneExample::Init()
 	//boss->SetEffectPool(effectPool);
 	
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
+
+	WarpStar* warpStar = (WarpStar*)AddGameObject(new WarpStar());
+	warpStar->physicsLayer = (int)PhysicsLayer::Interact;
+	warpStar->SetPosition({ 792.0f, 48.0f });
+	BoxCollider* warpStarCol = (BoxCollider*)warpStar->AddComponent(new BoxCollider(*warpStar));
+	warpStarCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+	warpStarCol->SetOffset({ 24.0f, 24.0f });
+	warpStar->SetMovePosition({36.0f, 648.0f});
 
 	RectangleShapeGO* curtain = (RectangleShapeGO*)AddGameObject(new RectangleShapeGO("Curtain"));
 	curtain->SetSize(FRAMEWORK.GetWindowSize());

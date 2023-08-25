@@ -30,6 +30,7 @@ void BossWood::Damage(const int& damage, const float hitAxisX)
     {
         animator->SetEvent("Death");
         pattern = Pattern::Death;
+        clearItem->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(-96.0f, 10.0f));
         clearItem->SetActive(true);
     }
     currentHP -= damage;
@@ -43,6 +44,7 @@ void BossWood::Reset()
     clearItem = (ClearItem*)SCENE_MANAGER.GetCurrentScene()->AddGameObject(new ClearItem());
     clearItem->SetPosition(GetPosition() - GetOrigin() + sf::Vector2f(-96.0f, 10.0f));
     clearItem->Init();
+    clearItem->Reset();
     clearItem->SetActive(false);
     inCameraEvent = [this]() { WakeUp(); };
     pattern = Pattern::Wait;
