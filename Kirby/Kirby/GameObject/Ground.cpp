@@ -48,7 +48,7 @@ void Ground::Reset()
 	case GroundType::Tilted:
 	{
 		BoxCollider* boxCol = (BoxCollider*)AddComponent(new BoxCollider(*this));
-		boxCol->SetRect({ (float)rect.left - 2.0f, (float)rect.top, (float)rect.width + 2.0f, (float)rect.height });
+		boxCol->SetRect({ (float)rect.left - 2.0f, (float)rect.top, (float)rect.width + 4.0f, (float)rect.height });
 		boxCol->SetRotationOffset(data["Angle"].asFloat());
 		if (flipX)
 		{

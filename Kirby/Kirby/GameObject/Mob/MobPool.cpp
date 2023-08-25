@@ -39,7 +39,7 @@ Mob* MobPool::GetMob(EnemyType type)
 		return GetSemiBossBomb();
 		break;
 	case EnemyType::Wood:
-		//작업 필요
+		return GetBossWood();
 		break;
 	default:
 		break;
@@ -85,7 +85,7 @@ void MobPool::MobReturn(Mob* mob)
 		semiBossBombs.Return((SemiBossBomb*)mob);
 		break;
 	case EnemyType::Wood:
-		//작업 필요
+		bossWoods.Return((BossWood*)mob);
 		break;
 	default:
 		break;
@@ -130,6 +130,10 @@ void MobPool::ClearAllPool()
 	{
 		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
 	}
+	for (auto mob : bossWoods.GetUseList())
+	{
+		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
+	}
 
 	cutters.Clear();
 	bombs.Clear();
@@ -140,6 +144,7 @@ void MobPool::ClearAllPool()
 	chicks.Clear();
 	mushrooms.Clear();
 	semiBossBombs.Clear();
+	bossWoods.Clear();
 }
 
 void MobPool::Init()
@@ -283,6 +288,16 @@ SemiBossBomb* MobPool::GetSemiBossBomb()
 	SemiBossBomb* mob = semiBossBombs.Get();
 	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/SB-Bomb/SB-Bomb", "Jump"));
 	mob->SetAnimator(ani);
+	mob->SetEffectPool((EffectPool*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("EffectPool"));
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
+	return mob;
+}
+
+BossWood* MobPool::GetBossWood()
+{
+	BossWood* mob = bossWoods.Get();
+	Animator* bossAnimator = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/Wood/Wood", "Idle"));
+	mob->SetAnimator(bossAnimator);
 	mob->SetEffectPool((EffectPool*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("EffectPool"));
 	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
 	return mob;
