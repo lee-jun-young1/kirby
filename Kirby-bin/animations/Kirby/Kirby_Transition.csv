@@ -81,6 +81,7 @@ Move,CutterAttack,1,0,CutterAttack,0
 Move,CutterCatch,1,0,CutterCatch,0
 Move,CutterNearAttack,1,0,CutterNearAttack,0
 Move,BeamAttack,1,0,BeamAttack,0
+Move,BeamCharge,1,0,BeamCharge,0
 Run,Idle,1,0,Idle,0
 Run,AbilityKeyContinue,1,0,Suction,0
 Run,PressJump,1,0,Jump,0

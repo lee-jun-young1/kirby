@@ -48,12 +48,16 @@ void BossWood::Reset()
     clearItem->SetActive(false);
     inCameraEvent = [this]() { WakeUp(); };
     pattern = Pattern::Wait;
+
 }
 
 void BossWood::WakeUp()
 {
     currentHP = maxHP;
     pattern = Pattern::None;
+    StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+    ui->SetUIMode(StatusUI::UIMode::Boss);
+    ui->SetEnemyHP(currentHP / (float)maxHP);
 }
 
 

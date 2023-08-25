@@ -33,6 +33,8 @@ void SemiBossBomb::OnDisable()
 	{
 		Camera* camera = (Camera*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Camera");
 		camera->DeActiveCurrentArea();
+		StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+		ui->SetUIMode(StatusUI::UIMode::Default);
 	}
 }
 
@@ -55,6 +57,9 @@ void SemiBossBomb::WakeUp()
 {
 	currentHP = maxHP;
 	SetState(State::Jump);
+	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+	ui->SetUIMode(StatusUI::UIMode::Boss);
+	ui->SetEnemyHP(currentHP / (float)maxHP);
 }
 
 void SemiBossBomb::Damage(const int& damage, const float hitAxisX)
