@@ -45,7 +45,6 @@ void BombEffect::OnTriggerEnter(Collider* col)
 		else
 		{
 			lastForce *= 0.7f;
-			cout << lastForce.y << endl;
 			if (lastForce.y > -30.0f)
 			{
 				collider->GetRigidBody()->SetVelocity({0.0f, 0.0f});

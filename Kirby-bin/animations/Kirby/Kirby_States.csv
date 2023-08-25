@@ -29,6 +29,7 @@ BalloonEmptyShot,animations/Kirby/Kirby_BalloonEmptyShot.csv
 Wall,animations/Kirby/Kirby_Wall.csv
 Dance,animations/Kirby/Kirby_Dance.csv
 DanceReady,animations/Kirby/Kirby_DanceReady.csv
+DanceLookDown,animations/Kirby/Kirby_DanceLookDown.csv
 BeamCharge,animations/Kirby/Kirby_BeamCharge.csv
 BeamFullCharge,animations/Kirby/Kirby_BeamFullCharge.csv
 BeamShot,animations/Kirby/Kirby_BeamShot.csv

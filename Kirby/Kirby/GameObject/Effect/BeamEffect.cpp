@@ -4,6 +4,14 @@
 #include "EffectPool.h"
 #include <Mob.h>
 
+void BeamEffect::Reset()
+{
+    SpriteGO::Reset();
+    time = 0.0f;
+    removeTime = 0.0f;
+    prevNode = nullptr;
+}
+
 void BeamEffect::Update(float deltaTime)
 {
     time += deltaTime;
@@ -30,7 +38,6 @@ void BeamEffect::Update(float deltaTime)
     case Mode::Tornado:
         if (prevNode != nullptr)
         {
-            cout << time  << " , " << cos(time) << endl;
             sf::Vector2f pos = Utils::RotateWithPivot({ 0.0f, 0.0f }, { 15.0f, 0.0f }, Utils::Lerp(-effectRotation, effectRotation, abs(cos(time* 4.0f))));
             pos.x *= effectDirection.x;
             SetPosition(prevNode->GetPosition() + pos);
@@ -83,18 +90,21 @@ void BeamEffect::SetMode(const Mode& mode)
     {
     case Mode::Whip:
     case Mode::Ball:
+        damage = 10;
         animator->SetState("Beam");
         collider->SetRect({ 0.0f, 0.0f, 8.0f, 8.0f });
         collider->SetOffset({ 32.0f, 32.0f });
         collider->SetTrigger(true);
         break;
     case Mode::Tornado:
+        damage = 5;
         animator->SetState("Tornado");
         collider->SetRect({ 0.0f, 0.0f, 8.0f, 8.0f });
         collider->SetOffset({ 32.0f, 32.0f });
         collider->SetTrigger(true);
         break;
     case Mode::WindBall:
+        damage = 30;
         animator->SetState("Charge");
         collider->SetRect({ 0.0f, 0.0f, 8.0f, 8.0f });
         collider->SetOffset({ 32.0f, 32.0f });
@@ -112,7 +122,7 @@ void BeamEffect::OnTriggerEnter(Collider* col)
 {
     if (col->GetGameObject().HasTag("Mob"))
     {
-        ((Mob*)&col->GetGameObject())->Damage(1.0f, col->GetGameObject().GetPosition().x < GetPosition().x + sprite.getGlobalBounds().width * 0.5f ? -1.0f : 1.0f);
+        ((Mob*)&col->GetGameObject())->Damage(damage, col->GetGameObject().GetPosition().x < GetPosition().x + sprite.getGlobalBounds().width * 0.5f ? -1.0f : 1.0f);
         if (mode == Mode::Ball)
         {
             pool->ReturnBeamEffect(this);

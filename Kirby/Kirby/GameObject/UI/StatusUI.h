@@ -57,7 +57,7 @@ public:
 	void SetLifeText(SpriteTextGO* spriteTextGO) { lifeText = spriteTextGO; }
 	void SetScoreText(SpriteTextGO* spriteTextGO) { scoreText = spriteTextGO; }
 
-	void SetLife(int life);
-	void SetScore(int score);
+	void RefreshLife();
+	void RefreshScore();
 };
 

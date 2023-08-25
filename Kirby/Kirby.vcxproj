@@ -161,6 +161,7 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\Interact\ClearItem.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\WoodEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\GenPoint.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Chick.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="Kirby\GameObject\Interact\ClearItem.h" />
     <ClInclude Include="Kirby\GameObject\Mob\GenPoint.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Chick.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Bear.h" />
