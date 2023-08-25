@@ -21,7 +21,7 @@ void StatusUI::Init()
 	hp2P.setSize({ hpSize, 10.0f });
 	hp2P.setFillColor(sf::Color::Red);
 	hpEnemy.setPosition(bgR.getPosition() + sf::Vector2f(56.0f, 14.0f));
-	hpEnemy.setSize({ hpSize, 6.0f });
+	hpEnemy.setSize({ 0.0f, 6.0f });
 	hpEnemy.setFillColor(sf::Color::Red);
 
 	ability1P.setPosition(bgL.getPosition() + sf::Vector2f(8.0f, 7.0f));
@@ -29,6 +29,8 @@ void StatusUI::Init()
 	ability2P.setPosition(bgR.getPosition() + sf::Vector2f(88.0f, 7.0f));
 
 	statusCover.setPosition({ 0.0f, FRAMEWORK.GetWindowSize().y - bgL.getSize().y });
+
+	enemyPrevHP = 0.0f;
 }
 
 void StatusUI::Reset()

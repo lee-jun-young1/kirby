@@ -9,8 +9,7 @@ void BombEffect::Update(float deltaTime)
 {
 	if (animator->GetClipName() == "BoomEnd")
 	{
-		cout << "Return!!" << endl;
-		pool->ReturnBombEffect(this);
+		Return();
 	} 
 	else if (animator->GetClipName() == "Boom")
 	{
@@ -92,4 +91,9 @@ void BombEffect::Ready()
 	collider->SetOffset({ 24.0f, 24.0f });
 	collider->GetRigidBody()->SetVelocity({0.0f, 0.0f});
 	collider->GetRigidBody()->SetGravity(false);
+}
+
+void BombEffect::Return()
+{
+	pool->ReturnBombEffect(this);
 }

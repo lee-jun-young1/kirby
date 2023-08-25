@@ -986,6 +986,16 @@ void Kirby::UnequipAbility()
 		keepInMouseAbility = KirbyAbility::Null;
 		ShotStar();
 		sf::Texture* tex = Resources.GetTexture(abilityTextureIDs[(int)ability]);
+		if (bomb != nullptr)
+		{
+			bomb->Return();
+			bomb = nullptr;
+		}
+		if (beam != nullptr)
+		{
+			beam->Return();
+			beam = nullptr;
+		}
 		if (tex != nullptr)
 		{
 			SetTexture(*tex);

@@ -24,5 +24,6 @@ public:
     void SetPool(EffectPool* pool) { this->pool = pool; }
     void SetAnimator(Animator* animator) { this->animator = animator; }
     void Ready();
+    void Return();
 };
 
