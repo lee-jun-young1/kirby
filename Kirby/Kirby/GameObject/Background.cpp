@@ -4,4 +4,5 @@
 void Background::Reset()
 {
 
+	sortLayer = -99;
 }

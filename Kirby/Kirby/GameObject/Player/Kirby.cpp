@@ -1775,6 +1775,7 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 		Camera* camera = (Camera*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Camera");
 		camera->SetPosition((Vector2f)FRAMEWORK.GetWindow().getPosition());
 		camera->SetType(CameraType::Fixed);
+		camera->DeActiveOtherAreas();
 	}
 }
 

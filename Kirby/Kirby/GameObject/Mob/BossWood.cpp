@@ -5,6 +5,18 @@
 #include <SceneManager.h>
 #include <Utils.h>
 
+
+void BossWood::Init()
+{
+    Mob::Init();
+    AddTag("Mob");
+    physicsLayer = (int)PhysicsLayer::Enemy;
+    BoxCollider* col = (BoxCollider*)AddComponent(new BoxCollider(*this));
+    col->SetRect({ 0.0f, 0.0f, 24.0f * 3.0f, 24.0f * 5.0f });
+    col->SetTrigger(true);
+}
+
+
 void BossWood::Damage(const int& damage, const float hitAxisX)
 {
     state = State::Hit;

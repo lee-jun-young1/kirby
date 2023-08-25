@@ -2,39 +2,43 @@
 #include "RectangleShapeGO.h"
 #include "json.h"
 
-class SpriteGO;
 class Kirby;
-class Camera : public RectangleShapeGO
+class CameraArea;
+class Camera : public GameObject
 {
 protected:
 	CameraType type = CameraType::None;
+	CameraType prevType = CameraType::None;
 
-	sf::View* view = nullptr;
-	sf::Vector2f correctSize = { 216.0f, 144.0f };
-	sf::Vector2f size;
-	sf::FloatRect realCheckArea;
-	sf::Vector2f cellSize = { 24.0f, 24.0f };
+	sf::FloatRect areaBounds;
+	sf::FloatRect prevAreaBounds;
+
+	sf::FloatRect checkArea;
+	sf::Vector2f correctSize = { 24.0f * 11.f, 24.0f * 6.f };
+
+	float cameraTime = 0.0f;
 
 	Kirby* kirby = nullptr;
-	float cameraTime = 0.0f;
-public:
-	Camera(const string& name = "") : RectangleShapeGO(name) {}
-	virtual ~Camera() {};
+	sf::View* view = nullptr;
+	CameraArea* area = nullptr;
+	std::list<GameObject*> gameObjects;
 
-	virtual void Init() override;
-	virtual void Reset() override;
+public:
+	Camera(const string& name = "") : GameObject(name) {}
+
+	virtual void Update(float deltaTime) override;
 
 	void SetKirby(Kirby* go) { this->kirby = go; }
 	void SetView(sf::View* view) { this->view = view; }
+	void SetGameObjects(std::list<GameObject*> gameObjects) { this->gameObjects = gameObjects; }
+	void SetCameraArea(CameraArea* area);
 
 	const CameraType& GetType() const { return type; }
-	void SetType(const CameraType& type) { this->type = type; }
+	void SetType(const CameraType& type, const sf::Vector2f& position = { 0.0f, 0.0f });
 
-	void MoveCamera(float dt);
+	void DeActiveCurrentArea();
+	void DeActiveOtherAreas();
+	void SetPrevCam();
 	void SetActiveInCamera(GameObject* target);
-
-	virtual void OnTriggerEnter(Collider* col) override;
-	virtual void OnTriggerStay(Collider* col) override;
-	virtual void OnTriggerExit(Collider* col) override;
 };
 

@@ -11,6 +11,7 @@
 #include "Bear.h"
 #include "Chick.h"
 #include "Mushroom.h"
+#include "BossWood.h"
 
 class MobPool : public GameObject
 {
@@ -24,6 +25,7 @@ protected:
 	ObjectPool<Mushroom> mushrooms;
 	ObjectPool<Chick> chicks;
 	ObjectPool<SemiBossBomb> semiBossBombs;
+	ObjectPool<BossWood> bossWoods;
 
 public:
 	MobPool(const std::string& name = "") : GameObject(name) {}
@@ -38,6 +40,7 @@ public:
 	Chick* GetChick();
 	Mushroom* GetMushroom();
 	SemiBossBomb* GetSemiBossBomb();
+	BossWood* GetBossWood();
 
 
 	void MobReturn(Mob* mob);
