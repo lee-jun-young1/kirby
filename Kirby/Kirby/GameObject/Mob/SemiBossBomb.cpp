@@ -4,6 +4,7 @@
 #include <SceneManager.h>
 #include <StatusUI.h>
 #include "Utils.h"
+#include <Camera.h>
 
 void SemiBossBomb::Init()
 {
@@ -23,6 +24,17 @@ void SemiBossBomb::Init()
 	SetOrigin({ 36.0f, 48.0f });
 	boxCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	boxCol->SetOffset({ -12.0f, -24.0f });
+
+	score = 1000;
+}
+
+void SemiBossBomb::OnDisable()
+{
+	if (currentHP <= 0)
+	{
+		Camera* camera = (Camera*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Camera");
+		camera->SetType(CameraType::Free);
+	}
 }
 
 void SemiBossBomb::Reset()

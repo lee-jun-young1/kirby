@@ -43,7 +43,6 @@ void KirbyEffect::Update(float dt)
 
 void KirbyEffect::OnTriggerEnter(Collider* col)
 {
-	cout << duration << endl;
 	if (col->GetGameObject().HasTag("Ground") && time > 0.1f)
 	{
 		SetActive(false);

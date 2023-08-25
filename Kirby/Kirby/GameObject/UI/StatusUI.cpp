@@ -35,8 +35,8 @@ void StatusUI::Reset()
 {
 	statusCover.setTexture(*Resources.GetTexture("sprites/UI/Game/Status.png"));
 	ability1P.setTexture(*Resources.GetTexture("sprites/UI/Game/Ability.png"));
-	SetLife(0);
-	SetScore(0);
+	RefreshLife();
+	RefreshScore();
 	SetPlayer1Ability(KirbyAbility::None);
 	SetUIMode(UIMode::Default);
 }
@@ -110,10 +110,7 @@ void StatusUI::SetUIMode(UIMode mode)
 
 void StatusUI::SetPlayer1HP(float hpPercent)
 {
-	if (hpPercent < 0)
-	{
-		hpPercent = 0;
-	}
+	hpPercent = Utils::Clamp(hpPercent, 0.0f, 1.0f);
 	player1PrevHP = player1CurrentHP;
 	player1CurrentHP = hpSize * hpPercent;
 	player1HitTime = 0.0f;
@@ -129,10 +126,7 @@ void StatusUI::SetPlayer1Ability(KirbyAbility ability)
 
 void StatusUI::SetPlayer2HP(float hpPercent)
 {
-	if (hpPercent < 0)
-	{
-		hpPercent = 0;
-	}
+	hpPercent = Utils::Clamp(hpPercent, 0.0f, 1.0f);
 	player2PrevHP = player2CurrentHP;
 	player2CurrentHP = hpSize * hpPercent;
 	player2HitTime = 0.0f;
@@ -148,27 +142,22 @@ void StatusUI::SetPlayer2Ability(KirbyAbility ability)
 
 void StatusUI::SetEnemyHP(float hpPercent)
 {
-	cout << hpPercent << endl;
-	if (hpPercent < 0.0f)
-	{
-		hpPercent = 0.0f;
-	}
-	cout << hpPercent << endl;
+	hpPercent = Utils::Clamp(hpPercent, 0.0f, 1.0f);
 	enemyPrevHP = enemyCurrentHP;
 	enemyCurrentHP = hpSize * hpPercent;
 	enemyHitTime = 0.0f;
 }
 
-void StatusUI::SetLife(int life)
+void StatusUI::RefreshLife()
 {
 	stringstream ss;
-	ss << "@x" << life;
+	ss << "@x" << Variables::Life;
 	lifeText->SetText(ss.str());
 }
 
-void StatusUI::SetScore(int score)
+void StatusUI::RefreshScore()
 {
 	stringstream ss;
-	ss << "SCORE:" << score;
+	ss << "SCORE:" << Variables::Score;
 	scoreText->SetText(ss.str());
 }

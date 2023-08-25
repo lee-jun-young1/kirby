@@ -97,6 +97,8 @@ protected:
 
 	BombEffect* bomb;
 	BeamEffect* beam;
+
+	bool onEvent = false;
 public:
 	Kirby(const std::string textureID = "", const std::string& name = "") : Playable(textureID, name) {};
 
@@ -243,6 +245,10 @@ public:
 	void JumpCollisionEnter(Collider* col);
 	void BalloonJumpCollisionEnter(Collider* col);
 	void SuctionCollisionEnter(Collider* col);
+
+	void KirbyDanceCollisionEnter(Collider* col);
+
+	void DanceReady();
 
 	void TackleCollisionEnter(Collider* col);
 	void CutterCollisionEnter(Collider* col);
