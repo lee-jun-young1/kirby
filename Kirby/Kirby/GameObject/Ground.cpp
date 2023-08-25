@@ -49,13 +49,14 @@ void Ground::Reset()
 	{
 		BoxCollider* boxCol = (BoxCollider*)AddComponent(new BoxCollider(*this));
 		boxCol->SetRect({ (float)rect.left - 2.0f, (float)rect.top, (float)rect.width + 4.0f, (float)rect.height });
-		boxCol->SetRotationOffset(data["Angle"].asFloat());
 		if (flipX)
 		{
+			boxCol->SetRotationOffset(data["Angle"].asFloat() * -1);
 			boxCol->SetOffset({ data["OffSet"]["x"].asFloat() - groundSize.x, data["OffSet"]["y"].asFloat() });
 		}
 		else
 		{
+			boxCol->SetRotationOffset(data["Angle"].asFloat());
 			boxCol->SetOffset({ data["OffSet"]["x"].asFloat(), data["OffSet"]["y"].asFloat()});
 		}
 	}

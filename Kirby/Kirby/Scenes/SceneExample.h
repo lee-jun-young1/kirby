@@ -25,8 +25,5 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 
 	void LoadData(const std::wstring& path);
-
-	//Temp Background
-	VertexArrayGO* CreateBackground(const sf::Vector2f& tileMatrix, const sf::Vector2f& tileSize, const sf::Vector2f& texSize = { 0.f, 0.f }, const std::string& textureId = "");
 };
 

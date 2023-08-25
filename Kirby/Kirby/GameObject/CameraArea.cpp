@@ -23,8 +23,8 @@ void CameraArea::OnTriggerExit(Collider* col)
 	{
 		return;
 	}
-	if (camera->GetType() == CameraType::Fixed)
-	{
-		camera->SetPrevCam();
-	}
+	//if (camera->GetType() == CameraType::Fixed)
+	//{
+	//	camera->SetPrevCam();
+	//}
 }

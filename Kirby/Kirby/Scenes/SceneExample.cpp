@@ -176,8 +176,9 @@ void SceneExample::Init()
 	cam->SetKirby(kirby);
 	cam->SetView(&worldView);
 	cam->SetGameObjects(&gameObjects);
-	cam->physicsLayer = (int)PhysicsLayer::Default;
+	cam->physicsLayer = (int)PhysicsLayer::Player;
 	BoxCollider* camCol = (BoxCollider*)cam->AddComponent(new BoxCollider(*cam));
+	camCol->SetTrigger(true);
 	camCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	camCol->SetOffset({ -12.0f, -24.0f });
 	
@@ -501,7 +502,7 @@ void SceneExample::LoadData(const std::wstring& path)
 			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
 			throughtGround->AddTag("Ground");
 			throughtGround->SetSize({ 24.0f, 24.0f });
-			throughtGround->physicsLayer = (int)PhysicsLayer::Default;
+			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
 			throughtGround->SetOrigin(Origins::MC);
 			throughtGround->SetPosition(node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat());
 			BoxCollider* throughtGroundCol = (BoxCollider*)throughtGround->AddComponent(new BoxCollider(*throughtGround));
@@ -512,6 +513,10 @@ void SceneExample::LoadData(const std::wstring& path)
 			Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "Ground"));
 			ground->SetData(node);
 			ground->SetGroundType((GroundType)node["Type"].asInt());
+			if (GroundType::Transpar == (GroundType)node["Type"].asInt())
+			{
+				int a = 0;
+			}
 		}
 	}
 
@@ -537,7 +542,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		area->SetType(type);
 		area->SetPosition(position);
 		area->SetSize(size);
-		area->physicsLayer = (int)PhysicsLayer::Default;
+		area->physicsLayer = (int)PhysicsLayer::Ground;
 		area->SetCamera(cam);
 		BoxCollider* col = (BoxCollider*)area->AddComponent(new BoxCollider(*area));
 		col->SetTrigger(true);

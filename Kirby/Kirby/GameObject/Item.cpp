@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Item.h"
 #include "Kirby.h"
+#include "SceneManager.h"
+#include "StatusUI.h"
+
 void Item::Reset()
 {
 	SpriteGO::Reset();
@@ -29,10 +32,15 @@ void Item::OnCollisionEnter(Collider* col)
 	if (col->GetGameObject().GetName() == "Kirby")
 	{
 		std::cout << (int)itemType << std::endl;
+		
 		switch (itemType)
 		{
 		case ItemType::Life:
-			Variables::Life += 1;
+		{
+			Variables::Life++;
+			StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+			ui->RefreshLife();
+		}
 			break;
 		case ItemType::God:
 			break;

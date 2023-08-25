@@ -53,17 +53,6 @@ void Camera::Update(float deltaTime)
 		{
 			SetActiveInCamera((SpriteGO*)go);
 		}
-		//if (go->GetName() == "CameraArea")
-		//{
-		//	if (((CameraArea*)go)->GetGlobalBounds().contains(position))
-		//	{
-		//		SetCameraArea(((CameraArea*)go));
-		//	}
-		//	if (((CameraArea*)go)->GetType() == CameraType::Fixed && !((CameraArea*)go)->GetGlobalBounds().contains(position))
-		//	{
-		//		SetPrevCam();
-		//	}
-		//}
 	}
 }
 
@@ -74,8 +63,6 @@ void Camera::SetCameraArea(CameraArea* area)
 	prevAreaBounds = areaBounds;
 	type = area->GetType();
 	areaBounds = area->GetGlobalBounds();
-	checkArea = areaBounds;
-
 }
 
 void Camera::SetType(const CameraType& type, const sf::Vector2f& position)
@@ -119,6 +106,12 @@ void Camera::SetPrevCam()
 
 void Camera::SetActiveInCamera(GameObject* target)
 {
+	checkArea = areaBounds;
+	checkArea.left -= correctSize.x;
+	checkArea.top -= correctSize.y;
+	checkArea.width += correctSize.x * 2.0f;
+	checkArea.height += correctSize.y * 2.0f;
+
 
 	if (checkArea.contains(target->GetPosition()))
 	{
