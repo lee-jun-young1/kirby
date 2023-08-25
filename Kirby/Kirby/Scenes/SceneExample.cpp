@@ -182,7 +182,7 @@ void SceneExample::Init()
 	camCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	camCol->SetOffset({ -12.0f, -24.0f });
 	
-	LoadData(L"maps/Green_Green.json");
+	LoadData(L"maps/Green_Green_2.json");
 
 
 	for (auto go : gameObjects)

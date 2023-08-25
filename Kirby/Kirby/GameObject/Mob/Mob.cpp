@@ -57,8 +57,7 @@ void Mob::UpdateDeath(float dt)
         StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
         ui->RefreshScore();
 
-        MobPool* mobPool = (MobPool*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("MobPool");
-        mobPool->MobReturn(this);
+        genPoint->MobRemove();
     }
 }
 

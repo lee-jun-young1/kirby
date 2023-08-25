@@ -1858,8 +1858,8 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 		animator->SetEvent("Death");
 		ChangeState(KirbyState::Death);
 		Camera* camera = (Camera*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Camera");
-		camera->SetPosition((Vector2f)FRAMEWORK.GetWindow().getPosition());
-		camera->SetType(CameraType::Fixed);
+		//camera->SetPosition((Vector2f)FRAMEWORK.GetWindow().getPosition());
+		//camera->SetType(CameraType::Fixed);
 		camera->DeActiveOtherAreas();
 	}
 }
