@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+Grass1,5,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,0,0,24,24
+,24,0,24,24
+,48,0,24,24
+,72,0,24,24

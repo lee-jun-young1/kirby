@@ -23,7 +23,8 @@ class SemiBossBomb : public Mob
 
     function<void(Collider*)> onCollisionEnter;
 public:
-    SemiBossBomb(KirbyAbility type, const std::string textureID = "", const string& name = "") : Mob(type, textureID, name) {};
+    SemiBossBomb(KirbyAbility type = KirbyAbility::Bomb, const std::string textureID = "sprites/mob/SB_Bomb.png", const string& name = "Mob") : Mob(type, textureID, name) {};
+    virtual void Init() override;
     virtual void Reset() override;
     void WakeUp();
     virtual void Damage(const int& damage, const float hitAxisX) override;

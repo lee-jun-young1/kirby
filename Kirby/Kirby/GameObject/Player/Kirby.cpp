@@ -9,6 +9,8 @@
 #include <KirbyBackdancer.h>
 #include <GameObjects/SpriteEffect.h>
 #include <StatusUI.h>
+#include <Camera.h>
+#include <Framework.h>
 
 #pragma region KeyInput
 
@@ -834,6 +836,24 @@ void Kirby::ChangeState(const KirbyState& state)
 			onCollisionEnter = nullptr;
 			onCollisionStay = nullptr;
 			break;
+		case KirbyState::Death:
+			cout << "state :: Death" << endl;
+			moveKey = nullptr;
+			dashKey = nullptr;
+			moveKeyEnd = nullptr;
+			chargeKey = nullptr;
+			chargeKeyContinue = nullptr;
+			chargeKeyEnd = nullptr;
+			doorKey = nullptr;
+			doorKeyEnd = nullptr;
+			sitKey = nullptr;
+			sitKeyEnd = nullptr;
+			jumpKey = nullptr;
+			vKey = nullptr;
+			update = nullptr;
+			onCollisionEnter = nullptr;
+			onCollisionStay = nullptr;
+			break;
 	}
 }
 
@@ -1457,6 +1477,12 @@ void Kirby::Reset()
 		[this]() {
 		rigidbody->SetVelocity({ 0.0f, 0.0f });
 	};
+	Resources.GetAnimationClip("animations/Kirby/Kirby_Death.csv")->frames[0].action =
+		[this]() {
+		collider->SetTrigger(true);
+		rigidbody->SetVelocity({ 0.0f, -400.0f });
+		rigidbody->SetMass(3.0f);
+	};
 }
 
 void Kirby::Update(float dt)
@@ -1724,7 +1750,7 @@ void Kirby::Draw(sf::RenderWindow& window)
 
 void Kirby::Damage(const int& damage, const float hitAxisX)
 {
-	if (state == KirbyState::Tackle || state == KirbyState::Suction || state == KirbyState::Eat)
+	if (state == KirbyState::Tackle || state == KirbyState::Suction || state == KirbyState::Eat || state == KirbyState::Death)
 	{
 		return;
 	}
@@ -1734,10 +1760,6 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 
 	StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
 	ui->SetPlayer1HP(currentHP / (float)maxHP);
-	if (currentHP <= 0.0f)
-	{
-		//die
-	}
 	if (bomb != nullptr)
 	{
 		bomb->Fire({ 0.0f, 0.0f });
@@ -1753,11 +1775,26 @@ void Kirby::Damage(const int& damage, const float hitAxisX)
 		ChangeState(KirbyState::Collided);
 		rigidbody->SetDrag(0.7f);
 	}
+	if (beam != nullptr)
+	{
+		beam->Return();
+		beam = nullptr;
+	}
+
 	animator->SetEvent("Hit");
 	collider->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	collider->SetOffset({ -12.0f, -24.0f });
 	moveAxisX = -GetScale().x;
 	rigidbody->SetVelocity({ hitAxisX * 100.0f, 0.0f });
+	if (currentHP <= 0.0f)
+	{
+		//die
+		animator->SetEvent("Death");
+		ChangeState(KirbyState::Death);
+		Camera* camera = (Camera*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("Camera");
+		camera->SetPosition((Vector2f)FRAMEWORK.GetWindow().getPosition());
+		camera->SetType(CameraType::Fixed);
+	}
 }
 
 void Kirby::Heal(const int& heal)
