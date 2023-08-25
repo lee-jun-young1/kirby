@@ -14,7 +14,7 @@ protected:
 	sf::FloatRect prevAreaBounds;
 
 	sf::FloatRect checkArea;
-	sf::Vector2f correctSize = { 24.0f * 1.0f, 24.0f * 1.0f };
+	sf::Vector2f correctSize = { 24.0f * 8.0f, 24.0f * 6.0f };
 
 	float cameraTime = 0.0f;
 
@@ -23,9 +23,11 @@ protected:
 	CameraArea* area = nullptr;
 	std::list<GameObject*>* gameObjects = nullptr;
 
+	bool cameraCheck = true;
 public:
 	Camera(const string& name = "") : GameObject(name) {}
 
+	virtual void Reset() override;
 	virtual void Update(float deltaTime) override;
 
 	void SetKirby(Kirby* go) { this->kirby = go; }

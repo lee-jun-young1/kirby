@@ -5,6 +5,7 @@
 #include <StatusUI.h>
 #include "Utils.h"
 #include <Camera.h>
+#include "GenPoint.h"
 
 void SemiBossBomb::Init()
 {
@@ -35,6 +36,7 @@ void SemiBossBomb::OnDisable()
 		camera->DeActiveCurrentArea();
 		StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
 		ui->SetUIMode(StatusUI::UIMode::Default);
+		genPoint->MobRemove();
 	}
 }
 

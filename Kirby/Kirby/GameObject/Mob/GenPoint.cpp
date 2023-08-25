@@ -5,6 +5,11 @@
 void GenPoint::Reset()
 {
 	GameObject::Reset();
+	SetActive(true);
+	if (type == EnemyType::SB_Bomb || type == EnemyType::Wood)
+	{
+		isOnce = true;
+	}
 	inCameraEvent = [this]() {
 		if (mob != nullptr)
 		{
@@ -24,5 +29,9 @@ void GenPoint::MobRemove()
 	mob->SetActive(false);
 	pool->MobReturn(mob);
 	mob = nullptr;
+	if (isOnce)
+	{
+		SetActive(false);
+	}
 }
 

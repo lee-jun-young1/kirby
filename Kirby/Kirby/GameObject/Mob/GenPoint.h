@@ -8,6 +8,7 @@ protected:
 	EnemyType type = EnemyType::None;
 	MobPool* pool = nullptr;
 	Mob* mob = nullptr;
+	bool isOnce = false;
 public:
 	GenPoint(const std::string& name) : GameObject(name) {}
 
