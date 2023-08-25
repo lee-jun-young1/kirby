@@ -36,7 +36,7 @@ Mob* MobPool::GetMob(EnemyType type)
 		return GetNormal();
 		break;
 	case EnemyType::SB_Bomb:
-		//return GetSemiBossBomb();
+		return GetSemiBossBomb();
 		break;
 	case EnemyType::Wood:
 		//작업 필요
@@ -82,7 +82,7 @@ void MobPool::MobReturn(Mob* mob)
 		normals.Return((Normal*)mob);
 		break;
 	case EnemyType::SB_Bomb:
-		//semiBossBombs.Return((SemiBossBomb*)mob);
+		semiBossBombs.Return((SemiBossBomb*)mob);
 		break;
 	case EnemyType::Wood:
 		//작업 필요
@@ -126,10 +126,10 @@ void MobPool::ClearAllPool()
 	{
 		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
 	}
-	//for (auto mob : semiBossBombs.GetUseList())
-	//{
-	//	SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
-	//}
+	for (auto mob : semiBossBombs.GetUseList())
+	{
+		SCENE_MANAGER.GetCurrentScene()->RemoveGameObject(mob);
+	}
 
 	cutters.Clear();
 	bombs.Clear();
@@ -139,7 +139,7 @@ void MobPool::ClearAllPool()
 	bears.Clear();
 	chicks.Clear();
 	mushrooms.Clear();
-	//semiBossBombs.Clear();
+	semiBossBombs.Clear();
 }
 
 void MobPool::Init()
@@ -169,9 +169,9 @@ void MobPool::Init()
 	mushrooms.OnCreate = [this](Mushroom* mob) 
 	{
 	};
-	//semiBossBombs.OnCreate = [this](SemiBossBomb* mob) 
-	//{
-	//};
+	semiBossBombs.OnCreate = [this](SemiBossBomb* mob) 
+	{
+	};
 
 
 	cutters.Init(10);
@@ -182,7 +182,7 @@ void MobPool::Init()
 	bears.Init(10);
 	chicks.Init(10);
 	mushrooms.Init(10);
-	//semiBossBombs.Init(10);
+	semiBossBombs.Init(10);
 }
 
 void MobPool::Release()
@@ -278,12 +278,12 @@ Mushroom* MobPool::GetMushroom()
 	return mob;
 }
 
-//SemiBossBomb* MobPool::GetSemiBossBomb()
-//{
-//	SemiBossBomb* mob = semiBossBombs.Get();
-//	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/SB-Bomb/SB-Bomb", "Jump"));
-//	mob->SetAnimator(ani);
-//	mob->SetMobPool(this);
-//	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
-//	return mob;
-//}
+SemiBossBomb* MobPool::GetSemiBossBomb()
+{
+	SemiBossBomb* mob = semiBossBombs.Get();
+	Animator* ani = (Animator*)mob->AddComponent(new Animator(*mob, "animations/Mob/SB-Bomb/SB-Bomb", "Jump"));
+	mob->SetAnimator(ani);
+	mob->SetEffectPool((EffectPool*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("EffectPool"));
+	SCENE_MANAGER.GetCurrentScene()->AddGameObject(mob);
+	return mob;
+}

@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,
+LakeLeft,5,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+,0,0,48,24
+,48,0,48,24
+,96,0,48,24
+,144,0,48,24

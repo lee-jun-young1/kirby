@@ -158,7 +158,7 @@ void SceneExample::Init()
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
 	MobPool* mobPool = (MobPool*)AddGameObject(new MobPool("MobPool"));
-	LoadData(L"maps/Green_Green_3.json");
+	LoadData(L"maps/Green_Green.json");
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -198,6 +198,7 @@ void SceneExample::Update(float deltaTime)
 		std::list<GameObject*> goList;
 		FindGameObjects(goList, "GenPoint");
 		FindGameObjects(goList, "Ground");
+		FindGameObjects(goList, "ThroughtableGround");
 		FindGameObjects(goList, "Mob");
 		for (auto go : goList)
 		{
@@ -242,6 +243,7 @@ void SceneExample::Update(float deltaTime)
 	{
 		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
 		ui->SetPlayer1HP(0.0f);
+		kirby->Damage(50,1);
 	}
 
 	if (Input.GetKeyDown(Keyboard::Numpad2))
@@ -448,32 +450,16 @@ void SceneExample::LoadData(const std::wstring& path)
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
 		Json::Value node = itemNodes[i];
-		ItemType type = (ItemType)node["Type"].asInt();
-		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
-		std::string textureId = "sprites/item/items.png";
-		sf::IntRect rect;
-		int sort = node["SortLayer"].asInt();
-		switch (type)
-		{
-		case ItemType::Life:
-			rect = { 216, 0, 24, 24};
-			break;
-		case ItemType::God:
-			rect = { 216, 24, 24, 24 };
-			break;
-		case ItemType::MaxTomato:
-			rect = { 96, 24, 24, 24 };
-			break;
-		case ItemType::Normal:
-			rect = { 120, 24, 24, 24 };
-			break;
-		}
-		Item* item = (Item*)AddGameObject(new Item(textureId, "item"));
-		item->sprite.setTextureRect(rect);
-		item->SetSize(cellSize);
+		Item* item = (Item*)AddGameObject(new Item("sprites/item/items.png", "Item"));
+		item->SetOrigin(Origins::BC);
+		item->SetItemType((ItemType)node["Type"].asInt());
 		item->physicsLayer = (int)PhysicsLayer::Item;
-		item->sortLayer = sort;
-		item->SetPosition(position);
+		item->sortLayer = node["SortLayer"].asInt();
+		item->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() });
+		item->SetKirby(kirby);
+		BoxCollider* boxCol = (BoxCollider*)item->AddComponent(new BoxCollider(*item));
+		boxCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
+		boxCol->SetOffset({ 0.0f, 0.0f });
 	}
 
 	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
@@ -483,18 +469,17 @@ void SceneExample::LoadData(const std::wstring& path)
 		int sort = node["SortLayer"].asInt();
 		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		EnemyType type = (EnemyType)node["Type"].asInt();
-
-		if (type == EnemyType::SB_Bomb || type == EnemyType::Wood)
+		if (type == EnemyType::Wood)
 		{
 			continue;
 		}
-
 		GenPoint* genPoint = (GenPoint*)AddGameObject(new GenPoint("GenPoint"));
 		genPoint->SetEnemyType(type);
 		genPoint->SetPosition(position);
 		genPoint->sortLayer = sort;
 		genPoint->SetMobPool(mobPool);
 	}
+
 	for (int i = 0; i < doorNodes.size(); i++)
 	{
 		Json::Value node = doorNodes[i];
@@ -517,7 +502,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		Json::Value node = groundNodes[i];
 		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
 		{
-			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround("Ground"));
+			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
 			throughtGround->AddTag("Ground");
 			throughtGround->SetSize({ 24.0f, 24.0f });
 			throughtGround->physicsLayer = (int)PhysicsLayer::Ground;
@@ -555,7 +540,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		cam->SetType(type);
 		cam->SetKirby(kirby);
 		cam->SetSize(size);
-		cam->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat()+36.0f });
+		cam->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat()+24.0f });
 		cam->SetView(&worldView);
 	}
 
