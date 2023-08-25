@@ -29,6 +29,7 @@
 #include "Camera.h"
 #include <StatusUI.h>
 #include "GenPoint.h"
+#include "CameraArea.h"
 //MapTool
 #include <fstream>
 #include "Item.h"
@@ -71,6 +72,9 @@ void SceneExample::Enter()
 
 	uiView.setSize(size);
 	uiView.setCenter(screenCenter.x, screenCenter.y);
+
+	Camera* cam = (Camera*)FindGameObject("Camera");
+	cam->SetGameObjects(gameObjects);
 
 	Scene::Enter();
 	Reset();
@@ -158,7 +162,12 @@ void SceneExample::Init()
 	curtain->SetPosition(FRAMEWORK.GetWindowSize() * 0.5f);
 
 	MobPool* mobPool = (MobPool*)AddGameObject(new MobPool("MobPool"));
+	Camera* cam = (Camera*)AddGameObject(new Camera("Camera"));
+	cam->SetKirby(kirby);
+	cam->SetView(&worldView);
+
 	LoadData(L"maps/Green_Green.json");
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -192,26 +201,20 @@ void SceneExample::Update(float deltaTime)
 		kirby->SetPosition({ 1000.0f, 1128.0f });
 	}
 
-	if (currentCamera != nullptr)
-	{
-		currentCamera->MoveCamera(deltaTime);
-		std::list<GameObject*> goList;
-		FindGameObjects(goList, "GenPoint");
-		FindGameObjects(goList, "Ground");
-		FindGameObjects(goList, "ThroughtableGround");
-		FindGameObjects(goList, "Mob");
-		for (auto go : goList)
-		{
-			currentCamera->SetActiveInCamera(go);
-		}
-	}
+	Camera* cam = (Camera*)FindGameObject("Camera");
 
 	if (Input.GetKey(Keyboard::LShift))
 	{
+		if (Input.GetKeyDown(Keyboard::Num4))
+		{
+			//중간 보스 격파
+			cam->DeActiveCurrentArea();
+		}
 		if (Input.GetKeyDown(Keyboard::Num5))
 		{
-			currentCamera->SetActive(false);
-			currentCamera = previousCamera;
+			//죽었을때
+			sf::Vector2f size = FRAMEWORK.GetWindowSize();
+			cam->SetType(CameraType::Fixed, worldView.getCenter());
 		}
 	}
 
@@ -446,6 +449,8 @@ void SceneExample::LoadData(const std::wstring& path)
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	kirby->sortLayer = rootNode["Player"]["SortLayer"].asInt();
 	kirby->SetPosition({ rootNode["Player"]["Position"]["x"].asFloat() + 12.0f, rootNode["Player"]["Position"]["y"].asFloat() });
+	Camera* cam = (Camera*)FindGameObject("Camera");
+	cam->SetPosition(kirby->GetPosition());
 
 	for (int i = 0; i < itemNodes.size(); i++)
 	{
@@ -532,31 +537,21 @@ void SceneExample::LoadData(const std::wstring& path)
 		sf::Vector2f size;
 		size.x = node["EndPosition"]["x"].asFloat() - node["Position"]["x"].asFloat() + cellSize.x;
 		size.y = node["EndPosition"]["y"].asFloat() - node["Position"]["y"].asFloat() + cellSize.y;
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() + 24.0f };
 
-		Camera* cam = (Camera*)AddGameObject(new Camera("Camera"));
-		cam->SetType(type);
-		cam->SetKirby(kirby);
-		cam->SetSize(size);
-		cam->SetPosition({ node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat()+24.0f });
-		cam->SetView(&worldView);
+		CameraArea* area = (CameraArea*)AddGameObject(new CameraArea("CameraArea"));
+		area->SetType(type);
+		area->SetPosition(position);
+		area->SetSize(size);
+		area->physicsLayer = (int)PhysicsLayer::Interact;
+		area->SetCamera(cam);
+		BoxCollider* col = (BoxCollider*)area->AddComponent(new BoxCollider(*area));
+		col->SetTrigger(true);
 	}
 
 	for (int i = 0; i < ambientObjectNodes.size(); i++)
 	{
 		Json::Value node = ambientObjectNodes[i];
-	}
-}
-
-void SceneExample::SetCamera(Camera* camera)
-{ 
-	if (camera == nullptr)
-	{
-		this->currentCamera = previousCamera;
-	}
-	else
-	{
-		this->previousCamera = currentCamera;
-		this->currentCamera = camera;
 	}
 }
 

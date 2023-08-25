@@ -28,7 +28,7 @@
 			"PaletteID" : "row-2-column-5",
 			"Position" : 
 			{
-				"x" : 312.0,
+				"x" : 288.0,
 				"y" : 456.0
 			},
 			"SortLayer" : 99,
@@ -37,7 +37,7 @@
 		{
 			"EndPosition" : 
 			{
-				"x" : 336.0,
+				"x" : 288.0,
 				"y" : 456.0
 			},
 			"FlipX" : false,
@@ -45,23 +45,7 @@
 			"Position" : 
 			{
 				"x" : 120.0,
-				"y" : 264.0
-			},
-			"SortLayer" : 1,
-			"Type" : 3
-		},
-		{
-			"EndPosition" : 
-			{
-				"x" : 312.0,
-				"y" : 456.0
-			},
-			"FlipX" : false,
-			"PaletteID" : "row-2-column-6",
-			"Position" : 
-			{
-				"x" : 120.0,
-				"y" : 264.0
+				"y" : 288.0
 			},
 			"SortLayer" : 99,
 			"Type" : 3
@@ -77,23 +61,7 @@
 			"Position" : 
 			{
 				"x" : 0.0,
-				"y" : 264.0
-			},
-			"SortLayer" : 1,
-			"Type" : 4
-		},
-		{
-			"EndPosition" : 
-			{
-				"x" : 456.0,
-				"y" : 456.0
-			},
-			"FlipX" : false,
-			"PaletteID" : "row-2-column-4",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 264.0
+				"y" : 288.0
 			},
 			"SortLayer" : 99,
 			"Type" : 4
@@ -109,7 +77,7 @@
 			"Position" : 
 			{
 				"x" : 456.0,
-				"y" : 192.0
+				"y" : 216.0
 			},
 			"SortLayer" : 99,
 			"Type" : 5
@@ -118,23 +86,7 @@
 			"EndPosition" : 
 			{
 				"x" : 456.0,
-				"y" : 192.0
-			},
-			"FlipX" : false,
-			"PaletteID" : "row-2-column-4",
-			"Position" : 
-			{
-				"x" : 0.0,
-				"y" : 0.0
-			},
-			"SortLayer" : 1,
-			"Type" : 4
-		},
-		{
-			"EndPosition" : 
-			{
-				"x" : 456.0,
-				"y" : 192.0
+				"y" : 216.0
 			},
 			"FlipX" : false,
 			"PaletteID" : "row-2-column-4",
@@ -1081,7 +1033,7 @@
 			"OffSet" : 
 			{
 				"x" : 0.0,
-				"y" : 8.0
+				"y" : 9.0
 			},
 			"PaletteID" : "row-4-column-9",
 			"Position" : 
@@ -1103,7 +1055,7 @@
 			"OffSet" : 
 			{
 				"x" : 0.0,
-				"y" : 8.0
+				"y" : 9.0
 			},
 			"PaletteID" : "row-4-column-9",
 			"Position" : 
