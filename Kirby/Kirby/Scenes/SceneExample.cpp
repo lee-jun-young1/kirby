@@ -137,16 +137,16 @@ void SceneExample::Init()
 	ui->SetScoreText(scoreText);
 	ui->SetLifeText(liftText);
 
-	BossWood* boss = (BossWood*)AddGameObject(new BossWood());
-	boss->AddTag("Mob");
-	boss->physicsLayer = (int)PhysicsLayer::Enemy;
-	boss->SetPosition(1154.0f, 1128.0f);
-	Animator* bossAnimator = (Animator*)boss->AddComponent(new Animator(*boss, "animations/Mob/Wood/Wood", "Idle"));
-	boss->SetAnimator(bossAnimator);
-	BoxCollider* bossCol = (BoxCollider*)boss->AddComponent(new BoxCollider(*boss));
-	bossCol->SetRect({ 0.0f, 0.0f, 24.0f * 3.0f, 24.0f * 5.0f });
-	bossCol->SetTrigger(true);
-	boss->SetEffectPool(effectPool);
+	//BossWood* boss = (BossWood*)AddGameObject(new BossWood());
+	//boss->AddTag("Mob");
+	//boss->physicsLayer = (int)PhysicsLayer::Enemy;
+	//boss->SetPosition(1154.0f, 1128.0f);
+	//Animator* bossAnimator = (Animator*)boss->AddComponent(new Animator(*boss, "animations/Mob/Wood/Wood", "Idle"));
+	//boss->SetAnimator(bossAnimator);
+	//BoxCollider* bossCol = (BoxCollider*)boss->AddComponent(new BoxCollider(*boss));
+	//bossCol->SetRect({ 0.0f, 0.0f, 24.0f * 3.0f, 24.0f * 5.0f });
+	//bossCol->SetTrigger(true);
+	//boss->SetEffectPool(effectPool);
 	
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
@@ -469,10 +469,7 @@ void SceneExample::LoadData(const std::wstring& path)
 		int sort = node["SortLayer"].asInt();
 		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
 		EnemyType type = (EnemyType)node["Type"].asInt();
-		if (type == EnemyType::Wood)
-		{
-			continue;
-		}
+
 		GenPoint* genPoint = (GenPoint*)AddGameObject(new GenPoint("GenPoint"));
 		genPoint->SetEnemyType(type);
 		genPoint->SetPosition(position);

@@ -20,10 +20,12 @@ class BossWood : public Mob
 public:
 	BossWood(KirbyAbility type = KirbyAbility::None, const std::string textureID = "sprites/mob/Boss_Wood.png", const string& name = "BossWood")
 		:Mob(type, textureID, name) {}
+
 	void SetAnimator(Animator* animator) { this->animator = animator; }
 
 	virtual void Damage(const int& damage, const float hitAxisX) override;
 
+	virtual void Init() override;
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void OnTriggerEnter(Collider* col) override;
