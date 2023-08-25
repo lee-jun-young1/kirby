@@ -140,3 +140,5 @@
 0,sprites/effects/wood.png
 3,animations/Effect/Wood/Apple.csv
 3,animations/Effect/Wood/Breath.csv
+3,animations/Kirby/Kirby_Death.csv
+3,animations/Kirby/Kirby_DeathReady.csv

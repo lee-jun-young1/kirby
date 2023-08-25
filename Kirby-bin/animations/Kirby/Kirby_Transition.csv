@@ -200,3 +200,5 @@ BeamShot,,0,9,Idle,0
 BeamDashAttack,,0,2,Idle,0
 BeamCharge,Hit,1,0,Hit,0
 BeamFullCharge,Hit,1,0,Hit,0
+Hit,Death,1,0,DeathReady,0
+DeathReady,,0,3,Death,0
