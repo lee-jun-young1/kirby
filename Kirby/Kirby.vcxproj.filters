@@ -270,7 +270,7 @@
     <ClCompile Include="Kirby\GameObject\Interact\ClearItem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="WarpStar.cpp">
+    <ClCompile Include="Kirby\GameObject\Interact\WarpStar.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -569,7 +569,7 @@
     <ClInclude Include="Kirby\GameObject\Interact\ClearItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="WarpStar.h">
+    <ClInclude Include="Kirby\GameObject\Interact\WarpStar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
