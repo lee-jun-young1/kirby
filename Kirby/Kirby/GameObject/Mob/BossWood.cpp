@@ -19,12 +19,14 @@ void BossWood::Damage(const int& damage, const float hitAxisX)
         animator->SetEvent("Death");
         pattern = Pattern::Death;
     }
+    currentHP -= damage;
 }
 
 void BossWood::Reset()
 {
 	SpriteGO::Reset();
     eventTime = 0.0f;
+    score = 10000;
 }
 
 void BossWood::Update(float dt)

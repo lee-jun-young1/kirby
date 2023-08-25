@@ -4,6 +4,9 @@
 #include "Utils.h"
 #include <Playable.h>
 #include "GenPoint.h"
+#include <StatusUI.h>
+#include <SceneManager.h>
+#include <MobPool.h>
 void Mob::Reset()
 {
     SpriteGO::Reset();
@@ -42,6 +45,21 @@ void Mob::UpdateMove(float dt)
         rigidbody->AddForce({ 0.0f, -150.0f });
     }
     SetPosition({ GetPosition().x + speed * dt, GetPosition().y });
+}
+
+void Mob::UpdateDeath(float dt)
+{
+    currentEventTime += dt;
+    if (currentEventTime > 1.0f)
+    {
+        Variables::Score += score;
+
+        StatusUI* ui = (StatusUI*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("StatusUI");
+        ui->RefreshScore();
+
+        MobPool* mobPool = (MobPool*)SCENE_MANAGER.GetCurrentScene()->FindGameObject("MobPool");
+        mobPool->MobReturn(this);
+    }
 }
 
 void Mob::UpdateHit(float dt)
@@ -89,6 +107,16 @@ void Mob::Damage(const int& damage, const float hitAxisX)
     currentHitTime = 0.0f;
     rigidbody->SetDrag(0.7f);
     rigidbody->SetVelocity({ hitAxisX * 100.0f, 0.0f });
+
+    currentHP -= damage;
+
+    if (currentHP <= 0.0f)
+    {
+        state = State::Death;
+        update = std::bind(&Mob::UpdateDeath, this, std::placeholders::_1);
+
+        currentEventTime = 0.0f;
+    }
 }
 
 void Mob::OnCollisionEnter(Collider* col)
