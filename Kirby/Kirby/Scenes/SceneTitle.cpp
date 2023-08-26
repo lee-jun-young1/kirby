@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Framework.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 #include "SpriteGO.h"
 #include "DataSlot.h"
 SceneTitle::SceneTitle() : Scene(SceneId::Title)
@@ -75,7 +76,7 @@ void SceneTitle::Release()
 void SceneTitle::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
-	if (Input.GetKeyDown(sf::Keyboard::Enter))
+	if (Input.GetKeyDown(sf::Keyboard::X) && status == TitleStatus::None)
 	{
 		DataSlot* save1 = (DataSlot*)FindGameObject("Save1");
 		DataSlot* save2 = (DataSlot*)FindGameObject("Save2");
@@ -83,6 +84,11 @@ void SceneTitle::Update(float deltaTime)
 		save1->SetMoveActive(true);
 		save2->SetMoveActive(true);
 		save3->SetMoveActive(true);
+		status = TitleStatus::DataSlot;
+	}
+	else if (Input.GetKeyDown(sf::Keyboard::X) && status == TitleStatus::DataSlot)
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::ModeSelect);
 	}
 }
 
@@ -90,4 +96,3 @@ void SceneTitle::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }
-

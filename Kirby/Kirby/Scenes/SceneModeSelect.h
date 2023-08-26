@@ -1,19 +1,19 @@
 #pragma once
 #include "Scene.h"
-class SceneTitle : public Scene
+class SceneModeSelect : public Scene
 {
 public:
-	enum class TitleStatus
+	enum class ModeSelectStatus
 	{
 		None = -1,
-		DataSlot
+		Guide,
 	};
 protected:
-	TitleStatus status = TitleStatus::None;
+	ModeSelectStatus status = ModeSelectStatus::None;
 
 public:
-	SceneTitle();
-	virtual ~SceneTitle() override;
+	SceneModeSelect();
+	virtual ~SceneModeSelect() override;
 
 	virtual void Enter() override;
 	void Reset();

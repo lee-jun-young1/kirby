@@ -14,7 +14,7 @@ protected:
 	sf::FloatRect prevAreaBounds;
 
 	sf::FloatRect checkArea;
-	sf::Vector2f correctSize = { 24.0f * 8.0f, 24.0f * 6.0f };
+	sf::Vector2f correctSize = { 24.0f * 9.0f, 24.0f * 6.0f };
 
 	float cameraTime = 0.0f;
 

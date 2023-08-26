@@ -1,19 +1,12 @@
 #pragma once
 #include "Scene.h"
-class SceneTitle : public Scene
+class SceneSpringBreezeTitle : public Scene
 {
-public:
-	enum class TitleStatus
-	{
-		None = -1,
-		DataSlot
-	};
 protected:
-	TitleStatus status = TitleStatus::None;
 
 public:
-	SceneTitle();
-	virtual ~SceneTitle() override;
+	SceneSpringBreezeTitle();
+	virtual ~SceneSpringBreezeTitle() override;
 
 	virtual void Enter() override;
 	void Reset();

@@ -12,10 +12,10 @@ enum class SceneId
 {
 	None = -1,
 	Title,
+	ModeSelect,
+	SpringBreeze,
 	Game,
 	MapTool,
-	Demo,
-	Count,
 };
 
 enum class ResourceTypes

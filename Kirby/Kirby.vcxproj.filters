@@ -279,7 +279,16 @@
     <ClCompile Include="Kirby\Scenes\SceneTitle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="DataSlot.cpp">
+    <ClCompile Include="Kirby\GameObject\UI\DataSlot.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\Scenes\SceneModeSelect.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\Scenes\SceneSpringBreezeTitle.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\GameObject\UI\ModeButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -587,7 +596,16 @@
     <ClInclude Include="Kirby\Scenes\SceneTitle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DataSlot.h">
+    <ClInclude Include="Kirby\GameObject\UI\DataSlot.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\Scenes\SceneModeSelect.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\Scenes\SceneSpringBreezeTitle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\UI\ModeButton.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

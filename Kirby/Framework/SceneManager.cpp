@@ -4,6 +4,8 @@
 #include "SceneMapTool.h"
 #include "SceneExample.h"
 #include "SceneTitle.h"
+#include "SceneModeSelect.h"
+#include "SceneSpringBreezeTitle.h"
 #include "PhysicsManager.h"
 
 void SceneManager::ChangeScene(SceneId id)
@@ -24,6 +26,8 @@ void SceneManager::Init()
 		Release();
 	}
 	scenes.push_back(new SceneTitle());
+	scenes.push_back(new SceneModeSelect());
+	scenes.push_back(new SceneSpringBreezeTitle());
 	scenes.push_back(new SceneExample());
 	scenes.push_back(new SceneMapTool());
 
