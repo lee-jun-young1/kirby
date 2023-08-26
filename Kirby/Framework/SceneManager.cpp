@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "SceneMapTool.h"
 #include "SceneExample.h"
+#include "SceneTitle.h"
 #include "PhysicsManager.h"
 
 void SceneManager::ChangeScene(SceneId id)
@@ -22,6 +23,7 @@ void SceneManager::Init()
 	{
 		Release();
 	}
+	scenes.push_back(new SceneTitle());
 	scenes.push_back(new SceneExample());
 	scenes.push_back(new SceneMapTool());
 

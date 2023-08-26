@@ -1,6 +1,5 @@
 #pragma once
 #include "RectangleShapeGO.h"
-
 class Camera;
 class Collider;
 class CameraArea : public RectangleShapeGO

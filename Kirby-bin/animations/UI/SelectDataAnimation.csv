@@ -1,0 +1,7 @@
+ID,FPS,LOOPTYPE,,
+SelectData,30,1,,
+,,,,
+TextureID,Left,Top,Width,Height
+sprites/UI/Title/SelectDataAnimation.png,0,0,94,247
+sprites/UI/Title/SelectDataAnimation.png,94,0,94,247
+sprites/UI/Title/SelectDataAnimation.png,188,0,94,247

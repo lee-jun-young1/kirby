@@ -31,6 +31,7 @@
 #include "GenPoint.h"
 #include "CameraArea.h"
 #include "Background.h"
+#include "BackgroundSea.h"
 //MapTool
 #include <fstream>
 #include "Item.h"
@@ -53,7 +54,7 @@
 #include <WarpStar.h>
 
 SceneExample::SceneExample() 
-	: Scene(SceneId::Title)
+	: Scene(SceneId::Game)
 {
 	sceneName = "ExampleScene";
 }
@@ -67,9 +68,10 @@ void SceneExample::Enter()
 {
 	auto size = FRAMEWORK.GetWindowSize();
 	auto screenCenter = size * 0.5f;
+	backgroundView.setSize(size);
+	backgroundView.setCenter(screenCenter);
+	
 	worldView.setSize(size);
-
-	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	worldView.setCenter(0.0f,0.0f);
 
 	uiView.setSize(size);
@@ -104,9 +106,6 @@ void SceneExample::Init()
 	//윈도우 가운데로
 	FRAMEWORK.GetWindow().setPosition(sf::Vector2i((1920 - size.x * 3.f) / 2, (1080 - size.y * 3.f) / 2));
 
-	//Background
-	Background* background = (Background*)AddGameObject(new Background("sprites/background/Green_Green_Background.png", "Background"));
-
 	Kirby* kirby = (Kirby*)AddGameObject(new Kirby("sprites/kirby/Class_Normal.png", "Kirby"));
 	kirby->AddTag("Kirby");
 	kirby->physicsLayer = (int)PhysicsLayer::Player;
@@ -115,7 +114,6 @@ void SceneExample::Init()
 	suction->physicsLayer = (int)PhysicsLayer::Player;
 	suction->SetKirby(kirby);
 	suction->SetActive(false);
-
 	kirby->SetSuction(suction);
 
 	KirbyEffect* kirbyEffect = (KirbyEffect*)AddGameObject(new KirbyEffect("sprites/effects/KirbyEffect.png", "KirbyEffect"));
@@ -153,7 +151,11 @@ void SceneExample::Init()
 	//bossCol->SetRect({ 0.0f, 0.0f, 24.0f * 3.0f, 24.0f * 5.0f });
 	//bossCol->SetTrigger(true);
 	//boss->SetEffectPool(effectPool);
-	
+
+	//Background
+	Background* background = (Background*)AddGameObject(new Background("sprites/background/Green_Green_Background.png", "Background"));
+	BackgroundSea* sea = (BackgroundSea*)AddGameObject(new BackgroundSea());
+
 	Controller* testController = (Controller*)AddGameObject(new Controller(*kirby, "Controller"));
 
 	WarpStar* warpStar = (WarpStar*)AddGameObject(new WarpStar());
@@ -206,7 +208,6 @@ void SceneExample::Update(float deltaTime)
 	{
 		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
 	}
-
 	Kirby* kirby = (Kirby*)FindGameObject("Kirby");
 	if (Input.GetMouseButtonDown(sf::Mouse::Left))
 	{
@@ -410,7 +411,50 @@ void SceneExample::Update(float deltaTime)
 
 void SceneExample::Draw(sf::RenderWindow& window)
 {
-	Scene::Draw(window);
+	SortGameObjects();
+
+	window.setView(backgroundView);
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer > backgroundLayer)
+		{
+			continue;
+		}
+		if (go->IsActive())
+		{
+			go->Draw(window);
+		}
+	}
+
+	window.setView(worldView);
+
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer <= backgroundLayer || go->sortLayer >= UILayer)
+		{
+			continue;
+		}
+		if (go->IsActive())
+		{
+			go->Draw(window);
+		}
+	}
+
+
+	window.setView(uiView);
+
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer < UILayer)
+		{
+			continue;
+		}
+		if (go->IsActive())
+		{
+			go->Draw(window);
+		}
+	}
+
 }
 
 void SceneExample::LoadData(const std::wstring& path)

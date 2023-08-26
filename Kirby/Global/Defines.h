@@ -12,9 +12,9 @@ enum class SceneId
 {
 	None = -1,
 	Title,
+	Game,
 	MapTool,
 	Demo,
-	Game,
 	Count,
 };
 

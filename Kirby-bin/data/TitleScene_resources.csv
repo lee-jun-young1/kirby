@@ -1,1 +1,7 @@
 "RESOURCE_Types(0. Texture, 1. Font, 2.SoundClip, 3. AnimationClip)",RESOURCE_PATH
+0,sprites/UI/Title/Title.png
+0,sprites/UI/Title/Save1.png
+0,sprites/UI/Title/Save2.png
+0,sprites/UI/Title/Save3.png
+0,sprites/UI/Title/SelectDataAnimation.png
+3,animations/UI/SelectDataAnimation.csv

@@ -273,6 +273,15 @@
     <ClCompile Include="Kirby\GameObject\Interact\WarpStar.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Kirby\GameObject\BackgroundSea.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Kirby\Scenes\SceneTitle.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSlot.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -570,6 +579,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\Interact\WarpStar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\GameObject\BackgroundSea.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Kirby\Scenes\SceneTitle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSlot.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

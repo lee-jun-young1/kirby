@@ -161,6 +161,8 @@
     <ClCompile Include="3rd\json\json_writer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="DataSlot.cpp" />
+    <ClCompile Include="Kirby\GameObject\BackgroundSea.cpp" />
     <ClCompile Include="Kirby\GameObject\CameraArea.cpp" />
     <ClCompile Include="Kirby\GameObject\Interact\ClearItem.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\WoodEffect.cpp" />
@@ -260,6 +262,7 @@
     <ClCompile Include="Kirby\GameObject\ThrowableGround.cpp" />
     <ClCompile Include="Kirby\GameObject\UI\StatusUI.cpp" />
     <ClCompile Include="Kirby\GameObject\Interact\WarpStar.cpp" />
+    <ClCompile Include="Kirby\Scenes\SceneTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\json\allocator.h" />
@@ -274,6 +277,8 @@
     <ClInclude Include="3rd\json\version.h" />
     <ClInclude Include="3rd\json\writer.h" />
     <ClInclude Include="3rd\rapidcsv.h" />
+    <ClInclude Include="DataSlot.h" />
+    <ClInclude Include="Kirby\GameObject\BackgroundSea.h" />
     <ClInclude Include="Kirby\GameObject\CameraArea.h" />
     <ClInclude Include="Kirby\GameObject\Interact\ClearItem.h" />
     <ClInclude Include="Kirby\GameObject\Mob\GenPoint.h" />
@@ -365,6 +370,7 @@
     <ClInclude Include="Kirby\GameObject\Player\Skill.h" />
     <ClInclude Include="Kirby\GameObject\UI\StatusUI.h" />
     <ClInclude Include="Kirby\GameObject\Mob\SemiBossBomb.h" />
+    <ClInclude Include="Kirby\Scenes\SceneTitle.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />
