@@ -6,6 +6,7 @@
 #include "SpriteGO.h"
 #include "ModeButton.h"
 #include "SceneManager.h"
+#include "ModeSelectBoard.h"
 
 SceneModeSelect::SceneModeSelect() : Scene(SceneId::ModeSelect)
 {
@@ -35,6 +36,13 @@ void SceneModeSelect::Reset()
 	{
 		go->Reset();
 	}
+	auto size = FRAMEWORK.GetWindowSize();
+
+	ModeSelectBoard* board = (ModeSelectBoard*)FindGameObject("Board");
+	board->SetPosition({ (size.x - (board->sprite.getGlobalBounds().left + board->sprite.getGlobalBounds().width)) * 0.5f, size.y * 0.02f });
+	SpriteGO* logo = (SpriteGO*)FindGameObject("Logo");
+	logo->SetPosition(board->GetPosition().x, board->sprite.getGlobalBounds().top + board->sprite.getGlobalBounds().height + 2.0f);
+
 }
 
 void SceneModeSelect::Exit()
@@ -47,15 +55,27 @@ void SceneModeSelect::Init()
 	Scene::Init();
 	Release();
 
-	SpriteGO* board = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/ModeSelect/BoardWithLogo.png", "Board"));
-	board->sortLayer = -1;
-	ModeButton* mode = (ModeButton*)AddGameObject(new ModeButton("Mode"));
+	ModeSelectBoard* board = (ModeSelectBoard*)AddGameObject(new ModeSelectBoard("sprites/UI/ModeSelect/Board.png", "Board"));
+	board->sortLayer = 0;
+
+	SpriteGO* logo = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/ModeSelect/Logo.png", "Logo"));
+
+	ModeButton* mode = (ModeButton*)AddGameObject(new ModeButton("sprites/UI/ModeSelect/SpringBreeze.png", "Mode"));
+	mode->SetPosition( 24.0f, 16.0f);
 	mode->sortLayer = 1;
-	mode->SetTexture("sprites/UI/ModeSelect/SpringBreeze.png");
-	mode->SetFocus(true);
+	mode->SetNextSceneID(SceneId::SpringBreeze);
 	SpriteGO* guide = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/ModeSelect/SpringBreezeGuide.png", "Guide"));
-	guide->SetPosition({10.0f, 10.0f});
-	guide->SetActive(false);
+	guide->SetPosition({ 10.0f, 10.0f });
+	mode->SetGuide(guide);
+	board->AddMode(mode);
+
+	//ModeButton* mode1 = (ModeButton*)AddGameObject(new ModeButton("sprites/UI/ModeSelect/SpringBreeze.png", "Mode"));
+	//mode1->SetPosition(48.0f, 96.0f);
+	//mode1->sortLayer = 1;
+	//SpriteGO* guide1 = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/ModeSelect/SpringBreezeGuide.png", "Guide"));
+	//guide1->SetPosition({ 10.0f, 10.0f });
+	//mode1->SetGuide(guide1);
+	//board->AddMode(mode1);
 }
 
 void SceneModeSelect::Release()
@@ -69,16 +89,6 @@ void SceneModeSelect::Release()
 void SceneModeSelect::Update(float deltaTime)
 {
 	Scene::Update(deltaTime);
-	if (Input.GetKeyDown(sf::Keyboard::X) && status == ModeSelectStatus::None)
-	{
-		SpriteGO* guide = (SpriteGO*)FindGameObject("Guide");
-		guide->SetActive(true);
-		status = ModeSelectStatus::Guide;
-	}
-	else if(Input.GetKeyDown(sf::Keyboard::X) && status == ModeSelectStatus::Guide)
-	{
-		SCENE_MANAGER.ChangeScene(SceneId::SpringBreeze);
-	}
 }
 
 void SceneModeSelect::Draw(sf::RenderWindow& window)

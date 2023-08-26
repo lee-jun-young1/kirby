@@ -1,21 +1,28 @@
 #pragma once
-#include "RectangleShapeGO.h"
-class ModeButton : public RectangleShapeGO
+#include "SpriteGO.h"
+class ModeButton : public SpriteGO
 {
 protected:
-	bool isFocus = false;
+	SceneId nextSceneID = SceneId::None;
+
+	SpriteGO* guide = nullptr;
+	bool showGuide = false;
 
 	bool isTwinkle = false;
 	float twinkleTimer = 0.0f;
 	float twinkleInterval = 0.5f;
 public:
-	ModeButton(const string& name = "") : RectangleShapeGO(name){}
+	ModeButton(const std::string textureID, const std::string& name) : SpriteGO(textureID, name){}
 
-	void SetFocus(bool focus) { this->isFocus = focus; }
+	const SceneId& GetNextSceneID() const { return nextSceneID; }
+	const bool& IsShowGuide() const { return showGuide; }
+	void ShowGuide();
+	void CloseGuide();
+
+	void SetNextSceneID(SceneId sceneID) { this->nextSceneID = sceneID; }
+	void SetGuide(SpriteGO* guide) { this->guide = guide; }
 
 	virtual void Reset() override;
 	virtual void Update(float deltaTime) override;
-	
-
 };
 

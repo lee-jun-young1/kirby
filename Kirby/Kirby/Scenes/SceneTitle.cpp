@@ -90,6 +90,15 @@ void SceneTitle::Update(float deltaTime)
 	{
 		SCENE_MANAGER.ChangeScene(SceneId::ModeSelect);
 	}
+
+	if (Input.GetKeyDown(sf::Keyboard::F7))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::Game);
+	}
+	if (Input.GetKeyDown(sf::Keyboard::F8))
+	{
+		SCENE_MANAGER.ChangeScene(SceneId::MapTool);
+	}
 }
 
 void SceneTitle::Draw(sf::RenderWindow& window)

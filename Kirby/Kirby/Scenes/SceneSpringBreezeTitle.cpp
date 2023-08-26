@@ -6,6 +6,8 @@
 #include "SpriteGO.h"
 #include "DataSlot.h"
 #include "SceneManager.h"
+#include "TextGameObj.h"
+#include <SpringBreezeKirby.h>
 SceneSpringBreezeTitle::SceneSpringBreezeTitle() : Scene(SceneId::SpringBreeze)
 {
 	sceneName = "SpringBreezeTitleScene";
@@ -48,9 +50,10 @@ void SceneSpringBreezeTitle::Init()
 	
 	auto size = FRAMEWORK.GetWindowSize();
 	SpriteGO* title = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/SpringBreeze/SpringBreezeTitle.png", "Title"));
-	SpriteGO* button = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/SpringBreeze/NewGame.png", "Button"));
-	button->SetOrigin(Origins::MC);
-	button->SetPosition(72.0f, 144.0);
+	SpringBreezeKirby* kirby = (SpringBreezeKirby*)AddGameObject(new SpringBreezeKirby());
+	SpriteGO* newGame = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/SpringBreeze/NewGame.png", "newGame"));
+	newGame->SetPosition(size.x * 0.35f, size.y * 0.7f);
+	kirby->AddTarget(newGame);
 }
 
 void SceneSpringBreezeTitle::Release()
