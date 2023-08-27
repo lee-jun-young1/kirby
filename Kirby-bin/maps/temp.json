@@ -2272,6 +2272,138 @@
 			"Type" : 0
 		},
 		{
+			"Angle" : -18.0,
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"x" : 0.0,
+				"y" : 17.0
+			},
+			"PaletteID" : "row-4-column-8",
+			"Position" : 
+			{
+				"x" : 96.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 168.0,
+				"y" : 72.0
+			},
+			"Type" : 1
+		},
+		{
+			"Angle" : -18.0,
+			"FlipX" : true,
+			"OffSet" : 
+			{
+				"x" : 0.0,
+				"y" : 17.0
+			},
+			"PaletteID" : "row-4-column-8",
+			"Position" : 
+			{
+				"x" : 240.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 168.0,
+				"y" : 72.0
+			},
+			"Type" : 1
+		},
+		{
+			"Angle" : -18.0,
+			"FlipX" : true,
+			"OffSet" : 
+			{
+				"x" : 0.0,
+				"y" : 9.0
+			},
+			"PaletteID" : "row-4-column-9",
+			"Position" : 
+			{
+				"x" : 216.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 192.0,
+				"y" : 72.0
+			},
+			"Type" : 1
+		},
+		{
+			"Angle" : -18.0,
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"x" : 0.0,
+				"y" : 9.0
+			},
+			"PaletteID" : "row-4-column-9",
+			"Position" : 
+			{
+				"x" : 120.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 192.0,
+				"y" : 72.0
+			},
+			"Type" : 1
+		},
+		{
+			"Angle" : -18.0,
+			"FlipX" : true,
+			"OffSet" : 
+			{
+				"x" : 0.0,
+				"y" : 1.0
+			},
+			"PaletteID" : "row-4-column-10",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 72.0
+			},
+			"Type" : 1
+		},
+		{
+			"Angle" : -18.0,
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"x" : 0.0,
+				"y" : 1.0
+			},
+			"PaletteID" : "row-4-column-10",
+			"Position" : 
+			{
+				"x" : 144.0,
+				"y" : 120.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 72.0
+			},
+			"Type" : 1
+		},
+		{
 			"FlipX" : false,
 			"OffSet" : 
 			{
@@ -2437,87 +2569,7 @@
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-2-column-10",
-			"Position" : 
-			{
-				"x" : 264.0,
-				"y" : 120.0
-			},
-			"SortLayer" : 0,
-			"TexturePosition" : 
-			{
-				"x" : 216.0,
-				"y" : 24.0
-			},
-			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-10",
-			"Position" : 
-			{
-				"x" : 240.0,
-				"y" : 120.0
-			},
-			"SortLayer" : 0,
-			"TexturePosition" : 
-			{
-				"x" : 216.0,
-				"y" : 24.0
-			},
-			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-10",
-			"Position" : 
-			{
-				"x" : 216.0,
-				"y" : 120.0
-			},
-			"SortLayer" : 0,
-			"TexturePosition" : 
-			{
-				"x" : 216.0,
-				"y" : 24.0
-			},
-			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-10",
-			"Position" : 
-			{
-				"x" : 192.0,
-				"y" : 120.0
-			},
-			"SortLayer" : 0,
-			"TexturePosition" : 
-			{
-				"x" : 216.0,
-				"y" : 24.0
-			},
-			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-10",
+			"PaletteID" : "row-5-column-2",
 			"Position" : 
 			{
 				"x" : 168.0,
@@ -2526,10 +2578,10 @@
 			"SortLayer" : 0,
 			"TexturePosition" : 
 			{
-				"x" : 216.0,
-				"y" : 24.0
+				"x" : 24.0,
+				"y" : 96.0
 			},
-			"Type" : 3
+			"Type" : 0
 		},
 		{
 			"FlipX" : false,
@@ -2540,47 +2592,7 @@
 			"PaletteID" : "row-2-column-10",
 			"Position" : 
 			{
-				"x" : 144.0,
-				"y" : 120.0
-			},
-			"SortLayer" : 0,
-			"TexturePosition" : 
-			{
-				"x" : 216.0,
-				"y" : 24.0
-			},
-			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-10",
-			"Position" : 
-			{
-				"x" : 120.0,
-				"y" : 120.0
-			},
-			"SortLayer" : 0,
-			"TexturePosition" : 
-			{
-				"x" : 216.0,
-				"y" : 24.0
-			},
-			"Type" : 3
-		},
-		{
-			"FlipX" : false,
-			"OffSet" : 
-			{
-				"y" : null
-			},
-			"PaletteID" : "row-2-column-10",
-			"Position" : 
-			{
-				"x" : 96.0,
+				"x" : 264.0,
 				"y" : 120.0
 			},
 			"SortLayer" : 0,
@@ -2668,6 +2680,66 @@
 			{
 				"x" : 216.0,
 				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"FlipX" : true,
+			"OffSet" : 
+			{
+				"y" : null
+			},
+			"PaletteID" : "row-4-column-7",
+			"Position" : 
+			{
+				"x" : 192.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 144.0,
+				"y" : 72.0
+			},
+			"Type" : 3
+		},
+		{
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"y" : null
+			},
+			"PaletteID" : "row-2-column-10",
+			"Position" : 
+			{
+				"x" : 168.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 216.0,
+				"y" : 24.0
+			},
+			"Type" : 3
+		},
+		{
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"y" : null
+			},
+			"PaletteID" : "row-4-column-7",
+			"Position" : 
+			{
+				"x" : 144.0,
+				"y" : 96.0
+			},
+			"SortLayer" : 0,
+			"TexturePosition" : 
+			{
+				"x" : 144.0,
+				"y" : 72.0
 			},
 			"Type" : 3
 		}
@@ -2797,8 +2869,8 @@
 		"PaletteID" : "Player",
 		"Position" : 
 		{
-			"x" : 0.0,
-			"y" : 384.0
+			"x" : 24.0,
+			"y" : 120.0
 		},
 		"SortLayer" : 1
 	},

@@ -12,6 +12,7 @@ protected:
 	
 	sf::Vector2f groundSize = { 24.0f, 24.0f };
 	Json::Value data;
+	sf::IntRect textureRect;
 public:
 	Ground(const std::string textureID = "", const std::string& name = "");
 
@@ -22,6 +23,7 @@ public:
 	void SetGroundType(const GroundType& type) { this->type = type; }
 	
 	void SetData(const Json::Value& data) { this->data = data; }
+	void SetTextureRect(const sf::IntRect textureRect) { this->textureRect = textureRect; }
 
 	virtual void Reset() override;
 };

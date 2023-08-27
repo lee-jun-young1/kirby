@@ -173,7 +173,6 @@
     <ClCompile Include="Kirby\GameObject\Mob\BossWood.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Beam.cpp" />
     <ClCompile Include="Kirby\GameObject\Mob\Bomb.cpp" />
-    <ClCompile Include="Kirby\GameObject\GroundPool.cpp" />
     <ClCompile Include="Kirby\GameObject\EffectPool.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\BeamEffect.cpp" />
     <ClCompile Include="Kirby\GameObject\Effect\BombEffect.cpp" />
@@ -294,7 +293,6 @@
     <ClInclude Include="Kirby\GameObject\Mob\BossWood.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Beam.h" />
     <ClInclude Include="Kirby\GameObject\Mob\Bomb.h" />
-    <ClInclude Include="Kirby\GameObject\GroundPool.h" />
     <ClInclude Include="Kirby\GameObject\EffectPool.h" />
     <ClInclude Include="Kirby\GameObject\Effect\BeamEffect.h" />
     <ClInclude Include="Kirby\GameObject\Effect\BombEffect.h" />
