@@ -165,6 +165,7 @@ public:
 	void CutterAttack();
 	void BombThrowReadyDown();
 	void BombThrowReadyUp();
+	void DeathUpdate(float dt);
 	void BombThrowReadyUpdate(float dt);
 	void BombAttackReady();
 	void BombInstall();

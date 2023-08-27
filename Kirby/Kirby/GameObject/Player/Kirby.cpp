@@ -876,7 +876,7 @@ void Kirby::ChangeState(const KirbyState& state)
 			sitKeyEnd = nullptr;
 			jumpKey = nullptr;
 			vKey = nullptr;
-			update = nullptr;
+			update = std::bind(&Kirby::DeathUpdate, this, std::placeholders::_1);
 			onCollisionEnter = nullptr;
 			onCollisionStay = nullptr;
 			break;
@@ -1198,6 +1198,15 @@ void Kirby::BombThrowReadyUp()
 }
 
 
+void Kirby::DeathUpdate(float dt)
+{
+	actionTime += dt;
+	if (actionTime > 5.0f)
+	{
+		SCENE_MANAGER.GetCurrentScene()->Reset();
+	}
+}
+
 void Kirby::BombThrowReadyUpdate(float dt)
 {
 	actionTime += dt;
@@ -1449,6 +1458,9 @@ void Kirby::Reset()
 	forwardTrigger->physicsLayer = (int)PhysicsLayer::Player;
 	forwardTrigger->SetKirby(this);
 
+	currentHP = maxHP;
+	ability = KirbyAbility::None;
+	ChangeState(KirbyState::Idle);
 
 	SetOrigin({ 36.0f, 48.0f});
 	Resources.GetAnimationClip("animations/Kirby/Kirby_Dance.csv")->frames[0].action =
