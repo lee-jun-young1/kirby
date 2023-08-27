@@ -1,10 +1,11 @@
 #pragma once
 #include "SpriteGO.h"
 class ModeButton;
+class RectangleShapeGO;
 class ModeSelectBoard : public SpriteGO
 {
 protected:
-	sf::RectangleShape outLine;
+	RectangleShapeGO* outLine = nullptr;
 
 	bool isTwinkle = false;
 	float twinkleTimer = 0.0f;
@@ -17,6 +18,7 @@ public:
 
 	void AddMode(ModeButton* mode) { modes.push_back(mode); }
 	void RefreshOutLine();
+	void SetOutLine(RectangleShapeGO* go) { this->outLine = go; }
 
 	virtual void Reset() override;
 	virtual void Update(float deltaTime) override;
