@@ -68,6 +68,7 @@ void SceneModeSelect::Init()
 	ModeButton* springBreeze = (ModeButton*)AddGameObject(new ModeButton("sprites/UI/ModeSelect/SpringBreeze.png", "Mode"));
 	springBreeze->SetPosition(24.0f, 20.0f);
 	springBreeze->sortLayer = 1;
+	springBreeze->SetNextSceneID(SceneId::SpringBreeze);
 	SpriteGO* guide1 = (SpriteGO*)AddGameObject(new SpriteGO("sprites/UI/ModeSelect/Guide.png", "Guide"));
 	guide1->sprite.setTextureRect({ 0, 0, 198, 214 });
 	guide1->SetPosition({ 10.0f, 10.0f });
