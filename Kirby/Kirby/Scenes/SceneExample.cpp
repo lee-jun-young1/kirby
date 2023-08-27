@@ -83,6 +83,8 @@ void SceneExample::Enter()
 
 void SceneExample::Reset()
 {
+	LoadData(L"maps/Green_Green.bak.json");
+
 	for (auto go : gameObjects)
 	{
 		go->Reset();
@@ -184,7 +186,6 @@ void SceneExample::Init()
 	camCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	camCol->SetOffset({ -12.0f, -24.0f });
 	
-	LoadData(L"maps/Green_Green.bak.json");
 	//LoadData(L"maps/temp.json");
 
 
@@ -221,7 +222,7 @@ void SceneExample::Update(float deltaTime)
 	}
 	if (Input.GetKeyDown(sf::Keyboard::Num0))
 	{
-		kirby->SetPosition({ 700.0f, 660.0f });
+		Reset();
 	}
 
 	if (Input.GetKeyDown(Keyboard::Num1))
@@ -258,7 +259,7 @@ void SceneExample::Update(float deltaTime)
 	if (Input.GetKeyDown(Keyboard::Numpad2))
 	{
 		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
-		ui->SetPlayer1HP(0.5f);
+		kirby->Damage(100, 1);
 	}
 
 	if (Input.GetKeyDown(Keyboard::Numpad3))
@@ -480,6 +481,42 @@ void SceneExample::LoadData(const std::wstring& path)
 		return;
 	}
 
+	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
+	mobPool->ClearAllPool();
+
+	//std::list<GameObject*> list;
+	//FindGameObjects(list, "Item");
+	//FindGameObjects(list, "Ground");
+	//FindGameObjects(list, "Door");
+	//FindGameObjects(list, "CameraArea");
+	//FindGameObjects(list, "ThroughtableGround");
+	//FindGameObjects(list, "GenPoint");
+
+	//for (auto go : list)
+	//{
+	//	RemoveGameObject(go);
+	//}
+	// removeGameObjects.clear();
+	//for (auto it = removeGameObjects.begin(); it != removeGameObjects.end();)
+	//{
+	//	delete* it;
+	//	it = removeGameObjects.erase(it);
+	//}
+
+	//for (auto it = gameObjects.begin(); it != gameObjects.end();)
+	//{
+	//	if ((*it)->GetName() == "Item" || (*it)->GetName() == "Ground" || (*it)->GetName() == "Door" || (*it)->GetName() == "CameraArea" || (*it)->GetName() == "ThroughtableGround" || (*it)->GetName() == "GenPoint")
+	//	{
+	//		RemoveGameObject(*it);
+	//		delete* it;
+	//		it = gameObjects.erase(it);
+	//	}
+	//	else
+	//	{
+	//		it++;
+	//	}
+	//}
+
 	Json::Value itemNodes = rootNode["Item"];
 	Json::Value doorNodes = rootNode["Door"];
 	Json::Value groundNodes = rootNode["Ground"];
@@ -510,7 +547,6 @@ void SceneExample::LoadData(const std::wstring& path)
 		boxCol->SetOffset({ 0.0f, 0.0f });
 	}
 
-	MobPool* mobPool = (MobPool*)FindGameObject("MobPool");
 	for (int i = 0; i < enemyNodes.size(); i++)
 	{
 		Json::Value node = enemyNodes[i];
@@ -569,12 +605,9 @@ void SceneExample::LoadData(const std::wstring& path)
 			ground->SetGroundType(type);
 			ground->SetTextureRect(rect);
 			ground->SetPosition(position);
-			ground->sprite.setTextureRect(rect);
-			//if (node["FlipX"].asBool())
-			//{
-			//	ground->SetFlipX(true);
-			//	ground->SetOrigin({ (!flipX) ? cellSize.x : 0.f, 0.f });
-			//}
+			ground->sortLayer = sort;
+			ground->physicsLayer = (int)PhysicsLayer::Ground;
+			//ground->sprite.setTextureRect(rect);
 			switch (type)
 			{
 			case GroundType::Normal:
@@ -598,12 +631,12 @@ void SceneExample::LoadData(const std::wstring& path)
 				if (flipX)
 				{
 					boxCol->SetRotationOffset(node["Angle"].asFloat() * -1);
-					boxCol->SetOffset({ node["OffSet"]["x"].asFloat() + 1.0f, node["OffSet"]["y"].asFloat()});
+					boxCol->SetOffset({ node["OffSet"]["x"].asFloat(), node["OffSet"]["y"].asFloat() - 1.0f});
 				}
 				else
 				{
 					boxCol->SetRotationOffset(node["Angle"].asFloat());
-					boxCol->SetOffset({ node["OffSet"]["x"].asFloat() - 1.0f, node["OffSet"]["y"].asFloat()});
+					boxCol->SetOffset({ node["OffSet"]["x"].asFloat(), node["OffSet"]["y"].asFloat() - 1.0f});
 				}
 			}
 			break;
@@ -612,6 +645,11 @@ void SceneExample::LoadData(const std::wstring& path)
 			case GroundType::Background:
 				break;
 			case GroundType::Crashed:
+			{
+				ground->AddTag("Suctionable");
+				BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
+				boxCol->SetRect({ (float)rect.left, (float)rect.top, (float)rect.width, (float)rect.height });
+			}
 				break;
 			case GroundType::Transpar:
 			{

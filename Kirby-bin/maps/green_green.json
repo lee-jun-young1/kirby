@@ -233,22 +233,6 @@
 			"FlipX" : false,
 			"MovePosition" : 
 			{
-				"x" : 840.0,
-				"y" : 96.0
-			},
-			"PaletteID" : "row-2-column-3",
-			"Position" : 
-			{
-				"x" : 48.0,
-				"y" : 720.0
-			},
-			"SortLayer" : 1,
-			"Type" : 0
-		},
-		{
-			"FlipX" : false,
-			"MovePosition" : 
-			{
 				"x" : 1080.0,
 				"y" : 408.0
 			},
@@ -336,22 +320,6 @@
 			"Position" : 
 			{
 				"x" : 1152.0,
-				"y" : 96.0
-			},
-			"SortLayer" : 1,
-			"Type" : 0
-		},
-		{
-			"FlipX" : false,
-			"MovePosition" : 
-			{
-				"x" : 48.0,
-				"y" : 720.0
-			},
-			"PaletteID" : "row-2-column-3",
-			"Position" : 
-			{
-				"x" : 840.0,
 				"y" : 96.0
 			},
 			"SortLayer" : 1,
@@ -11902,6 +11870,26 @@
 			{
 				"y" : null
 			},
+			"PaletteID" : "row-3-column-4",
+			"Position" : 
+			{
+				"x" : 480.0,
+				"y" : 672.0
+			},
+			"SortLayer" : -1,
+			"TexturePosition" : 
+			{
+				"x" : 72.0,
+				"y" : 48.0
+			},
+			"Type" : 3
+		},
+		{
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"y" : null
+			},
 			"PaletteID" : "row-4-column-4",
 			"Position" : 
 			{
@@ -22262,7 +22250,7 @@
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-3-column-10",
+			"PaletteID" : "row-4-column-4",
 			"Position" : 
 			{
 				"x" : 1272.0,
@@ -22271,10 +22259,10 @@
 			"SortLayer" : 0,
 			"TexturePosition" : 
 			{
-				"x" : 216.0,
-				"y" : 48.0
+				"x" : 72.0,
+				"y" : 72.0
 			},
-			"Type" : 3
+			"Type" : 4
 		},
 		{
 			"FlipX" : false,
@@ -22622,6 +22610,26 @@
 			{
 				"y" : null
 			},
+			"PaletteID" : "row-7-column-14",
+			"Position" : 
+			{
+				"x" : 1032.0,
+				"y" : 288.0
+			},
+			"SortLayer" : -3,
+			"TexturePosition" : 
+			{
+				"x" : 312.0,
+				"y" : 144.0
+			},
+			"Type" : 3
+		},
+		{
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"y" : null
+			},
 			"PaletteID" : "row-10-column-16",
 			"Position" : 
 			{
@@ -22642,7 +22650,7 @@
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-7-column-14",
+			"PaletteID" : "row-3-column-10",
 			"Position" : 
 			{
 				"x" : 1032.0,
@@ -22651,8 +22659,8 @@
 			"SortLayer" : -1,
 			"TexturePosition" : 
 			{
-				"x" : 312.0,
-				"y" : 144.0
+				"x" : 216.0,
+				"y" : 48.0
 			},
 			"Type" : 3
 		},
@@ -26857,14 +26865,14 @@
 			"Type" : 5
 		},
 		{
-			"Angle" : 18.0,
+			"Angle" : -18.0,
 			"FlipX" : true,
 			"OffSet" : 
 			{
 				"x" : 0.0,
 				"y" : 17.0
 			},
-			"PaletteID" : "row-4-column-13",
+			"PaletteID" : "row-4-column-8",
 			"Position" : 
 			{
 				"x" : 624.0,
@@ -26873,20 +26881,20 @@
 			"SortLayer" : 0,
 			"TexturePosition" : 
 			{
-				"x" : 288.0,
+				"x" : 168.0,
 				"y" : 72.0
 			},
 			"Type" : 1
 		},
 		{
-			"Angle" : 18.0,
-			"FlipX" : false,
+			"Angle" : -18.0,
+			"FlipX" : true,
 			"OffSet" : 
 			{
 				"x" : 0.0,
 				"y" : 9.0
 			},
-			"PaletteID" : "row-4-column-12",
+			"PaletteID" : "row-4-column-9",
 			"Position" : 
 			{
 				"x" : 600.0,
@@ -26895,20 +26903,20 @@
 			"SortLayer" : 0,
 			"TexturePosition" : 
 			{
-				"x" : 264.0,
+				"x" : 192.0,
 				"y" : 72.0
 			},
-			"Type" : 3
+			"Type" : 1
 		},
 		{
-			"Angle" : 18.0,
-			"FlipX" : false,
+			"Angle" : -18.0,
+			"FlipX" : true,
 			"OffSet" : 
 			{
 				"x" : 0.0,
 				"y" : 1.0
 			},
-			"PaletteID" : "row-4-column-11",
+			"PaletteID" : "row-4-column-10",
 			"Position" : 
 			{
 				"x" : 576.0,
@@ -26917,10 +26925,10 @@
 			"SortLayer" : 0,
 			"TexturePosition" : 
 			{
-				"x" : 240.0,
+				"x" : 216.0,
 				"y" : 72.0
 			},
-			"Type" : 3
+			"Type" : 1
 		},
 		{
 			"FlipX" : false,
@@ -28843,12 +28851,12 @@
 			"Type" : 3
 		},
 		{
-			"FlipX" : false,
+			"FlipX" : true,
 			"OffSet" : 
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-4-column-14",
+			"PaletteID" : "row-4-column-7",
 			"Position" : 
 			{
 				"x" : 576.0,
@@ -28857,7 +28865,7 @@
 			"SortLayer" : 0,
 			"TexturePosition" : 
 			{
-				"x" : 312.0,
+				"x" : 144.0,
 				"y" : 72.0
 			},
 			"Type" : 3
@@ -29328,6 +29336,26 @@
 			{
 				"y" : null
 			},
+			"PaletteID" : "row-7-column-14",
+			"Position" : 
+			{
+				"x" : 1224.0,
+				"y" : 120.0
+			},
+			"SortLayer" : -3,
+			"TexturePosition" : 
+			{
+				"x" : 312.0,
+				"y" : 144.0
+			},
+			"Type" : 3
+		},
+		{
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"y" : null
+			},
 			"PaletteID" : "row-10-column-16",
 			"Position" : 
 			{
@@ -29348,7 +29376,7 @@
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-7-column-14",
+			"PaletteID" : "row-3-column-10",
 			"Position" : 
 			{
 				"x" : 1224.0,
@@ -29357,8 +29385,8 @@
 			"SortLayer" : -1,
 			"TexturePosition" : 
 			{
-				"x" : 312.0,
-				"y" : 144.0
+				"x" : 216.0,
+				"y" : 48.0
 			},
 			"Type" : 3
 		},
@@ -29588,6 +29616,26 @@
 			{
 				"y" : null
 			},
+			"PaletteID" : "row-7-column-14",
+			"Position" : 
+			{
+				"x" : 1080.0,
+				"y" : 120.0
+			},
+			"SortLayer" : -3,
+			"TexturePosition" : 
+			{
+				"x" : 312.0,
+				"y" : 144.0
+			},
+			"Type" : 3
+		},
+		{
+			"FlipX" : false,
+			"OffSet" : 
+			{
+				"y" : null
+			},
 			"PaletteID" : "row-10-column-16",
 			"Position" : 
 			{
@@ -29608,7 +29656,7 @@
 			{
 				"y" : null
 			},
-			"PaletteID" : "row-7-column-14",
+			"PaletteID" : "row-3-column-8",
 			"Position" : 
 			{
 				"x" : 1080.0,
@@ -29617,8 +29665,8 @@
 			"SortLayer" : -1,
 			"TexturePosition" : 
 			{
-				"x" : 312.0,
-				"y" : 144.0
+				"x" : 168.0,
+				"y" : 48.0
 			},
 			"Type" : 3
 		},
