@@ -83,6 +83,8 @@ void SceneExample::Enter()
 
 void SceneExample::Reset()
 {
+	LoadData(L"maps/Green_Green.bak.json");
+
 	for (auto go : gameObjects)
 	{
 		go->Reset();
@@ -184,7 +186,6 @@ void SceneExample::Init()
 	camCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	camCol->SetOffset({ -12.0f, -24.0f });
 	
-	LoadData(L"maps/Green_Green.bak.json");
 	//LoadData(L"maps/temp.json");
 
 
