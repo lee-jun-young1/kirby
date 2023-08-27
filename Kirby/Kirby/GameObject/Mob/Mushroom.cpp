@@ -38,7 +38,7 @@ void Mushroom::Init()
 void Mushroom::UpdateIdle(float dt)
 {
 	currentEventTime += dt;
-	if (currentEventTime > eventTime)
+	if (currentEventTime > eventTime && hasHead)
 	{
 		hasHead = false;
 		head->SetPosition(GetPosition() - sf::Vector2f(12.0f, 24.0f));

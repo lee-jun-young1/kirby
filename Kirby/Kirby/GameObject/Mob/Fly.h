@@ -7,5 +7,7 @@ public:
         :Mob(type, textureID, name) {}
 
     virtual void Init() override;
+    void UpdateMove(float dt);
+    void Reset();
 };
 
