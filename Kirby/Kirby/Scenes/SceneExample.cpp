@@ -199,7 +199,10 @@ void SceneExample::Release()
 {
 	for (auto go : gameObjects)
 	{
-		delete go;
+		if (go != nullptr)
+		{
+			delete go;
+		}
 	}
 }
 

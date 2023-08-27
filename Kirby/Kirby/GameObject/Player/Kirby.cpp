@@ -1203,7 +1203,10 @@ void Kirby::DeathUpdate(float dt)
 	actionTime += dt;
 	if (actionTime > 5.0f)
 	{
-		SCENE_MANAGER.GetCurrentScene()->Reset();
+		collider->SetTrigger(false);
+		rigidbody->SetVelocity({ 0.0f, 0.0f });
+		rigidbody->SetMass(1.0f);
+		SCENE_MANAGER.ChangeScene(SceneId::Game);
 	}
 }
 

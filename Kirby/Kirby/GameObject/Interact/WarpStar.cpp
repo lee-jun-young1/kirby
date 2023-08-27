@@ -16,7 +16,7 @@ void WarpStar::OnEnable()
 	if (ani == nullptr)
 	{
 		ani = (Animation*)AddComponent(new Animation(*this));
-		ani->SetClip(Resources.GetAnimationClip("animations/Item/WarpStar.csv"));
 	}
+	ani->SetClip(Resources.GetAnimationClip("animations/Item/WarpStar.csv"));
 	ani->Play();
 }

@@ -41,6 +41,7 @@ void StatusUI::Reset()
 	RefreshScore();
 	SetPlayer1Ability(KirbyAbility::None);
 	SetUIMode(UIMode::Default);
+	SetPlayer1HP(1.0f);
 }
 
 void StatusUI::Update(float deltaTime)

@@ -9,7 +9,11 @@ void BackgroundSea::Init()
 
 void BackgroundSea::Reset()
 {
-	Animation* ani = (Animation*)AddComponent(new Animation(*this));
+	Animation* ani = (Animation*)GetComponent(ComponentType::Animation);
+	if (ani == nullptr)
+	{
+		ani = (Animation*)AddComponent(new Animation(*this));
+	}
 	ani->SetClip(Resources.GetAnimationClip("animations/Background/GreenGreenSea.csv"));
 	ani->Play();
 }
