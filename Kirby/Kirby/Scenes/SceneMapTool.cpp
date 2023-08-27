@@ -528,6 +528,7 @@ void SceneMapTool::Release()
 			col.RemoveAllGameObject();
 		}
 	}
+	cells.clear();
 	for (auto go : gameObjects)
 	{
 		delete go;
@@ -828,8 +829,8 @@ void SceneMapTool::LoadData(const std::wstring& path)
 		go->SetPosition(loadPosition);
 		if (node["FlipX"].asBool())
 		{
-			go->SetFlipX(go->GetFlipX());
-			go->SetOrigin({ (go->GetFlipX()) ? 24.0f : 0.f, 0.f });
+			go->SetFlipX(false);
+			go->SetOrigin({24.0f, 0.f });
 		}
 		go->additionalData["FlipX"] = node["FlipX"].asBool();
 		go->additionalData["GroundIndex"] = node["GroundIndex"].asInt();
@@ -874,6 +875,7 @@ const std::wstring SceneMapTool::GetLoadFilePathWithOpenWindow()
 	TCHAR filePathName[100] = L"";
 	TCHAR lpstrFile[100] = L"";
 	static TCHAR filter[] = L"JSON 파일\0*.json\0모든 파일\0*.*";
+	std::wstring result = L"";
 
 	memset(&OFN, 0, sizeof(OPENFILENAME));
 	OFN.lStructSize = sizeof(OPENFILENAME);
@@ -888,10 +890,9 @@ const std::wstring SceneMapTool::GetLoadFilePathWithOpenWindow()
 		//wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
 		//MessageBox(FRAMEWORK.GetHWnd(), filePathName, L"열기 선택", MB_OK);
 
-		return OFN.lpstrFile;
+		result = OFN.lpstrFile;
 	}
-
-	return L"";
+	return result;
 }
 
 const std::wstring SceneMapTool::GetSaveFilePathWithOpenWindow()
@@ -916,6 +917,7 @@ const std::wstring SceneMapTool::GetSaveFilePathWithOpenWindow()
 		//MessageBox(FRAMEWORK.GetHWnd(), filePathName, L"열기 선택", MB_OK); 
 
 		wstring path = OFN.lpstrFile;
+		std::wstring result = OFN.lpstrFile;
 		if (!Utils::Contains(path, '.'))
 		{
 			path += L".json";

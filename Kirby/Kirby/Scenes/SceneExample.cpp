@@ -184,7 +184,8 @@ void SceneExample::Init()
 	camCol->SetRect({ 0.0f, 0.0f, 24.0f, 24.0f });
 	camCol->SetOffset({ -12.0f, -24.0f });
 	
-	LoadData(L"maps/Green_Green.json");
+	LoadData(L"maps/Green_Green.bak.json");
+	//LoadData(L"maps/temp.json");
 
 
 	for (auto go : gameObjects)
@@ -218,7 +219,10 @@ void SceneExample::Update(float deltaTime)
 	{
 		kirby->SetPosition({ 1000.0f, 1128.0f });
 	}
-
+	if (Input.GetKeyDown(sf::Keyboard::Num0))
+	{
+		kirby->SetPosition({ 700.0f, 660.0f });
+	}
 
 	if (Input.GetKeyDown(Keyboard::Num1))
 	{
@@ -541,7 +545,13 @@ void SceneExample::LoadData(const std::wstring& path)
 	for (int i = 0; i < groundNodes.size(); i++)
 	{
 		Json::Value node = groundNodes[i];
-		if ((GroundType)node["Type"].asInt() == GroundType::Throught)
+		GroundType type = (GroundType)node["Type"].asInt();
+		int sort = node["SortLayer"].asInt();
+		bool flipX = node["FlipX"].asBool();
+		sf::IntRect rect = { node["TexturePosition"]["x"].asInt(), node["TexturePosition"]["y"].asInt(), (int)cellSize.x, (int)cellSize.y };
+		sf::Vector2f position = { node["Position"]["x"].asFloat(), node["Position"]["y"].asFloat() };
+
+		if (type == GroundType::Throught)
 		{
 			ThroughtableGround* throughtGround = (ThroughtableGround*)AddGameObject(new ThroughtableGround());
 			throughtGround->AddTag("Ground");
@@ -556,10 +566,60 @@ void SceneExample::LoadData(const std::wstring& path)
 		{
 			Ground* ground = (Ground*)AddGameObject(new Ground(rootNode["Path"].asString(), "Ground"));
 			ground->SetData(node);
-			ground->SetGroundType((GroundType)node["Type"].asInt());
-			if (GroundType::Transpar == (GroundType)node["Type"].asInt())
+			ground->SetGroundType(type);
+			ground->SetTextureRect(rect);
+			ground->SetPosition(position);
+			ground->sprite.setTextureRect(rect);
+			//if (node["FlipX"].asBool())
+			//{
+			//	ground->SetFlipX(true);
+			//	ground->SetOrigin({ (!flipX) ? cellSize.x : 0.f, 0.f });
+			//}
+			switch (type)
 			{
-				int a = 0;
+			case GroundType::Normal:
+			{
+				BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
+				boxCol->SetRect({ (float)rect.left, (float)rect.top, (float)rect.width, (float)rect.height });
+				if (flipX)
+				{
+					boxCol->SetOffset({ node["OffSet"]["x"].asFloat(), node["OffSet"]["y"].asFloat() });
+				}
+				else
+				{
+					boxCol->SetOffset({ node["OffSet"]["x"].asFloat(), node["OffSet"]["y"].asFloat() });
+				}
+			}
+			break;
+			case GroundType::Tilted:
+			{
+				BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
+				boxCol->SetRect({ (float)rect.left, (float)rect.top, (float)rect.width + 2.0f, (float)rect.height * 0.01f });
+				if (flipX)
+				{
+					boxCol->SetRotationOffset(node["Angle"].asFloat() * -1);
+					boxCol->SetOffset({ node["OffSet"]["x"].asFloat() + 1.0f, node["OffSet"]["y"].asFloat()});
+				}
+				else
+				{
+					boxCol->SetRotationOffset(node["Angle"].asFloat());
+					boxCol->SetOffset({ node["OffSet"]["x"].asFloat() - 1.0f, node["OffSet"]["y"].asFloat()});
+				}
+			}
+			break;
+			case GroundType::Throught:
+				break;
+			case GroundType::Background:
+				break;
+			case GroundType::Crashed:
+				break;
+			case GroundType::Transpar:
+			{
+				BoxCollider* boxCol = (BoxCollider*)ground->AddComponent(new BoxCollider(*ground));
+				boxCol->SetRect({ (float)rect.left, (float)rect.top, (float)rect.width, (float)rect.height });
+				ground->sprite.setColor(sf::Color::Transparent);
+			}
+			break;
 			}
 		}
 	}
