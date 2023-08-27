@@ -7,3 +7,5 @@ Hit,Suction,1,0,Suction,0
 Hit,Jump,1,0,Jump,0
 ShootCap,JumpWithCap,1,0,JumpWithCap,0
 ShootCap,Hit,1,0,Hit,0
+ShootCap,Jump,1,0,Jump,0
+Jump,ShootCap,1,0,ShootCap,0

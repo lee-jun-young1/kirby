@@ -100,21 +100,29 @@ void Mob::SetSuction(GameObject* target)
 
 void Mob::Damage(const int& damage, const float hitAxisX)
 {
-    state = State::Hit;
     animator->SetEvent("Hit");
-    update = std::bind(&Mob::UpdateHit, this, std::placeholders::_1);
     currentHitTime = 0.0f;
     rigidbody->SetDrag(0.7f);
     rigidbody->SetVelocity({ hitAxisX * 100.0f, 0.0f });
 
     currentHP -= damage;
 
-    if (currentHP <= 0.0f)
+    if (currentHP <= 0.0f && state == State::Death)
     {
         state = State::Death;
         update = std::bind(&Mob::UpdateDeath, this, std::placeholders::_1);
-
+        currentEventTime += 2.0f;
+    }
+    else if (currentHP <= 0.0f)
+    {
+        state = State::Death;
+        update = std::bind(&Mob::UpdateDeath, this, std::placeholders::_1);
         currentEventTime = 0.0f;
+    }
+    else
+    {
+        state = State::Hit;
+        update = std::bind(&Mob::UpdateHit, this, std::placeholders::_1);
     }
 }
 
@@ -127,7 +135,6 @@ void Mob::OnCollisionEnter(Collider* col)
     if (col->GetGameObject().GetName() == "Kirby")
     {
         ((Playable*)&col->GetGameObject())->Damage(atk, col->GetGameObject().GetPosition().x < GetPosition().x ? -1.0f : 1.0f);
-        RigidBody2D* rig = (RigidBody2D*)col->GetGameObject().GetComponent(ComponentType::RigidBody);
     }
 }
 

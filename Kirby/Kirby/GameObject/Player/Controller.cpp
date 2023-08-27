@@ -127,7 +127,18 @@ void Controller::UpdateKeyTime(float dt)
 	{
 		if (Input.GetKeyDown((Keyboard::Key)i))
 		{
-			keyDownList.push_back({ (Keyboard::Key)i });
+			bool isContain = false;
+			for (auto it = keyDownList.begin(); it != keyDownList.end(); it++)
+			{
+				if (it->keyCode == Input.GetKeyDown((Keyboard::Key)i))
+				{
+					isContain = true;
+				}
+			}
+			if (!isContain)
+			{
+				keyDownList.push_back({ (Keyboard::Key)i });
+			}
 		}
 		if (Input.GetKeyUp((Keyboard::Key)i))
 		{

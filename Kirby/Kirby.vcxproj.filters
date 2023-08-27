@@ -297,6 +297,9 @@
     <ClCompile Include="Kirby\GameObject\UI\ModeSelectBoard.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MushroomHead.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -618,6 +621,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Kirby\GameObject\UI\ModeSelectBoard.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MushroomHead.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

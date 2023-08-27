@@ -251,6 +251,7 @@
     <ClCompile Include="Kirby\Scenes\SceneModeSelect.cpp" />
     <ClCompile Include="Kirby\Scenes\SceneSpringBreezeTitle.cpp" />
     <ClCompile Include="Kirby\GameObject\UI\ModeSelectBoard.cpp" />
+    <ClCompile Include="MushroomHead.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Kirby\Scenes\SceneExample.cpp" />
@@ -370,6 +371,7 @@
     <ClInclude Include="Kirby\Scenes\SceneModeSelect.h" />
     <ClInclude Include="Kirby\Scenes\SceneSpringBreezeTitle.h" />
     <ClInclude Include="Kirby\GameObject\UI\ModeSelectBoard.h" />
+    <ClInclude Include="MushroomHead.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Kirby\Scenes\SceneExample.h" />
