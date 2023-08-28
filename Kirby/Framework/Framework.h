@@ -56,7 +56,7 @@ public:
 		Collider = 1,
 	};
 protected:
-	DebugMode debugMode = DebugMode::Collider;
+	DebugMode debugMode = DebugMode::None;
 public:
 	void SetDebugging(DebugMode debugMode) { this->debugMode = debugMode; };
 	bool IsDebugging(DebugMode debugMode) { return (int)this->debugMode & (int)debugMode; };
