@@ -159,8 +159,8 @@ void SemiBossBomb::JumpCollisionEnter(Collider* col)
 		if (jumpCount > 7)
 		{
 			jumpCount = 0;
-			SetState((State)Utils::RandomRange(1, 5));
-			//SetState(State::Dash);
+			//SetState((State)Utils::RandomRange(1, 6));
+			SetState(State::TripleThrow);
 		}
 	}
 }

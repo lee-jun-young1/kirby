@@ -254,21 +254,17 @@ void SceneExample::Update(float deltaTime)
 
 	if (Input.GetKeyDown(Keyboard::Numpad1))
 	{
-		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
-		ui->SetPlayer1HP(0.0f);
-		kirby->Damage(50,1);
+		kirby->Damage(20, 1);
 	}
 
 	if (Input.GetKeyDown(Keyboard::Numpad2))
 	{
-		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
-		kirby->Damage(100, 1);
+		kirby->Damage(50, 1);
 	}
 
 	if (Input.GetKeyDown(Keyboard::Numpad3))
 	{
-		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
-		ui->SetPlayer1HP(1.0f);
+		kirby->Heal(100);
 	}
 
 	if (Input.GetKeyDown(Keyboard::Numpad4))
@@ -287,6 +283,24 @@ void SceneExample::Update(float deltaTime)
 	{
 		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
 		ui->SetEnemyHP(1.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad7))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer2HP(0.0f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad8))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer2HP(0.5f);
+	}
+
+	if (Input.GetKeyDown(Keyboard::Numpad9))
+	{
+		StatusUI* ui = (StatusUI*)FindGameObject("StatusUI");
+		ui->SetPlayer2HP(1.0f);
 	}
 
 	if (Input.GetKeyDown(Keyboard::F5))

@@ -7,7 +7,7 @@ class BossWood : public Mob
 {
 	enum class Pattern
 	{
-		Wait,
+		Wait = -1,
 		None,
 		Apple,
 		Breath,
